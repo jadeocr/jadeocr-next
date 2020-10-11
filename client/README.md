@@ -22,3 +22,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Tailwind Configuration
+Before production, make sure to set the boolean in the `purge` section to
+`true` to remove unused styles
