@@ -31,8 +31,10 @@ export default defineComponent({
   },
   computed: {
     navRoute(): string {
-    const tempCondition = false // TODO: Change to check for this.$store.state.signedIn
-    if (tempCondition) {
+      const tempCondition = false // TODO: Change to check for this.$store.state.signedIn
+      if (this.linkType == 'getStartedButton') {
+        return 'Learn'
+      } else if (tempCondition) {
         return 'Learn'
       } else {
         return 'Home'

@@ -11,7 +11,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/learn',
     name: 'Learn',
-    component: () => import(/* webpackChunkName: 'about' */ '../views/Learn.vue')
+    component: () => import(/* webpackChunkName: 'about' */ '../views/Learn.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: 'about' */ '../views/Login.vue')
   }
 ]
 
@@ -20,13 +28,13 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next): void => {
-	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-	if(requiresAuth && !store.state.signedIn) {
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !store.state.signedIn) {
     next('login')
-	} else {
+  } else {
     next()
-	}
+  }
 })
 
 export default router
