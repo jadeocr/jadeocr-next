@@ -1,11 +1,21 @@
 <template>
-  <div id="navigation" class="w-1/2 mx-auto mt-8 text-center">
-    <nav class="text-2xl md:text-3xl xl:text-4xl">
-      <router-link :to='{ name: navRoute }'>jadeocr</router-link>
-    </nav>
-  </div>
+  <start-link linkType='navigation' class='mt-6'/>
   <router-view/>
 </template>
+
+
+<script lang='ts'>
+import { defineComponent } from 'vue'
+import StartLink from './components/StartLink.vue'
+
+// Allows TypeScript type inference
+export default defineComponent({
+  name: 'App',
+  components: {
+    StartLink
+  }
+})
+</script>
 
 
 <style>
