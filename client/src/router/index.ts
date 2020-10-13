@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: 'about' */ '../views/Login.vue')
+    component: () => import(/* webpackChunkName: 'login' */ '../views/Login.vue')
   }
 ]
 
@@ -28,7 +28,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next): void => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   if (requiresAuth && !store.state.signedIn) {
     next('login')

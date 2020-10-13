@@ -6,8 +6,9 @@
       </nav>
     </div>
     <div v-if='linkType == "getStartedButton"' id='getStartedButton'>
+      <!-- TODO: Change button color back to green after designing page -->
       <router-link :to='{ name: navRoute }'
-      class='px-3 py-1 text-2xl bg-teal-500 rounded-md md:text-3xl xl:text-4xl'>
+      class='px-3 py-1 text-2xl bg-gray-700 rounded-md md:text-3xl xl:text-4xl'>
         Get Started 登录
       </router-link>
     </div>
