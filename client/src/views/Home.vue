@@ -23,6 +23,9 @@
         </div>
       </div>
     </div>
+    <div id="about">
+      <!-- TODO: Add about content here -->
+    </div>
   </div>
 </template>
 
