@@ -27,11 +27,11 @@ body {
   background: #121212;
 }
 #app {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 300;
-	color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  color: #ffffff;
 }
 
 
@@ -41,7 +41,7 @@ body {
   width: 8px;
   background-color: rgba(0,0,0,0);
   -webkit-border-radius: 100px;
-	border-radius: 100px;
+  border-radius: 100px;
 }
 
 ::-webkit-scrollbar:hover {
@@ -52,16 +52,16 @@ body {
 ::-webkit-scrollbar-thumb:vertical {
   background: rgba(255,255,255,0.3);
   -webkit-border-radius: 100px;
-	border-radius: 100px;
+  border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:vertical:active {
   background: rgba(255,255,255,0.2);
   -webkit-border-radius: 100px;
-	border-radius: 100px;
+  border-radius: 100px;
 }
 
 .page-content {
-	-webkit-transition: width 0.3s ease, opacity 0.1s ease, visibility 0.1s ease;
-	transition: width 0.3s ease, opacity 0.1s ease, visibility 0.1s ease;
+  -webkit-transition: width 0.3s ease, opacity 0.1s ease, visibility 0.1s ease;
+  transition: width 0.3s ease, opacity 0.1s ease, visibility 0.1s ease;
 }
 </style>

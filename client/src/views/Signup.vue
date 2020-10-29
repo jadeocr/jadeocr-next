@@ -1,7 +1,7 @@
 <template>
-	<div id='signup'>
-		<auth-form formType='signup'/>
-	</div>	
+  <div id='signup'>
+    <auth-form formType='signup'/>
+  </div>	
 </template>
 
 <script lang="ts">
@@ -16,8 +16,8 @@ export default defineComponent({
   data(): object {
     return {
       email: '',
-			password: '',
-			confirmPassword: ''
+      password: '',
+      confirmPassword: ''
     }
   }
 })

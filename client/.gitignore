@@ -3,6 +3,10 @@ node_modules
 /dist
 
 
+# Temp ignore server files
+server/
+
+
 # local env files
 .env.local
 .env.*.local
