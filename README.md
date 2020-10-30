@@ -1,3 +1,1 @@
 # jadeocr-next
-
-# TODO
