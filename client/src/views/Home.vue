@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class='mt-8 md:mt-16 grid grid-rows-1 lg:-mt-10 xl:-mt-16'>
+      <div class='mt-8 md:mt-16 grid grid-rows-1 lg:-mt-10 xl:-mt-20'>
         <div class='m-auto row-span-1'>
           <svg id='scroll-cue' class='bi bi-chevron-down' width='3em' height='3em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
             <path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z' clip-rule='evenodd'/>
@@ -44,16 +44,5 @@ export default defineComponent({
 
 
 <style scoped>
-#scroll-cue {
-  animation: pulse 3s 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  50% {
-    transform: scale(0.8);
-  }
-  100% {
-    transform: none;
-  }
-}
+/* TODO: Add scroll cue animation */
 </style>

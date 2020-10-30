@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+# Credentials files
+
 # CSS files
 tailwind.css
 
