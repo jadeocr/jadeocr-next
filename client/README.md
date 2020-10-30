@@ -20,9 +20,14 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Builds TailwindCSS files
+```
+yarn twbuild
+```
 
 ## Tailwind Configuration
 Before production, make sure to set the boolean in the `purge` section to
 `true` to remove unused styles
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
