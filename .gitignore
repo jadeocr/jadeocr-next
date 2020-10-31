@@ -3,6 +3,7 @@ node_modules
 /dist
 
 # Credentials files
+env.ts
 
 # CSS files
 tailwind.css

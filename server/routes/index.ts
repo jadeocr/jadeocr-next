@@ -7,6 +7,9 @@ router.get('/', function(req, res, next) {
 })
 
 var ocrController = require('../controllers/ocrController')
-router.post('/api/ocr', ocrController.get)
+router.post('/api/ocr', ocrController.post)
+
+var newUserController = require('../controllers/newUserController')
+router.post('/api/signup', newUserController.post)
 
 module.exports = router

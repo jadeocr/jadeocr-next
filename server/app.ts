@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs/dist/bcrypt"
+
 var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
@@ -5,6 +7,33 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
 var indexRouter = require('./routes/index')
+
+var mongoose = require('mongoose')
+var env = require('../server/env')
+mongoose.connect(env.mongooseURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+})
+
+var passport = require('passport')
+var userModel = require('../server/models/userModel')
+var LocalStrategy = require('passport-local').Strategy
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    userModel.findOne({username: username}, function(err, found) {
+      if (!found) done(null, false)
+      bcrypt.compare(password, found.password, function(err, result) {
+        if (result) {
+          return done(null, found)
+        } else {
+          return done(null, false)
+        }
+      })
+    })
+  }
+))
 
 var app = express()
 
