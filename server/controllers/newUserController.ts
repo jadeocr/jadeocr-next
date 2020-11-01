@@ -1,4 +1,4 @@
-var userModel = require('../models/userModel.js')
+var userModel = require('../models/userModel')
 var bcrypt = require('bcryptjs')
 
 exports.post = function(req, res, next) {
