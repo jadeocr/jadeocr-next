@@ -100,21 +100,32 @@
       validatePassword(password: string, confirmPassword: string): boolean {
         return (password == confirmPassword)
       },
+      clearFields(): void {
+        this.credentials = {
+          email: '',
+          password: '',
+          confirmPassword: '',
+        }
+      },
       callSignUp() {
-        if (this.validatePassword(this.credentials.password, this.credentials.confirmPassword)) {
+        if (this.validatePassword(this.credentials.password, this.credentials.confirmPassword) && this.validateEmail(this.credentials.email)) {
           this.errorMsg = ''
           this.$store.dispatch('auth/signUp', this.credentials)
+        } else if (!this.validateEmail(this.credentials.email)) {
+          this.errorMsg = 'Invalide email'
         } else {
           this.errorMsg = 'Password confirmation does not match'
         }
+        this.clearFields()
       },
       callSignIn() {
         if (this.validateEmail(this.credentials.email)) {
           this.errorMsg = ''
           this.$store.dispatch('auth/signIn', this.credentials)
         } else {
-          this.errorMsg = 'Invalid Email'
+          this.errorMsg = 'Invalid email'
         }
+        this.clearFields()
       },
     },
   })
