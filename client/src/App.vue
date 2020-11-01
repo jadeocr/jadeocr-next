@@ -56,9 +56,4 @@
     -webkit-border-radius: 100px;
     border-radius: 100px;
   }
-
-  .page-content {
-    -webkit-transition: width 0.3s ease, opacity 0.1s ease, visibility 0.1s ease;
-    transition: width 0.3s ease, opacity 0.1s ease, visibility 0.1s ease;
-  }
 </style>

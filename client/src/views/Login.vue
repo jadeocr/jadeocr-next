@@ -13,11 +13,5 @@
     components: {
       AuthForm,
     },
-    data(): object {
-      return {
-        email: '',
-        password: '',
-      }
-    },
   })
 </script>

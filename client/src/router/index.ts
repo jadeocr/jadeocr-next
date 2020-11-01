@@ -36,9 +36,12 @@ const router = createRouter({
   routes,
 })
 
+// eslint-disable-next-line
+const state:any = store.state
+
 router.beforeEach((to, from, next): void => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
-  if (requiresAuth && !store.state.signedIn) {
+  if (requiresAuth && !state.auth.isSignedIn) {
     next('login')
   } else {
     next()

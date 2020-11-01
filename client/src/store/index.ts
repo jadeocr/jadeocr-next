@@ -1,10 +1,11 @@
 import { createStore } from 'vuex'
+import { auth } from './auth'
 
 export default createStore({
-  state: {
-    signedIn: false, // TODO: Change to isSignedIn
-  },
+  state: {},
   mutations: {},
   actions: {},
-  modules: {},
+  modules: {
+    auth,
+  },
 })
