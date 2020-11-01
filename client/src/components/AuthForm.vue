@@ -33,29 +33,30 @@
             type="password"
           />
         </div>
+        <div v-if="errorMsg" class="text-nord11">{{ errorMsg }}</div>
+        <!-- Login page buttons -->
+        <div v-if="formType == 'login'">
+          <div class="flex items-center justify-between mt-8">
+            <button class="px-4 py-2 rounded bg-nord3" @click="callSignIn()">
+              Log In
+            </button>
+            <router-link :to="{ name: 'Signup' }" class="px-4 py-2">
+              Sign Up
+            </router-link>
+          </div>
+        </div>
+        <!-- Signup page buttons -->
+        <div v-else>
+          <div class="flex items-center justify-between mt-8">
+            <button class="px-4 py-2 rounded bg-nord3" @click="callSignUp()">
+              Sign Up
+            </button>
+            <router-link :to="{ name: 'Login' }" class="px-4 py-2">
+              Login
+            </router-link>
+          </div>
+        </div>
       </form>
-      <!-- Login page buttons -->
-      <div v-if="formType == 'login'">
-        <div class="flex items-center justify-between mt-8">
-          <button class="px-4 py-2 rounded bg-nord3" @click="callSignIn()">
-            Log In
-          </button>
-          <router-link :to="{ name: 'Signup' }" class="px-4 py-2">
-            Sign Up
-          </router-link>
-        </div>
-      </div>
-      <!-- Signup page buttons -->
-      <div v-else>
-        <div class="flex items-center justify-between mt-8">
-          <button class="px-4 py-2 rounded bg-nord3" @click="callSignUp()">
-            Sign Up
-          </button>
-          <router-link :to="{ name: 'Login' }" class="px-4 py-2">
-            Login
-          </router-link>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -81,13 +82,14 @@
         },
       },
     },
-    setup() {
+    data() {
       return {
         credentials: {
           email: '',
           password: '',
           confirmPassword: '',
         } as Credentials,
+        errorMsg: '',
       }
     },
     methods: {
@@ -95,22 +97,24 @@
         const re = /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,4}))$/
         return re.test(email)
       },
-      validatePasswordLength(password: string): boolean {
-        return password.length >= 8
+      validatePassword(password: string, confirmPassword: string): boolean {
+        return (password == confirmPassword)
       },
-      callSignIn() { // TODO: Move to store
-        axios({
-          method: 'post',
-          url: 'http://localhost:3000/api/signin', // TODO: Update to backend url
-          data: this.credentials,
-        })
+      callSignUp() {
+        if (this.validatePassword(this.credentials.password, this.credentials.confirmPassword)) {
+          this.errorMsg = ''
+          this.$store.dispatch('auth/signUp', this.credentials)
+        } else {
+          this.errorMsg = 'Password confirmation does not match'
+        }
       },
-      callSignUp() { // TODO: Move to store
-        axios({
-          method: 'post',
-          url: 'http://localhost:3000/api/signup',
-          data: this.credentials,
-        })
+      callSignIn() {
+        if (this.validateEmail(this.credentials.email)) {
+          this.errorMsg = ''
+          this.$store.dispatch('auth/signIn', this.credentials)
+        } else {
+          this.errorMsg = 'Invalid Email'
+        }
       },
     },
   })
