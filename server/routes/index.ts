@@ -8,7 +8,7 @@ router.post('/', function(req, res, next) {
 })
 
 var ocrController = require('../controllers/ocrController')
-router.post('/api/ocr', ocrController.post)
+router.post('/api/ocr', cors(), ocrController.post)
 
 var newUserController = require('../controllers/newUserController')
 router.post('/api/signup', cors(), newUserController.post)
