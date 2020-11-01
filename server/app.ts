@@ -24,17 +24,23 @@ var app = express()
 var passport = require('passport')
 var userModel = require('./models/userModel')
 var LocalStrategy = require('passport-local').Strategy
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+  },
   function(username, password, done) {
     userModel.findOne({ email: username }, function(err, found) {
-      if (!found) done(null, false)
-      bcrypt.compare(password, found.password, function(err, result) {
-        if (result) {
-          return done(null, found)
-        } else {
-          return done(null, false)
-        }
-      })
+      if (!found) {
+        done(null, false)
+      } else {
+        bcrypt.compare(password, found.password, function(err, result) {
+          if (result) {
+            return done(null, found)
+          } else {
+            return done(null, false)
+          }
+        })
+      }
     })  
   }
 ))
