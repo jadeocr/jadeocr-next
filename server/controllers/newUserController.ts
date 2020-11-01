@@ -7,10 +7,9 @@ exports.post = function(req, res, next) {
   let confirmPassword = req.body.confirmPassword
   let isTeacher = false
 
-  userModel.find({ email: email }, function(err, found) {
+  userModel.findOne({ email: email }, function(err, found) {
     if (found) {
       res.sendStatus(400)
-      console.log(found)
     } else if (!(email && password && confirmPassword)) {
       res.sendStatus(400)
       console.log('missing field')
