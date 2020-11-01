@@ -1064,6 +1064,11 @@ graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
+hanzi-writer@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/hanzi-writer/-/hanzi-writer-2.3.0.tgz#06586eb37486226c51057674e2fed7da3362555c"
+  integrity sha512-2tKjsUrTW1lBxwpSVhGZ+lTlAycZPeJuov0og9Qbw0ETAS6y7+KxxjHhAtPDNAuLKS3FJeh80s9jxLA/e8jF0w==
+
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"

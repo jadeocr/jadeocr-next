@@ -13,5 +13,9 @@ router.post('/api/ocr', cors(), ocrController.post)
 var newUserController = require('../controllers/newUserController')
 router.post('/api/signup', cors(), newUserController.post)
 
+router.post('/api/decks', cors(), function(req, res, next) {
+  res.send(["one", "two", "three"])
+})
+
 module.exports = router
 
