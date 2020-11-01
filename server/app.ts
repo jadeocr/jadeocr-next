@@ -1,4 +1,5 @@
-import bcrypt from "bcryptjs/dist/bcrypt"
+import bcrypt from 'bcryptjs/dist/bcrypt'
+const cors = require('cors')
 
 var createError = require('http-errors')
 var express = require('express')
@@ -9,7 +10,7 @@ var logger = require('morgan')
 var indexRouter = require('./routes/index')
 
 var mongoose = require('mongoose')
-var env = require('../server/env')
+var env = require('./env')
 mongoose.connect(env.mongooseURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -18,7 +19,7 @@ mongoose.connect(env.mongooseURL, {
 })
 
 var passport = require('passport')
-var userModel = require('../server/models/userModel')
+var userModel = require('./models/userModel')
 var LocalStrategy = require('passport-local').Strategy
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -36,6 +37,21 @@ passport.use(new LocalStrategy(
 ))
 
 var app = express()
+
+let whitelist = ['http://localhost:8080']
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin 
+    if (!origin) return callback(null, true);
+    if (whitelist.indexOf(origin) === -1) {
+      var message = 'The CORS policy for this origin doesn\'t ' +
+      'allow access from the particular origin.';
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
