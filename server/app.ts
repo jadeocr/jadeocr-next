@@ -1,5 +1,5 @@
-import bcrypt from 'bcryptjs/dist/bcrypt'
-const cors = require('cors')
+var bcrypt = require('bcryptjs')
+var cors = require('cors')
 
 var createError = require('http-errors')
 var express = require('express')
@@ -18,10 +18,16 @@ mongoose.connect(env.mongooseURL, {
   useCreateIndex: true,
 })
 
+
+var app = express()
+
 var passport = require('passport')
 var userModel = require('./models/userModel')
 var LocalStrategy = require('passport-local').Strategy
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+  },
   function(username, password, done) {
     userModel.findOne({username: username}, function(err, found) {
       if (!found) done(null, false)
@@ -32,11 +38,23 @@ passport.use(new LocalStrategy(
           return done(null, false)
         }
       })
-    })
+    })  
   }
 ))
 
-var app = express()
+passport.serializeUser(function(user, done) {
+  done(null, user._id)
+})
+
+passport.deserializeUser(function(id, done) {
+  userModel.findOne({_id: id}, function(err, user) {
+    if (err) console.log(err)
+    done(null, user)
+  })
+})
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 let whitelist = ['http://localhost:8080']
 
@@ -51,7 +69,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

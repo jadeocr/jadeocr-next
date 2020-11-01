@@ -48,7 +48,7 @@
       <!-- Signup page buttons -->
       <div v-else>
         <div class="flex items-center justify-between mt-8">
-          <button class="px-4 py-2 rounded bg-nord3">
+          <button class="px-4 py-2 rounded bg-nord3" @click="callSignUp()">
             Sign Up
           </button>
           <router-link :to="{ name: 'Login' }" class="px-4 py-2">
@@ -98,10 +98,18 @@
       validatePasswordLength(password: string): boolean {
         return password.length >= 8
       },
-      callSignIn() {
+      callSignIn() { // TODO: Move to store
         axios({
           method: 'post',
-          url: 'http://localhost:3000/api/signup', // TODO: Update to db url
+          url: 'http://localhost:3000/api/signin', // TODO: Update to backend url
+          data: this.credentials,
+        })
+      },
+      callSignUp() { // TODO: Move to store
+        axios({
+          method: 'post',
+          url: 'http://localhost:3000/api/signup',
+          data: this.credentials,
         })
       },
     },
