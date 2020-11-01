@@ -29,15 +29,18 @@ passport.use(new LocalStrategy({
     passwordField: 'password',
   },
   function(username, password, done) {
-    userModel.findOne({username: username}, function(err, found) {
-      if (!found) done(null, false)
-      bcrypt.compare(password, found.password, function(err, result) {
-        if (result) {
-          return done(null, found)
-        } else {
-          return done(null, false)
-        }
-      })
+    userModel.findOne({ email: username }, function(err, found) {
+      if (!found) {
+        done(null, false)
+      } else {
+        bcrypt.compare(password, found.password, function(err, result) {
+          if (result) {
+            return done(null, found)
+          } else {
+            return done(null, false)
+          }
+        })
+      }
     })  
   }
 ))

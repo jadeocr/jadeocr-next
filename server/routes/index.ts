@@ -25,11 +25,6 @@ router.post('/api/signin', cors(), passport.authenticate('local'), function(req,
   res.sendStatus(200)
 })
 
-// router.post('/api/signin', cors(), function(req, res, next) {
-//   console.log(req.body.password)
-//   res.sendStatus(200)
-// })
-
 router.post('/api/decks', cors(), function(req, res, next) {
   res.send(["one", "two", "three"])
 })
