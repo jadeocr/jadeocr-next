@@ -9,15 +9,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: '/learn',
-    name: 'Learn',
-    component: () =>
-      import(/* webpackChunkName: 'about' */ '../views/Learn.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () =>
@@ -28,6 +19,15 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Signup',
     component: () =>
       import(/* webpackChunkNmae: 'signup' */ '../views/Signup.vue'),
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () =>
+      import(/* webpackChunkName: 'dashboard' */ '../views/Dashboard.vue'),
+    meta: {
+      requiresAuth: true,
+    },
   },
 ]
 

@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>This is the learn page</h1>
+    Welcome to the Dashboard
   </div>
 </template>

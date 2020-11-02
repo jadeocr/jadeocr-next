@@ -37,11 +37,10 @@
     },
     computed: {
       navRoute(): string {
-        const tempCondition = false // TODO: Change to check for this.$store.state.signedIn
         if (this.linkType == 'getStartedButton') {
-          return 'Learn'
-        } else if (tempCondition) {
-          return 'Learn'
+          return 'Dashboard'
+        } else if (this.$store.state.auth.isSignedIn) {
+          return 'Dashboard'
         } else {
           return 'Home'
         }

@@ -33,7 +33,13 @@
             type="password"
           />
         </div>
-        <div v-if="errorMsg" class="text-nord11">{{ errorMsg }}</div>
+        <div
+          v-if="errorMsg || $store.state.auth.authErrorMsg"
+          class="text-nord11"
+        >
+          {{ errorMsg }}
+          {{ $store.state.auth.authErrorMsg }}
+        </div>
         <!-- Login page buttons -->
         <div v-if="formType == 'login'">
           <div class="flex items-center justify-between mt-8">
@@ -63,7 +69,6 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import axios from 'axios'
 
   interface Credentials {
     email: string
@@ -98,7 +103,7 @@
         return re.test(email)
       },
       validatePassword(password: string, confirmPassword: string): boolean {
-        return (password == confirmPassword)
+        return password == confirmPassword
       },
       clearFields(): void {
         this.credentials = {
@@ -108,17 +113,25 @@
         }
       },
       callSignUp() {
-        if (this.validatePassword(this.credentials.password, this.credentials.confirmPassword) && this.validateEmail(this.credentials.email)) {
+        this.$store.commit('auth/setAuthErrorMsg', '')
+        if (
+          this.validatePassword(
+            this.credentials.password,
+            this.credentials.confirmPassword
+          ) &&
+          this.validateEmail(this.credentials.email)
+        ) {
           this.errorMsg = ''
           this.$store.dispatch('auth/signUp', this.credentials)
         } else if (!this.validateEmail(this.credentials.email)) {
-          this.errorMsg = 'Invalide email'
+          this.errorMsg = 'Invalid email'
         } else {
           this.errorMsg = 'Password confirmation does not match'
         }
         this.clearFields()
       },
       callSignIn() {
+        this.$store.commit('auth/setAuthErrorMsg', '')
         if (this.validateEmail(this.credentials.email)) {
           this.errorMsg = ''
           this.$store.dispatch('auth/signIn', this.credentials)

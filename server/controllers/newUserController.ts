@@ -12,10 +12,8 @@ exports.post = function(req, res, next) {
       res.sendStatus(400)
     } else if (!(email && password && confirmPassword)) {
       res.sendStatus(400)
-      console.log('missing field')
     } else if (password != confirmPassword) {
       res.sendStatus(400)
-      console.log('bad confirm')
     } else {
       bcrypt.hash(password, 10, function(err, hash) {
         if (err) console.log(err)
