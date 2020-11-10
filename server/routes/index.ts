@@ -29,12 +29,9 @@ router.post('/api/signout', cors(), authMiddleware, function(req, res, next) {
   res.sendStatus(200)
 })
 
-router.post('/api/decks', cors(), function(req, res, next) {
-  res.send(["one", "two", "three"])
-})
-
 var deckController = require('../controllers/deckController')
 router.post('/api/createdeck', cors(), authMiddleware, deckController.createDeck)
+router.post('/api/decks', cors(), authMiddleware, deckController.findDecks)
 
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)

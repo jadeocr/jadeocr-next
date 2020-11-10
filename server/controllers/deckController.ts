@@ -17,3 +17,10 @@ exports.createDeck = function(req, res, next) {
         }
     })
 }
+
+exports.findDecks = function(req, res, next) {
+    deckModel.find({creator: req.user._id}, function(err, decks) {
+        if (err) console.log(err) 
+        res.send(decks)
+    })
+}
