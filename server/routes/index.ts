@@ -41,4 +41,3 @@ router.get('/api/pinyin', characterController.pinyin)
 router.get('/api/definition', characterController.definition)
 
 module.exports = router
-
