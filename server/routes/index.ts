@@ -24,6 +24,10 @@ router.post('/api/signup', cors(), newUserController.post)
 router.post('/api/signin', cors(), passport.authenticate('local'), function(req, res, next) {
   res.sendStatus(200)
 })
+router.post('/api/signout', cors(), authMiddleware, function(req, res, next) {
+  req.logout()
+  res.sendStatus(200)
+})
 
 router.post('/api/decks', cors(), function(req, res, next) {
   res.send(["one", "two", "three"])
