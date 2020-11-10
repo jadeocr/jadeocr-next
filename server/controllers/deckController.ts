@@ -24,3 +24,10 @@ exports.findDecks = function(req, res, next) {
         res.send(decks)
     })
 }
+
+exports.publicDecks = function(req, res, next) {
+    deckModel.find({isPublic: true}, function(err, decks) {
+        if (err) console.log(err) 
+        res.send(decks)
+    })
+}

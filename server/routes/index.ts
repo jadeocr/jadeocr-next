@@ -32,6 +32,7 @@ router.post('/api/signout', cors(), authMiddleware, function(req, res, next) {
 var deckController = require('../controllers/deckController')
 router.post('/api/createdeck', cors(), authMiddleware, deckController.createDeck)
 router.post('/api/decks', cors(), authMiddleware, deckController.findDecks)
+router.post('/api/publicdecks', cors(), authMiddleware, deckController.publicDecks)
 
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)
