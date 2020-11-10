@@ -56,6 +56,13 @@ passport.deserializeUser(function(id, done) {
   })
 })
 
+var cookieSession = require('cookie-session')
+app.use(cookieSession({
+  name: 'mysession',
+  keys: ['vueauthrandomkey'],
+  maxAge: 24 * 60 * 60 * 1000
+}))
+
 app.use(passport.initialize())
 app.use(passport.session())
 

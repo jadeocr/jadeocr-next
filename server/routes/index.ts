@@ -29,5 +29,12 @@ router.post('/api/decks', cors(), function(req, res, next) {
   res.send(["one", "two", "three"])
 })
 
+var deckController = require('../controllers/deckController')
+router.post('/api/createdeck', cors(), authMiddleware, deckController.createDeck)
+
+var characterController = require('../controllers/characterController')
+router.get('/api/pinyin', characterController.pinyin)
+router.get('/api/definition', characterController.definition)
+
 module.exports = router
 
