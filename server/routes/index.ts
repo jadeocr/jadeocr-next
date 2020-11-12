@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var cors = require('cors')
 var passport = require('passport')
+var { body } = require('express-validator')
 
 const authMiddleware = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -37,5 +38,10 @@ router.post('/api/publicdecks', cors(), authMiddleware, deckController.publicDec
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)
 router.get('/api/definition', characterController.definition)
+router.get('/api/strokes', [
+  body('character')
+  .trim()
+  .escape(),
+], characterController.graphics)
 
 module.exports = router
