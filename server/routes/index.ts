@@ -43,5 +43,10 @@ router.get('/api/strokes', [
   .trim()
   .escape(),
 ], characterController.graphics)
+router.get('/api/animated', [
+  body('character')
+  .trim()
+  .escape(),
+], characterController.animated)
 
 module.exports = router
