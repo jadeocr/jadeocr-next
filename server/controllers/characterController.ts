@@ -1,6 +1,7 @@
 var characterModel = require('../models/characterModel')
 var strokeModel = require('../models/strokeModel')
 var animatedSVGModel = require('../models/animatedSVGModel')
+var staticSVGModel = require('../models/staticSVGModel')
 
 exports.pinyin = function(req, res, next) {
     let character = req.body.character
@@ -11,7 +12,6 @@ exports.pinyin = function(req, res, next) {
             res.send("No matches found")
         } else {
             res.send(char.pinyin)
-            console.log(char)
         }
     })
 }
@@ -45,9 +45,25 @@ exports.graphics = function(req, res, next) {
 exports.animated = function(req, res, next) {
     let character = req.body.character
 
-    animatedSVGModel.findOne({character: character}, function(err, svgs) {
+    animatedSVGModel.findOne({character: character}, function(err, char) {
         if (err) console.log(err)
-        console.log(svgs.svg)
-        res.send(svgs.svg)
+        if (!char) {
+            res.send("No matches found")
+        } else {
+            res.send(char.svg)
+        }
+    })
+}
+
+exports.static = function(req, res, next) {
+    let character = req.body.character
+
+    staticSVGModel.findOne({character: character}, function(err, char) {
+        if (err) console.log(err)
+        if (!char) {
+            res.send("No matches found")
+        } else {
+            res.send(char.svg)
+        }
     })
 }
