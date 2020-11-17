@@ -1,7 +1,7 @@
 var userModel = require('../models/userModel')
 var bcrypt = require('bcryptjs')
 
-exports.post = function(req, res, next) {
+exports.signup = function(req, res, next) {
   let email = req.body.email
   let password = req.body.password
   let confirmPassword = req.body.confirmPassword
@@ -30,3 +30,4 @@ exports.post = function(req, res, next) {
     }
   })
 }
+
