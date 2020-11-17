@@ -32,6 +32,39 @@
     color: #ffffff;
   }
 
+  /* Slidable content for dashboard pages */  
+  .page-content {
+    position: fixed;
+    right: 0px;
+    width: calc(100vw - 200px);
+    -webkit-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+    height: calc(98vh - 8.5rem);
+    -webkit-transition: width 0.6s ease, opacity 0.2s ease, visibility 0.2s ease;
+    transition: width 0.6s ease, opacity 0.2s ease, visibility 0.2s ease;
+  }
+  @media (max-width: 1280px) {
+    .page-content {
+      height: 80vh;
+    }
+  }
+  @media(max-width: 1024px) {
+    .page-content {
+      height: 75vh;
+    }
+  }
+  @media(max-width: 768px) {
+    .page-content {
+      height: 75vh;
+    }
+  }
+  @media(max-width: 640px) {
+    .page-content {
+      height: 72.5vh;
+      width: 100vw;
+    }
+  }  
+
   /* Scrollbar */
   /* Credit to @devinrhode2 on GitHub: https://gist.github.com/devinrhode2/2573411 */
   ::-webkit-scrollbar {
