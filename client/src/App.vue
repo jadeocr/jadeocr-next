@@ -32,7 +32,7 @@
     color: #ffffff;
   }
 
-  /* Slidable content for dashboard pages */  
+  /* Slidable content for dashboard pages */
   .page-content {
     position: fixed;
     right: 0px;
@@ -48,22 +48,22 @@
       height: 80vh;
     }
   }
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     .page-content {
       height: 75vh;
     }
   }
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     .page-content {
       height: 75vh;
     }
   }
-  @media(max-width: 640px) {
+  @media (max-width: 640px) {
     .page-content {
       height: 72.5vh;
       width: 100vw;
     }
-  }  
+  }
 
   /* Scrollbar */
   /* Credit to @devinrhode2 on GitHub: https://gist.github.com/devinrhode2/2573411 */
