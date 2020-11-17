@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node --inspect=3000 -r ts-node/register ./bin/www",
+    "start": "node -r ts-node/register ./bin/www",
+    "start_old": "node --inspect=3000 -r ts-node/register ./bin/www",
     "dev": "nodemon",
     "build": "tsc"
   },
@@ -36,3 +37,4 @@
     "typescript": "^4.0.5"
   }
 }
+
