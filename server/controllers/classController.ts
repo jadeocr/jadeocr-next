@@ -1,19 +1,22 @@
 //TODO: Make the variables reference the right things.
 
 var classModel = require('../models/classModel')
+var userDetailedModel = require('../models/userDetailedModel')
 
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
         res.sendStatus(403)
     } else {
-        let teacher = req.body.user
-        let className = req.body.classname
-        let description = req.body.description
-
+        let teacher = req.user._id
+        let className = req.body.className || "No name provided"
+        let description = req.body.description || "No description provided"
+        let private = req.body.private || true
+        
         var Class = new classModel({
             teacher: teacher,
-            className: name,
+            name: className,
             description: description,
+            private: private,
         })
         Class.save(function(err) {
             if (err) {
@@ -139,6 +142,33 @@ exports.unassign = function(req, res, next) {
                 }
                 res.send("Deck not assigned")    // <<---- not sure if this works, not tested
             }
+        }
+    })
+}
+
+exports.getAssignedDecks = function(req, res, next) {
+    let student = req.user.user
+
+    userDetailedModel.findOne({email: student.email}, function(err, user) {
+        if (err) {
+            console.log(user)
+            res.send("No user found. Probably errors within database.")
+        } else {
+            var assignedDecks = []
+
+            for (let i of user.classes) {
+                classModel.findOne({_id: i}, function(err, Class) {
+                    if (err) {
+                        console.log("err")
+                        res.send("There was an error while finding classes for this user")
+                    } else {
+                        assignedDecks.push(Class.assignedDecks)
+                        console.log('in classes')
+                    }
+                })
+            }
+            console.log("got out of classes")
+            res.sendStatus(200)
         }
     })
 }

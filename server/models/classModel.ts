@@ -5,8 +5,7 @@ var classSchema = new mongoose.Schema({
     name: String,
     description: String,
     students: Array,
-    invites: Array,
-    private: Boolean,
+    classCode: String,
     assignedDecks: Array,
 })
 
