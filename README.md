@@ -55,5 +55,5 @@ If you would like to get in touch with me for any legitimate reason, please send
 ## License
 This repository is licensed under the MIT License.
 
-[Tanay Biradar](https://github.com/TanayB11)
+[Tanay Biradar](https://github.com/TanayB11)  
 [Jeremy](https://github.com/wizard1238)
