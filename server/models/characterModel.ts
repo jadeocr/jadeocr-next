@@ -9,4 +9,4 @@ var characterSchema = new mongoose.Schema({
   matches: Array
 }, {collection: "characters"})
 
-module.exports = mongoose.model('charcters', characterSchema)
+module.exports = mongoose.model('characters', characterSchema)
