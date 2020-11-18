@@ -14,6 +14,8 @@ exports.createDeck = function(req, res, next) {
             description: req.body.description,
             characters: req.body.characters,
             creator: req.user.id,
+            creatorFirst: req.user.firstName,
+            creatorLast: req.user.lastName,
             isPublic: req.body.isPublic
         })
         

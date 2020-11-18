@@ -22,11 +22,11 @@ router.post('/api/ocr', cors(), ocrController.post)
 
 var userController = require('../controllers/userController')
 router.post('/api/signup', cors(), [
-  body('email').trim().escape(),
-  body('firstName').trim().escape(),
-  body('lastName').trim().escape(),
-  body('password').trim().escape(),
-  body('confirmPassword').trim().escape(),
+  body('email').isString().notEmpty().trim().escape().isEmail(),
+  body('firstName').isString().notEmpty().trim().escape(),
+  body('lastName').isString().notEmpty().trim().escape(),
+  body('password').isString().notEmpty().trim().escape(),
+  body('confirmPassword').isString().notEmpty().trim().escape(),
 ], userController.signup)
 router.post('/api/signin', cors(), passport.authenticate('local'), function(req, res, next) {
   res.send(req.user)
