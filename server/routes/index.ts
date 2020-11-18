@@ -25,7 +25,7 @@ router.post('/api/signup', cors(), [
   body('email').trim().escape(),
   body('password').trim().escape(),
   body('confirmPassword').trim().escape(),
-  ], userController.signup)
+], userController.signup)
 router.post('/api/signin', cors(), passport.authenticate('local'), function(req, res, next) {
   res.send(req.user)
 })
@@ -64,33 +64,36 @@ router.post('/api/deck/create', cors(), authMiddleware, [
       return false
     }
   }),
-  ], deckController.createDeck)
-router.post('/api/deck/decks', cors(), authMiddleware, deckController.findDecks)
-router.post('/api/deck/public', cors(), authMiddleware, deckController.publicDecks)
+], deckController.createDeck)
+router.get('/api/deck/decks', cors(), authMiddleware, deckController.findDecks)
+router.get('/api/deck/public', cors(), authMiddleware, deckController.publicDecks)
 
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)
 router.get('/api/definition', characterController.definition)
 router.get('/api/strokes', [
   body('character').trim().escape(),
-  ], characterController.graphics)
+], characterController.graphics)
 router.get('/api/animated', [
   body('character').trim().escape(),
-  ], characterController.animated)
+], characterController.animated)
 router.get('/api/static', [
   body('character').trim().escape(),
-  ], characterController.static)
+], characterController.static)
 
 var classController = require('../controllers/classController')
 router.post('/api/class/create', cors(), authMiddleware, [
   body('className').trim().escape(),
   body('description').trim().escape(),
-  ], classController.createClass)
+], classController.createClass)
+router.post('/api/class/remove', cors(), authMiddleware, [
+  body('classCode').trim().escape(),
+], classController.removeClass)
 router.post('/api/class/join', cors(), authMiddleware, [
   body('classCode').trim().escape()
-  ], classController.join)
+], classController.join)
 router.post('/api/class/leave', cors(), authMiddleware, [
   body('classCode').trim().escape()
-  ], classController.leave)
+], classController.leave)
 
-    module.exports = router
+module.exports = router

@@ -42,6 +42,29 @@ exports.createClass = function(req, res, next) {
     }
 }
 
+exports.removeClass = function(req, res, next) {
+    let teacher = req.user._id
+    let classCode = req.body.classCode
+
+    classModel.findOne({classCode: classCode}, function(err, Class) {
+        if (err) {
+            console.log(err)
+            res.send('There was an error')
+        } else if (!Class) {
+            res.send('No class found')
+        } else if (Class.teacher != teacher) {
+            res.sendStatus(401)
+        } else if (Class.teacher == teacher) {
+            classModel.deleteOne({_id: Class._id}, function(err) {
+                if (err) console.log(err)
+                res.sendStatus(200)
+            })
+        } else {
+            res.sendStatus(400)
+        }
+    })
+}
+
 exports.join = function(req, res, next) {
     let student = String(req.user._id)
     let classCode = req.body.classCode
@@ -57,6 +80,7 @@ exports.join = function(req, res, next) {
         } else if (Class.students.length == 0) {
             Class.students.push(student)
             Class.save()
+            addClassToStudent()
             res.sendStatus(200)
         } else {
             for (let i in Class.students) {
@@ -66,12 +90,24 @@ exports.join = function(req, res, next) {
                 } else if (i + 1 == Class.students.length) {
                     Class.students.push(student)
                     Class.save()
+                    addClassToStudent()
                     res.sendStatus(200)
                     break
                 }
             }
         }
     })
+
+    let addClassToStudent = function() {
+        userDetailedModel.findOne({id: student}, function(err, result) { //Id here is different from _id
+            if (err) {
+                console.log(err)
+            } else {
+                result.classes.push(classCode)
+                result.save()
+            }
+        })
+    }
 }
 
 exports.leave = function(req, res, next) {
@@ -91,6 +127,7 @@ exports.leave = function(req, res, next) {
                 if (Class.students[i] == student) {
                     Class.students.splice(i, 1)
                     Class.save()
+                    removeClassFromStudent()
                     res.sendStatus(200)
                 } else if (i + 1 == Class.students.length) {
                     res.send('Student not in class')
@@ -98,6 +135,21 @@ exports.leave = function(req, res, next) {
             }
         }
     })
+    
+    let removeClassFromStudent = function() {
+        userDetailedModel.findOne({id: student}, function(err, result) {
+            if (err) {
+                console.log(err)
+            } else {
+                for (let j in result.classes) {
+                    if (result.classes[j] == classCode) {
+                        result.classes.splice(j, 1)
+                        result.save()
+                    }
+                }
+            }
+        })
+    }
 }
 
 exports.assign = function(req, res, next) {
