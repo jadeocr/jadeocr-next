@@ -8,7 +8,11 @@ export const auth = {
   state: {
     isSignedIn: false,
     authErrorMsg: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    uid: '',
+    isTeacher: false,
   },
   mutations: {
     // eslint-disable-next-line
@@ -16,13 +20,29 @@ export const auth = {
       state.authErrorMsg = msg
     },
     // eslint-disable-next-line
-    setSignedInState(state: any, value: boolean) {
-      state.isSignedIn = value
+    setSignedIn(state: any, isSignedIn: boolean) {
+      state.isSignedIn = isSignedIn
+    },
+    // eslint-disable-next-line
+    setFirstName(state: any, firstName: string) {
+      state.firstName = firstName
+    },
+    // eslint-disable-next-line
+    setLastName(state: any, lastName: string) {
+      state.lastName = lastName
     },
     // eslint-disable-next-line
     setEmail(state: any, email: string) {
       state.email = email
     },
+    // eslint-disable-next-line
+    setUID(state: any, uid: string) {
+      state.uid = uid
+    },
+    // eslint-disable-next-line
+    setTeacher(state: any, isTeacher: boolean) {
+      state.isTeacher = isTeacher
+    }
   },
   actions: {
     signUp({ commit }: { commit: Function }, credentials: object): void {
@@ -31,10 +51,8 @@ export const auth = {
         url: `${apiBaseURL}/signup`,
         data: credentials,
       })
-        .then((res) => console.log(res)) // TODO: Response handling
-        .catch((err) => {
+        .catch(() => {
           commit('setAuthErrorMsg', 'User already exists')
-          console.log(err)
         })
     },
     signIn({ commit }: { commit: Function }, credentials: object): void {
@@ -44,8 +62,12 @@ export const auth = {
         data: credentials,
       })
         .then((res) => {
-          commit('setSignedInState', true)
+          commit('setSignedIn', true)
+          commit('setUID', res.config.data._id)
           commit('setEmail', res.config.data.email)
+          commit('setFirstName', res.config.data.firstName)
+          commit('setLastName', res.config.data.lastName)
+          commit('setTeacher', res.config.data.isTeacher)
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
