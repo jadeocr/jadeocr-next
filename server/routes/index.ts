@@ -69,6 +69,7 @@ router.post('/api/deck/create', cors(), authMiddleware, [
 ], deckController.createDeck)
 router.get('/api/deck/decks', cors(), authMiddleware, deckController.findDecks)
 router.get('/api/deck/public', cors(), authMiddleware, deckController.publicDecks)
+router.get('/api/deck/assigned', cors(), authMiddleware, deckController.getAssignedDecks)
 
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)

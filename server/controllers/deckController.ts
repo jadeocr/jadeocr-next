@@ -45,28 +45,46 @@ exports.publicDecks = function(req, res, next) {
 }
 
 exports.getAssignedDecks = function(req, res, next) {
-    let student = req.user.user
+    let user = String(req.user._id)
 
-    userDetailedModel.findOne({email: student.email}, function(err, user) {
+    userDetailedModel.findOne({id: user}, function(err, user) {
         if (err) {
-            console.log(user)
-            res.send("No user found. Probably errors within database.")
+            console.log(err)
+            res.status(400).send('There was an error')
+        } else if (user.classes.length == 0) {
+            res.status(400).send('User is not enrolled in any classes')
         } else {
-            var assignedDecks = []
+            var classArray = []
 
-            for (let i of user.classes) {
-                classModel.findOne({_id: i}, function(err, Class) {
-                    if (err) {
-                        console.log("err")
-                        res.send("There was an error while finding classes for this user")
-                    } else {
-                        assignedDecks.push(Class.assignedDecks)
-                        console.log('in classes')
-                    }
-                })
+            for (let i in user.classes) {
+                classArray.push({classCode: user.classes[i]})
+
+                if (i + 1 == user.classes.length) {
+                    var deckArray = []
+
+                    classModel.find({$or: classArray}, function(err, classResults) {
+                        if (err) {
+                            console.log(err)
+                            res.status(400).send('There was an error')
+                        } else {
+                            for (let j in classResults) {
+                                deckArray.push({_id: classResults[j].assignedDecks})
+
+                                if (j + 1 == classResults.length) {
+                                    deckModel.find({$or: deckArray}, function(err, deckResults) {
+                                        if (err) {
+                                            console.log(err)
+                                            res.status(400).send('There was an error')
+                                        } else {
+                                            res.status(200).send(deckResults)
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                    })
+                }
             }
-            console.log("got out of classes")
-            res.sendStatus(200)
         }
     })
 }
