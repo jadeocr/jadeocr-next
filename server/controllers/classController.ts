@@ -88,7 +88,7 @@ exports.join = function(req, res, next) {
                 if (String(Class.students[i]) == student) {
                     res.send("Student already in class")
                     break
-                } else if (i + 1 == Class.students.length) {
+                } else if (parseInt(i) + 1 == Class.students.length) {
                     Class.students.push(student)
                     Class.save()
                     addClassToStudent()
@@ -130,7 +130,7 @@ exports.leave = function(req, res, next) {
                     Class.save()
                     removeClassFromStudent()
                     res.sendStatus(200)
-                } else if (i + 1 == Class.students.length) {
+                } else if (parseInt(i) + 1 == Class.students.length) {
                     res.send('Student not in class')
                 }
             }
@@ -190,7 +190,7 @@ exports.assign = function(req, res, next) {
                 for (let i in Class.assignedDecks) {
                     if (Class.assignedDecks[i] == deck) {
                         res.status(400).send("Deck already assigned")
-                    } else if (i + 1 == Class.assignedDecks.length) {
+                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
                         Class.assignedDecks.push(deck)
                         Class.save()
                         res.sendStatus(200)
@@ -233,28 +233,46 @@ exports.unassign = function(req, res, next) {
 }
 
 exports.getAssignedDecks = function(req, res, next) {
-    let student = req.user.user
+    let user = String(req.user._id)
+    let classCode = req.body.classCode
 
-    userDetailedModel.findOne({email: student.email}, function(err, user) {
-        if (err) {
-            console.log(user)
-            res.send("No user found. Probably errors within database.")
-        } else {
-            var assignedDecks = []
+    classModel.findOne({classCode: classCode}, function(err, Class) {
+        let sendDecks = function() {
+            var deckArray = []
 
-            for (let i of user.classes) {
-                classModel.findOne({_id: i}, function(err, Class) {
-                    if (err) {
-                        console.log("err")
-                        res.send("There was an error while finding classes for this user")
-                    } else {
-                        assignedDecks.push(Class.assignedDecks)
-                        console.log('in classes')
-                    }
-                })
+            for (let j in Class.assignedDecks) {
+                deckArray.push({_id: Class.assignedDecks[j]})
+                if (parseInt(j) + 1 == Class.assignedDecks.length) {
+                    deckModel.find({$or: deckArray}, function(err, deckResults) {
+                        if (err) {
+                            console.log(err)
+                            res.status(400).send('There was an error')
+                        } else {
+                            res.status(200).send(deckResults)
+                        }
+                    })
+                }
             }
-            console.log("got out of classes")
-            res.sendStatus(200)
+        }
+        
+        if (err) {
+            console.log(err)
+            res.status(400).send('There was an error')
+        } else if (!Class) {
+            res.status(400).send('No class was found')            
+        } else if (Class.assignedDecks.length == 0) {
+            res.status(200).send('No decks are assigned')
+        } else if (Class.teacher == user) {
+            sendDecks()
+        } else {
+            for (let i in Class.students) {
+                if (user == Class.students[i]) {
+                    sendDecks()
+                    break
+                } else if (parseInt(i) + 1 == Class.students.length) {
+                    res.status(403)
+                }
+            }
         }
     })
 }
