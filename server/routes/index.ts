@@ -53,10 +53,12 @@ router.get('/api/static', [
   ], characterController.static)
 
 var classController = require('../controllers/classController')
-router.post('/api/create/class', cors(), authMiddleware, [
+router.post('/api/class/create', cors(), authMiddleware, [
   body('className').trim().escape(),
   body('description').trim().escape(),
   ], classController.createClass)
-router.post('/api/class/join')
+router.post('/api/class/join', cors(), authMiddleware, [
+  body('classCode').trim().escape()
+  ], classController.join)
 
 module.exports = router

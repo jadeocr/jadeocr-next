@@ -11,55 +11,70 @@ exports.createClass = function(req, res, next) {
         let className = req.body.className || "No name provided"
         let description = req.body.description || "No description provided"
         let private = req.body.private || true
-        
-        var Class = new classModel({
-            teacher: teacher,
-            name: className,
-            description: description,
-            private: private,
-        })
-        Class.save(function(err) {
-            if (err) {
-                console.log(err)
-                res.sendStatus(400)
-            } else {
-                res.sendStatus(200)
-            }
-        })
+
+        let createClass = function() {
+            let classCode = Math.floor(100000 + Math.random() * 900000)
+
+            classModel.findOne({classCode: classCode}, function(err, result) {
+                if (result) {
+                    createClass()
+                } else {
+                    var Class = new classModel({
+                        teacher: teacher,
+                        name: className,
+                        description: description,
+                        private: private,
+                        classCode: classCode,
+                    })
+                    Class.save(function(err) {
+                        if (err) {
+                            console.log(err)
+                            res.sendStatus(400)
+                        } else {
+                            res.sendStatus(200)
+                        }
+                    })
+                }
+            })
+        }
+
+        createClass()
     }
 }
 
 exports.join = function(req, res, next) {
-    let student = req.body.user
-    let className = req.body.classname
+    let student = String(req.user._id)
+    let classCode = req.body.classCode
 
-    classModel.findOne({name: className}, function(err, Class) {
+    console.log(typeof(student))
+    console.log(student)
+
+    classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
-            res.send("The class does not exist")
-        } else if (Class.private == false) {
-            for (let i of Class.students) {
-                if (i == student) {
+            res.send("There was an error")
+        } else if (!Class) {
+            res.send('Class not found')
+        }  else if (Class.teacher == student) {
+            res.send('User cannot join a class they teach')
+        } else if (Class.students.length == 0) {
+            Class.students.push(student)
+            Class.save()
+            res.sendStatus(200)
+        } else {
+            for (let i in Class.students) {
+                console.log(typeof(Class.students[i]))
+                if (String(Class.students[i]) == student) {
                     res.send("Student already in class")
-                } else {
+                    break
+                } else if (i + 1 == Class.students.length) {
                     Class.students.push(student)
+                    Class.save()
                     res.sendStatus(200)
+                    break
                 }
             }
-        } else if (Class.private == true) {
-            if (!Class.invites) {
-                res.send("Student does not have invite")
-            } else {
-                for (let i of Class.invites) {
-                    if (student == Class.invites[i]) {
-                        Class.students.push(student)
-                        res.sendStatus(200)
-                    } else {
-                        res.send("Student does not have invite")
-                    }
-                }
-            }
-        } 
+        }
     })
 }
 
