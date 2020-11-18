@@ -1,4 +1,5 @@
 var userModel = require('../models/userModel')
+var userDetailedModel = require('../models/userDetailedModel')
 var bcrypt = require('bcryptjs')
 
 exports.signup = function(req, res, next) {
@@ -24,10 +25,35 @@ exports.signup = function(req, res, next) {
         })
         newUser.save(function(err) {
           if (err) console.log(err)
-          res.sendStatus(200)
+          userModel.findOne({email: email}, function(err, user) {
+            let detailedUser = new userDetailedModel({
+              id: String(user._id),
+              email: user.email,
+              password: user.password,
+              isTeacher: user.isTeacher,
+            })
+            detailedUser.save(function(err) {
+              if (err) console.log(err)
+            res.sendStatus(200)
+            })
+          })
         })
       })
     }
   })
 }
 
+exports.user = function(req, res, next) {
+  res.send(req.user)
+}
+
+exports.details = function(req, res, next) {
+  userDetailedModel.findOne({id: req.user._id}, function(err, user) {
+    if (err) {
+      console.log(err)
+      res.send('There was an error')
+    } else {
+      res.send(user)
+    }
+  })
+}

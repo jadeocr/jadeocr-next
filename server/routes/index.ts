@@ -33,11 +33,40 @@ router.post('/api/signout', cors(), authMiddleware, function(req, res, next) {
   req.logout()
   res.sendStatus(200)
 })
+router.get('/api/user', cors(), authMiddleware, userController.user)
+router.get('/api/user/details', cors(), authMiddleware, userController.details)
 
 var deckController = require('../controllers/deckController')
-router.post('/api/create/deck', cors(), authMiddleware, deckController.createDeck)
-router.post('/api/decks', cors(), authMiddleware, deckController.findDecks)
-router.post('/api/publicdecks', cors(), authMiddleware, deckController.publicDecks)
+router.post('/api/deck/create', cors(), authMiddleware, [
+  body('title').trim().escape(),
+  body('description').trim().escape(),
+  body('characters.*').trim().escape().custom(value => {
+    if (value.length < 1) {
+      throw new Error('All characters must have values')
+    } else if (value.match(/[\u3400-\u9FBF]/)) {
+      if (value.length > 1) {
+        throw new Error('Only 1 character allowed per card')
+      } else {
+        return true
+      }
+    } else {
+      throw new Error('Only Chinese characters allowed')
+    }
+  }),
+  body('isPublic').customSanitizer(value => {
+    if (typeof value == 'boolean') {
+      return value
+    } else if (value == 'true') {
+      return true
+    } else if (value == 'false') {
+      return false
+    } else {
+      return false
+    }
+  }),
+  ], deckController.createDeck)
+router.post('/api/deck/decks', cors(), authMiddleware, deckController.findDecks)
+router.post('/api/deck/public', cors(), authMiddleware, deckController.publicDecks)
 
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)
@@ -60,5 +89,8 @@ router.post('/api/class/create', cors(), authMiddleware, [
 router.post('/api/class/join', cors(), authMiddleware, [
   body('classCode').trim().escape()
   ], classController.join)
+router.post('/api/class/leave', cors(), authMiddleware, [
+  body('classCode').trim().escape()
+  ], classController.leave)
 
-module.exports = router
+    module.exports = router

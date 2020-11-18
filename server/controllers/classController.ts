@@ -46,9 +46,6 @@ exports.join = function(req, res, next) {
     let student = String(req.user._id)
     let classCode = req.body.classCode
 
-    console.log(typeof(student))
-    console.log(student)
-
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
@@ -63,7 +60,6 @@ exports.join = function(req, res, next) {
             res.sendStatus(200)
         } else {
             for (let i in Class.students) {
-                console.log(typeof(Class.students[i]))
                 if (String(Class.students[i]) == student) {
                     res.send("Student already in class")
                     break
@@ -79,18 +75,25 @@ exports.join = function(req, res, next) {
 }
 
 exports.leave = function(req, res, next) {
-    let student = req.body.user
-    let className = req.body.classname
+    let student = String(req.user._id)
+    let classCode = req.body.classCode
 
-    classModel.findOne({name: className}, function(err, Class) {
+    classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
-            res.send("The class does not exist")
+            res.send("There was an error")
+        } else if (student == Class.teacher) {
+            res.send('Teacher cannot leave class they teach')
+        } else if (Class.students.length == 0) {
+            res.send('Student not in class')
         } else {
             for (let i in Class.students) {
                 if (Class.students[i] == student) {
                     Class.students.splice(i, 1)
+                    Class.save()
                     res.sendStatus(200)
+                } else if (i + 1 == Class.students.length) {
+                    res.send('Student not in class')
                 }
             }
         }
@@ -98,29 +101,25 @@ exports.leave = function(req, res, next) {
 }
 
 exports.assign = function(req, res, next) {
-    let teacher = req.user.user
-    let className = req.body.classname
+    let teacher = String(req.user._id)
+    let classCode = req.body.classCode
     let deck = req.body.deck
 
-    if (req.user.isTeacher == false) {
-        res.sendStatus(403)
-    }
-
-    classModel.findOne({name: className}, function(err, Class) {
+    classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
             res.send("The class does not exist")
         } else if (Class.teacher != teacher) {
             res.sendStatus(403)
         } else {
-            if (!Class.assignedDecks) {
+            if (Class.assignedDecks.length == 0) {
                 Class.assignedDecks.push(deck)
                 res.sendStatus(200)
             } else {
-                for (let i of Class.assignedDecks) {
-                    if (i == deck) {
+                for (let i in Class.assignedDecks) {
+                    if (Class.assignedDecks[i] == deck) {
                         res.send("Deck already assigned")
-                    } else {
+                    } else if (i + 1 == Class.assignedDecks.length) {
                         Class.assignedDecks.push(deck)
                         res.sendStatus(200)
                     }

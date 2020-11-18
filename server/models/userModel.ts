@@ -6,4 +6,4 @@ var userSchema = new mongoose.Schema({
   isTeacher: Boolean,
 })
 
-module.exports = mongoose.model('userModel', userSchema)
+module.exports = mongoose.model('users', userSchema)
