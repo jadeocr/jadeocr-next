@@ -4,6 +4,8 @@ var bcrypt = require('bcryptjs')
 
 exports.signup = function(req, res, next) {
   let email = req.body.email
+  let firstName = req.body.firstName
+  let lastName = req.body.lastName
   let password = req.body.password
   let confirmPassword = req.body.confirmPassword
   let isTeacher = false
@@ -20,6 +22,8 @@ exports.signup = function(req, res, next) {
         if (err) console.log(err)
         var newUser = new userModel({
           email: email,
+          firstName: firstName,
+          lastName: lastName,
           password: hash,
           isTeacher: isTeacher,
         })
@@ -29,6 +33,8 @@ exports.signup = function(req, res, next) {
             let detailedUser = new userDetailedModel({
               id: String(user._id),
               email: user.email,
+              firstName: firstName,
+              lastName: lastName,
               password: user.password,
               isTeacher: user.isTeacher,
             })
