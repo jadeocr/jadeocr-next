@@ -9,4 +9,4 @@ var classSchema = new mongoose.Schema({
     assignedDecks: Array,
 })
 
-module.exports = new mongoose.model('classModel', classSchema)
+module.exports = new mongoose.model('classes', classSchema)
