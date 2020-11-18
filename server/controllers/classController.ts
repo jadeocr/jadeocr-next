@@ -1,7 +1,8 @@
-//TODO: Make the variables reference the right things.
+//TODO: Make the variables reference the right things, add status
 
 var classModel = require('../models/classModel')
 var userDetailedModel = require('../models/userDetailedModel')
+var deckModel = require('../models/deckModel')
 
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
@@ -72,9 +73,9 @@ exports.join = function(req, res, next) {
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
-            res.send("There was an error")
+            res.sendStatus(400)
         } else if (!Class) {
-            res.send('Class not found')
+            res.status(400).send('Class does not exist')
         }  else if (Class.teacher == student) {
             res.send('User cannot join a class they teach')
         } else if (Class.students.length == 0) {
@@ -160,19 +161,38 @@ exports.assign = function(req, res, next) {
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
-            res.send("The class does not exist")
+            res.status(400).send("There was an error")
+        } else if (!Class) {
+            res.status(400).send("The class does not exist")
         } else if (Class.teacher != teacher) {
             res.sendStatus(403)
         } else {
+            deckModel.findOne({_id: deck}, function(err, returnedDeck) {
+                if (err) {
+                    console.log(err)
+                    res.status(400).send('There was an error')
+                } else if (returnedDeck.isPublic == true) {
+                    assignDeck()
+                } else if (returnedDeck.creator == teacher) {
+                    assignDeck()
+                } else {
+                    res.status(403).send('User does not have permission to access deck')
+                }
+            })
+        }
+
+        let assignDeck = function() {
             if (Class.assignedDecks.length == 0) {
                 Class.assignedDecks.push(deck)
+                Class.save()
                 res.sendStatus(200)
             } else {
                 for (let i in Class.assignedDecks) {
                     if (Class.assignedDecks[i] == deck) {
-                        res.send("Deck already assigned")
+                        res.status(400).send("Deck already assigned")
                     } else if (i + 1 == Class.assignedDecks.length) {
                         Class.assignedDecks.push(deck)
+                        Class.save()
                         res.sendStatus(200)
                     }
                 }
