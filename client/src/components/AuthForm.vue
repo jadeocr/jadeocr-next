@@ -167,6 +167,10 @@
         this.clearFields()
       },
     },
+    // TODO: Call signIn with cookie on mount, redirect to dashboard on success
+    /* mounted() { */
+    /*   this.$store.dispatch('auth/signIn', this.credentials) */
+    /* } */
   })
 </script>
 

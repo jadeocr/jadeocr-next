@@ -50,6 +50,7 @@ export const auth = {
         method: 'post',
         url: `${apiBaseURL}/signup`,
         data: credentials,
+        withCredentials: true,
       })
         .catch(() => {
           commit('setAuthErrorMsg', 'User already exists')
@@ -60,6 +61,7 @@ export const auth = {
         method: 'post',
         url: `${apiBaseURL}/signin`,
         data: credentials,
+        withCredentials: true
       })
         .then((res) => {
           commit('setSignedIn', true)

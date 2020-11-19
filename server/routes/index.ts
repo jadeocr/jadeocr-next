@@ -18,28 +18,28 @@ router.post('/', function(req, res, next) {
 })
 
 var ocrController = require('../controllers/ocrController')
-router.post('/api/ocr', cors(), ocrController.post)
+router.post('/api/ocr', ocrController.post)
 
 var userController = require('../controllers/userController')
-router.post('/api/signup', cors(), [
+router.post('/api/signup', [
   body('email').isString().notEmpty().trim().escape().isEmail(),
   body('firstName').isString().notEmpty().trim().escape(),
   body('lastName').isString().notEmpty().trim().escape(),
   body('password').isString().notEmpty().trim().escape(),
   body('confirmPassword').isString().notEmpty().trim().escape(),
 ], userController.signup)
-router.post('/api/signin', cors(), passport.authenticate('local'), function(req, res, next) {
+router.post('/api/signin', passport.authenticate('local'), function(req, res, next) {
   res.send(req.user)
 })
-router.post('/api/signout', cors(), authMiddleware, function(req, res, next) {
+router.post('/api/signout', authMiddleware, function(req, res, next) {
   req.logout()
   res.sendStatus(200)
 })
-router.get('/api/user', cors(), authMiddleware, userController.user)
-router.get('/api/user/details', cors(), authMiddleware, userController.details)
+router.get('/api/user', authMiddleware, userController.user)
+router.get('/api/user/details', authMiddleware, userController.details)
 
 var deckController = require('../controllers/deckController')
-router.post('/api/deck/create', cors(), authMiddleware, [
+router.post('/api/deck/create', authMiddleware, [
   body('title').trim().escape(),
   body('description').trim().escape(),
   body('characters.*').trim().escape().custom(value => {
@@ -67,9 +67,9 @@ router.post('/api/deck/create', cors(), authMiddleware, [
     }
   }),
 ], deckController.createDeck)
-router.get('/api/deck/decks', cors(), authMiddleware, deckController.findDecks)
-router.get('/api/deck/public', cors(), authMiddleware, deckController.publicDecks)
-router.get('/api/deck/assigned', cors(), authMiddleware, deckController.getAssignedDecks)
+router.get('/api/deck/decks', authMiddleware, deckController.findDecks)
+router.get('/api/deck/public', authMiddleware, deckController.publicDecks)
+router.get('/api/deck/assigned', authMiddleware, deckController.getAssignedDecks)
 
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)
@@ -85,28 +85,28 @@ router.get('/api/static', [
   ], characterController.static)
 
 var classController = require('../controllers/classController')
-router.post('/api/class/create', cors(), authMiddleware, [
+router.post('/api/class/create', authMiddleware, [
   body('className').trim().escape(),
   body('description').trim().escape(),
 ], classController.createClass)
-router.post('/api/class/remove', cors(), authMiddleware, [
+router.post('/api/class/remove', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.removeClass)
-router.post('/api/class/join', cors(), authMiddleware, [
+router.post('/api/class/join', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.join)
-router.post('/api/class/leave', cors(), authMiddleware, [
+router.post('/api/class/leave', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.leave)
-router.post('/api/class/assign', cors(), authMiddleware, [
+router.post('/api/class/assign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deck').trim().escape(),
 ], classController.assign)
-router.post('/api/class/unassign', cors(), authMiddleware, [
+router.post('/api/class/unassign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deck').trim().escape(),
 ], classController.unassign)
-router.post('/api/class/assigned', cors(), authMiddleware, [
+router.post('/api/class/assigned', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.getAssignedDecks)
 
