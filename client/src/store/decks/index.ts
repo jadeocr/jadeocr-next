@@ -29,6 +29,7 @@ export const decks = {
       axios({
         method: 'get',
         url: `${apiBaseURL}/deck/decks`,
+        withCredentials: true,
       })
         .then((res) => {
           console.log(res)
