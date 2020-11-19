@@ -60,6 +60,7 @@ export const auth = {
         method: 'post',
         url: `${apiBaseURL}/signin`,
         data: credentials,
+        withCredentials: true
       })
         .then((res) => {
           commit('setSignedIn', true)

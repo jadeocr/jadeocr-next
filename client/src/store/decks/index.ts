@@ -29,7 +29,6 @@ export const decks = {
       axios({
         method: 'get',
         url: `${apiBaseURL}/deck/decks`,
-        withCredentials: true
       })
         .then((res) => {
           console.log(res)
@@ -42,7 +41,6 @@ export const decks = {
       axios({
         method: 'get',
         url: `${apiBaseURL}/deck/assigned`,
-        withCredentials: true
       })
         .then((res) => {
           console.log(res.config.data)
