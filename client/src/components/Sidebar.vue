@@ -21,7 +21,7 @@
       </button>
     </div>
     <div
-      class="p-12 -ml-4 text-lg rounded md:py-24 xl:mt-32 xl:px-16 md:mt-24 lg:mt-auto"
+      class="p-12 -ml-4 text-lg rounded md:py-24 xl:mt-24 xl:px-16 md:mt-24 lg:mt-auto"
       id="sidebar-content"
     >
       <div class="my-8">
