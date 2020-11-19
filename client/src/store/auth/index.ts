@@ -78,5 +78,33 @@ export const auth = {
           }
         })
     },
+    autoSignIn({ commit }: { commit: Function }): void {
+      axios({
+        method: 'get',
+        url: `${apiBaseURL}/user`,
+        withCredentials: true,
+      })
+        .then(() => {
+          commit('setSignedIn', true)
+          router.push({ name: 'Dashboard' })
+        })
+        .catch(() => {
+          return // cookie doesn't exist, can just return
+        })
+    },
+    signOut({ commit }: { commit: Function }): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/signout`,
+        withCredentials: true
+      })
+        .then(() => {
+          commit('setSignedIn', false)
+          router.push({ name: 'Home' })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   },
 }
