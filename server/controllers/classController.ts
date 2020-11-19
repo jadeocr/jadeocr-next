@@ -32,7 +32,16 @@ exports.createClass = function(req, res, next) {
                             console.log(err)
                             res.sendStatus(400)
                         } else {
-                            res.sendStatus(200)
+                            userDetailedModel.findOne({id: teacher}, function(err, returnedTeacher) {
+                                if (err) {
+                                    console.log(err)
+                                    res.status(400).send('There was an error')
+                                } else {
+                                    returnedTeacher.classesTeaching.push(classCode)
+                                    returnedTeacher.save()
+                                    res.sendStatus(200)
+                                }
+                            })
                         }
                     })
                 }
@@ -202,15 +211,11 @@ exports.assign = function(req, res, next) {
 }
 
 exports.unassign = function(req, res, next) {
-    let teacher = req.user.user
-    let className = req.body.classname
+    let teacher = req.user._id
+    let classCode = req.body.classCode
     let deck = req.body.deck
 
-    if (req.user.isTeacher == false) {
-        res.sendStatus(403)
-    }
-
-    classModel.findOne({name: className}, function(err, Class) {
+    classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
             res.send("The class does not exist")
@@ -223,10 +228,13 @@ exports.unassign = function(req, res, next) {
                 for (let i in Class.assignedDecks) {
                     if (Class.assignedDecks[i] == deck) {
                         Class.assignedDecks.splice(i, 1)
+                        Class.save()
                         res.sendStatus(200)
+                        break
+                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
+                        res.status(400).send("Deck not assigned")
                     }
                 }
-                res.send("Deck not assigned")    // <<---- not sure if this works, not tested
             }
         }
     })
@@ -270,7 +278,7 @@ exports.getAssignedDecks = function(req, res, next) {
                     sendDecks()
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
-                    res.status(403)
+                    res.send(403)
                 }
             }
         }

@@ -8,6 +8,7 @@ var userDetailedSchema = new mongoose.Schema({
     password: String,
     isTeacher: Boolean,
     classes: Array,
+    classesTeaching: Array,
     stats: Array,
 })
 

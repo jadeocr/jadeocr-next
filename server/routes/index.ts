@@ -85,13 +85,6 @@ router.get('/api/static', [
   ], characterController.static)
 
 var classController = require('../controllers/classController')
-router.post('/api/create/class', cors(), authMiddleware, [
-  body('className').trim().escape(),
-  body('description').trim().escape(),
-  ], classController.createClass)
-router.post('/api/class/join')
-
-var classController = require('../controllers/classController')
 router.post('/api/class/create', cors(), authMiddleware, [
   body('className').trim().escape(),
   body('description').trim().escape(),
@@ -109,5 +102,12 @@ router.post('/api/class/assign', cors(), authMiddleware, [
   body('classCode').trim().escape(),
   body('deck').trim().escape(),
 ], classController.assign)
+router.post('/api/class/unassign', cors(), authMiddleware, [
+  body('classCode').trim().escape(),
+  body('deck').trim().escape(),
+], classController.unassign)
+router.post('/api/class/assigned', cors(), authMiddleware, [
+  body('classCode').trim().escape(),
+], classController.getAssignedDecks)
 
 module.exports = router
