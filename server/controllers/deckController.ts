@@ -60,6 +60,7 @@ exports.getAssignedDecks = function(req, res, next) {
                 classArray.push({classCode: user.classes[i]})
 
                 if (parseInt(i) + 1 == user.classes.length) {
+
                     var deckArray = []
 
                     classModel.find({$or: classArray}, function(err, classResults) {
@@ -71,6 +72,7 @@ exports.getAssignedDecks = function(req, res, next) {
                                 deckArray.push({_id: classResults[j].assignedDecks})
 
                                 if (parseInt(j) + 1 == classResults.length) {
+
                                     deckModel.find({$or: deckArray}, function(err, deckResults) {
                                         if (err) {
                                             console.log(err)

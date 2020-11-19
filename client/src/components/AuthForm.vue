@@ -5,12 +5,32 @@
     >
       <!-- TODO: Add submit action -->
       <form @submit.prevent="">
-        <div class="my-4">
+        <div class="my-4 grid grid-cols-2" v-if="formType == 'signup'">
+          <div class="mr-2 col-span-1">
+            <label for="firstName" class="block mb-1">First Name</label>
+            <input
+              class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
+              v-model="credentials.firstName"
+              placeholder="Ada"
+              type="text"
+            />
+          </div>
+          <div class="ml-2 col-span-1">
+            <label for="lastName" class="block mb-1">Last Name</label>
+            <input
+              class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
+              v-model="credentials.lastName"
+              placeholder="Lovelace"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="my-6">
           <label for="email" class="block mb-1">Email</label>
           <input
             class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
             v-model="credentials.email"
-            placeholder="alice@example.com"
+            placeholder="ada@example.com"
             type="text"
           />
         </div>
@@ -19,7 +39,7 @@
           <input
             class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
             v-model="credentials.password"
-            placeholder="••••••••"
+            placeholder="••••••••••••••••"
             type="password"
           />
         </div>
@@ -29,7 +49,7 @@
           <input
             class="w-full px-3 py-1 text-gray-800 rounded bg-nord4"
             v-model="credentials.confirmPassword"
-            placeholder="••••••••"
+            placeholder="••••••••••••••••"
             type="password"
           />
         </div>
@@ -71,9 +91,11 @@
   import { defineComponent } from 'vue'
 
   interface Credentials {
-    email: string
-    password: string
-    confirmPassword: string
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
   }
 
   export default defineComponent({
@@ -90,6 +112,8 @@
     data() {
       return {
         credentials: {
+          firstName: '',
+          lastName: '',
           email: '',
           password: '',
           confirmPassword: '',
@@ -107,6 +131,8 @@
       },
       clearFields(): void {
         this.credentials = {
+          firstName: '',
+          lastName: '',
           email: '',
           password: '',
           confirmPassword: '',
