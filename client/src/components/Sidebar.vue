@@ -99,7 +99,7 @@
           </div>
         </router-link>
       </div>
-      <button @click="signOut" class="px-3 py-2 rounded bg-nord9">
+      <button @click="callSignOut" class="px-3 py-2 rounded bg-nord9">
         Sign Out
       </button>
     </div>
@@ -114,9 +114,6 @@
   export default defineComponent({
     name: 'Sidebar',
     methods: {
-      signOut() {
-        this.$store.dispatch('signOutAction')
-      },
       collapse() {
         const currPos = $('#sidebar-content').css('left')
         if (currPos == '0px') {
@@ -130,6 +127,9 @@
           $('.page-content').css('opacity', '0%')
           $('.page-content').css('visibility', 'hidden')
         }
+      },
+      callSignOut() {
+        this.$store.dispatch('auth/signOut')
       },
     },
   })

@@ -89,6 +89,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import router from '../router/index'
 
   interface Credentials {
     firstName: string,
@@ -167,10 +168,9 @@
         this.clearFields()
       },
     },
-    // TODO: Call signIn with cookie on mount, redirect to dashboard on success
-    /* mounted() { */
-    /*   this.$store.dispatch('auth/signIn', this.credentials) */
-    /* } */
+    mounted() {
+      this.$store.dispatch('auth/autoSignIn')
+    }
   })
 </script>
 
