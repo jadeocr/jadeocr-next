@@ -23,9 +23,16 @@ First set up a MongoDB server (locally or on [MongoDB Atlas](https://www.mongodb
 ```typescript
 let mongooseURL = 'my_mongodb_url_with_key'
 export { mongooseURL as mongooseURL }
+
+On the server, you also need python3 and [TensorTlow Lite](https://www.tensorflow.org/lite/guide/python)
+
 ```
 Then run the following
 ```bash
+apt install git
+pip3 install svg.path numpy
+pip3 install git+https://github.com/mcyph/cnn_chinese_hw
+
 cd server
 yarn && yarn dev # Starts dev server on http://localhost:3000
 ```
