@@ -24,7 +24,7 @@ First set up a MongoDB server (locally or on [MongoDB Atlas](https://www.mongodb
 let mongooseURL = 'my_mongodb_url_with_key'
 export { mongooseURL as mongooseURL }
 ```
-On the server, you also need python3 and [TensorTlow Lite](https://www.tensorflow.org/lite/guide/python)  
+On the server, you also need python3 and [TensorFlow Lite](https://www.tensorflow.org/lite/guide/python)  
 Then run the following
 ```bash
 apt install git
