@@ -1,0 +1,122 @@
+%%
+headers
+#define NO_IMPORT_PYGOBJECT
+#include "pytomoe-utils.h"
+#include "tomoe-dict.h"
+%%
+new-constructor TOMOE_TYPE_DICT
+%%
+ignore
+  tomoe_dict_load_module
+  tomoe_dict_get_registered_types
+  tomoe_dict_get_log_domains
+%%
+override tomoe_dict_new kwargs
+static int
+_wrap_tomoe_dict_new(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    PyObject *first_arg;
+    TomoeModule *module;
+    gchar *dict_name, *type_name;
+    GObjectClass *class;
+    GType obj_type;
+    GParameter *params = NULL;
+    guint n = 0;
+
+    if (PyTuple_Size(args) < 1) {
+        PyErr_SetString(PyExc_TypeError, "requires at least one argument");
+        return -1;
+    }
+
+    first_arg = PyTuple_GetItem(args, 0);
+    if (!PyString_Check(first_arg)) {
+        PyErr_SetString(PyExc_TypeError,
+                        "first argument should be a string");
+        return -1;
+    }
+
+    dict_name = g_ascii_strdown(PyString_AsString(first_arg), PyString_Size(first_arg));
+    module = tomoe_dict_load_module(dict_name);
+    type_name = g_strconcat("TomoeDict", PyString_AsString(first_arg), NULL);
+    g_free(dict_name);
+
+    obj_type = g_type_from_name(type_name);
+    if (!obj_type) {
+        PyErr_Format(PyExc_TypeError,
+                     "object of type `%s' doesn't exist", type_name);
+        g_free(type_name);
+        return -1;
+    }
+    g_free(type_name);
+
+    class = g_type_class_ref(obj_type);
+
+    if (kwargs) {
+        int pos = 0;
+        PyObject *key;
+        PyObject *value;
+
+        params = g_new0(GParameter, PyDict_Size(kwargs));
+        while (PyDict_Next (kwargs, &pos, &key, &value)) {
+            GParamSpec *pspec;
+            gchar *key_str = PyString_AsString(key);
+
+            pspec = g_object_class_find_property(class, key_str);
+            if (!pspec) {
+                PyErr_Format(PyExc_TypeError,
+                             "object of type `%s' doesn't support property `%s'",
+                             g_type_name(obj_type), key_str);
+                goto END;
+            }
+            g_value_init(&params[n].value,
+            G_PARAM_SPEC_VALUE_TYPE(pspec));
+            if (pyg_value_from_pyobject(&params[n].value, value)) {
+                PyErr_Format(PyExc_TypeError,
+                             "could not convert value for property `%s'",
+                             key_str);
+                goto END;
+            }
+            params[n].name = g_strdup(key_str);
+            n++;
+        }
+    }
+
+    if (self->obj == NULL) {
+        GObject *obj;
+        obj = g_object_newv(obj_type, n, params);
+        self->obj = obj;
+        pygobject_register_wrapper((PyObject *) self);
+    }
+
+END:
+    while (n--) {
+        g_free((gchar *) params[n].name);
+        g_value_unset(&params[n].value);
+    }
+    g_free(params);
+    g_type_class_unref(class);
+
+    return self->obj ? 0 : -1;
+}
+%%
+override tomoe_dict_search kwargs
+static PyObject *
+_wrap_tomoe_dict_search(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "query", NULL };
+    PyGObject *query;
+    GList *candidates;
+    PyObject *py_cands;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!:TomoeDict.search", kwlist, &PyTomoeQuery_Type, &query))
+        return NULL;
+    
+    candidates = tomoe_dict_search (TOMOE_DICT(self->obj), TOMOE_QUERY(query->obj));
+    
+    CONVERT_OBJECT_LIST (py_cands, candidates);
+
+    g_list_free (candidates);
+
+    return py_cands;
+}
+%%

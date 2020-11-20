@@ -1,0 +1,12 @@
+* Merge same characters of different dictionaries in search output.
+* Transformation of reading search pattern, e.g. ka > か, か > カ, か > ka
+  should be language independent.
+* Implement advanced searching.
+* Add modulized dictionary types.
+  - CHISE?
+* Asynchronous dictionary loading?
+* Asynchronous searching?
+* Prepare character data base.
+* HMM! HMM!
+* Write document.
+* Implement partial match searching.

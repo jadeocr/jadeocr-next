@@ -1,0 +1,29 @@
+test:
+  adapter: mysql
+  database: tomoe-test
+  username: root
+  password:
+  host: localhost
+  socket: /var/run/mysqld/mysqld.sock
+  encoding: utf8
+  editable: true
+
+temp:
+  adapter: mysql
+  database: tomoe-temp
+  username: root
+  password:
+  host: localhost
+  socket: /var/run/mysqld/mysqld.sock
+  encoding: utf8
+  editable: true
+
+benchmark:
+  adapter: mysql
+  database: tomoe-benchmark
+  username: root
+  password:
+  host: localhost
+  socket: /var/run/mysqld/mysqld.sock
+  encoding: utf8
+  editable: false

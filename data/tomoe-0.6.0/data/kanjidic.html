@@ -1,0 +1,175 @@
+<html><head><title>The KANJIDIC Home Page</title></head><body bgcolor="white">
+<center>
+<h2> The Home Page of the</h2>
+<h1>KANJIDIC/KANJD212</h1> 
+<h2>Project</h2>
+</center>
+
+<em>The following is summary information about <b>KANJIDIC</b> and
+<b>KANJD212</b> Kanji database files. For complete documentation, see the <a href="http://www.csse.monash.edu.au/%7Ejwb/kanjidic_doc.html">kanjidic</a> and <a href="http://www.csse.monash.edu.au/%7Ejwb/kanjd212_doc.html">kanjd212</a> documentation files. 
+</em>
+
+<p><font color="red"><b>NEW!:</b> </font>
+</p><ul>
+<!--
+<li> The German version of KANJIDIC, with meanings translated/compiled
+by Hans-Joerg Bibiko.
+It can be downloaded <a
+href="kanjidic_de.gz">here</a> or <a
+href="http://ftp.monash.edu.au/pub/nihongo/kanjidic_de.gz">here</a>. (It
+is in UTF8 coding instead of the usual EUC-JP.)
+-->
+<li>The KANJIDIC2 file, which is an XML-format version of
+the data in KANJIDIC and KANJD212 is now available. The KANJIDIC2 page
+is <a href="http://www.csse.monash.edu.au/%7Ejwb/kanjidic2">here</a>.
+</li><li>The Spanish version of KANJIDIC, with Spanish meanings translated by
+Francisco Gutierrez. 
+It can be downloaded <a href="http://www.csse.monash.edu.au/%7Ejwb/kanjidic_es.gz">here</a> or <a href="http://ftp.monash.edu.au/pub/nihongo/kanjidic_es.gz">here</a>. (It
+also is in UTF8 coding.)
+</li></ul>
+
+<p><b>Introduction</b>
+
+</p><p> The <b>KANJIDIC</b> file contains comprehensive information 
+about Japanese kanji. It is  a  text file currently 6,353 lines 
+long,  with one line for each kanji in the two levels of the 
+characters specified in the JIS X 0208-1990  set.  (For information  
+about this set,  see Appendix A of the documentation file.) </p><p>
+
+The <b>KANJD212</b> file contains comprehensive information about the
+5,801 kanji in the JIS X 0212-1990 supplementary character set.
+</p><p>
+The files have been compiled and maintained by
+<a href="http://www.csse.monash.edu.au/%7Ejwb/index.html">Jim Breen</a>,
+and were cited as references used in the compilation of the new
+edition of the Nelson character dictionary.</p><p>
+</p><p>
+<b>Is it Public Domain?</b>
+</p>
+<p>
+KANJIDIC, KANJD212 and KANJIDIC2 can be freely used provided satisfactory 
+acknowledgement is made
+in any software product, server, etc. that uses them. There are a few other 
+conditions relating to distributing copies of the files with or without
+modification.  Copyright is vested in the
+ <a href="http://www.csse.monash.edu.au/%7Ejwb/edrdg/">EDRG </a>
+(Electronic Dictionary Research Group)
+here at Monash University. You can see the specific
+ <a href="http://www.csse.monash.edu.au/%7Ejwb/edrdg/licence.html">licence statement </a>
+at the Group's site.
+</p>
+The files are available from the Monash University ftp site 
+<a href="http://ftp.monash.edu.au/pub/nihongo/kanjidic.gz">here</a> and
+<a href="http://ftp.monash.edu.au/pub/nihongo/kanjd212.gz">here</a>.
+<p>
+The information about each kanji consists of: 
+</p><ul> 
+<li> coding information about the kanji: including its identification 
+in various code-sets (JIS, Unicode), and identifying codes derived 
+from its structure (radical, stroke-count, Four-Corner, SKIP); 
+
+</li><li> lexicographic information about the kanji: pronunciations and 
+meanings; 
+
+</li><li> indexing information providing identification of the kanji in 
+several major dictionaries and reference books. 
+</li></ul>
+
+<b>KANJIDIC</b>  is used now to build the kinfo.dat file which is 
+used by JDIC, JREADER, WinJDic  and JWPce.  kinfo.dat  contains  the  
+identical information,  but  in  a compressed form and in a 
+structure suitable for fast indexed access. <b>KANJIDIC</b>  is  
+also  used in its native format by the xjdic and MacJDic dictionary 
+programs,  the WWWJDIC server, and a growing number of other programs such as KDRILL and 
+KDIC. <p>
+
+The files contains a mixture of ASCII characters and kana/kanji 
+encoded using the EUC (Extended Unix Code) coding. The following is 
+an example (folded) of one of the entry lines in <b>KANJIDIC</b>; 
+the kanji with the meaning "east". </p><p>
+
+<img src="kanjidic.html.content/kdsamp1.gif">
+
+</p><p>
+
+Apart from the first two fields, the information fields 
+in each entry have an identifying capital letter. The fields in 
+the sample entry are:
+
+</p><ul> 
+
+<li> the kanji itself; 
+
+</li><li> the JIS code of the kanji in hexadecimal; 
+
+</li><li> [U] the Unicode/ISO 10646 code of the kanji in hexadecimal; 
+
+</li><li> [N] the index in Nelson (Modern Reader's Japanese-English 
+Character Dictionary) 
+
+</li><li> [B] the classification radical number of the kanji (as in 
+Nelson); 
+
+</li><li> [C] the "classical" radical number (where this differs from 
+the one used in Nelson); 
+
+</li><li> [S] the total stroke-count of the kanji; 
+
+</li><li> [G] the "grade" of the kanji, In this case, G2 means it is 
+a Jouyou (general use) kanji taught in the second year of elementary 
+schooling in Japan; 
+
+</li><li> [H] the index in Halpern (New Japanese-English Character 
+Dictionary); 
+
+</li><li> [F] the rank-order frequency of occurrence of the kanji in 
+Japanese; 
+
+</li><li> [P] the "SKIP" coding of the kanji, as used in Halpern; 
+
+</li><li> [K] the index in the  Gakken  Kanji  Dictionary  (A  New 
+Dictionary  of Kanji Usage); 
+
+</li><li> [L] the index in Heisig (Remembering The  Kanji); 
+
+</li><li> [I] the index in  the  Spahn  &amp;  Hadamitsky  dictionary.  
+
+</li><li> [Q] the Four-Corner code; 
+
+</li><li> [MN,MP] the index and page number in the 13-volume Morohashi 
+"DaiKanWaJiten"; 
+
+</li><li> [E] the index in Henshall (A Guide To Remembering Japanese 
+Characters); 
+
+</li><li> [Y] the PinYin (Chinese) pronunciation(s) of the kanji; 
+
+</li><li> the Japanese pronunciations or "readings" of the kanji. These 
+are in the katakana script for "ON" (i.e of Chinese origin) 
+readings, and hiragana for "KUN" (Japanese origin) readings. Thus <p>
+<img src="kanjidic.html.content/tou.gif"> </p><p>
+is the ON reading, and </p><p>
+<img src="kanjidic.html.content/higashi.gif"> </p><p>
+is the KUN reading. These are optionally followed by a "T" plus one or more 
+"nanori", which are the special readings only used with proper names. 
+
+</p></li><li> Finally, the meanings associated with the kanji, each 
+encapsulated with {...}. 
+
+</li></ul> 
+
+<p> <b>KANJIDIC</b> is available from a number of ftp archive sites around the
+world. The master site is Monash University's <a href="http://ftp.monash.edu.au/pub/nihongo/00INDEX.html">Nihongo FTP
+Archive</a>
+archive, where it is available in .zip and .gz compression. The
+"kinfo.dat" file is in the kinfo26.zip archive.
+</p><p>
+If you want to explore <b>KANJIDIC</b> using the Web, try my <a href="http://www.csse.monash.edu.au/%7Ejwb/wwwjdic.html">WWWJDIC</a> server, which supports both KANJIDIC and
+KANJD212. If you don't have a browser with Japanese support, you can use
+a portal which provides graphics of the Japanese characters.
+</p><p>
+<em>
+<a href="http://www.csse.monash.edu.au/%7Ejwb/japanese.html">Return to Jim's Japanese Page</a>
+</em>
+
+</p></body></html>

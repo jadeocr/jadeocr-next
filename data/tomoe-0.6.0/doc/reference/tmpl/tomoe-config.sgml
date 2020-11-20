@@ -1,0 +1,77 @@
+<!-- ##### SECTION Title ##### -->
+TomoeConfig
+
+<!-- ##### SECTION Short_Description ##### -->
+An object of configuration file.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT TomoeConfig ##### -->
+<para>
+The #TomoeConfig struct contains only
+private fields and should not be directly accessed.
+</para>
+
+
+<!-- ##### ARG TomoeConfig:filename ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION tomoe_config_new ##### -->
+<para>
+
+</para>
+
+@config_file: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_config_get_filename ##### -->
+<para>
+
+</para>
+
+@config: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_config_get_user_dict_name ##### -->
+<para>
+
+</para>
+
+@config: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_config_make_shelf ##### -->
+<para>
+
+</para>
+
+@config: 
+@language: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_config_get_languages ##### -->
+<para>
+
+</para>
+
+@config: 
+@Returns: 
+
+

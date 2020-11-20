@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeConfig</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeChar.html" title="TomoeChar">
+<link rel="next" href="TomoeContext.html" title="TomoeContext">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeChar.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="TomoeContext.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2554468" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2554671" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2554612" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2554636" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeConfig"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2554468"></a><span class="refentrytitle">TomoeConfig</span>
+</h2>
+<p>TomoeConfig &#8212; An object of configuration file.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a href="TomoeConfig.html#TomoeConfig-struct">TomoeConfig</a>;
+<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a>*        <a href="TomoeConfig.html#tomoe-config-new">tomoe_config_new</a>                    (const gchar *config_file);
+const gchar*        <a href="TomoeConfig.html#tomoe-config-get-filename">tomoe_config_get_filename</a>           (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config);
+const gchar*        <a href="TomoeConfig.html#tomoe-config-get-user-dict-name">tomoe_config_get_user_dict_name</a>     (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config);
+<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a>*         <a href="TomoeConfig.html#tomoe-config-make-shelf">tomoe_config_make_shelf</a>             (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config,
+                                                         const gchar *language);
+const gchar*const * <a href="TomoeConfig.html#tomoe-config-get-languages">tomoe_config_get_languages</a>          (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2554612"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeConfig
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2554636"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a href="TomoeConfig.html#TomoeConfig--filename">filename</a>"                 gchararray            : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2554671"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2554685"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2554696"></a><h3>
+<a name="TomoeConfig-struct"></a>TomoeConfig</h3>
+<a class="indexterm" name="id2554708"></a><pre class="programlisting">typedef struct _TomoeConfig TomoeConfig;</pre>
+<p>
+The <a href="TomoeConfig.html" title="TomoeConfig"><span class="type">TomoeConfig</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2554732"></a><h3>
+<a name="tomoe-config-new"></a>tomoe_config_new ()</h3>
+<a class="indexterm" name="id2554745"></a><pre class="programlisting"><a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a>*        tomoe_config_new                    (const gchar *config_file);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>config_file</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2554801"></a><h3>
+<a name="tomoe-config-get-filename"></a>tomoe_config_get_filename ()</h3>
+<a class="indexterm" name="id2554815"></a><pre class="programlisting">const gchar*        tomoe_config_get_filename           (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>config</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2554872"></a><h3>
+<a name="tomoe-config-get-user-dict-name"></a>tomoe_config_get_user_dict_name ()</h3>
+<a class="indexterm" name="id2554885"></a><pre class="programlisting">const gchar*        tomoe_config_get_user_dict_name     (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>config</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2554943"></a><h3>
+<a name="tomoe-config-make-shelf"></a>tomoe_config_make_shelf ()</h3>
+<a class="indexterm" name="id2554956"></a><pre class="programlisting"><a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a>*         tomoe_config_make_shelf             (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config,
+                                                         const gchar *language);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>config</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>language</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2555034"></a><h3>
+<a name="tomoe-config-get-languages"></a>tomoe_config_get_languages ()</h3>
+<a class="indexterm" name="id2555048"></a><pre class="programlisting">const gchar*const * tomoe_config_get_languages          (<a href="TomoeConfig.html" title="TomoeConfig">TomoeConfig</a> *config);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>config</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2555106"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2555116"></a><h3>
+<a name="TomoeConfig--filename"></a>The "<code class="literal">filename</code>" property</h3>
+<a class="indexterm" name="id2555133"></a><pre class="programlisting">  "filename"                 gchararray            : Read / Write / Construct</pre>
+<p>The filename for storing user settings.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<refentry id="TomoeWriting">
+<refmeta>
+<refentrytitle role="top_of_page">TomoeWriting</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>TOMOE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>TomoeWriting</refname>
+<refpurpose>An object for representing hand-writing strokes data</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="TOMOE-WRITING-WIDTH:CAPS">TOMOE_WRITING_WIDTH</link>
+#define             <link linkend="TOMOE-WRITING-HEIGHT:CAPS">TOMOE_WRITING_HEIGHT</link>
+#define             <link linkend="TOMOE-TYPE-POINT:CAPS">TOMOE_TYPE_POINT</link>
+                    <link linkend="TomoePoint">TomoePoint</link>;
+                    <link linkend="TomoeWriting-struct">TomoeWriting</link>;
+<link linkend="TomoeWriting">TomoeWriting</link>*       <link linkend="tomoe-writing-new">tomoe_writing_new</link>                   (void);
+<link linkend="void">void</link>                <link linkend="tomoe-writing-move-to">tomoe_writing_move_to</link>               (<link linkend="TomoeWriting">TomoeWriting</link> *writing,
+                                                         <link linkend="gint">gint</link> x,
+                                                         <link linkend="gint">gint</link> y);
+<link linkend="void">void</link>                <link linkend="tomoe-writing-line-to">tomoe_writing_line_to</link>               (<link linkend="TomoeWriting">TomoeWriting</link> *writing,
+                                                         <link linkend="gint">gint</link> x,
+                                                         <link linkend="gint">gint</link> y);
+<link linkend="void">void</link>                <link linkend="tomoe-writing-clear">tomoe_writing_clear</link>                 (<link linkend="TomoeWriting">TomoeWriting</link> *writing);
+<link linkend="guint">guint</link>               <link linkend="tomoe-writing-get-n-strokes">tomoe_writing_get_n_strokes</link>         (<link linkend="TomoeWriting">TomoeWriting</link> *writing);
+<link linkend="void">void</link>                <link linkend="tomoe-writing-remove-last-stroke">tomoe_writing_remove_last_stroke</link>    (<link linkend="TomoeWriting">TomoeWriting</link> *writing);
+const <link linkend="GList">GList</link>*        <link linkend="tomoe-writing-get-strokes">tomoe_writing_get_strokes</link>           (<link linkend="TomoeWriting">TomoeWriting</link> *writing);
+<link linkend="gchar">gchar</link>*              <link linkend="tomoe-writing-to-xml">tomoe_writing_to_xml</link>                (<link linkend="TomoeWriting">TomoeWriting</link> *writing);
+<link linkend="GType">GType</link>               <link linkend="tomoe-point-get-type">tomoe_point_get_type</link>                (void);
+<link linkend="TomoePoint">TomoePoint</link>*         <link linkend="tomoe-point-new">tomoe_point_new</link>                     (<link linkend="gint">gint</link> x,
+                                                         <link linkend="gint">gint</link> y);
+<link linkend="TomoePoint">TomoePoint</link>*         <link linkend="tomoe-point-copy">tomoe_point_copy</link>                    (const <link linkend="TomoePoint">TomoePoint</link> *point);
+<link linkend="void">void</link>                <link linkend="tomoe-point-free">tomoe_point_free</link>                    (<link linkend="TomoePoint">TomoePoint</link> *point);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----TomoeWriting
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="TOMOE-WRITING-WIDTH:CAPS" role="macro"/>TOMOE_WRITING_WIDTH</title>
+<indexterm><primary>TOMOE_WRITING_WIDTH</primary></indexterm><programlisting>#define TOMOE_WRITING_WIDTH 1000
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="TOMOE-WRITING-HEIGHT:CAPS" role="macro"/>TOMOE_WRITING_HEIGHT</title>
+<indexterm><primary>TOMOE_WRITING_HEIGHT</primary></indexterm><programlisting>#define TOMOE_WRITING_HEIGHT 1000
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="TOMOE-TYPE-POINT:CAPS" role="macro"/>TOMOE_TYPE_POINT</title>
+<indexterm><primary>TOMOE_TYPE_POINT</primary></indexterm><programlisting>#define TOMOE_TYPE_POINT              (tomoe_point_get_type ())
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="TomoePoint" role="struct"/>TomoePoint</title>
+<indexterm><primary>TomoePoint</primary></indexterm><programlisting>typedef struct {
+    gint x;
+    gint y;
+} TomoePoint;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="TomoeWriting-struct" role="struct"/>TomoeWriting</title>
+<indexterm><primary>TomoeWriting</primary></indexterm><programlisting>typedef struct _TomoeWriting TomoeWriting;</programlisting>
+<para>
+The <link linkend="TomoeWriting"><type>TomoeWriting</type></link> struct contains only
+private fields and should not be directly accessed.
+</para></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-new" role="function"/>tomoe_writing_new ()</title>
+<indexterm><primary>tomoe_writing_new</primary></indexterm><programlisting><link linkend="TomoeWriting">TomoeWriting</link>*       tomoe_writing_new                   (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-move-to" role="function"/>tomoe_writing_move_to ()</title>
+<indexterm><primary>tomoe_writing_move_to</primary></indexterm><programlisting><link linkend="void">void</link>                tomoe_writing_move_to               (<link linkend="TomoeWriting">TomoeWriting</link> *writing,
+                                                         <link linkend="gint">gint</link> x,
+                                                         <link linkend="gint">gint</link> y);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-line-to" role="function"/>tomoe_writing_line_to ()</title>
+<indexterm><primary>tomoe_writing_line_to</primary></indexterm><programlisting><link linkend="void">void</link>                tomoe_writing_line_to               (<link linkend="TomoeWriting">TomoeWriting</link> *writing,
+                                                         <link linkend="gint">gint</link> x,
+                                                         <link linkend="gint">gint</link> y);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-clear" role="function"/>tomoe_writing_clear ()</title>
+<indexterm><primary>tomoe_writing_clear</primary></indexterm><programlisting><link linkend="void">void</link>                tomoe_writing_clear                 (<link linkend="TomoeWriting">TomoeWriting</link> *writing);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-get-n-strokes" role="function"/>tomoe_writing_get_n_strokes ()</title>
+<indexterm><primary>tomoe_writing_get_n_strokes</primary></indexterm><programlisting><link linkend="guint">guint</link>               tomoe_writing_get_n_strokes         (<link linkend="TomoeWriting">TomoeWriting</link> *writing);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-remove-last-stroke" role="function"/>tomoe_writing_remove_last_stroke ()</title>
+<indexterm><primary>tomoe_writing_remove_last_stroke</primary></indexterm><programlisting><link linkend="void">void</link>                tomoe_writing_remove_last_stroke    (<link linkend="TomoeWriting">TomoeWriting</link> *writing);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-get-strokes" role="function"/>tomoe_writing_get_strokes ()</title>
+<indexterm><primary>tomoe_writing_get_strokes</primary></indexterm><programlisting>const <link linkend="GList">GList</link>*        tomoe_writing_get_strokes           (<link linkend="TomoeWriting">TomoeWriting</link> *writing);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-writing-to-xml" role="function"/>tomoe_writing_to_xml ()</title>
+<indexterm><primary>tomoe_writing_to_xml</primary></indexterm><programlisting><link linkend="gchar">gchar</link>*              tomoe_writing_to_xml                (<link linkend="TomoeWriting">TomoeWriting</link> *writing);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>writing</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-point-get-type" role="function"/>tomoe_point_get_type ()</title>
+<indexterm><primary>tomoe_point_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               tomoe_point_get_type                (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-point-new" role="function"/>tomoe_point_new ()</title>
+<indexterm><primary>tomoe_point_new</primary></indexterm><programlisting><link linkend="TomoePoint">TomoePoint</link>*         tomoe_point_new                     (<link linkend="gint">gint</link> x,
+                                                         <link linkend="gint">gint</link> y);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-point-copy" role="function"/>tomoe_point_copy ()</title>
+<indexterm><primary>tomoe_point_copy</primary></indexterm><programlisting><link linkend="TomoePoint">TomoePoint</link>*         tomoe_point_copy                    (const <link linkend="TomoePoint">TomoePoint</link> *point);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>point</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-point-free" role="function"/>tomoe_point_free ()</title>
+<indexterm><primary>tomoe_point_free</primary></indexterm><programlisting><link linkend="void">void</link>                tomoe_point_free                    (<link linkend="TomoePoint">TomoePoint</link> *point);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>point</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

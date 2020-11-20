@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeShelf</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeRecognizer.html" title="TomoeRecognizer">
+<link rel="next" href="TomoeWriting.html" title="TomoeWriting">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeRecognizer.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="TomoeWriting.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2569857" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2570070" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2570045" class="shortcut">Object Hierarchy</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeShelf"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2569857"></a><span class="refentrytitle">TomoeShelf</span>
+</h2>
+<p>TomoeShelf &#8212; An object of dictionaries.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a href="TomoeShelf.html#TomoeShelf-struct">TomoeShelf</a>;
+<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a>*         <a href="TomoeShelf.html#tomoe-shelf-new">tomoe_shelf_new</a>                     (void);
+<a href="TomoeDict.html" title="TomoeDict">TomoeDict</a>*          <a href="TomoeShelf.html#tomoe-shelf-get-dict">tomoe_shelf_get_dict</a>                (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name);
+void                <a href="TomoeShelf.html#tomoe-shelf-register-dict">tomoe_shelf_register_dict</a>           (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name,
+                                                         <a href="TomoeDict.html" title="TomoeDict">TomoeDict</a> *dict);
+gboolean            <a href="TomoeShelf.html#tomoe-shelf-unregister-dict">tomoe_shelf_unregister_dict</a>         (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name);
+GList*              <a href="TomoeShelf.html#tomoe-shelf-get-dict-names">tomoe_shelf_get_dict_names</a>          (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf);
+gboolean            <a href="TomoeShelf.html#tomoe-shelf-has-dict">tomoe_shelf_has_dict</a>                (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2570045"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeShelf
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2570070"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2570084"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2570094"></a><h3>
+<a name="TomoeShelf-struct"></a>TomoeShelf</h3>
+<a class="indexterm" name="id2570108"></a><pre class="programlisting">typedef struct _TomoeShelf TomoeShelf;</pre>
+<p>
+The <a href="TomoeShelf.html" title="TomoeShelf"><span class="type">TomoeShelf</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2570132"></a><h3>
+<a name="tomoe-shelf-new"></a>tomoe_shelf_new ()</h3>
+<a class="indexterm" name="id2570145"></a><pre class="programlisting"><a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a>*         tomoe_shelf_new                     (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2570181"></a><h3>
+<a name="tomoe-shelf-get-dict"></a>tomoe_shelf_get_dict ()</h3>
+<a class="indexterm" name="id2570194"></a><pre class="programlisting"><a href="TomoeDict.html" title="TomoeDict">TomoeDict</a>*          tomoe_shelf_get_dict                (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>shelf</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2570272"></a><h3>
+<a name="tomoe-shelf-register-dict"></a>tomoe_shelf_register_dict ()</h3>
+<a class="indexterm" name="id2570285"></a><pre class="programlisting">void                tomoe_shelf_register_dict           (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name,
+                                                         <a href="TomoeDict.html" title="TomoeDict">TomoeDict</a> *dict);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>shelf</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>dict</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2570374"></a><h3>
+<a name="tomoe-shelf-unregister-dict"></a>tomoe_shelf_unregister_dict ()</h3>
+<a class="indexterm" name="id2570387"></a><pre class="programlisting">gboolean            tomoe_shelf_unregister_dict         (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>shelf</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2570464"></a><h3>
+<a name="tomoe-shelf-get-dict-names"></a>tomoe_shelf_get_dict_names ()</h3>
+<a class="indexterm" name="id2570478"></a><pre class="programlisting">GList*              tomoe_shelf_get_dict_names          (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>shelf</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2570534"></a><h3>
+<a name="tomoe-shelf-has-dict"></a>tomoe_shelf_has_dict ()</h3>
+<a class="indexterm" name="id2570547"></a><pre class="programlisting">gboolean            tomoe_shelf_has_dict                (<a href="TomoeShelf.html" title="TomoeShelf">TomoeShelf</a> *shelf,
+                                                         const gchar *name);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>shelf</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeChar</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeCandidate.html" title="TomoeCandidate">
+<link rel="next" href="TomoeConfig.html" title="TomoeConfig">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeCandidate.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="TomoeConfig.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2549312" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2550016" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2549907" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2549931" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeChar"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2549312"></a><span class="refentrytitle">TomoeChar</span>
+</h2>
+<p>TomoeChar &#8212; An object of character data.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a href="TomoeChar.html#TOMOE-CHAR-PRIVATE-USE-AREA-START:CAPS">TOMOE_CHAR_PRIVATE_USE_AREA_START</a>
+#define             <a href="TomoeChar.html#TOMOE-CHAR-PRIVATE-USE-AREA-END:CAPS">TOMOE_CHAR_PRIVATE_USE_AREA_END</a>
+                    <a href="TomoeChar.html#TomoeChar-struct">TomoeChar</a>;
+<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a>*          <a href="TomoeChar.html#tomoe-char-new">tomoe_char_new</a>                      (void);
+<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a>*          <a href="TomoeChar.html#tomoe-char-new-from-xml-data">tomoe_char_new_from_xml_data</a>        (const gchar *data,
+                                                         gssize len);
+const gchar*        <a href="TomoeChar.html#tomoe-char-get-utf8">tomoe_char_get_utf8</a>                 (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-set-utf8">tomoe_char_set_utf8</a>                 (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const char *utf8);
+gint                <a href="TomoeChar.html#tomoe-char-get-n-strokes">tomoe_char_get_n_strokes</a>            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-set-n-strokes">tomoe_char_set_n_strokes</a>            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         gint n_strokes);
+const GList*        <a href="TomoeChar.html#tomoe-char-get-readings">tomoe_char_get_readings</a>             (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-add-reading">tomoe_char_add_reading</a>              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         <a href="TomoeReading.html" title="TomoeReading">TomoeReading</a> *reading);
+const GList*        <a href="TomoeChar.html#tomoe-char-get-radicals">tomoe_char_get_radicals</a>             (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-add-radical">tomoe_char_add_radical</a>              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *radical);
+<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>*       <a href="TomoeChar.html#tomoe-char-get-writing">tomoe_char_get_writing</a>              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-set-writing">tomoe_char_set_writing</a>              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+const gchar*        <a href="TomoeChar.html#tomoe-char-get-variant">tomoe_char_get_variant</a>              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-set-variant">tomoe_char_set_variant</a>              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *variant);
+const gchar*        <a href="TomoeChar.html#tomoe-char-get-meta-data">tomoe_char_get_meta_data</a>            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *key);
+void                <a href="TomoeChar.html#tomoe-char-register-meta-data">tomoe_char_register_meta_data</a>       (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *key,
+                                                         const gchar *value);
+gboolean            <a href="TomoeChar.html#tomoe-char-has-meta-data">tomoe_char_has_meta_data</a>            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+void                <a href="TomoeChar.html#tomoe-char-meta-data-foreach">tomoe_char_meta_data_foreach</a>        (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         GHFunc func,
+                                                         gpointer user_data);
+gint                <a href="TomoeChar.html#tomoe-char-compare">tomoe_char_compare</a>                  (const <a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *a,
+                                                         const <a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *b);
+gchar*              <a href="TomoeChar.html#tomoe-char-to-xml">tomoe_char_to_xml</a>                   (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2549907"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeChar
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2549931"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a href="TomoeChar.html#TomoeChar--n-strokes">n-strokes</a>"                gint                  : Read / Write
+  "<a href="TomoeChar.html#TomoeChar--utf8">utf8</a>"                     gchararray            : Read / Write
+  "<a href="TomoeChar.html#TomoeChar--variant">variant</a>"                  gchararray            : Read / Write
+  "<a href="TomoeChar.html#TomoeChar--writing">writing</a>"                  <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>          : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2550016"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2550030"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2550040"></a><h3>
+<a name="TOMOE-CHAR-PRIVATE-USE-AREA-START:CAPS"></a>TOMOE_CHAR_PRIVATE_USE_AREA_START</h3>
+<a class="indexterm" name="id2550054"></a><pre class="programlisting">#define TOMOE_CHAR_PRIVATE_USE_AREA_START 0xE000
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550070"></a><h3>
+<a name="TOMOE-CHAR-PRIVATE-USE-AREA-END:CAPS"></a>TOMOE_CHAR_PRIVATE_USE_AREA_END</h3>
+<a class="indexterm" name="id2550084"></a><pre class="programlisting">#define TOMOE_CHAR_PRIVATE_USE_AREA_END   0xF8FF
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550100"></a><h3>
+<a name="TomoeChar-struct"></a>TomoeChar</h3>
+<a class="indexterm" name="id2550112"></a><pre class="programlisting">typedef struct _TomoeChar TomoeChar;</pre>
+<p>
+The <a href="TomoeChar.html" title="TomoeChar"><span class="type">TomoeChar</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550136"></a><h3>
+<a name="tomoe-char-new"></a>tomoe_char_new ()</h3>
+<a class="indexterm" name="id2550148"></a><pre class="programlisting"><a href="TomoeChar.html" title="TomoeChar">TomoeChar</a>*          tomoe_char_new                      (void);</pre>
+<p>
+Create a new <a href="TomoeChar.html" title="TomoeChar"><span class="type">TomoeChar</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td> a new <a href="TomoeChar.html" title="TomoeChar"><span class="type">TomoeChar</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550203"></a><h3>
+<a name="tomoe-char-new-from-xml-data"></a>tomoe_char_new_from_xml_data ()</h3>
+<a class="indexterm" name="id2550217"></a><pre class="programlisting"><a href="TomoeChar.html" title="TomoeChar">TomoeChar</a>*          tomoe_char_new_from_xml_data        (const gchar *data,
+                                                         gssize len);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>data</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>len</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550295"></a><h3>
+<a name="tomoe-char-get-utf8"></a>tomoe_char_get_utf8 ()</h3>
+<a class="indexterm" name="id2550308"></a><pre class="programlisting">const gchar*        tomoe_char_get_utf8                 (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550364"></a><h3>
+<a name="tomoe-char-set-utf8"></a>tomoe_char_set_utf8 ()</h3>
+<a class="indexterm" name="id2550377"></a><pre class="programlisting">void                tomoe_char_set_utf8                 (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const char *utf8);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>utf8</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550444"></a><h3>
+<a name="tomoe-char-get-n-strokes"></a>tomoe_char_get_n_strokes ()</h3>
+<a class="indexterm" name="id2550457"></a><pre class="programlisting">gint                tomoe_char_get_n_strokes            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550513"></a><h3>
+<a name="tomoe-char-set-n-strokes"></a>tomoe_char_set_n_strokes ()</h3>
+<a class="indexterm" name="id2550526"></a><pre class="programlisting">void                tomoe_char_set_n_strokes            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         gint n_strokes);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>n_strokes</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550593"></a><h3>
+<a name="tomoe-char-get-readings"></a>tomoe_char_get_readings ()</h3>
+<a class="indexterm" name="id2550606"></a><pre class="programlisting">const GList*        tomoe_char_get_readings             (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550664"></a><h3>
+<a name="tomoe-char-add-reading"></a>tomoe_char_add_reading ()</h3>
+<a class="indexterm" name="id2550676"></a><pre class="programlisting">void                tomoe_char_add_reading              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         <a href="TomoeReading.html" title="TomoeReading">TomoeReading</a> *reading);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>reading</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550744"></a><h3>
+<a name="tomoe-char-get-radicals"></a>tomoe_char_get_radicals ()</h3>
+<a class="indexterm" name="id2550757"></a><pre class="programlisting">const GList*        tomoe_char_get_radicals             (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550814"></a><h3>
+<a name="tomoe-char-add-radical"></a>tomoe_char_add_radical ()</h3>
+<a class="indexterm" name="id2550827"></a><pre class="programlisting">void                tomoe_char_add_radical              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *radical);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>radical</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550894"></a><h3>
+<a name="tomoe-char-get-writing"></a>tomoe_char_get_writing ()</h3>
+<a class="indexterm" name="id2550907"></a><pre class="programlisting"><a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>*       tomoe_char_get_writing              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2550964"></a><h3>
+<a name="tomoe-char-set-writing"></a>tomoe_char_set_writing ()</h3>
+<a class="indexterm" name="id2550976"></a><pre class="programlisting">void                tomoe_char_set_writing              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551044"></a><h3>
+<a name="tomoe-char-get-variant"></a>tomoe_char_get_variant ()</h3>
+<a class="indexterm" name="id2551057"></a><pre class="programlisting">const gchar*        tomoe_char_get_variant              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551114"></a><h3>
+<a name="tomoe-char-set-variant"></a>tomoe_char_set_variant ()</h3>
+<a class="indexterm" name="id2551128"></a><pre class="programlisting">void                tomoe_char_set_variant              (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *variant);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>variant</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551195"></a><h3>
+<a name="tomoe-char-get-meta-data"></a>tomoe_char_get_meta_data ()</h3>
+<a class="indexterm" name="id2551208"></a><pre class="programlisting">const gchar*        tomoe_char_get_meta_data            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *key);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551286"></a><h3>
+<a name="tomoe-char-register-meta-data"></a>tomoe_char_register_meta_data ()</h3>
+<a class="indexterm" name="id2551300"></a><pre class="programlisting">void                tomoe_char_register_meta_data       (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         const gchar *key,
+                                                         const gchar *value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>value</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551388"></a><h3>
+<a name="tomoe-char-has-meta-data"></a>tomoe_char_has_meta_data ()</h3>
+<a class="indexterm" name="id2551402"></a><pre class="programlisting">gboolean            tomoe_char_has_meta_data            (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551458"></a><h3>
+<a name="tomoe-char-meta-data-foreach"></a>tomoe_char_meta_data_foreach ()</h3>
+<a class="indexterm" name="id2551471"></a><pre class="programlisting">void                tomoe_char_meta_data_foreach        (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr,
+                                                         GHFunc func,
+                                                         gpointer user_data);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>func</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551560"></a><h3>
+<a name="tomoe-char-compare"></a>tomoe_char_compare ()</h3>
+<a class="indexterm" name="id2551573"></a><pre class="programlisting">gint                tomoe_char_compare                  (const <a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *a,
+                                                         const <a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *b);</pre>
+<p>
+Compare to TomoeChar objects with its own utf8 character.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>a</code></em>&#160;:</span></td>
+<td> a TomoeChar object.
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>b</code></em>&#160;:</span></td>
+<td> a TomoeChar object to compare with.
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td> -1 a &lt; b, 0 a= b, 1 a &gt; b
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551656"></a><h3>
+<a name="tomoe-char-to-xml"></a>tomoe_char_to_xml ()</h3>
+<a class="indexterm" name="id2551669"></a><pre class="programlisting">gchar*              tomoe_char_to_xml                   (<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2551726"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2551737"></a><h3>
+<a name="TomoeChar--n-strokes"></a>The "<code class="literal">n-strokes</code>" property</h3>
+<a class="indexterm" name="id2551753"></a><pre class="programlisting">  "n-strokes"                gint                  : Read / Write</pre>
+<p>Number of strokes of the character.</p>
+<p>Allowed values: &gt;= -1</p>
+<p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551784"></a><h3>
+<a name="TomoeChar--utf8"></a>The "<code class="literal">utf8</code>" property</h3>
+<a class="indexterm" name="id2551799"></a><pre class="programlisting">  "utf8"                     gchararray            : Read / Write</pre>
+<p>UTF8 encoding of the character.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551826"></a><h3>
+<a name="TomoeChar--variant"></a>The "<code class="literal">variant</code>" property</h3>
+<a class="indexterm" name="id2551842"></a><pre class="programlisting">  "variant"                  gchararray            : Read / Write</pre>
+<p>Variant of the character.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2551868"></a><h3>
+<a name="TomoeChar--writing"></a>The "<code class="literal">writing</code>" property</h3>
+<a class="indexterm" name="id2551884"></a><pre class="programlisting">  "writing"                  <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>          : Read / Write</pre>
+<p>Writing of the character.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

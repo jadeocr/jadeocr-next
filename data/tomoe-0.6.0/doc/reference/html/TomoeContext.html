@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeContext</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeConfig.html" title="TomoeConfig">
+<link rel="next" href="TomoeDict.html" title="TomoeDict">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeConfig.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="TomoeDict.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2555914" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2556196" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2556136" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2556160" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeContext"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2555914"></a><span class="refentrytitle">TomoeContext</span>
+</h2>
+<p>TomoeContext &#8212; An object of...</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a href="TomoeContext.html#TomoeContext-struct">TomoeContext</a>;
+<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a>*       <a href="TomoeContext.html#tomoe-context-new">tomoe_context_new</a>                   (void);
+void                <a href="TomoeContext.html#tomoe-context-load-config">tomoe_context_load_config</a>           (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         const gchar *config_file);
+GList*              <a href="TomoeContext.html#tomoe-context-search">tomoe_context_search</a>                (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         <a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+GList*              <a href="TomoeContext.html#tomoe-context-multi-search">tomoe_context_multi_search</a>          (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         GList *queries);
+<a href="TomoeChar.html" title="TomoeChar">TomoeChar</a>*          <a href="TomoeContext.html#tomoe-context-get-char">tomoe_context_get_char</a>              (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         const gchar *utf8);
+gboolean            <a href="TomoeContext.html#tomoe-context-register">tomoe_context_register</a>              (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         <a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);
+gboolean            <a href="TomoeContext.html#tomoe-context-unregister">tomoe_context_unregister</a>            (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         const gchar *utf8);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2556136"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeContext
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2556160"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a href="TomoeContext.html#TomoeContext--recognizer">recognizer</a>"               <a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a>       : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2556196"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2556210"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2556221"></a><h3>
+<a name="TomoeContext-struct"></a>TomoeContext</h3>
+<a class="indexterm" name="id2556232"></a><pre class="programlisting">typedef struct _TomoeContext TomoeContext;</pre>
+<p>
+The <a href="TomoeContext.html" title="TomoeContext"><span class="type">TomoeContext</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556258"></a><h3>
+<a name="tomoe-context-new"></a>tomoe_context_new ()</h3>
+<a class="indexterm" name="id2556271"></a><pre class="programlisting"><a href="TomoeContext.html" title="TomoeContext">TomoeContext</a>*       tomoe_context_new                   (void);</pre>
+<p>
+Create a new <a href="TomoeContext.html" title="TomoeContext"><span class="type">TomoeContext</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td> a new <a href="TomoeContext.html" title="TomoeContext"><span class="type">TomoeContext</span></a>.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556326"></a><h3>
+<a name="tomoe-context-load-config"></a>tomoe_context_load_config ()</h3>
+<a class="indexterm" name="id2556340"></a><pre class="programlisting">void                tomoe_context_load_config           (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         const gchar *config_file);</pre>
+<p>
+Load dictionaries into configuration file.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></td>
+<td> a <a href="TomoeContext.html" title="TomoeContext"><span class="type">TomoeContext</span></a>.
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>config_file</code></em>&#160;:</span></td>
+<td> the filename of configuration file to load.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556421"></a><h3>
+<a name="tomoe-context-search"></a>tomoe_context_search ()</h3>
+<a class="indexterm" name="id2556434"></a><pre class="programlisting">GList*              tomoe_context_search                (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         <a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556512"></a><h3>
+<a name="tomoe-context-multi-search"></a>tomoe_context_multi_search ()</h3>
+<a class="indexterm" name="id2556525"></a><pre class="programlisting">GList*              tomoe_context_multi_search          (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         GList *queries);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>queries</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556602"></a><h3>
+<a name="tomoe-context-get-char"></a>tomoe_context_get_char ()</h3>
+<a class="indexterm" name="id2556615"></a><pre class="programlisting"><a href="TomoeChar.html" title="TomoeChar">TomoeChar</a>*          tomoe_context_get_char              (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         const gchar *utf8);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>utf8</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556693"></a><h3>
+<a name="tomoe-context-register"></a>tomoe_context_register ()</h3>
+<a class="indexterm" name="id2556706"></a><pre class="programlisting">gboolean            tomoe_context_register              (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         <a href="TomoeChar.html" title="TomoeChar">TomoeChar</a> *chr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>chr</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2556783"></a><h3>
+<a name="tomoe-context-unregister"></a>tomoe_context_unregister ()</h3>
+<a class="indexterm" name="id2556796"></a><pre class="programlisting">gboolean            tomoe_context_unregister            (<a href="TomoeContext.html" title="TomoeContext">TomoeContext</a> *ctx,
+                                                         const gchar *utf8);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>utf8</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2556875"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2556886"></a><h3>
+<a name="TomoeContext--recognizer"></a>The "<code class="literal">recognizer</code>" property</h3>
+<a class="indexterm" name="id2556902"></a><pre class="programlisting">  "recognizer"               <a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a>       : Read / Write / Construct Only</pre>
+<p>The recognizer of the context.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<refentry id="TomoeReading">
+<refmeta>
+<refentrytitle role="top_of_page">TomoeReading</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>TOMOE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>TomoeReading</refname>
+<refpurpose>An object of reading data of <link linkend="TomoeChar"><type>TomoeChar</type></link>.</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+                    <link linkend="TomoeReading-struct">TomoeReading</link>;
+enum                <link linkend="TomoeReadingType">TomoeReadingType</link>;
+<link linkend="TomoeReading">TomoeReading</link>*       <link linkend="tomoe-reading-new">tomoe_reading_new</link>                   (<link linkend="TomoeReadingType">TomoeReadingType</link> type,
+                                                         const <link linkend="gchar">gchar</link> *reading);
+<link linkend="TomoeReadingType">TomoeReadingType</link>    <link linkend="tomoe-reading-get-reading-type">tomoe_reading_get_reading_type</link>      (<link linkend="TomoeReading">TomoeReading</link> *reading);
+const <link linkend="gchar">gchar</link>*        <link linkend="tomoe-reading-get-reading">tomoe_reading_get_reading</link>           (<link linkend="TomoeReading">TomoeReading</link> *reading);
+<link linkend="gchar">gchar</link>*              <link linkend="tomoe-reading-to-xml">tomoe_reading_to_xml</link>                (<link linkend="TomoeReading">TomoeReading</link> *reading);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----TomoeReading
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="TomoeReading--reading">reading</link>&quot;                  <link linkend="gchararray">gchararray</link>            : Read / Write / Construct Only
+  &quot;<link linkend="TomoeReading--type">type</link>&quot;                     <link linkend="TomoeReadingType">TomoeReadingType</link>      : Read / Write / Construct Only
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="TomoeReading-struct" role="struct"/>TomoeReading</title>
+<indexterm><primary>TomoeReading</primary></indexterm><programlisting>typedef struct _TomoeReading TomoeReading;</programlisting>
+<para>
+The <link linkend="TomoeReading"><type>TomoeReading</type></link> struct contains only
+private fields and should not be directly accessed.
+</para></refsect2>
+<refsect2>
+<title><anchor id="TomoeReadingType" role="enum"/>enum TomoeReadingType</title>
+<indexterm><primary>TomoeReadingType</primary></indexterm><programlisting>typedef enum {
+    TOMOE_READING_INVALID,
+    TOMOE_READING_UNKNOWN,
+    TOMOE_READING_JA_ON,
+    TOMOE_READING_JA_KUN
+} TomoeReadingType;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="tomoe-reading-new" role="function"/>tomoe_reading_new ()</title>
+<indexterm><primary>tomoe_reading_new</primary></indexterm><programlisting><link linkend="TomoeReading">TomoeReading</link>*       tomoe_reading_new                   (<link linkend="TomoeReadingType">TomoeReadingType</link> type,
+                                                         const <link linkend="gchar">gchar</link> *reading);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>type</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>reading</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-reading-get-reading-type" role="function"/>tomoe_reading_get_reading_type ()</title>
+<indexterm><primary>tomoe_reading_get_reading_type</primary></indexterm><programlisting><link linkend="TomoeReadingType">TomoeReadingType</link>    tomoe_reading_get_reading_type      (<link linkend="TomoeReading">TomoeReading</link> *reading);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>reading</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-reading-get-reading" role="function"/>tomoe_reading_get_reading ()</title>
+<indexterm><primary>tomoe_reading_get_reading</primary></indexterm><programlisting>const <link linkend="gchar">gchar</link>*        tomoe_reading_get_reading           (<link linkend="TomoeReading">TomoeReading</link> *reading);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>reading</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-reading-to-xml" role="function"/>tomoe_reading_to_xml ()</title>
+<indexterm><primary>tomoe_reading_to_xml</primary></indexterm><programlisting><link linkend="gchar">gchar</link>*              tomoe_reading_to_xml                (<link linkend="TomoeReading">TomoeReading</link> *reading);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>reading</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="TomoeReading--reading"/>The &quot;<literal>reading</literal>&quot; property</title>
+<indexterm><primary>TomoeReading:reading</primary></indexterm><programlisting>  &quot;reading&quot;                  <link linkend="gchararray">gchararray</link>            : Read / Write / Construct Only</programlisting>
+<para>Reading of the reading.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="TomoeReading--type"/>The &quot;<literal>type</literal>&quot; property</title>
+<indexterm><primary>TomoeReading:type</primary></indexterm><programlisting>  &quot;type&quot;                     <link linkend="TomoeReadingType">TomoeReadingType</link>      : Read / Write / Construct Only</programlisting>
+<para>A type of the reading.</para><para>Default value: TOMOE_READING_INVALID</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

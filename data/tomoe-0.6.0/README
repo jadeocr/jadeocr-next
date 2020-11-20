@@ -1,0 +1,28 @@
+1. What's this?
+===============
+
+Tomoe is originally a handwriting character recognition engine.
+
+Current Tomoe does not only provide handwriting recognition engine but also
+provide other character searching API such as searching by readings, stroke
+counts, radicals, valiations and so on.
+
+2. Licence
+==========
+
+LGPL except KANJIDIC2 (data/kanjidic2-original.xml). The
+file is the property of the Electronic Dictionary Research
+and Development Group(*1) at Monash University, and are used
+in conformance with the Group's licence(*2). KANJIDIC2
+documentation files are data/kanjidic.html and
+data/kanjidic2.html, licence file is
+data/kanjidic-licence.html.
+
+(*1) http://www.csse.monash.edu.au/~jwb/edrdg/
+(*2) http://www.csse.monash.edu.au/~jwb/edrdg/licence.html
+
+3. Requirements
+===============
+
+glib-2.4 or later
+

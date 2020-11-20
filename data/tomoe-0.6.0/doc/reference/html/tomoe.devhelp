@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="Tomoe Reference Manual" link="index.html" author="" name="tomoe">
+  <chapters>
+    <sub name="Tomoe Core" link="tomoe.html">
+      <sub name="tomoe" link="tomoe-tomoe.html"/>
+      <sub name="TomoeCandidate" link="TomoeCandidate.html"/>
+      <sub name="TomoeChar" link="TomoeChar.html"/>
+      <sub name="TomoeConfig" link="TomoeConfig.html"/>
+      <sub name="TomoeContext" link="TomoeContext.html"/>
+      <sub name="TomoeDict" link="TomoeDict.html"/>
+      <sub name="TomoeQuery" link="TomoeQuery.html"/>
+      <sub name="TomoeReading" link="TomoeReading.html"/>
+      <sub name="TomoeRecognizer" link="TomoeRecognizer.html"/>
+      <sub name="TomoeShelf" link="TomoeShelf.html"/>
+      <sub name="TomoeWriting" link="TomoeWriting.html"/>
+    </sub>
+    <sub name="Index" link="ix01.html"/>
+  </chapters>
+  <functions>
+    <function name="tomoe_init ()" link="tomoe-tomoe.html#tomoe-init"/>
+    <function name="tomoe_quit ()" link="tomoe-tomoe.html#tomoe-quit"/>
+    <function name="TomoeCandidate" link="TomoeCandidate.html#TomoeCandidate-struct"/>
+    <function name="tomoe_candidate_new ()" link="TomoeCandidate.html#tomoe-candidate-new"/>
+    <function name="tomoe_candidate_get_char ()" link="TomoeCandidate.html#tomoe-candidate-get-char"/>
+    <function name="tomoe_candidate_set_score ()" link="TomoeCandidate.html#tomoe-candidate-set-score"/>
+    <function name="tomoe_candidate_get_score ()" link="TomoeCandidate.html#tomoe-candidate-get-score"/>
+    <function name="tomoe_candidate_compare ()" link="TomoeCandidate.html#tomoe-candidate-compare"/>
+    <function name="The &quot;char&quot; property" link="TomoeCandidate.html#TomoeCandidate--char"/>
+    <function name="The &quot;score&quot; property" link="TomoeCandidate.html#TomoeCandidate--score"/>
+    <function name="TOMOE_CHAR_PRIVATE_USE_AREA_START" link="TomoeChar.html#TOMOE-CHAR-PRIVATE-USE-AREA-START:CAPS"/>
+    <function name="TOMOE_CHAR_PRIVATE_USE_AREA_END" link="TomoeChar.html#TOMOE-CHAR-PRIVATE-USE-AREA-END:CAPS"/>
+    <function name="TomoeChar" link="TomoeChar.html#TomoeChar-struct"/>
+    <function name="tomoe_char_new ()" link="TomoeChar.html#tomoe-char-new"/>
+    <function name="tomoe_char_new_from_xml_data ()" link="TomoeChar.html#tomoe-char-new-from-xml-data"/>
+    <function name="tomoe_char_get_utf8 ()" link="TomoeChar.html#tomoe-char-get-utf8"/>
+    <function name="tomoe_char_set_utf8 ()" link="TomoeChar.html#tomoe-char-set-utf8"/>
+    <function name="tomoe_char_get_n_strokes ()" link="TomoeChar.html#tomoe-char-get-n-strokes"/>
+    <function name="tomoe_char_set_n_strokes ()" link="TomoeChar.html#tomoe-char-set-n-strokes"/>
+    <function name="tomoe_char_get_readings ()" link="TomoeChar.html#tomoe-char-get-readings"/>
+    <function name="tomoe_char_add_reading ()" link="TomoeChar.html#tomoe-char-add-reading"/>
+    <function name="tomoe_char_get_radicals ()" link="TomoeChar.html#tomoe-char-get-radicals"/>
+    <function name="tomoe_char_add_radical ()" link="TomoeChar.html#tomoe-char-add-radical"/>
+    <function name="tomoe_char_get_writing ()" link="TomoeChar.html#tomoe-char-get-writing"/>
+    <function name="tomoe_char_set_writing ()" link="TomoeChar.html#tomoe-char-set-writing"/>
+    <function name="tomoe_char_get_variant ()" link="TomoeChar.html#tomoe-char-get-variant"/>
+    <function name="tomoe_char_set_variant ()" link="TomoeChar.html#tomoe-char-set-variant"/>
+    <function name="tomoe_char_get_meta_data ()" link="TomoeChar.html#tomoe-char-get-meta-data"/>
+    <function name="tomoe_char_register_meta_data ()" link="TomoeChar.html#tomoe-char-register-meta-data"/>
+    <function name="tomoe_char_has_meta_data ()" link="TomoeChar.html#tomoe-char-has-meta-data"/>
+    <function name="tomoe_char_meta_data_foreach ()" link="TomoeChar.html#tomoe-char-meta-data-foreach"/>
+    <function name="tomoe_char_compare ()" link="TomoeChar.html#tomoe-char-compare"/>
+    <function name="tomoe_char_to_xml ()" link="TomoeChar.html#tomoe-char-to-xml"/>
+    <function name="The &quot;n-strokes&quot; property" link="TomoeChar.html#TomoeChar--n-strokes"/>
+    <function name="The &quot;utf8&quot; property" link="TomoeChar.html#TomoeChar--utf8"/>
+    <function name="The &quot;variant&quot; property" link="TomoeChar.html#TomoeChar--variant"/>
+    <function name="The &quot;writing&quot; property" link="TomoeChar.html#TomoeChar--writing"/>
+    <function name="TomoeConfig" link="TomoeConfig.html#TomoeConfig-struct"/>
+    <function name="tomoe_config_new ()" link="TomoeConfig.html#tomoe-config-new"/>
+    <function name="tomoe_config_get_filename ()" link="TomoeConfig.html#tomoe-config-get-filename"/>
+    <function name="tomoe_config_get_user_dict_name ()" link="TomoeConfig.html#tomoe-config-get-user-dict-name"/>
+    <function name="tomoe_config_make_shelf ()" link="TomoeConfig.html#tomoe-config-make-shelf"/>
+    <function name="tomoe_config_get_languages ()" link="TomoeConfig.html#tomoe-config-get-languages"/>
+    <function name="The &quot;filename&quot; property" link="TomoeConfig.html#TomoeConfig--filename"/>
+    <function name="TomoeContext" link="TomoeContext.html#TomoeContext-struct"/>
+    <function name="tomoe_context_new ()" link="TomoeContext.html#tomoe-context-new"/>
+    <function name="tomoe_context_load_config ()" link="TomoeContext.html#tomoe-context-load-config"/>
+    <function name="tomoe_context_search ()" link="TomoeContext.html#tomoe-context-search"/>
+    <function name="tomoe_context_multi_search ()" link="TomoeContext.html#tomoe-context-multi-search"/>
+    <function name="tomoe_context_get_char ()" link="TomoeContext.html#tomoe-context-get-char"/>
+    <function name="tomoe_context_register ()" link="TomoeContext.html#tomoe-context-register"/>
+    <function name="tomoe_context_unregister ()" link="TomoeContext.html#tomoe-context-unregister"/>
+    <function name="The &quot;recognizer&quot; property" link="TomoeContext.html#TomoeContext--recognizer"/>
+    <function name="TomoeDict" link="TomoeDict.html#TomoeDict-struct"/>
+    <function name="tomoe_dict_init ()" link="TomoeDict.html#tomoe-dict-init"/>
+    <function name="tomoe_dict_quit ()" link="TomoeDict.html#tomoe-dict-quit"/>
+    <function name="tomoe_dict_get_default_module_dir ()" link="TomoeDict.html#tomoe-dict-get-default-module-dir"/>
+    <function name="tomoe_dict_set_default_module_dir ()" link="TomoeDict.html#tomoe-dict-set-default-module-dir"/>
+    <function name="tomoe_dict_load ()" link="TomoeDict.html#tomoe-dict-load"/>
+    <function name="tomoe_dict_load_module ()" link="TomoeDict.html#tomoe-dict-load-module"/>
+    <function name="tomoe_dict_unload ()" link="TomoeDict.html#tomoe-dict-unload"/>
+    <function name="tomoe_dict_get_registered_types ()" link="TomoeDict.html#tomoe-dict-get-registered-types"/>
+    <function name="tomoe_dict_get_log_domains ()" link="TomoeDict.html#tomoe-dict-get-log-domains"/>
+    <function name="tomoe_dict_new ()" link="TomoeDict.html#tomoe-dict-new"/>
+    <function name="tomoe_dict_get_name ()" link="TomoeDict.html#tomoe-dict-get-name"/>
+    <function name="tomoe_dict_register_char ()" link="TomoeDict.html#tomoe-dict-register-char"/>
+    <function name="tomoe_dict_unregister_char ()" link="TomoeDict.html#tomoe-dict-unregister-char"/>
+    <function name="tomoe_dict_get_char ()" link="TomoeDict.html#tomoe-dict-get-char"/>
+    <function name="tomoe_dict_search ()" link="TomoeDict.html#tomoe-dict-search"/>
+    <function name="tomoe_dict_flush ()" link="TomoeDict.html#tomoe-dict-flush"/>
+    <function name="tomoe_dict_is_editable ()" link="TomoeDict.html#tomoe-dict-is-editable"/>
+    <function name="tomoe_dict_is_available ()" link="TomoeDict.html#tomoe-dict-is-available"/>
+    <function name="tomoe_dict_get_available_private_utf8 ()" link="TomoeDict.html#tomoe-dict-get-available-private-utf8"/>
+    <function name="TomoeQuery" link="TomoeQuery.html#TomoeQuery-struct"/>
+    <function name="tomoe_query_new ()" link="TomoeQuery.html#tomoe-query-new"/>
+    <function name="tomoe_query_get_utf8 ()" link="TomoeQuery.html#tomoe-query-get-utf8"/>
+    <function name="tomoe_query_set_utf8 ()" link="TomoeQuery.html#tomoe-query-set-utf8"/>
+    <function name="tomoe_query_add_reading ()" link="TomoeQuery.html#tomoe-query-add-reading"/>
+    <function name="tomoe_query_get_readings ()" link="TomoeQuery.html#tomoe-query-get-readings"/>
+    <function name="tomoe_query_add_radical ()" link="TomoeQuery.html#tomoe-query-add-radical"/>
+    <function name="tomoe_query_get_radicals ()" link="TomoeQuery.html#tomoe-query-get-radicals"/>
+    <function name="tomoe_query_set_variant ()" link="TomoeQuery.html#tomoe-query-set-variant"/>
+    <function name="tomoe_query_get_variant ()" link="TomoeQuery.html#tomoe-query-get-variant"/>
+    <function name="tomoe_query_set_min_n_strokes ()" link="TomoeQuery.html#tomoe-query-set-min-n-strokes"/>
+    <function name="tomoe_query_get_min_n_strokes ()" link="TomoeQuery.html#tomoe-query-get-min-n-strokes"/>
+    <function name="tomoe_query_set_max_n_strokes ()" link="TomoeQuery.html#tomoe-query-set-max-n-strokes"/>
+    <function name="tomoe_query_get_max_n_strokes ()" link="TomoeQuery.html#tomoe-query-get-max-n-strokes"/>
+    <function name="tomoe_query_set_writing ()" link="TomoeQuery.html#tomoe-query-set-writing"/>
+    <function name="tomoe_query_get_writing ()" link="TomoeQuery.html#tomoe-query-get-writing"/>
+    <function name="tomoe_query_is_empty ()" link="TomoeQuery.html#tomoe-query-is-empty"/>
+    <function name="The &quot;max-n-strokes&quot; property" link="TomoeQuery.html#TomoeQuery--max-n-strokes"/>
+    <function name="The &quot;min-n-strokes&quot; property" link="TomoeQuery.html#TomoeQuery--min-n-strokes"/>
+    <function name="The &quot;utf8&quot; property" link="TomoeQuery.html#TomoeQuery--utf8"/>
+    <function name="The &quot;writing&quot; property" link="TomoeQuery.html#TomoeQuery--writing"/>
+    <function name="TomoeReading" link="TomoeReading.html#TomoeReading-struct"/>
+    <function name="enum TomoeReadingType" link="TomoeReading.html#TomoeReadingType"/>
+    <function name="tomoe_reading_new ()" link="TomoeReading.html#tomoe-reading-new"/>
+    <function name="tomoe_reading_get_reading_type ()" link="TomoeReading.html#tomoe-reading-get-reading-type"/>
+    <function name="tomoe_reading_get_reading ()" link="TomoeReading.html#tomoe-reading-get-reading"/>
+    <function name="tomoe_reading_to_xml ()" link="TomoeReading.html#tomoe-reading-to-xml"/>
+    <function name="The &quot;reading&quot; property" link="TomoeReading.html#TomoeReading--reading"/>
+    <function name="The &quot;type&quot; property" link="TomoeReading.html#TomoeReading--type"/>
+    <function name="TomoeRecognizer" link="TomoeRecognizer.html#TomoeRecognizer-struct"/>
+    <function name="tomoe_recognizer_init ()" link="TomoeRecognizer.html#tomoe-recognizer-init"/>
+    <function name="tomoe_recognizer_quit ()" link="TomoeRecognizer.html#tomoe-recognizer-quit"/>
+    <function name="tomoe_recognizer_get_default_module_dir ()" link="TomoeRecognizer.html#tomoe-recognizer-get-default-module-dir"/>
+    <function name="tomoe_recognizer_set_default_module_dir ()" link="TomoeRecognizer.html#tomoe-recognizer-set-default-module-dir"/>
+    <function name="tomoe_recognizer_load ()" link="TomoeRecognizer.html#tomoe-recognizer-load"/>
+    <function name="tomoe_recognizer_load_module ()" link="TomoeRecognizer.html#tomoe-recognizer-load-module"/>
+    <function name="tomoe_recognizer_unload ()" link="TomoeRecognizer.html#tomoe-recognizer-unload"/>
+    <function name="tomoe_recognizer_get_registered_types ()" link="TomoeRecognizer.html#tomoe-recognizer-get-registered-types"/>
+    <function name="tomoe_recognizer_get_log_domains ()" link="TomoeRecognizer.html#tomoe-recognizer-get-log-domains"/>
+    <function name="tomoe_recognizer_new ()" link="TomoeRecognizer.html#tomoe-recognizer-new"/>
+    <function name="tomoe_recognizer_search ()" link="TomoeRecognizer.html#tomoe-recognizer-search"/>
+    <function name="tomoe_recognizer_get_language ()" link="TomoeRecognizer.html#tomoe-recognizer-get-language"/>
+    <function name="tomoe_recognizer_is_available ()" link="TomoeRecognizer.html#tomoe-recognizer-is-available"/>
+    <function name="The &quot;language&quot; property" link="TomoeRecognizer.html#TomoeRecognizer--language"/>
+    <function name="TomoeShelf" link="TomoeShelf.html#TomoeShelf-struct"/>
+    <function name="tomoe_shelf_new ()" link="TomoeShelf.html#tomoe-shelf-new"/>
+    <function name="tomoe_shelf_get_dict ()" link="TomoeShelf.html#tomoe-shelf-get-dict"/>
+    <function name="tomoe_shelf_register_dict ()" link="TomoeShelf.html#tomoe-shelf-register-dict"/>
+    <function name="tomoe_shelf_unregister_dict ()" link="TomoeShelf.html#tomoe-shelf-unregister-dict"/>
+    <function name="tomoe_shelf_get_dict_names ()" link="TomoeShelf.html#tomoe-shelf-get-dict-names"/>
+    <function name="tomoe_shelf_has_dict ()" link="TomoeShelf.html#tomoe-shelf-has-dict"/>
+    <function name="TOMOE_WRITING_WIDTH" link="TomoeWriting.html#TOMOE-WRITING-WIDTH:CAPS"/>
+    <function name="TOMOE_WRITING_HEIGHT" link="TomoeWriting.html#TOMOE-WRITING-HEIGHT:CAPS"/>
+    <function name="TOMOE_TYPE_POINT" link="TomoeWriting.html#TOMOE-TYPE-POINT:CAPS"/>
+    <function name="TomoePoint" link="TomoeWriting.html#TomoePoint"/>
+    <function name="TomoeWriting" link="TomoeWriting.html#TomoeWriting-struct"/>
+    <function name="tomoe_writing_new ()" link="TomoeWriting.html#tomoe-writing-new"/>
+    <function name="tomoe_writing_move_to ()" link="TomoeWriting.html#tomoe-writing-move-to"/>
+    <function name="tomoe_writing_line_to ()" link="TomoeWriting.html#tomoe-writing-line-to"/>
+    <function name="tomoe_writing_clear ()" link="TomoeWriting.html#tomoe-writing-clear"/>
+    <function name="tomoe_writing_get_n_strokes ()" link="TomoeWriting.html#tomoe-writing-get-n-strokes"/>
+    <function name="tomoe_writing_remove_last_stroke ()" link="TomoeWriting.html#tomoe-writing-remove-last-stroke"/>
+    <function name="tomoe_writing_get_strokes ()" link="TomoeWriting.html#tomoe-writing-get-strokes"/>
+    <function name="tomoe_writing_to_xml ()" link="TomoeWriting.html#tomoe-writing-to-xml"/>
+    <function name="tomoe_point_get_type ()" link="TomoeWriting.html#tomoe-point-get-type"/>
+    <function name="tomoe_point_new ()" link="TomoeWriting.html#tomoe-point-new"/>
+    <function name="tomoe_point_copy ()" link="TomoeWriting.html#tomoe-point-copy"/>
+    <function name="tomoe_point_free ()" link="TomoeWriting.html#tomoe-point-free"/>
+  </functions>
+</book>

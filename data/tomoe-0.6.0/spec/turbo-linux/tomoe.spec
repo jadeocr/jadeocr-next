@@ -1,0 +1,101 @@
+# -*- coding:utf-8-unix -*-
+#
+# $Id: tomoe.spec.in 1101 2006-12-28 04:45:36Z kous $
+#
+# Copyright (c) 2006 Kouhei Sutou <kou@cozmixng.org>
+# This file and all modifications and/or additions are under
+# the same license as package itself.
+#
+
+Name:      tomoe
+Version:   0.6.0
+Release:   2
+Serial:    2006122801
+
+Summary:   Tegaki Online MOji-ninshiki Engine
+Summary(ja_JP.utf8): 手書き文字認識エンジン Tomoe
+URL:       http://tomoe.sourceforge.jp/
+Source0:   %{name}-%{version}.tar.gz
+License:   LGPL
+Group:     System Environment/Libraries
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+
+Requires: /sbin/ldconfig
+#Requires: glib2
+Requires: mysql-client
+BuildRequires: pkgconfig
+BuildRequires: glib2-devel
+BuildRequires: mysql-devel
+
+%description
+Tomoe provides a handwriting recognition engine and its user
+interface on open source desktop environment.
+
+
+%description -l ja_JP.utf8
+Tomoeはオープンソース環境において手書き文字入力を実現するた
+めのソフトウェアです。
+
+%package devel
+Summary: Tomoe developmental libraries and header files
+Summary(ja_JP.utf8): Tomoe開発のライブラリとヘッダファイル
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+Requires: glib2-devel
+Requires: mysql-devel
+
+%description devel
+Developmental libraries and header files required for developing or
+compiling software which links to the Tomoe library, which is an open
+source handwriting recognition engine.
+
+%description devel -l ja_JP.utf8
+Tomoeライブラリにリンクするソフトウェアを開発するための開発用ライブラリと
+ヘッダファイルです。Tomoeはオープンソースの手書き文字認識エンジンです。
+
+%prep
+%setup -q
+
+%build
+%configure --without-ruby --enable-mysql
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+%makeinstall
+rm $RPM_BUILD_ROOT%{_libdir}/*.la
+rm $RPM_BUILD_ROOT%{_libdir}/*.a
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-,root,root,-)
+#%doc AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
+%doc AUTHORS ChangeLog COPYING NEWS README TODO
+
+%{_libdir}/libtomoe*.so.*
+%{_libdir}/tomoe/*
+%{_sysconfdir}/tomoe/*
+%{_datadir}/tomoe/*
+
+%files devel
+%defattr(-,root,root,-)
+%{_includedir}/*
+%{_libdir}/libtomoe*.so
+%{_libdir}/pkgconfig/*
+%{_datadir}/gtk-doc/*
+
+%changelog
+* Mon Dec 28 2006 Kouhei Sutou <kou@cozmixng.org> - 0.5.0-2
+- added README
+
+* Mon Dec 25 2006 Kouhei Sutou <kou@cozmixng.org> - 0.5.0-1
+- follow the current source.
+
+* Mon Dec 18 2006 Kouhei Sutou <kou@cozmixng.org> - 0.5.0-0
+- initial release.

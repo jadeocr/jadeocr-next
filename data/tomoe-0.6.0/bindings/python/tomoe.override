@@ -1,0 +1,30 @@
+%%
+headers
+#define NO_IMPORT_PYGOBJECT
+#include <pygobject.h>
+#include "tomoe.h"
+%%
+include
+  tomoe-char.override
+  tomoe-config.override
+  tomoe-context.override
+  tomoe-dict.override
+  tomoe-query.override
+  tomoe-reading.override
+  tomoe-recognizer.override
+  tomoe-shelf.override
+  tomoe-writing.override
+%%
+modulename tomoe
+%%
+import gobject.GObject as PyGObject_Type
+%%
+ignore-glob
+  *_get_type
+%%
+new-constructor TOMOE_TYPE_READING
+new-constructor TOMOE_TYPE_CHAR
+new-constructor TOMOE_TYPE_CANDIDATE
+new-constructor TOMOE_TYPE_SHELF
+new-constructor TOMOE_TYPE_MODULE
+%%

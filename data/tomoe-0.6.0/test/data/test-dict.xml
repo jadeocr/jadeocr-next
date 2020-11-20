@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE dictionary SYSTEM "/usr/share/tomoe/dict.dtd">
+<dictionary>
+  <character>
+    <utf8>池</utf8>
+    <number-of-strokes>6</number-of-strokes>
+    <readings>
+      <reading type="ja_on">タ</reading>
+      <reading type="ja_on">チ</reading>
+      <reading type="ja_kun">いけ</reading>
+      <reading type="ja_unknown">あんのうん</reading>
+    </readings>
+    <strokes>
+      <stroke>
+        <point x="123" y="223"/>
+        <point x="216" y="343"/>
+      </stroke>
+      <stroke>
+        <point x="103" y="530"/>
+        <point x="230" y="636"/>
+      </stroke>
+      <stroke>
+        <point x="116" y="910"/>
+        <point x="260" y="773"/>
+      </stroke>
+      <stroke>
+        <point x="373" y="400"/>
+        <point x="773" y="316"/>
+        <point x="703" y="580"/>
+      </stroke>
+      <stroke>
+        <point x="643" y="216"/>
+        <point x="636" y="480"/>
+      </stroke>
+      <stroke>
+        <point x="493" y="200"/>
+        <point x="503" y="780"/>
+        <point x="810" y="850"/>
+        <point x="853" y="753"/>
+      </stroke>
+    </strokes>
+    <meta>
+      <jis208>35-51</jis208>
+      <ucs>6c60</ucs>
+      <jouyou>2</jouyou>
+      <meaning>pond, cistern, pool, reservoir</meaning>
+    </meta>
+  </character>
+</dictionary>

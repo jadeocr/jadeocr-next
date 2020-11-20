@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!ENTITY tomoe SYSTEM "xml/tomoe.xml">
+
+<!ENTITY tomoe-Candidate SYSTEM "xml/tomoe-candidate.xml">
+<!ENTITY tomoe-Char SYSTEM "xml/tomoe-char.xml">
+<!ENTITY tomoe-Config SYSTEM "xml/tomoe-config.xml">
+<!ENTITY tomoe-Context SYSTEM "xml/tomoe-context.xml">
+<!ENTITY tomoe-Dict SYSTEM "xml/tomoe-dict.xml">
+<!ENTITY tomoe-Query SYSTEM "xml/tomoe-query.xml">
+<!ENTITY tomoe-Reading SYSTEM "xml/tomoe-reading.xml">
+<!ENTITY tomoe-Recognizer SYSTEM "xml/tomoe-recognizer.xml">
+<!ENTITY tomoe-Shelf SYSTEM "xml/tomoe-shelf.xml">
+<!ENTITY tomoe-Writing SYSTEM "xml/tomoe-writing.xml">
+
+<!ENTITY version SYSTEM "version.xml">
+]>
+<book id="index">
+  <bookinfo>
+    <title>Tomoe Reference Manual</title>
+    <releaseinfo>for Tomoe &version;</releaseinfo>
+  </bookinfo>
+
+  <chapter id="tomoe">
+    <title>Tomoe Core</title>
+
+    &tomoe;
+
+    &tomoe-Candidate;
+    &tomoe-Char;
+    &tomoe-Config;
+    &tomoe-Context;
+    &tomoe-Dict;
+    &tomoe-Query;
+    &tomoe-Reading;
+    &tomoe-Recognizer;
+    &tomoe-Shelf;
+    &tomoe-Writing;
+  </chapter>
+
+  <index>
+    <title>Index</title>
+  </index>
+<!--
+  <index role="deprecated">
+    <title>Index of deprecated symbols</title>
+  </index>
+  <index role="0.3.0">
+    <title>Index of new symbols in 0.3.0</title>
+  </index>
+-->
+</book>

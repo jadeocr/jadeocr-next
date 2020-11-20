@@ -1,0 +1,1011 @@
+;; -*- scheme -*-
+; object definitions ...
+(define-object Candidate
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeCandidate")
+  (gtype-id "TOMOE_TYPE_CANDIDATE")
+)
+
+(define-object Char
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeChar")
+  (gtype-id "TOMOE_TYPE_CHAR")
+)
+
+(define-object Config
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeConfig")
+  (gtype-id "TOMOE_TYPE_CONFIG")
+)
+
+(define-object Context
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeContext")
+  (gtype-id "TOMOE_TYPE_CONTEXT")
+)
+
+(define-object Dict
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeDict")
+  (gtype-id "TOMOE_TYPE_DICT")
+)
+
+(define-object Query
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeQuery")
+  (gtype-id "TOMOE_TYPE_QUERY")
+)
+
+(define-object Reading
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeReading")
+  (gtype-id "TOMOE_TYPE_READING")
+)
+
+(define-object Recognizer
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeRecognizer")
+  (gtype-id "TOMOE_TYPE_RECOGNIZER")
+)
+
+(define-object Shelf
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeShelf")
+  (gtype-id "TOMOE_TYPE_SHELF")
+)
+
+(define-object Writing
+  (in-module "Tomoe")
+  (parent "GObject")
+  (c-name "TomoeWriting")
+  (gtype-id "TOMOE_TYPE_WRITING")
+)
+
+;; Enumerations and flags ...
+
+(define-enum ReadingType
+  (in-module "Tomoe")
+  (c-name "TomoeReadingType")
+  (gtype-id "TOMOE_TYPE_READING_TYPE")
+  (values
+    '("invalid" "TOMOE_READING_INVALID")
+    '("unknown" "TOMOE_READING_UNKNOWN")
+    '("ja-on" "TOMOE_READING_JA_ON")
+    '("ja-kun" "TOMOE_READING_JA_KUN")
+  )
+)
+
+
+;; From tomoe-candidate.h
+
+(define-function tomoe_candidate_get_type
+  (c-name "tomoe_candidate_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_candidate_new
+  (c-name "tomoe_candidate_new")
+  (is-constructor-of "TomoeCandidate")
+  (return-type "TomoeCandidate*")
+  (properties
+    '("char" (argname "chr"))
+  )
+)
+
+(define-method get_char
+  (of-object "TomoeCandidate")
+  (c-name "tomoe_candidate_get_char")
+  (return-type "TomoeChar*")
+)
+
+(define-method set_score
+  (of-object "TomoeCandidate")
+  (c-name "tomoe_candidate_set_score")
+  (return-type "none")
+  (parameters
+    '("gint" "score")
+  )
+)
+
+(define-method get_score
+  (of-object "TomoeCandidate")
+  (c-name "tomoe_candidate_get_score")
+  (return-type "gint")
+)
+
+(define-method compare
+  (of-object "TomoeCandidate")
+  (c-name "tomoe_candidate_compare")
+  (return-type "gint")
+  (parameters
+    '("const-TomoeCandidate*" "b")
+  )
+)
+
+
+
+;; From tomoe-char.h
+
+(define-function tomoe_char_get_type
+  (c-name "tomoe_char_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_char_new
+  (c-name "tomoe_char_new")
+  (is-constructor-of "TomoeChar")
+  (return-type "TomoeChar*")
+  (properties
+    '("utf8" (argname "utf8") (optional))
+    '("writing" (argname "writing") (optional))
+    '("n_strokes" (argname "n_strokes") (optional))
+    '("variant" (argname "variant") (optional))
+  )
+)
+
+(define-function tomoe_char_new_from_xml_data
+  (c-name "tomoe_char_new_from_xml_data")
+  (return-type "TomoeChar*")
+  (parameters
+    '("const-gchar*" "data")
+    '("gssize" "len")
+  )
+)
+
+(define-method dup
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_dup")
+  (return-type "TomoeChar*")
+)
+
+(define-method get_utf8
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_utf8")
+  (return-type "const-gchar*")
+)
+
+(define-method set_utf8
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_set_utf8")
+  (return-type "none")
+  (parameters
+    '("const-char*" "utf8")
+  )
+)
+
+(define-method get_n_strokes
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_n_strokes")
+  (return-type "gint")
+)
+
+(define-method set_n_strokes
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_set_n_strokes")
+  (return-type "none")
+  (parameters
+    '("gint" "n_strokes")
+  )
+)
+
+(define-method get_readings
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_readings")
+  (return-type "const-GList*")
+)
+
+(define-method add_reading
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_add_reading")
+  (return-type "none")
+  (parameters
+    '("TomoeReading*" "reading")
+  )
+)
+
+(define-method get_radicals
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_radicals")
+  (return-type "const-GList*")
+)
+
+(define-method add_radical
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_add_radical")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "radical")
+  )
+)
+
+(define-method get_writing
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_writing")
+  (return-type "TomoeWriting*")
+)
+
+(define-method set_writing
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_set_writing")
+  (return-type "none")
+  (parameters
+    '("TomoeWriting*" "writing")
+  )
+)
+
+(define-method get_variant
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_variant")
+  (return-type "const-gchar*")
+)
+
+(define-method set_variant
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_set_variant")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "variant")
+  )
+)
+
+(define-method get_meta_data
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_get_meta_data")
+  (return-type "const-gchar*")
+  (parameters
+    '("const-gchar*" "key")
+  )
+)
+
+(define-method register_meta_data
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_register_meta_data")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "key")
+    '("const-gchar*" "value")
+  )
+)
+
+(define-method has_meta_data
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_has_meta_data")
+  (return-type "gboolean")
+)
+
+(define-method meta_data_foreach
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_meta_data_foreach")
+  (return-type "none")
+  (parameters
+    '("GHFunc" "func")
+    '("gpointer" "user_data")
+  )
+)
+
+(define-method compare
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_compare")
+  (return-type "gint")
+  (parameters
+    '("const-TomoeChar*" "b")
+  )
+)
+
+(define-method to_xml
+  (of-object "TomoeChar")
+  (c-name "tomoe_char_to_xml")
+  (return-type "gchar*")
+)
+
+
+
+;; From tomoe-config.h
+
+(define-function tomoe_config_get_type
+  (c-name "tomoe_config_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_config_new
+  (c-name "tomoe_config_new")
+  (is-constructor-of "TomoeConfig")
+  (return-type "TomoeConfig*")
+  (properties
+    '("filename" (argname "config_file") (optional))
+  )
+)
+
+(define-method get_filename
+  (of-object "TomoeConfig")
+  (c-name "tomoe_config_get_filename")
+  (return-type "const-gchar*")
+)
+
+(define-method get_user_dict_name
+  (of-object "TomoeConfig")
+  (c-name "tomoe_config_get_user_dict_name")
+  (return-type "const-gchar*")
+)
+
+(define-method get_languages
+  (of-object "TomoeConfig")
+  (c-name "tomoe_config_get_languages")
+  (return-type "const-gchar**")
+)
+
+(define-method make_shelf
+  (of-object "TomoeConfig")
+  (c-name "tomoe_config_make_shelf")
+  (return-type "TomoeShelf*")
+  (parameters
+    '("const-gchar*" "language")
+  )
+)
+
+
+
+;; From tomoe-context.h
+
+(define-function tomoe_context_get_type
+  (c-name "tomoe_context_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_context_new
+  (c-name "tomoe_context_new")
+  (is-constructor-of "TomoeContext")
+  (return-type "TomoeContext*")
+)
+
+(define-method load_config
+  (of-object "TomoeContext")
+  (c-name "tomoe_context_load_config")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "config_file" (null-ok) (default "NULL"))
+  )
+)
+
+(define-method search
+  (of-object "TomoeContext")
+  (c-name "tomoe_context_search")
+  (return-type "GList*")
+  (parameters
+    '("TomoeQuery*" "query")
+  )
+)
+
+(define-method multi_search
+  (of-object "TomoeContext")
+  (c-name "tomoe_context_multi_search")
+  (return-type "GList*")
+  (parameters
+    '("GList*" "queries")
+  )
+)
+
+(define-method get_char
+  (of-object "TomoeContext")
+  (c-name "tomoe_context_get_char")
+  (return-type "TomoeChar*")
+  (parameters
+    '("const-gchar*" "utf8")
+  )
+)
+
+(define-method register
+  (of-object "TomoeContext")
+  (c-name "tomoe_context_register")
+  (return-type "gboolean")
+  (parameters
+    '("TomoeChar*" "chr")
+  )
+)
+
+(define-method unregister
+  (of-object "TomoeContext")
+  (c-name "tomoe_context_unregister")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "utf8")
+  )
+)
+
+
+
+;; From tomoe-dict.h
+
+(define-function tomoe_dict_get_type
+  (c-name "tomoe_dict_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_dict_init
+  (c-name "tomoe_dict_init")
+  (return-type "none")
+)
+
+(define-function tomoe_dict_quit
+  (c-name "tomoe_dict_quit")
+  (return-type "none")
+)
+
+(define-function tomoe_dict_get_default_module_dir
+  (c-name "tomoe_dict_get_default_module_dir")
+  (return-type "const-gchar*")
+)
+
+(define-function tomoe_dict_set_default_module_dir
+  (c-name "tomoe_dict_set_default_module_dir")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "dir")
+  )
+)
+
+(define-function tomoe_dict_load
+  (c-name "tomoe_dict_load")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "base_dir")
+  )
+)
+
+(define-function tomoe_dict_load_module
+  (c-name "tomoe_dict_load_module")
+  (return-type "TomoeModule*")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-function tomoe_dict_unload
+  (c-name "tomoe_dict_unload")
+  (return-type "none")
+)
+
+(define-function tomoe_dict_get_registered_types
+  (c-name "tomoe_dict_get_registered_types")
+  (return-type "GList*")
+)
+
+(define-function tomoe_dict_get_log_domains
+  (c-name "tomoe_dict_get_log_domains")
+  (return-type "GList*")
+)
+
+(define-function tomoe_dict_new
+  (c-name "tomoe_dict_new")
+  (is-constructor-of "TomoeDict")
+  (return-type "TomoeDict*")
+  (parameters
+    '("const-gchar*" "name")
+    '("const-gchar*" "first_property")
+  )
+  (varargs #t)
+)
+
+(define-method get_name
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_get_name")
+  (return-type "const-gchar*")
+)
+
+(define-method register_char
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_register_char")
+  (return-type "gboolean")
+  (parameters
+    '("TomoeChar*" "chr")
+  )
+)
+
+(define-method unregister_char
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_unregister_char")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "utf8")
+  )
+)
+
+(define-method get_char
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_get_char")
+  (return-type "TomoeChar*")
+  (parameters
+    '("const-gchar*" "utf8")
+  )
+)
+
+(define-method search
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_search")
+  (return-type "GList*")
+  (parameters
+    '("TomoeQuery*" "query")
+  )
+)
+
+(define-method flush
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_flush")
+  (return-type "gboolean")
+)
+
+(define-method copy
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_copy")
+  (return-type "gboolean")
+  (parameters
+    '("TomoeDict*" "dest_dict")
+  )
+)
+
+(define-method is_editable
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_is_editable")
+  (return-type "gboolean")
+)
+
+(define-method is_available
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_is_available")
+  (return-type "gboolean")
+)
+
+(define-method get_available_private_utf8
+  (of-object "TomoeDict")
+  (c-name "tomoe_dict_get_available_private_utf8")
+  (return-type "gchar*")
+)
+
+
+
+
+;; From tomoe-query.h
+
+(define-function tomoe_query_get_type
+  (c-name "tomoe_query_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_query_new
+  (c-name "tomoe_query_new")
+  (is-constructor-of "TomoeQuery")
+  (return-type "TomoeQuery*")
+  (properties
+    '("utf8" (argname "utf8") (optional))
+    '("writing" (argname "writing") (optional))
+    '("min_n_strokes" (argname "min_n_strokes") (optional))
+    '("max_n_strokes" (argname "max_n_strokes") (optional))
+  )
+)
+
+(define-method get_utf8
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_utf8")
+  (return-type "const-gchar*")
+)
+
+(define-method set_utf8
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_set_utf8")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "utf8")
+  )
+)
+
+(define-method add_reading
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_add_reading")
+  (return-type "none")
+  (parameters
+    '("TomoeReading*" "reading")
+  )
+)
+
+(define-method get_readings
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_readings")
+  (return-type "const-GList*")
+)
+
+(define-method add_radical
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_add_radical")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "radical")
+  )
+)
+
+(define-method get_radicals
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_radicals")
+  (return-type "const-GList*")
+)
+
+(define-method set_variant
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_set_variant")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "variant")
+  )
+)
+
+(define-method get_variant
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_variant")
+  (return-type "const-gchar*")
+)
+
+(define-method set_min_n_strokes
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_set_min_n_strokes")
+  (return-type "none")
+  (parameters
+    '("gint" "n_strokes")
+  )
+)
+
+(define-method get_min_n_strokes
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_min_n_strokes")
+  (return-type "gint")
+)
+
+(define-method set_max_n_strokes
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_set_max_n_strokes")
+  (return-type "none")
+  (parameters
+    '("gint" "n_strokes")
+  )
+)
+
+(define-method get_max_n_strokes
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_max_n_strokes")
+  (return-type "gint")
+)
+
+(define-method set_writing
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_set_writing")
+  (return-type "none")
+  (parameters
+    '("TomoeWriting*" "writing")
+  )
+)
+
+(define-method get_writing
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_get_writing")
+  (return-type "TomoeWriting*")
+)
+
+(define-method is_empty
+  (of-object "TomoeQuery")
+  (c-name "tomoe_query_is_empty")
+  (return-type "gboolean")
+)
+
+
+
+;; From tomoe-reading.h
+
+(define-function tomoe_reading_get_type
+  (c-name "tomoe_reading_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_reading_new
+  (c-name "tomoe_reading_new")
+  (is-constructor-of "TomoeReading")
+  (return-type "TomoeReading*")
+  (properties
+    '("type" (argname "type"))
+    '("reading" (argname "reading"))
+  )
+)
+
+(define-method dup
+  (of-object "TomoeReading")
+  (c-name "tomoe_reading_dup")
+  (return-type "TomoeReading*")
+)
+
+(define-method get_reading_type
+  (of-object "TomoeReading")
+  (c-name "tomoe_reading_get_reading_type")
+  (return-type "TomoeReadingType")
+)
+
+(define-method get_reading
+  (of-object "TomoeReading")
+  (c-name "tomoe_reading_get_reading")
+  (return-type "const-gchar*")
+)
+
+(define-method to_xml
+  (of-object "TomoeReading")
+  (c-name "tomoe_reading_to_xml")
+  (return-type "gchar*")
+)
+
+(define-method compare
+  (of-object "TomoeReading")
+  (c-name "tomoe_reading_compare")
+  (return-type "gint")
+  (parameters
+    '("const-TomoeReading*" "b")
+  )
+)
+
+
+;; From tomoe-recognizer.h
+
+(define-function tomoe_recognizer_get_type
+  (c-name "tomoe_recognizer_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_recognizer_init
+  (c-name "tomoe_recognizer_init")
+  (return-type "none")
+)
+
+(define-function tomoe_recognizer_quit
+  (c-name "tomoe_recognizer_quit")
+  (return-type "none")
+)
+
+(define-function tomoe_recognizer_get_default_module_dir
+  (c-name "tomoe_recognizer_get_default_module_dir")
+  (return-type "const-gchar*")
+)
+
+(define-function tomoe_recognizer_set_default_module_dir
+  (c-name "tomoe_recognizer_set_default_module_dir")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "dir")
+  )
+)
+
+(define-function tomoe_recognizer_load
+  (c-name "tomoe_recognizer_load")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "base_dir")
+  )
+)
+
+(define-function tomoe_recognizer_load_module
+  (c-name "tomoe_recognizer_load_module")
+  (return-type "TomoeModule*")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-function tomoe_recognizer_unload
+  (c-name "tomoe_recognizer_unload")
+  (return-type "none")
+)
+
+(define-function tomoe_recognizer_get_registered_types
+  (c-name "tomoe_recognizer_get_registered_types")
+  (return-type "GList*")
+)
+
+(define-function tomoe_recognizer_get_log_domains
+  (c-name "tomoe_recognizer_get_log_domains")
+  (return-type "GList*")
+)
+
+(define-function tomoe_recognizer_new
+  (c-name "tomoe_recognizer_new")
+  (is-constructor-of "TomoeRecognizer")
+  (return-type "TomoeRecognizer*")
+  (parameters
+    '("const-gchar*" "name")
+    '("const-gchar*" "first_property")
+  )
+  (varargs #t)
+)
+
+(define-method search
+  (of-object "TomoeRecognizer")
+  (c-name "tomoe_recognizer_search")
+  (return-type "GList*")
+  (parameters
+    '("TomoeWriting*" "input")
+  )
+)
+
+(define-method get_language
+  (of-object "TomoeRecognizer")
+  (c-name "tomoe_recognizer_get_language")
+  (return-type "const-gchar*")
+)
+
+(define-method is_available
+  (of-object "TomoeRecognizer")
+  (c-name "tomoe_recognizer_is_available")
+  (return-type "gboolean")
+)
+
+
+
+;; From tomoe-shelf.h
+
+(define-function tomoe_shelf_get_type
+  (c-name "tomoe_shelf_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_shelf_new
+  (c-name "tomoe_shelf_new")
+  (is-constructor-of "TomoeShelf")
+  (return-type "TomoeShelf*")
+)
+
+(define-method get_dict
+  (of-object "TomoeShelf")
+  (c-name "tomoe_shelf_get_dict")
+  (return-type "TomoeDict*")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-method register_dict
+  (of-object "TomoeShelf")
+  (c-name "tomoe_shelf_register_dict")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "name")
+    '("TomoeDict*" "dict")
+  )
+)
+
+(define-method unregister_dict
+  (of-object "TomoeShelf")
+  (c-name "tomoe_shelf_unregister_dict")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-method get_dict_names
+  (of-object "TomoeShelf")
+  (c-name "tomoe_shelf_get_dict_names")
+  (return-type "GList*")
+)
+
+(define-method has_dict
+  (of-object "TomoeShelf")
+  (c-name "tomoe_shelf_has_dict")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+
+
+;; From tomoe-writing.h
+
+(define-function tomoe_writing_get_type
+  (c-name "tomoe_writing_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_writing_new
+  (c-name "tomoe_writing_new")
+  (is-constructor-of "TomoeWriting")
+  (return-type "TomoeWriting*")
+)
+
+(define-method dup
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_dup")
+  (return-type "TomoeWriting*")
+)
+
+(define-method move_to
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_move_to")
+  (return-type "none")
+  (parameters
+    '("gint" "x")
+    '("gint" "y")
+  )
+)
+
+(define-method line_to
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_line_to")
+  (return-type "none")
+  (parameters
+    '("gint" "x")
+    '("gint" "y")
+  )
+)
+
+(define-method clear
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_clear")
+  (return-type "none")
+)
+
+(define-method get_n_strokes
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_get_n_strokes")
+  (return-type "guint")
+)
+
+(define-method remove_last_stroke
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_remove_last_stroke")
+  (return-type "none")
+)
+
+(define-method get_strokes
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_get_strokes")
+  (return-type "const-GList*")
+)
+
+(define-method to_xml
+  (of-object "TomoeWriting")
+  (c-name "tomoe_writing_to_xml")
+  (return-type "gchar*")
+)
+
+(define-function tomoe_point_get_type
+  (c-name "tomoe_point_get_type")
+  (return-type "GType")
+)
+
+(define-function tomoe_point_new
+  (c-name "tomoe_point_new")
+  (is-constructor-of "TomoePoint")
+  (return-type "TomoePoint*")
+  (parameters
+    '("gint" "x")
+    '("gint" "y")
+  )
+)
+
+(define-method copy
+  (of-object "TomoePoint")
+  (c-name "tomoe_point_copy")
+  (return-type "TomoePoint*")
+)
+
+(define-method free
+  (of-object "TomoePoint")
+  (c-name "tomoe_point_free")
+  (return-type "none")
+)
+
+
+
+;; From tomoe-xml-parser.h
+

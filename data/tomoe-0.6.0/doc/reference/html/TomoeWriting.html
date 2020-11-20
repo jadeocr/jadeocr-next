@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeWriting</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeShelf.html" title="TomoeShelf">
+<link rel="next" href="ix01.html" title="Index">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeShelf.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="ix01.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2571452" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2571833" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2571809" class="shortcut">Object Hierarchy</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeWriting"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2571452"></a><span class="refentrytitle">TomoeWriting</span>
+</h2>
+<p>TomoeWriting &#8212; An object for representing hand-writing strokes data</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a href="TomoeWriting.html#TOMOE-WRITING-WIDTH:CAPS">TOMOE_WRITING_WIDTH</a>
+#define             <a href="TomoeWriting.html#TOMOE-WRITING-HEIGHT:CAPS">TOMOE_WRITING_HEIGHT</a>
+#define             <a href="TomoeWriting.html#TOMOE-TYPE-POINT:CAPS">TOMOE_TYPE_POINT</a>
+                    <a href="TomoeWriting.html#TomoePoint">TomoePoint</a>;
+                    <a href="TomoeWriting.html#TomoeWriting-struct">TomoeWriting</a>;
+<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>*       <a href="TomoeWriting.html#tomoe-writing-new">tomoe_writing_new</a>                   (void);
+void                <a href="TomoeWriting.html#tomoe-writing-move-to">tomoe_writing_move_to</a>               (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing,
+                                                         gint x,
+                                                         gint y);
+void                <a href="TomoeWriting.html#tomoe-writing-line-to">tomoe_writing_line_to</a>               (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing,
+                                                         gint x,
+                                                         gint y);
+void                <a href="TomoeWriting.html#tomoe-writing-clear">tomoe_writing_clear</a>                 (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+guint               <a href="TomoeWriting.html#tomoe-writing-get-n-strokes">tomoe_writing_get_n_strokes</a>         (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+void                <a href="TomoeWriting.html#tomoe-writing-remove-last-stroke">tomoe_writing_remove_last_stroke</a>    (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+const GList*        <a href="TomoeWriting.html#tomoe-writing-get-strokes">tomoe_writing_get_strokes</a>           (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+gchar*              <a href="TomoeWriting.html#tomoe-writing-to-xml">tomoe_writing_to_xml</a>                (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+GType               <a href="TomoeWriting.html#tomoe-point-get-type">tomoe_point_get_type</a>                (void);
+<a href="TomoeWriting.html#TomoePoint">TomoePoint</a>*         <a href="TomoeWriting.html#tomoe-point-new">tomoe_point_new</a>                     (gint x,
+                                                         gint y);
+<a href="TomoeWriting.html#TomoePoint">TomoePoint</a>*         <a href="TomoeWriting.html#tomoe-point-copy">tomoe_point_copy</a>                    (const <a href="TomoeWriting.html#TomoePoint">TomoePoint</a> *point);
+void                <a href="TomoeWriting.html#tomoe-point-free">tomoe_point_free</a>                    (<a href="TomoeWriting.html#TomoePoint">TomoePoint</a> *point);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2571809"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeWriting
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2571833"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2571848"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2571858"></a><h3>
+<a name="TOMOE-WRITING-WIDTH:CAPS"></a>TOMOE_WRITING_WIDTH</h3>
+<a class="indexterm" name="id2571871"></a><pre class="programlisting">#define TOMOE_WRITING_WIDTH 1000
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2571886"></a><h3>
+<a name="TOMOE-WRITING-HEIGHT:CAPS"></a>TOMOE_WRITING_HEIGHT</h3>
+<a class="indexterm" name="id2571899"></a><pre class="programlisting">#define TOMOE_WRITING_HEIGHT 1000
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2571914"></a><h3>
+<a name="TOMOE-TYPE-POINT:CAPS"></a>TOMOE_TYPE_POINT</h3>
+<a class="indexterm" name="id2571927"></a><pre class="programlisting">#define TOMOE_TYPE_POINT              (tomoe_point_get_type ())
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2571943"></a><h3>
+<a name="TomoePoint"></a>TomoePoint</h3>
+<a class="indexterm" name="id2571955"></a><pre class="programlisting">typedef struct {
+    gint x;
+    gint y;
+} TomoePoint;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2571971"></a><h3>
+<a name="TomoeWriting-struct"></a>TomoeWriting</h3>
+<a class="indexterm" name="id2571983"></a><pre class="programlisting">typedef struct _TomoeWriting TomoeWriting;</pre>
+<p>
+The <a href="TomoeWriting.html" title="TomoeWriting"><span class="type">TomoeWriting</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572008"></a><h3>
+<a name="tomoe-writing-new"></a>tomoe_writing_new ()</h3>
+<a class="indexterm" name="id2572021"></a><pre class="programlisting"><a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>*       tomoe_writing_new                   (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572057"></a><h3>
+<a name="tomoe-writing-move-to"></a>tomoe_writing_move_to ()</h3>
+<a class="indexterm" name="id2572070"></a><pre class="programlisting">void                tomoe_writing_move_to               (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing,
+                                                         gint x,
+                                                         gint y);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>x</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>y</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572159"></a><h3>
+<a name="tomoe-writing-line-to"></a>tomoe_writing_line_to ()</h3>
+<a class="indexterm" name="id2572172"></a><pre class="programlisting">void                tomoe_writing_line_to               (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing,
+                                                         gint x,
+                                                         gint y);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>x</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>y</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572261"></a><h3>
+<a name="tomoe-writing-clear"></a>tomoe_writing_clear ()</h3>
+<a class="indexterm" name="id2572274"></a><pre class="programlisting">void                tomoe_writing_clear                 (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572320"></a><h3>
+<a name="tomoe-writing-get-n-strokes"></a>tomoe_writing_get_n_strokes ()</h3>
+<a class="indexterm" name="id2572333"></a><pre class="programlisting">guint               tomoe_writing_get_n_strokes         (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572389"></a><h3>
+<a name="tomoe-writing-remove-last-stroke"></a>tomoe_writing_remove_last_stroke ()</h3>
+<a class="indexterm" name="id2572403"></a><pre class="programlisting">void                tomoe_writing_remove_last_stroke    (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572450"></a><h3>
+<a name="tomoe-writing-get-strokes"></a>tomoe_writing_get_strokes ()</h3>
+<a class="indexterm" name="id2572464"></a><pre class="programlisting">const GList*        tomoe_writing_get_strokes           (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572521"></a><h3>
+<a name="tomoe-writing-to-xml"></a>tomoe_writing_to_xml ()</h3>
+<a class="indexterm" name="id2572534"></a><pre class="programlisting">gchar*              tomoe_writing_to_xml                (<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572591"></a><h3>
+<a name="tomoe-point-get-type"></a>tomoe_point_get_type ()</h3>
+<a class="indexterm" name="id2572604"></a><pre class="programlisting">GType               tomoe_point_get_type                (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572640"></a><h3>
+<a name="tomoe-point-new"></a>tomoe_point_new ()</h3>
+<a class="indexterm" name="id2572652"></a><pre class="programlisting"><a href="TomoeWriting.html#TomoePoint">TomoePoint</a>*         tomoe_point_new                     (gint x,
+                                                         gint y);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>x</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>y</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572729"></a><h3>
+<a name="tomoe-point-copy"></a>tomoe_point_copy ()</h3>
+<a class="indexterm" name="id2572742"></a><pre class="programlisting"><a href="TomoeWriting.html#TomoePoint">TomoePoint</a>*         tomoe_point_copy                    (const <a href="TomoeWriting.html#TomoePoint">TomoePoint</a> *point);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>point</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2572798"></a><h3>
+<a name="tomoe-point-free"></a>tomoe_point_free ()</h3>
+<a class="indexterm" name="id2572811"></a><pre class="programlisting">void                tomoe_point_free                    (<a href="TomoeWriting.html#TomoePoint">TomoePoint</a> *point);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><em class="parameter"><code>point</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+</body>
+</html>

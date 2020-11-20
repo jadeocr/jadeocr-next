@@ -1,0 +1,24 @@
+<!ELEMENT dictionary (character*)>
+<!ATTLIST dictionary
+          name CDATA #IMPLIED
+ >
+<!ELEMENT character (utf8, variant?, number-of-strokes?, strokes?,
+                     readings?, radicals?, meta?)*>
+<!ELEMENT utf8 (#PCDATA)>
+<!ELEMENT variant (#PCDATA)>
+<!ELEMENT number-of-strokes (#PCDATA)>
+<!ELEMENT strokes (stroke*)>
+<!ELEMENT stroke (point*)>
+<!ELEMENT point EMPTY>
+<!ATTLIST point
+          x CDATA #REQUIRED
+          y CDATA #REQUIRED
+ >
+<!ELEMENT readings (reading*)>
+<!ELEMENT reading (#PCDATA)>
+<!ATTLIST reading
+          type CDATA #IMPLIED
+ >
+<!ELEMENT radicals (radical*)>
+<!ELEMENT radical (#PCDATA)>
+<!ELEMENT meta ANY>

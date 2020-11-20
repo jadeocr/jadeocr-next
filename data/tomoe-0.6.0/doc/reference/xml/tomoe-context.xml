@@ -1,0 +1,209 @@
+<refentry id="TomoeContext">
+<refmeta>
+<refentrytitle role="top_of_page">TomoeContext</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>TOMOE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>TomoeContext</refname>
+<refpurpose>An object of...</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+                    <link linkend="TomoeContext-struct">TomoeContext</link>;
+<link linkend="TomoeContext">TomoeContext</link>*       <link linkend="tomoe-context-new">tomoe_context_new</link>                   (void);
+<link linkend="void">void</link>                <link linkend="tomoe-context-load-config">tomoe_context_load_config</link>           (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         const <link linkend="gchar">gchar</link> *config_file);
+<link linkend="GList">GList</link>*              <link linkend="tomoe-context-search">tomoe_context_search</link>                (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         <link linkend="TomoeQuery">TomoeQuery</link> *query);
+<link linkend="GList">GList</link>*              <link linkend="tomoe-context-multi-search">tomoe_context_multi_search</link>          (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         <link linkend="GList">GList</link> *queries);
+<link linkend="TomoeChar">TomoeChar</link>*          <link linkend="tomoe-context-get-char">tomoe_context_get_char</link>              (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         const <link linkend="gchar">gchar</link> *utf8);
+<link linkend="gboolean">gboolean</link>            <link linkend="tomoe-context-register">tomoe_context_register</link>              (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         <link linkend="TomoeChar">TomoeChar</link> *chr);
+<link linkend="gboolean">gboolean</link>            <link linkend="tomoe-context-unregister">tomoe_context_unregister</link>            (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         const <link linkend="gchar">gchar</link> *utf8);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----TomoeContext
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="TomoeContext--recognizer">recognizer</link>&quot;               <link linkend="TomoeRecognizer">TomoeRecognizer</link>       : Read / Write / Construct Only
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="TomoeContext-struct" role="struct"/>TomoeContext</title>
+<indexterm><primary>TomoeContext</primary></indexterm><programlisting>typedef struct _TomoeContext TomoeContext;</programlisting>
+<para>
+The <link linkend="TomoeContext"><type>TomoeContext</type></link> struct contains only
+private fields and should not be directly accessed.
+</para></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-new" role="function"/>tomoe_context_new ()</title>
+<indexterm><primary>tomoe_context_new</primary></indexterm><programlisting><link linkend="TomoeContext">TomoeContext</link>*       tomoe_context_new                   (void);</programlisting>
+<para>
+Create a new <link linkend="TomoeContext"><type>TomoeContext</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="TomoeContext"><type>TomoeContext</type></link>.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-load-config" role="function"/>tomoe_context_load_config ()</title>
+<indexterm><primary>tomoe_context_load_config</primary></indexterm><programlisting><link linkend="void">void</link>                tomoe_context_load_config           (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         const <link linkend="gchar">gchar</link> *config_file);</programlisting>
+<para>
+Load dictionaries into configuration file.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="TomoeContext"><type>TomoeContext</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>config_file</parameter>&nbsp;:</term>
+<listitem><simpara> the filename of configuration file to load.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-search" role="function"/>tomoe_context_search ()</title>
+<indexterm><primary>tomoe_context_search</primary></indexterm><programlisting><link linkend="GList">GList</link>*              tomoe_context_search                (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         <link linkend="TomoeQuery">TomoeQuery</link> *query);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>query</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-multi-search" role="function"/>tomoe_context_multi_search ()</title>
+<indexterm><primary>tomoe_context_multi_search</primary></indexterm><programlisting><link linkend="GList">GList</link>*              tomoe_context_multi_search          (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         <link linkend="GList">GList</link> *queries);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>queries</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-get-char" role="function"/>tomoe_context_get_char ()</title>
+<indexterm><primary>tomoe_context_get_char</primary></indexterm><programlisting><link linkend="TomoeChar">TomoeChar</link>*          tomoe_context_get_char              (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         const <link linkend="gchar">gchar</link> *utf8);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>utf8</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-register" role="function"/>tomoe_context_register ()</title>
+<indexterm><primary>tomoe_context_register</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            tomoe_context_register              (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         <link linkend="TomoeChar">TomoeChar</link> *chr);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>chr</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="tomoe-context-unregister" role="function"/>tomoe_context_unregister ()</title>
+<indexterm><primary>tomoe_context_unregister</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            tomoe_context_unregister            (<link linkend="TomoeContext">TomoeContext</link> *ctx,
+                                                         const <link linkend="gchar">gchar</link> *utf8);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>utf8</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="TomoeContext--recognizer"/>The &quot;<literal>recognizer</literal>&quot; property</title>
+<indexterm><primary>TomoeContext:recognizer</primary></indexterm><programlisting>  &quot;recognizer&quot;               <link linkend="TomoeRecognizer">TomoeRecognizer</link>       : Read / Write / Construct Only</programlisting>
+<para>The recognizer of the context.</para></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

@@ -1,0 +1,347 @@
+<!-- ##### SECTION ./tmpl/tomoe-dict-impl.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/tomoe-dict-impl.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/tomoe-dict-impl.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/tomoe-dict-impl.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/tomoe-dict-impl.sgml:Title ##### -->
+tomoe-dict-impl
+
+
+<!-- ##### SECTION ./tmpl/tomoe-recognizer-impl.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/tomoe-recognizer-impl.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/tomoe-recognizer-impl.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/tomoe-recognizer-impl.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/tomoe-recognizer-impl.sgml:Title ##### -->
+tomoe-recognizer-impl
+
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_FREE ##### -->
+<para>
+
+</para>
+
+@context: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_GET_CHAR ##### -->
+<para>
+
+</para>
+
+@context: 
+@utf8: 
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_GET_NAME ##### -->
+<para>
+
+</para>
+
+@context: 
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_LOAD ##### -->
+<para>
+
+</para>
+
+@context: 
+@filename: 
+@editable: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_NEW ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_REGISTER_CHAR ##### -->
+<para>
+
+</para>
+
+@context: 
+@chr: 
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_SEARCH ##### -->
+<para>
+
+</para>
+
+@context: 
+@query: 
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_DICT_IMPL_UNREGISTER_CHAR ##### -->
+<para>
+
+</para>
+
+@context: 
+@utf8: 
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_RECOGNIZER_IMPL_FREE ##### -->
+<para>
+
+</para>
+
+@context: 
+
+<!-- ##### FUNCTION TOMOE_RECOGNIZER_IMPL_NEW ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION TOMOE_RECOGNIZER_IMPL_SEARCH ##### -->
+<para>
+
+</para>
+
+@context: 
+@dict: 
+@input: 
+@Returns: 
+
+<!-- ##### ARG TomoeCandidate:character ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION TomoeDictFreeFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeDictGetCharFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@utf8: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeDictGetNameFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeDictLoadFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@filename: 
+@editable: 
+
+<!-- ##### USER_FUNCTION TomoeDictNewFunc ##### -->
+<para>
+
+</para>
+
+@hash: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeDictRegisterCharFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@chr: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeDictSearchFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@query: 
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeDictUnregisterCharFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@utf8: 
+@Returns: 
+
+<!-- ##### ARG TomoeModule:default-base-dir ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG TomoeModule:free-func-name ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG TomoeModule:new-func-name ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION TomoeModuleFreeFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+
+<!-- ##### USER_FUNCTION TomoeModuleNewFunc ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeRecognizerFreeFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+
+<!-- ##### USER_FUNCTION TomoeRecognizerNewFunc ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### USER_FUNCTION TomoeRecognizerSearchFunc ##### -->
+<para>
+
+</para>
+
+@context: 
+@dict: 
+@input: 
+@Returns: 
+
+<!-- ##### FUNCTION tomoe_config_load ##### -->
+<para>
+
+</para>
+
+@config: 
+
+<!-- ##### FUNCTION tomoe_context_load_recognizer ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@base_dir: 
+@name: 
+
+<!-- ##### FUNCTION tomoe_module_find_module ##### -->
+<para>
+
+</para>
+
+@module: 
+@base_dir: 
+@name: 
+@Returns: 
+
+<!-- ##### FUNCTION tomoe_module_get_context ##### -->
+<para>
+
+</para>
+
+@module: 
+@Returns: 
+
+<!-- ##### FUNCTION tomoe_module_load_func ##### -->
+<para>
+
+</para>
+
+@module: 
+@func_name: 
+@symbol: 
+@Returns: 
+
+<!-- ##### FUNCTION tomoe_module_show_error ##### -->
+<para>
+
+</para>
+
+@module: 
+
+<!-- ##### FUNCTION tomoe_reading_compare ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@Returns: 
+
+<!-- ##### FUNCTION tomoe_shelf_add_dict ##### -->
+<para>
+
+</para>
+
+@shelf: 
+@dict: 
+
+<!-- ##### FUNCTION tomoe_shelf_remove_dict ##### -->
+<para>
+
+</para>
+
+@shelf: 
+@name: 
+@Returns: 
+

@@ -1,0 +1,244 @@
+<!-- ##### SECTION Title ##### -->
+TomoeChar
+
+<!-- ##### SECTION Short_Description ##### -->
+An object of character data.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO TOMOE_CHAR_PRIVATE_USE_AREA_START ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO TOMOE_CHAR_PRIVATE_USE_AREA_END ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT TomoeChar ##### -->
+<para>
+The #TomoeChar struct contains only
+private fields and should not be directly accessed.
+</para>
+
+
+<!-- ##### ARG TomoeChar:n-strokes ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG TomoeChar:utf8 ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG TomoeChar:variant ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG TomoeChar:writing ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION tomoe_char_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_new_from_xml_data ##### -->
+<para>
+
+</para>
+
+@data: 
+@len: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_utf8 ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_set_utf8 ##### -->
+<para>
+
+</para>
+
+@chr: 
+@utf8: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_n_strokes ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_set_n_strokes ##### -->
+<para>
+
+</para>
+
+@chr: 
+@n_strokes: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_readings ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_add_reading ##### -->
+<para>
+
+</para>
+
+@chr: 
+@reading: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_radicals ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_add_radical ##### -->
+<para>
+
+</para>
+
+@chr: 
+@radical: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_writing ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_set_writing ##### -->
+<para>
+
+</para>
+
+@chr: 
+@writing: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_variant ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_set_variant ##### -->
+<para>
+
+</para>
+
+@chr: 
+@variant: 
+
+
+<!-- ##### FUNCTION tomoe_char_get_meta_data ##### -->
+<para>
+
+</para>
+
+@chr: 
+@key: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_register_meta_data ##### -->
+<para>
+
+</para>
+
+@chr: 
+@key: 
+@value: 
+
+
+<!-- ##### FUNCTION tomoe_char_has_meta_data ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_meta_data_foreach ##### -->
+<para>
+
+</para>
+
+@chr: 
+@func: 
+@user_data: 
+
+
+<!-- ##### FUNCTION tomoe_char_compare ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_char_to_xml ##### -->
+<para>
+
+</para>
+
+@chr: 
+@Returns: 
+
+

@@ -1,0 +1,30 @@
+%%
+headers
+#define NO_IMPORT_PYGOBJECT
+#include "pytomoe-utils.h"
+%%
+ignore
+  tomoe_context_multi_search
+%%
+%%
+override tomoe_context_search kwargs
+static PyObject *
+_wrap_tomoe_context_search(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "query", NULL };
+    PyGObject *query;
+    GList *candidates;
+    PyObject *py_cands;
+    
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!:TomoeContext.search", kwlist, &PyTomoeQuery_Type, &query))
+        return NULL;
+
+    candidates = tomoe_context_search (TOMOE_CONTEXT(self->obj), TOMOE_QUERY(query->obj));
+
+    CONVERT_OBJECT_LIST (py_cands, candidates);
+
+    g_list_free (candidates);
+
+    return py_cands;
+}
+%%

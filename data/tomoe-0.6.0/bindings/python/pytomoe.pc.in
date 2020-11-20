@@ -1,0 +1,11 @@
+prefix=@prefix@
+datarootdir=@datarootdir@
+datadir=@datadir@
+
+# for Python binding
+defsdir=${datadir}/@PACKAGE@/python
+
+Name: Python binding for Tomoe
+Description: Python binding for TOMOE
+Version: @VERSION@
+Requires: tomoe, pygobject-2.0

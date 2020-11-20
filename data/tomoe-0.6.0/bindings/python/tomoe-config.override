@@ -1,0 +1,27 @@
+%%
+headers
+#define NO_IMPORT_PYGOBJECT
+#include "pytomoe-utils.h"
+%%
+override tomoe_config_get_languages noargs
+static PyObject *
+_wrap_tomoe_config_get_languages(PyGObject *self)
+{
+    PyObject *py_list;
+    const gchar *const *languages;
+
+    languages = tomoe_config_get_languages (TOMOE_CONFIG(self->obj));
+
+    py_list = PyList_New (0);
+    if (languages)
+    {
+        while (*languages)
+	{
+            PyList_Append (py_list, PyString_FromString(*languages));
+            languages++;
+        }
+    }
+
+    return py_list;
+}
+%%

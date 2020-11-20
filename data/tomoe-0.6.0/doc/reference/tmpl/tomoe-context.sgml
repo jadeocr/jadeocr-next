@@ -1,0 +1,98 @@
+<!-- ##### SECTION Title ##### -->
+TomoeContext
+
+<!-- ##### SECTION Short_Description ##### -->
+An object of...
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT TomoeContext ##### -->
+<para>
+The #TomoeContext struct contains only
+private fields and should not be directly accessed.
+</para>
+
+
+<!-- ##### ARG TomoeContext:recognizer ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION tomoe_context_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_context_load_config ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@config_file: 
+
+
+<!-- ##### FUNCTION tomoe_context_search ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@query: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_context_multi_search ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@queries: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_context_get_char ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@utf8: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_context_register ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@chr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION tomoe_context_unregister ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@utf8: 
+@Returns: 
+
+

@@ -1,0 +1,566 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeQuery</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeDict.html" title="TomoeDict">
+<link rel="next" href="TomoeReading.html" title="TomoeReading">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeDict.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="TomoeReading.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2561753" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2562296" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2562187" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2562212" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeQuery"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2561753"></a><span class="refentrytitle">TomoeQuery</span>
+</h2>
+<p>TomoeQuery &#8212; An object for representing search conditions.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a href="TomoeQuery.html#TomoeQuery-struct">TomoeQuery</a>;
+<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a>*         <a href="TomoeQuery.html#tomoe-query-new">tomoe_query_new</a>                     (void);
+const gchar*        <a href="TomoeQuery.html#tomoe-query-get-utf8">tomoe_query_get_utf8</a>                (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+void                <a href="TomoeQuery.html#tomoe-query-set-utf8">tomoe_query_set_utf8</a>                (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         const gchar *utf8);
+void                <a href="TomoeQuery.html#tomoe-query-add-reading">tomoe_query_add_reading</a>             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         <a href="TomoeReading.html" title="TomoeReading">TomoeReading</a> *reading);
+const GList*        <a href="TomoeQuery.html#tomoe-query-get-readings">tomoe_query_get_readings</a>            (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+void                <a href="TomoeQuery.html#tomoe-query-add-radical">tomoe_query_add_radical</a>             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         const gchar *radical);
+const GList*        <a href="TomoeQuery.html#tomoe-query-get-radicals">tomoe_query_get_radicals</a>            (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+void                <a href="TomoeQuery.html#tomoe-query-set-variant">tomoe_query_set_variant</a>             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         const gchar *variant);
+const gchar*        <a href="TomoeQuery.html#tomoe-query-get-variant">tomoe_query_get_variant</a>             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+void                <a href="TomoeQuery.html#tomoe-query-set-min-n-strokes">tomoe_query_set_min_n_strokes</a>       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         gint n_strokes);
+gint                <a href="TomoeQuery.html#tomoe-query-get-min-n-strokes">tomoe_query_get_min_n_strokes</a>       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+void                <a href="TomoeQuery.html#tomoe-query-set-max-n-strokes">tomoe_query_set_max_n_strokes</a>       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         gint n_strokes);
+gint                <a href="TomoeQuery.html#tomoe-query-get-max-n-strokes">tomoe_query_get_max_n_strokes</a>       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+void                <a href="TomoeQuery.html#tomoe-query-set-writing">tomoe_query_set_writing</a>             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);
+<a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>*       <a href="TomoeQuery.html#tomoe-query-get-writing">tomoe_query_get_writing</a>             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+gboolean            <a href="TomoeQuery.html#tomoe-query-is-empty">tomoe_query_is_empty</a>                (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2562187"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeQuery
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2562212"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a href="TomoeQuery.html#TomoeQuery--max-n-strokes">max-n-strokes</a>"            gint                  : Read / Write
+  "<a href="TomoeQuery.html#TomoeQuery--min-n-strokes">min-n-strokes</a>"            gint                  : Read / Write
+  "<a href="TomoeQuery.html#TomoeQuery--utf8">utf8</a>"                     gchararray            : Read / Write
+  "<a href="TomoeQuery.html#TomoeQuery--writing">writing</a>"                  <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>          : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2562296"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2562310"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2562320"></a><h3>
+<a name="TomoeQuery-struct"></a>TomoeQuery</h3>
+<a class="indexterm" name="id2562333"></a><pre class="programlisting">typedef struct _TomoeQuery TomoeQuery;</pre>
+<p>
+The <a href="TomoeQuery.html" title="TomoeQuery"><span class="type">TomoeQuery</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562357"></a><h3>
+<a name="tomoe-query-new"></a>tomoe_query_new ()</h3>
+<a class="indexterm" name="id2562370"></a><pre class="programlisting"><a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a>*         tomoe_query_new                     (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562405"></a><h3>
+<a name="tomoe-query-get-utf8"></a>tomoe_query_get_utf8 ()</h3>
+<a class="indexterm" name="id2562418"></a><pre class="programlisting">const gchar*        tomoe_query_get_utf8                (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562476"></a><h3>
+<a name="tomoe-query-set-utf8"></a>tomoe_query_set_utf8 ()</h3>
+<a class="indexterm" name="id2562489"></a><pre class="programlisting">void                tomoe_query_set_utf8                (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         const gchar *utf8);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>utf8</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562556"></a><h3>
+<a name="tomoe-query-add-reading"></a>tomoe_query_add_reading ()</h3>
+<a class="indexterm" name="id2562569"></a><pre class="programlisting">void                tomoe_query_add_reading             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         <a href="TomoeReading.html" title="TomoeReading">TomoeReading</a> *reading);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>reading</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562637"></a><h3>
+<a name="tomoe-query-get-readings"></a>tomoe_query_get_readings ()</h3>
+<a class="indexterm" name="id2562650"></a><pre class="programlisting">const GList*        tomoe_query_get_readings            (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562708"></a><h3>
+<a name="tomoe-query-add-radical"></a>tomoe_query_add_radical ()</h3>
+<a class="indexterm" name="id2562721"></a><pre class="programlisting">void                tomoe_query_add_radical             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         const gchar *radical);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>radical</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562789"></a><h3>
+<a name="tomoe-query-get-radicals"></a>tomoe_query_get_radicals ()</h3>
+<a class="indexterm" name="id2562802"></a><pre class="programlisting">const GList*        tomoe_query_get_radicals            (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562860"></a><h3>
+<a name="tomoe-query-set-variant"></a>tomoe_query_set_variant ()</h3>
+<a class="indexterm" name="id2562873"></a><pre class="programlisting">void                tomoe_query_set_variant             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         const gchar *variant);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>variant</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2562941"></a><h3>
+<a name="tomoe-query-get-variant"></a>tomoe_query_get_variant ()</h3>
+<a class="indexterm" name="id2562953"></a><pre class="programlisting">const gchar*        tomoe_query_get_variant             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563011"></a><h3>
+<a name="tomoe-query-set-min-n-strokes"></a>tomoe_query_set_min_n_strokes ()</h3>
+<a class="indexterm" name="id2563024"></a><pre class="programlisting">void                tomoe_query_set_min_n_strokes       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         gint n_strokes);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>n_strokes</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563092"></a><h3>
+<a name="tomoe-query-get-min-n-strokes"></a>tomoe_query_get_min_n_strokes ()</h3>
+<a class="indexterm" name="id2563105"></a><pre class="programlisting">gint                tomoe_query_get_min_n_strokes       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563162"></a><h3>
+<a name="tomoe-query-set-max-n-strokes"></a>tomoe_query_set_max_n_strokes ()</h3>
+<a class="indexterm" name="id2563176"></a><pre class="programlisting">void                tomoe_query_set_max_n_strokes       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         gint n_strokes);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>n_strokes</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563243"></a><h3>
+<a name="tomoe-query-get-max-n-strokes"></a>tomoe_query_get_max_n_strokes ()</h3>
+<a class="indexterm" name="id2563257"></a><pre class="programlisting">gint                tomoe_query_get_max_n_strokes       (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563313"></a><h3>
+<a name="tomoe-query-set-writing"></a>tomoe_query_set_writing ()</h3>
+<a class="indexterm" name="id2563326"></a><pre class="programlisting">void                tomoe_query_set_writing             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query,
+                                                         <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *writing);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>writing</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563394"></a><h3>
+<a name="tomoe-query-get-writing"></a>tomoe_query_get_writing ()</h3>
+<a class="indexterm" name="id2563407"></a><pre class="programlisting"><a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>*       tomoe_query_get_writing             (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563463"></a><h3>
+<a name="tomoe-query-is-empty"></a>tomoe_query_is_empty ()</h3>
+<a class="indexterm" name="id2563476"></a><pre class="programlisting">gboolean            tomoe_query_is_empty                (<a href="TomoeQuery.html" title="TomoeQuery">TomoeQuery</a> *query);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>query</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2563534"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2563544"></a><h3>
+<a name="TomoeQuery--max-n-strokes"></a>The "<code class="literal">max-n-strokes</code>" property</h3>
+<a class="indexterm" name="id2563561"></a><pre class="programlisting">  "max-n-strokes"            gint                  : Read / Write</pre>
+<p>Maximum number of strokes of searched character.</p>
+<p>Allowed values: &gt;= -1</p>
+<p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563592"></a><h3>
+<a name="TomoeQuery--min-n-strokes"></a>The "<code class="literal">min-n-strokes</code>" property</h3>
+<a class="indexterm" name="id2563608"></a><pre class="programlisting">  "min-n-strokes"            gint                  : Read / Write</pre>
+<p>Minimum number of strokes of searched character.</p>
+<p>Allowed values: &gt;= -1</p>
+<p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563639"></a><h3>
+<a name="TomoeQuery--utf8"></a>The "<code class="literal">utf8</code>" property</h3>
+<a class="indexterm" name="id2563654"></a><pre class="programlisting">  "utf8"                     gchararray            : Read / Write</pre>
+<p>UTF8 encoding of searched character.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2563682"></a><h3>
+<a name="TomoeQuery--writing"></a>The "<code class="literal">writing</code>" property</h3>
+<a class="indexterm" name="id2563697"></a><pre class="programlisting">  "writing"                  <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a>          : Read / Write</pre>
+<p>Writing of searched character.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

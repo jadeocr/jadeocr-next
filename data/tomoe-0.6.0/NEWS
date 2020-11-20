@@ -1,0 +1,30 @@
+Overview of Changes from libtomoe-0.5.1 to libtomoe-0.6.0
+==============================================================
+* Simplified Chinese dictionary.
+* Enhanced Japanese dictionary (Add JIS X 0208 level2 support).
+* Choose default dictionary automatically according to current locale.
+* Python binding.
+* Don't use RSpec for test anymore.
+* Some minor fixes.
+
+Overview of Changes from libtomoe-0.5.0 to libtomoe-0.5.1
+==============================================================
+* Add missing licence file.
+* Some minor fixes.
+
+Overview of Changes from libtomoe-0.4.0 to libtomoe-0.5.0
+==============================================================
+* New modulized dictionaries:
+  - Hyper Estraier
+  - Unihan database
+  - MySQL
+* Add radicals and variant element into dict.dtd.
+
+Overview of Changes from libtomoe-0.3.0 to libtomoe-0.4.0
+==============================================================
+* Shortening startup time.
+* Modularization handwriting recognizer and dictionary loader.
+* Reconstruct and GObjectize all API.
+* Release from libxml.
+* Ruby binding.
+* Test suite based on Ruby binding.

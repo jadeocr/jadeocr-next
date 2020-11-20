@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>TomoeRecognizer</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.71.0">
+<link rel="start" href="index.html" title="Tomoe Reference Manual">
+<link rel="up" href="tomoe.html" title="Tomoe Core">
+<link rel="prev" href="TomoeReading.html" title="TomoeReading">
+<link rel="next" href="TomoeShelf.html" title="TomoeShelf">
+<meta name="generator" content="GTK-Doc V1.8 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="tomoe.html" title="Tomoe Core">
+<link rel="index" href="ix01.html" title="Index">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="TomoeReading.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="tomoe.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Tomoe Reference Manual</th>
+<td><a accesskey="n" href="TomoeShelf.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2567152" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2567510" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2567451" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2567475" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="TomoeRecognizer"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2567152"></a><span class="refentrytitle">TomoeRecognizer</span>
+</h2>
+<p>TomoeRecognizer &#8212; An abstract recognizer object</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a href="TomoeRecognizer.html#TomoeRecognizer-struct">TomoeRecognizer</a>;
+void                <a href="TomoeRecognizer.html#tomoe-recognizer-init">tomoe_recognizer_init</a>               (void);
+void                <a href="TomoeRecognizer.html#tomoe-recognizer-quit">tomoe_recognizer_quit</a>               (void);
+const gchar*        <a href="TomoeRecognizer.html#tomoe-recognizer-get-default-module-dir">tomoe_recognizer_get_default_module_dir</a>
+                                                        (void);
+void                <a href="TomoeRecognizer.html#tomoe-recognizer-set-default-module-dir">tomoe_recognizer_set_default_module_dir</a>
+                                                        (const gchar *dir);
+void                <a href="TomoeRecognizer.html#tomoe-recognizer-load">tomoe_recognizer_load</a>               (const gchar *base_dir);
+TomoeModule*        <a href="TomoeRecognizer.html#tomoe-recognizer-load-module">tomoe_recognizer_load_module</a>        (const gchar *name);
+void                <a href="TomoeRecognizer.html#tomoe-recognizer-unload">tomoe_recognizer_unload</a>             (void);
+GList*              <a href="TomoeRecognizer.html#tomoe-recognizer-get-registered-types">tomoe_recognizer_get_registered_types</a>
+                                                        (void);
+GList*              <a href="TomoeRecognizer.html#tomoe-recognizer-get-log-domains">tomoe_recognizer_get_log_domains</a>    (void);
+<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a>*    <a href="TomoeRecognizer.html#tomoe-recognizer-new">tomoe_recognizer_new</a>                (const gchar *name,
+                                                         const gchar *first_property,
+                                                         ...);
+GList*              <a href="TomoeRecognizer.html#tomoe-recognizer-search">tomoe_recognizer_search</a>             (<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a> *recognizer,
+                                                         <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *input);
+const gchar*        <a href="TomoeRecognizer.html#tomoe-recognizer-get-language">tomoe_recognizer_get_language</a>       (<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a> *recognizer);
+gboolean            <a href="TomoeRecognizer.html#tomoe-recognizer-is-available">tomoe_recognizer_is_available</a>       (<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a> *recognizer);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2567451"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  GObject
+   +----TomoeRecognizer
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2567475"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a href="TomoeRecognizer.html#TomoeRecognizer--language">language</a>"                 gchararray            : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2567510"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2567524"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2567534"></a><h3>
+<a name="TomoeRecognizer-struct"></a>TomoeRecognizer</h3>
+<a class="indexterm" name="id2567547"></a><pre class="programlisting">typedef struct _TomoeRecognizer TomoeRecognizer;</pre>
+<p>
+The <a href="TomoeRecognizer.html" title="TomoeRecognizer"><span class="type">TomoeRecognizer</span></a> struct contains only
+private fields and should not be directly accessed.
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567572"></a><h3>
+<a name="tomoe-recognizer-init"></a>tomoe_recognizer_init ()</h3>
+<a class="indexterm" name="id2567585"></a><pre class="programlisting">void                tomoe_recognizer_init               (void);</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567606"></a><h3>
+<a name="tomoe-recognizer-quit"></a>tomoe_recognizer_quit ()</h3>
+<a class="indexterm" name="id2567620"></a><pre class="programlisting">void                tomoe_recognizer_quit               (void);</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567641"></a><h3>
+<a name="tomoe-recognizer-get-default-module-dir"></a>tomoe_recognizer_get_default_module_dir ()</h3>
+<a class="indexterm" name="id2567655"></a><pre class="programlisting">const gchar*        tomoe_recognizer_get_default_module_dir
+                                                        (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567693"></a><h3>
+<a name="tomoe-recognizer-set-default-module-dir"></a>tomoe_recognizer_set_default_module_dir ()</h3>
+<a class="indexterm" name="id2567707"></a><pre class="programlisting">void                tomoe_recognizer_set_default_module_dir
+                                                        (const gchar *dir);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><em class="parameter"><code>dir</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567754"></a><h3>
+<a name="tomoe-recognizer-load"></a>tomoe_recognizer_load ()</h3>
+<a class="indexterm" name="id2567767"></a><pre class="programlisting">void                tomoe_recognizer_load               (const gchar *base_dir);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><em class="parameter"><code>base_dir</code></em>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567813"></a><h3>
+<a name="tomoe-recognizer-load-module"></a>tomoe_recognizer_load_module ()</h3>
+<a class="indexterm" name="id2567827"></a><pre class="programlisting">TomoeModule*        tomoe_recognizer_load_module        (const gchar *name);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567884"></a><h3>
+<a name="tomoe-recognizer-unload"></a>tomoe_recognizer_unload ()</h3>
+<a class="indexterm" name="id2567896"></a><pre class="programlisting">void                tomoe_recognizer_unload             (void);</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567918"></a><h3>
+<a name="tomoe-recognizer-get-registered-types"></a>tomoe_recognizer_get_registered_types ()</h3>
+<a class="indexterm" name="id2567931"></a><pre class="programlisting">GList*              tomoe_recognizer_get_registered_types
+                                                        (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2567969"></a><h3>
+<a name="tomoe-recognizer-get-log-domains"></a>tomoe_recognizer_get_log_domains ()</h3>
+<a class="indexterm" name="id2567982"></a><pre class="programlisting">GList*              tomoe_recognizer_get_log_domains    (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2568018"></a><h3>
+<a name="tomoe-recognizer-new"></a>tomoe_recognizer_new ()</h3>
+<a class="indexterm" name="id2568031"></a><pre class="programlisting"><a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a>*    tomoe_recognizer_new                (const gchar *name,
+                                                         const gchar *first_property,
+                                                         ...);</pre>
+<p>
+Create a new <a href="TomoeRecognizer.html" title="TomoeRecognizer"><span class="type">TomoeRecognizer</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></td>
+<td> The name of recognizer type.
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>first_property</code></em>&#160;:</span></td>
+<td> the name of the first property.
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>...</code></em>&#160;:</span></td>
+<td>  the value of the first property, followed optionally by more name/value pairs, followed by NULL
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td> a new <a href="TomoeRecognizer.html" title="TomoeRecognizer"><span class="type">TomoeRecognizer</span></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2568147"></a><h3>
+<a name="tomoe-recognizer-search"></a>tomoe_recognizer_search ()</h3>
+<a class="indexterm" name="id2568160"></a><pre class="programlisting">GList*              tomoe_recognizer_search             (<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a> *recognizer,
+                                                         <a href="TomoeWriting.html" title="TomoeWriting">TomoeWriting</a> *input);</pre>
+<p>
+Match strokes of TomoeChar with TomoeWriting.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>recognizer</code></em>&#160;:</span></td>
+<td> a TomoeRecognizer object.
+</td>
+</tr>
+<tr>
+<td><span class="term"><em class="parameter"><code>input</code></em>&#160;:</span></td>
+<td> a <a href="TomoeWriting.html" title="TomoeWriting"><span class="type">TomoeWriting</span></a> object for matching.
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td> A newly-allocated list of
+<a href="TomoeCandidate.html" title="TomoeCandidate"><span class="type">TomoeCandidate</span></a>. The each <a href="TomoeCandidate.html" title="TomoeCandidate"><span class="type">TomoeCandidate</span></a> should be also
+freed with g_object_unref.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2568270"></a><h3>
+<a name="tomoe-recognizer-get-language"></a>tomoe_recognizer_get_language ()</h3>
+<a class="indexterm" name="id2568283"></a><pre class="programlisting">const gchar*        tomoe_recognizer_get_language       (<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a> *recognizer);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>recognizer</code></em>&#160;:</span></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2568341"></a><h3>
+<a name="tomoe-recognizer-is-available"></a>tomoe_recognizer_is_available ()</h3>
+<a class="indexterm" name="id2568355"></a><pre class="programlisting">gboolean            tomoe_recognizer_is_available       (<a href="TomoeRecognizer.html" title="TomoeRecognizer">TomoeRecognizer</a> *recognizer);</pre>
+<p>
+</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><span class="term"><em class="parameter"><code>recognizer</code></em>&#160;:</span></td>
+<td> a TomoeRecognizer object.
+</td>
+</tr>
+<tr>
+<td><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></td>
+<td> <code class="literal">TRUE</code> if the recognizer is available,
+<code class="literal">FALSE</code> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2568438"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2568449"></a><h3>
+<a name="TomoeRecognizer--language"></a>The "<code class="literal">language</code>" property</h3>
+<a class="indexterm" name="id2568465"></a><pre class="programlisting">  "language"                 gchararray            : Read / Write / Construct Only</pre>
+<p>The language of the recognizer.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+</body>
+</html>

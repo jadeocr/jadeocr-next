@@ -1,0 +1,2828 @@
+2007-06-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* Version-0.6.0.
+
+2007-06-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* bindings/python/Makefile.am: Add tomoe-config.override.
+
+2007-06-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict-ptr-array.c: TomoeDictPtrArray has editable and
+	modified property.
+	* module/dict/tomoe-dict-xml.c: Follow the above change.
+	* lib/tomoe-dict-ptr-array.c: Remove needless virtual functions.
+	* lib/tomoe-dict-ptr-array.c: Set modified flag TRUE after copy().
+	* module/dict/tomoe-dict-xml.c: Save only if filename is not NULL.
+	* lib/tomoe-dict.c: Do not check availability of source dictionary.
+
+2007-06-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/ruby/tomoe-rb-dict.c: Implement copy() function.
+	* lib/tomoe-dict-ptr-array.[ch]: Added register and unregister virtual
+	functions. 
+	* module/tomoe-dict-xml.c: Invoke TomoeDictPtrArray::register_char
+	to set modified flag.
+	* module/tomoe-dict-unihan.c: Fix critical typos.
+
+2007-06-17  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/python/*.py: fixed encoding preamble(?).
+
+	* macros/python.m4:
+	- disabled Python bindings not error if pygobject-2.0
+	  package is not found.
+	- removed needless spaces.
+	- removed needless macros.
+	- used $CPPFLAGS not $CFLAGS.
+
+2007-06-16  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.c: tomoe_char_to_xml_readings() puts each reading
+	from the last element of its list for the sake of preserving the order
+	of readings.
+	* lib/tomoe-dict-ptr-array.[ch]: A new abstract object.
+	* module/dict/tomoe-dict-xml.c, module/dict/tomoe-dict-unihan.c: Use
+	TomoeDictPtrArray.
+	* module/dict/tomoe-dict-ptr-array.[ch]: Removed. All functions were moved into
+	TomoeDictPtrArray object.
+	* module/dict/tomoe-unihan.[ch]: Adapt to TomoeDictPtrArray.
+	* lib/tomoe-dict.c: Call copy() only if the class has copy function.
+	* test/data/test-dict.xml: Added.
+	* test/python/test_dict_xml.py: Use test-dict.xml.
+	* test/python/test_context.py: Use test-dict.xml.
+	* test/data/test-dict.xml: Added stroke data.
+	* test/python/test_common.py, test/python/test_recognizer.py:
+	parseStrokeData() was moved into test_common.py.
+	* test/python/test_context.py: Implement all tests.
+	* module/dict/tomoe-dict-unihan.c: Now TomoeDictUnihan is a singleton
+	object. But it is fragile because _tomoe_unihan_create() takes a lot
+	of time.
+
+2007-06-15  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/python/tomoe-config.override: Implement
+	tomoe.Config.get_languages().
+	* test/python/test_dict.py: Add tomoe_dict_copy() test.
+	* lib/tomoe-dict.[ch]: Define tomoe_dict_copy().
+	* bindings/python/tomoe.def: Define tomoe.Dict.copy().
+	* test/python/test_char.py: Add tomoe.Char.duplicate test.
+	* test/python/test_writing.py: Add tomoe.Writing.duplicate test.
+	* test/python/test_context.py: Add some tests.
+	* lib/tomoe-dict.[ch]: Add tomoe_dict_plain_copy().
+	* lib/tomoe-writing.[ch]: Add tomoe_writing_dup().
+	* test/python/bindings/test_char.py, test/python/test_writing.py:
+	duplicate() -> dup().
+	* test/python/test_reading.py: Add tomoe.Reading.dup() test.
+	* lib/tomoe-reading.[ch]: Add tomoe_reading_dup().
+	* lib/tomoe-char.[ch]: Add tomoe_char_dup().
+	* bindings/python/tomoe.defs: Define dup() functions.
+	* module/dict/tomoe-dict-xml.c: Implement copy() function. But it uses
+	plain copy().
+	* lib/tomoe-char.c: Readings and radicals copies from its last
+	element.
+	* lib/tomoe-dict.c: Call copy() only if the type of source and destination
+	dictionary is the same.
+	* lib/tomoe-writing.c: Plugged memory leak and fix double free.
+	* module/dict/tomoe-dict-ptr-array.[ch]: Define
+	_tomoe_dict_ptr_array_copy().
+	* module/dict/tomoe-dict-xml.c: Use _tomoe_dict_prt_array_copy().
+	* test/python/test_dict.py: Remove previous test dictionary before run
+	test.
+
+2007-06-14  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/python/pytomoe-utils.h: Define CONVERT_POINTER_LIST.
+	* bindings/python/tomoe-writing.override: Use CONVERT_POINTER_LIST.
+	* bindings/python/tomoe-writing.override: tomoe.Writing.get_strokes
+	returns list of tuple list.
+	* test/python/test_writing.py: Implement tests.
+	* test.python/test_config.py: Implement some tests.
+
+2007-06-13  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* test/python/test_common.py: Added.
+	* test/python/test_dict_unihan.py: Sort TomoeCandidate list by its
+	UTF-8.
+	* test/python/test_candidate.py: Added.
+	* test/tomoe-test-utils.rb: Create a temporary test database for MySQL
+	backend.
+	* test/python/*.py: Swap first and second argument of assertEqual().
+	* test/python/test_shelf.py: Added.
+	* test/python/test_config.py, test/python/test_context.py,
+	test/python/test_writing.py: Added. All tests fail yet.
+
+2007-06-12  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* data/Makefile.am: Link handwriting-ja.xml to handwriting.xml for hard
+	coded test codes. It should be fixed later.
+
+2007-06-12  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* data/handwriting-zh_CN.xml: Added. Thanks Red Hat guys!
+	* data/handwriting-ja.xml: Renamed from handwriting.xml and merge
+	jis-x-0208-level2.xml. handwriting.xml will be revived with latin
+	characters.
+	* data/Makefile.am: Follow the change.
+
+2007-06-12  Takuro Ashie  <ashie@homa.ne.jp>
+
+	*  module/dict/Makefile.am, benchmark/Makefile.am: Replace ext with
+	bindings.
+
+2007-06-12  Kouhei Sutou  <kou@cozmixng.org>
+
+	* db/init.rb, db/xml2db.rb, module/dict/unihan-compiler.rb:
+	followed the current changes.
+
+2007-06-12  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-reading.[ch]: Add tomoe_reading_has_prefix().
+	* module/dict/tomoe-dict-est.c, module/dict/tomoe-dict-ptr-array.c:
+	Now reading search is prefix search.
+	* test/test_context.rb: Fix test results suited for prefix search.
+	* module/dict-tomoe-dict-mysql.c: Suport prefix search.
+	* test/python/test_recognizer.py: Add recognizer test.
+	* test/python/test_recognizer.py: Set language property ja.
+	* test/python/runtests.py: Use
+	tomoe_recognizer_set_default_module_dir().
+	* test/data/*.data: Update test stroke data suited for new
+	handwriring-ja.xml.
+
+2007-06-11  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/tomoe-test-utils.rb, test/test_context.rb: fixed test when
+	TOMOE_DICT_MODULE=est.
+
+2007-06-11  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* test/python/test_dict_xml.py: Unlink temporary file only if the file
+	exists
+	* test/python/runtests.py: Test Unihan dict. Use insert() for addition
+	path for loading tomoe module instead of append() since building tomoe
+	module is prior to system tomoe module.
+	* test/python/test_dict_xml.py: Create test dictionary in setUp().
+	* test/python/test_dict.py: Follow the above change.
+	* test/python/test_dict_unihan.py: Override some methods of
+	TomoeDictTest since Unihan dictionary module does not have some
+	functions.
+	* test/python/test_dict_est.py: Create a test test dictionary fot
+	TomoeEst.
+	* test/python/test_dict_est.py: Remove the directory which stores est
+	databse whenever each test exits
+	* test/python/runtests.py: test_dict_est.py is now avairable.
+	* module/dict/tomoe-dict-est.c: Readings is set into document
+	attribute.
+	* module/dict/tomoe-dict-est.c: Reading data is separated by a space
+	in attribute area of document.
+	* module/dict/tomoe-dict-est.c: Query of search by reading is always
+	handled as TOMOE_READING_UNKNOWN type.
+	* module/dict/tomoe-dict-est.c: Use STRRX flag for searching readings.
+	It brings the result that includes readings matched exactly with queries.
+	* module/dict/tomoe-dict-est.c: Insert a space before append
+	on_readings and kun_readings string to all_readings. Now all tests
+	passed!
+
+2007-06-10  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/ruby/tomoe-rb-reading.c: Implement compare operator.
+	* configure.ac, test/Makefile.am, test/python/Makefile.am: Add
+	test/python/Makefile.am.
+	* test/python/test_query.py: More test code for TomoeQuery.
+	* test/python/test_dict.py, test/python/test_dict_*.py: Reconstruct
+	TestTomoeDict class.
+
+2007-06-09  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/python/tomoe.defs: Implement tomoe_reading_compare().
+	* test/python/runtest.py: Taken from PyGtk.
+	* bindings/python/tomoe.defs: tomoe.Char() accepts optional arguments
+	* test/python/test_char.rb: More test code for TomoeChar. But
+	testRadical() causes seg fault now. Fix it.
+	* bindings/python/pytomoe-utils.h: define CONVERT_STRING_LIST. rename
+	CONVERT_LIST to CONVERT_OBJECT_LIST.
+	* bindings/python/*.override: Follow the above change. Now
+	testRadical() works fine.
+	* bindings/python/tomoe-char.override,
+	bindings/python/tomoe-reading.override: Implement compare operator.
+	* bindings/python/tomoe.defs: add optional arguments for
+	tomoe.Query().
+	* test/python/test_query.rb: Some test code for TomoeQuery.
+
+2007-06-08  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/tomoe-test-utils.rb: fixed dynamic dictionary search method.
+
+	* test/test_dict.rb: ignore tests for Unihan.
+
+	* bindings/ruby/tomoe.rb: ensure initialize @missing.
+
+	* test/test_*.rb: used Test::Unit instead of RSpec.
+
+	* test/Makefile.am, test/run-test.sh: cleanup.
+
+	* test/: used Test::Unit instead of RSpec because RSpec API is
+	changed! We will not use RSpec anymore.
+
+2007-06-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/python/tomoe-module.c: Call pytomoe_add_constants().
+	* test/python/*: Add a test program.
+	* bindings/python/tomoe-dict.override,
+	bindings/python/tomoe-recognizer.override: Support keyword argument.
+	* lib/tomoe-reading.[ch]: Add tomoe_reading_compare function.
+	* module/dict/tomoe-dict-ptr-array.c: Use tomoe_reading_compare for
+	searching.
+
+2007-06-07  Kouhei Sutou  <kou@cozmixng.org>
+
+	* macros/ruby.m4: supported --with-ruby without "=PATH".
+
+2007-06-07  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* bindings/python/tomoe-dict.override,
+	bindings/python/tomoe-recognizer.override: TomoeDict and
+	TomoeRecognizer object can be created.
+	tomoe.Dict("XML", "filename", "/usr/share/tomoe/handwriting.xml") or tomoe.Dict("Unihan").
+	* lib/tomoe-*.c: Remove "tomoe-" prefix from GObject's virtual
+	function's name.
+	* bindings/python/Makefile.am: Install tomoe.defs.
+	* tomoe.pc.in: Add defsdir for Python binding.
+	* bindings/python/pytomoe.pc.in: pkg-config file for pytomoe.
+	* bindings/python/tomoe-python-utils.h ->
+	bindings/python/pytomoe-utils.h: 
+	* bindings/python/*.override: Follow the above change.
+
+2007-06-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.c: Invoke tomoe_config_load() in constructor since
+	pygtk-codegen-2.0 does not wrap XX_new() function. 
+	* bindings/python/tomoe.defs: tomoe_config_new() and
+	tomoe_context_load_config() does not require arguments.
+	* bindings/python/tomoe-dict.override,
+	bindings/python/tomoe-context.override,
+	bindings/python/tomoe-recognizer.override: Fix implementions. I did
+	not understand how to write Python bindings. Sorry.
+	* bindings/python/tomoe-module.c: Call tomoe_init() and tomoe_quit().
+	* bindings/python/tomoe-dict.override: Implement tomoe_dict_new().
+
+2007-06-06  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/run-spec.rb:
+	- ext -> bindings.
+	- require_gem -> require.
+
+	* ext/python/Makefile.am: added dependencies on *.override.
+
+2007-06-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* ext/python/tomoe-dict.override,
+	ext/python/tomoe-tomoe-recognizer.override: removed
+	tomoe_XX_get_registered_types and tomoe_XX_get_log_domains.
+	* ext/python/tomoe-writing.override, ext/python/tomoe-query.override,
+	ext/python/tomo-char.override: Fix double free.
+	* ext/python/tomoe-module.c: added.
+	* ext/python/tomoe-context.override: Ignore
+	tomoe_context_multi_search.
+	* ext -> bindings.
+
+2007-06-05  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* ext/ruby/Makeifle.am: Use -avoid-version option instead of
+	version-info.
+	* macros/python.m4, configure.ac, ext/python: Add python binding.
+	* ext/python/tomoe-context.override, ext/python/tomoe-query.override,
+	ext/python/tomoe-shelf.override, ext/python/tomoe-writing.override:
+	Implement some functions.
+	* ext/python/tomoe-char.override,
+	ext/python/tomoe-recognizer.override: Implement some functions.
+	* ext/python/tomoe-dict.override: Implement some functions.
+	* ext/python/tomoe.defs: Remove tomoe_module_XX.
+	* ext/python/tomoe-dict.override,
+	ext/python/tomoe-recognizer.override: Ignore tomoe_XX_load_module.
+
+2007-05-08  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* test/Makefile.am: Replace WITH_HOGE with USE_HOGE.
+	Sorry, I forgot to commit it.
+	* data/handwriting.xml: Fix some entries which has multiple characters.
+
+2007-05-07  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* configure.ac: Don't use "--disable-*" and "--without-*" for help 
+	string to avoid confusion.
+
+2007-05-07  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* configure.ac, macros/svn.m4, module/dict/Makefile.am,
+	  - Replace WITH_HOGE conditional with USE_HOGE.
+
+2007-05-07  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* configure.ac:
+	  - Enable Unihan and disable ruby-dict by default.
+	  - Unify names of variables as "use_hoge" for enabling/disabling
+	    dictionaries.
+	  - Add "x" when test variables for detecting empty string.
+
+2007-05-07  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/Makefile.am, module/dict/download.rb: used passive
+	mode for downloading Unihan.zip.
+
+2007-04-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* macros/: ignored auto-generated files.
+
+2007-04-26  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* configure.ac: Show configure result.
+
+2007-04-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* module/dict/tomoe-dict-xml.c, module/dict/tomoe-dict-ruby.c,
+	  module/dict/tomoe-dict-unihan.c, module/dict/tomoe-dict-mysql.c,
+	  module/dict/tomoe-dict-svn.c, module/dict/tomoe-dict-est.c,
+	  module/recognizer/tomoe-recognizer-simple.c, configure.ac,
+	  lib/tomoe-char.c, lib/tomoe-query.c, lib/tomoe-config.c,
+	  lib/tomoe-recognizer.c, lib/glib-utils.h, lib/tomoe-reading.c:
+	Use gi18n-lib.h instead of gi18n.h.
+
+2007-04-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/data/one_stroke.data: followed the expected test result to
+	dictionary data change.
+
+	* lib/tomoe.c, lib/tomoe-module.[ch], lib/tomoe-dict.[ch],
+	lib/tomoe-recognizer.[ch], ext/ruby/:
+	- supported dynamic loading on demand.
+	- added default module directory configuration interfaces.
+	* test/tomoe-spec-utils.rb: used default module directory
+	configuration interface instead of environment variable.
+
+2007-04-19  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* data/handwriting.xml: Fix stroke data of U+5BBF.
+	Thanks David <daviebdawg@gmail.com>.
+
+2007-04-16  Kouhei Sutou  <kou@cozmixng.org>
+
+	* Makefile.am (EXTRA_DIST): added intltool related files.
+
+2007-04-12  Kouhei Sutou  <kou@cozmixng.org>
+
+	* ext/ruby/tomoe-rb-recognizer.c, ext/ruby/rbtomoe.h: implemented
+	Tomoe::Recognizer#language.
+
+	* ext/ruby/tomoe-rb-config.c, ext/ruby/rbtomoe.h: implemented
+	Tomoe::Config.new and Tomoe::Config#languages.
+
+	* test/config_spec.rb: added tests for TomoeConfig related language
+	configuration.
+
+	* lib/tomoe-config.c (tomoe_config_load): used [config] group for
+	language and languages configuration instead of [global] group.
+
+	* lib/tomoe-context.c (tomoe_context_search_by_strokes): supported
+	language related recognizer loading.
+
+	* lib/tomoe-config.[ch]: supported "[global]/language" property
+	and "[global]/languages" property. "[global]/language" is just for
+	convenience.
+
+	* module/recognizer/tomoe-recognizer-simple.c:
+	- supported tomoe_recognizer_is_available() interface.
+	- supported language related XML DB filename change.
+
+	* lib/tomoe-recognizer.[ch]: (tomoe_recognizer_is_available,
+	tomoe_recognizer_get_language): added.
+
+	* module/dict/tomoe-dict-xml.c
+	  (is_available): improved check.
+	  (tomoe_dict_xml_save): saved only modified.
+
+	* lib/tomoe-dict.[ch] (tomoe_dict_is_available): added.
+	* module/dict/tomoe-dict-*.c: implemented tomoe_dict_is_available
+	interface.
+
+	* module/dict/tomoe-dict-xml.c (tomoe_dict_xml_save): checked
+	filename is available.
+
+2007-04-11  Kouhei Sutou  <kou@cozmixng.org>
+
+	* autogen.sh, configure.ac, po/: supported intltoolize and
+	glib-gettextize.
+
+	* configure.ac:
+	- use AS_HELP_STRING.
+	- removed needless codes.
+	- moved Subversion related codes to ...
+
+	* macros/svn.m4: ... here.
+
+	* autogen.sh, Makefile.am (ACLOCAL_AMFLAGS): added macros/
+	sub-directory.
+
+	* configure.ac: moved Ruby related codes to ...
+	* macros/ruby.m4: ... here.
+
+	* configure.ac: renamed from configure.in.
+
+2007-02-15  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/Makefile.am, module/recognizer/Makefile.am:
+	- used -avoid-version. Pointed out by Jens Petersen. Thanks!
+	- removed -version-info.
+	- used -module and removed 'lib' prefix.
+
+	* lib/tomoe-module.c: followed the changes.
+
+2007-02-09  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* Version-0.5.1.
+
+2007-02-09  Kouhei Sutou  <kou@cozmixng.org>
+
+	* README: added licence description of Tomoe and KANJIDIC2.
+	Pointed out by Jens Petersen. Thanks!
+
+	* data/Makefile.am (EXTRA_DIST): added documentation files and
+	licence file of KANJIDIC2.
+
+2007-01-25  Kouhei Sutou  <kou@cozmixng.org>
+
+	* db/migrate/004_create_meta_data.rb: used :text type instead of
+	:string type for meta data value.
+
+2007-01-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* configure.in: Bump version number.
+
+2007-01-19  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/dict_spec.rb: tomoe_dict_register should override existed
+	character.
+	* module/dict/tomoe-dict-mysql.c,
+	  module/dict/tomoe-dict-ptr-array.c: followed the specification.
+
+2007-01-19  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* src/tomoe-char.c: Add tomoe_char_to_xml_n_strokes().
+
+2007-01-19  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/char_spec.rb: added a test for dumping/loading TomoeChar
+	with n_strokes.
+
+2007-01-09  Kouhei Sutou  <kou@cozmixng.org>
+
+	* db/dump.rb: added a small script for dumping database schema as SQL.
+
+2006-12-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* Version-0.5.0.
+
+2006-12-28  Kouhei Sutou  <kou@cozmixng.org>
+
+	* spec/turbo-linux/tomoe.spec.in,
+	spec/miracle-linux/tomoe.spec.in: added README to doc.
+
+2006-12-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/dict_spec.rb: added tests for auto inserting to PUA.
+
+	* lib/tomoe-module-impl.h, lib/tomoe-module.c,
+	lib/tomoe-recognizer.[ch], lib/tomoe-dict.[ch],
+	module/dict/tomoe-dict-*.c,
+	module/recognizer/tomoe-recognizer-*.c: exported G_LOG_DOMAINS.
+	* ext/ruby/: set LOG_DOMAIN.
+
+2006-12-26  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/Makefile.am: cleanup stamp related built system.
+
+	* module/dict/tomoe-dict-ruby.c (TOMOE_MODULE_IMPL_INIT): added
+	initialization check.
+
+	* module/dict/Makefile.am (EXTRA_DIST): added missing Unihan.stamp.
+
+	* lib/Makefile.am, module/dict/Makefile.am,
+	module/recognizer/Makefile.am: cleanup G_LOG_DOMAIN.
+
+	* module/dict/Makefile.am: cleanup build dependencies.
+
+	* tomoe.pc.in (Name), configure.in, data/handwriting.xml,
+	doc/reference/tomoe-docs.sgml: Tomoe is not TOMOE.
+
+2006-12-25  Kouhei Sutou  <kou@cozmixng.org>
+
+	* spec/: updated.
+
+	* configure.in, Makefile.am, utils/, data/:
+	- moved xml2est.rb to data/ from utils/.
+	- removed utils/.
+
+	* spec/: updated.
+
+	* configure.in, Makefile.am, utils/Makefile.am: added utils/.
+
+	* test/Makefile.am (EXTRA_DIST): added a missing file.
+
+	* configure.in, Makefile.am, db/: added db/ to distributed files.
+
+	* db/search.rb: removed needless file.
+
+	* lib/glib-compat-file-utilities.h: used g_strdup () for
+	g_filename_display_name() alternate.
+
+	* lib/Makefile.am, lib/glib-utils.h,
+	lib/glib-compat-key-file.[ch]: added GKeyFile implementation to
+	work on GLib 2.4.x environment.
+
+	* lib/glib-compat-file-utilities.h: included headers for mkdir().
+
+	* lib/Makefile.am: removed needless dependencies.
+
+	* configure.in: removed needless code.
+
+	* lib/Makefile.am, lib/glib-compat-file-utilities.[ch]: split from
+	lib/glib-utils.[ch].
+
+	* configure.in, Makefile.am, spec/: moved tomoe.spec.in to
+	spec/turbo-linux/.
+	* doc/: updated.
+
+2006-12-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/tomoe-dict-est.c:
+	- supported UTF8 search.
+	- cleanup.
+
+	* test/dict_spec.rb: added tests for searching by UTF8.
+
+	* module/dict/tomoe-dict-est.c: supported variant search.
+
+	* module/dict/tomoe-dict-ptr-array.c: supported variant search and
+	utf8 search.
+
+	* data/dict.dtd: added variant.
+	* test/char_spec.rb: added tests for load/dump XML with variant.
+	* lib/tomoe-xml-parser.c: supported parsing variant.
+	* lib/tomoe-char.c: supported outputting variant to XML.
+
+	* module/dict/tomoe-dict-mysql.c: supported variant search.
+
+	* test/dict_spec.rb: added tests for variant search.
+	* ext/ruby/tomoe-rb-query.c: added Tomoe::Query#set_variant.
+	* lib/tomoe-query.[ch]: fixed variant type to gchar * from
+	TomoeChar *.
+
+	* data/dict.dtd: added radicals.
+	* test/char_spec.rb: added tests for load/dump XML with radicals.
+	* lib/tomoe-xml-parser.c: supported parsing radicals.
+	* lib/tomoe-char.c: supported outputting radicals to XML.
+	* module/dict/tomoe-dict-est.c: supported radical search.
+
+	* test/tomoe-spec-utils.rb: removed patch for interrupt because
+	the patch was applied to RSpec.
+
+	* test/dict_spec.rb: used numeric reference to sanzui.
+
+	* module/dict/tomoe-dict-ptr-array.c: supported radical search.
+
+	* module/dict/tomoe-dict-xml.c (tomoe_dict_xml_save): fixed DTD
+	path.
+
+	* module/dict/tomoe-dict-mysql.c: supported radical search.
+
+2006-12-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-query.[ch]: made radical as utf8 strings instead of
+	TomoeChar.
+	* ext/ruby/tomoe-query.c: supported add_radical.
+	* module/dict/tomoe-dict-mysql.c: fixed typo.
+
+	* test/dict_spec.rb:
+	- added tests for reading search.
+	- added tests for n_strokes search.
+	- added tests for radical search. But not implemented yet.
+
+	* ext/ruby/tomoe-rb-reading.c: removed Tomoe::READING_*.
+	* test/context_spec.rb: followed the change.
+
+	* test/dict_spec.rb: MySQL backend doesn't support writing yet.
+
+	* test/dict_spec.rb: added tests for meta data.
+	* module/dict/tomoe-dict-mysql.c: supported meta data.
+	* ext/ruby/tomoe-rb-char.c: supported meta data related methods.
+
+	* module/dict/tomoe-dict-mysql.c: sorted alphabetical order.
+
+	* utils/xml2est.rb: followed the current API.
+
+	* module/dict/tomoe-dict-est.c: fixed a reference count bug.
+
+	* test/dict_spec.rb: added more strict tests.
+	* ext/ruby/tomoe-rb-dict.c: added
+	Tomoe::Dict#available_private_utf8.
+	* db/migrate/001_create_chars.rb: added code_point.
+	* module/dict/tomoe-dict-mysql.c, module/dict/tomoe-dict-est.c:
+	fixed to pass the tests.
+
+	* module/dict/tomoe-dict-mysql.c:
+	- do ROLLBACK if failed.
+	- fixed a search bug that result set doesn't have all information.
+	- 30%~50% speed up.
+	- used chars.id to check duplication.
+
+	* lib/tomoe-config.c (tomoe_config_load): fixed memory leak.
+	* lib/tomoe-config.c, data/config, test/tomoe-spec-utils.rb,
+	test/context_spec.rb: used "-" instead of "_" for key name to work
+	with GLib 2.12.5.
+
+2006-12-18  Kouhei Sutou  <kou@cozmixng.org>
+
+	* tomoe.spec.in:
+	- added.
+	- updated dependencies.
+
+	* lib/tomoe-config.c (_tomoe_config_load_system_dictionaries):
+	added error check.
+
+	* data/dict.dtd: renamed from tomoe-dict.dtd.
+	* data/Makefile.am, data/kanjidic2-original.xsl,
+	data/handwriting.xml, lib/tomoe-context.c: followed the changes.
+
+	* configure.in:
+	- 0.4.0 -> 0.5.0.
+	- enabled static library.
+	- don't expand configure time.
+
+	* module/dict/tomoe-dict-mysql.c:
+	- cleanup if can't connect to server.
+	- check connection before action.
+	- retry if charset can't be specified.
+
+	* lib/tomoe-context.c (ensure_user_dict_file_content),
+	  module/dict/tomoe-dict-xml.c (tomoe_dict_xml_save): used
+	g_file_set_contents().
+
+	* lib/glib-utils.[ch] (g_file_set_contents): copied from GLib.
+
+	* lib/tomoe-writing.c (tomoe_point_get_type): don't use
+	g_intern_static_string() if not available.
+
+	* module/dict/Makefile.am: remove Unihan.stamp when 'make clean'.
+
+	* ext/ruby/tomoe-rb.h: fixed a typo.
+
+2006-12-15  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/tomoe-spec-utils.rb:
+	- patched RSpec to show results even if	interrupted.
+	- removed a patch that was merged into RSpec.
+
+	* test/: supported tests for each dictionary module.
+
+	* module/dict/tomoe-dict-ptr-array.c: used tomoe_query_is_empty().
+
+	* lib/tomoe-dict.c (tomoe_dict_get_available_private_utf8): added
+	warning message.
+
+	* module/dict/tomoe-dict-mysql.c (get_char): should return
+	TomoeChar not TomoeCandidate.
+
+	* module/dict/tomoe-dict-est.c (get_available_private_utf8):
+	supported PUA.
+
+	* lib/tomoe-query.[ch] (tomoe_query_is_empty): added.
+	* module/dict/tomoe-dict-ptr-array.c,
+	module/dict/tomoe-dict-est.c: used tomoe_query_is_empty().
+
+	* utils/, db/, test/, benchmark/: followed TomoeSpecUtils changes.
+
+	* module/dict/tomoe-dict-xml.c (tomoe_dict_xml_save): show more
+	useful error message.
+	(tomoe_dict_xml_load): don't load if the filename doesn't exist.
+
+	* test/tomoe-spec-utils.rb:
+	- test target dictionary can be	specified by TOMOE_DICT_MODULE
+	environment variable.
+	- split path related methods to Path from Config.
+	* test/context_spec.rb, test/dict_spec.rb: followed the changes.
+	* db/config.yml.example: supported temporary database.
+
+	* module/dict/tomoe-dict-unihan.c: load chars on demand.
+
+2006-12-14  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-module.c (tomoe_module_unload): fixed a typo.
+
+	* ext/ruby/tomoe-rb.c: defined dynamic loaded types in tomoe.so.
+	* ext/ruby/tomoe-rb-dict.c, ext/ruby/tomoe-rb-recognizer.c,
+	ext/ruby/tomoe-rb.h: exported function which defines classes from
+	load types.
+
+	* test/tomoe-spec-utils.rb: used environment variables to specify
+	module directory.
+
+	* lib/tomoe-dict.c: check TOMOE_DICT_MODULE_DIR
+	environemnet variable as default dictionary module directory.
+	* lib/tomoe-recognizer.c: check TOMOE_RECOGNIZER_MODULE_DIR
+	environemnet variable as default recognizer module directory.
+
+2006-12-12  Kouhei Sutou  <kou@cozmixng.org>
+
+	* ext/ruby/: hid internal Init_* functions.
+
+	* ext/ruby/tomoe-rb-dict.c, ext/ruby/tomoe-rb-recognizer.c,
+	ext/ruby/tomoe-rb-module.c, ext/ruby/tomoe-rb.h: followed
+	Ruby-GNOME2 project's naming rules:
+	- Tomoe::Dict::XXX -> Tomoe::DictXXX.
+	- Tomoe::Recognizer::XXX -> Tomoe::RecognizerXXX.
+	* module/dict/unihan-compiler.rb, benchmark/, db/, test/: followed
+	the changes.
+
+	* lib/tomoe-context.c (ensure_user_dict_file):
+	- fixed typo. We should use octal form not hex form.
+	- g_mkdir() returns 0 if success.
+
+	* module/dict/Makefile.am: override Unihan.txt every time.
+
+	* module/dict/tomoe-dict-est.c: changed property name:
+	"database_name" -> "database".
+	* test/, benchmark/, utils/, lib/tomoe-config.c: followed the
+	changes.
+
+	* module/dict/Makefile.am: added dependencies on
+	$(top_builddir)/data/kanjidic2.xml.
+
+	* lib/tomoe-recognizer.[ch],
+	module/recognizer/tomoe-recognizer-*.c,
+	ext/ruby/tomoe-rb-recognizer.c: supported dynamic class
+	definition for recognizer module.
+	* ext/ruby/tomoe-rb-recognizer.c, ext/ruby/tomoe-rb-dict.c,
+	ext/ruby/tomoe-rb-module.c, ext/ruby/tomoe-rb.h,
+	ext/ruby/Makefile.am: unified duplicated codes.
+	* test/, benchmark/: followed the changes.
+
+	* lib/tomoe-dict.[ch], lib/tomoe-module.[ch],
+	module/dict/tomoe-dict-*.c,
+	module/recognizer/tomoe-recognizer-*.c, ext/ruby/tomoe-rb-dict.rb:
+	supported dynamic class definition for dictionary module.
+	* db/, test/, benchmark/: followed the changes.
+
+2006-12-12  Takuro Ashie <ashie@homa.ne.jp>
+
+	* module/dict/Makefile.am: Don't replace tomoe-unihan-data.h.
+	Check return value of ruby and zip command.
+
+2006-12-12  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/tomoe-dict-mysql.c (generate_sql): split into small
+	functions which generate conditions.
+
+	* db/xml2db.rb: used Tomoe::DictMySQL#register.
+	* test/tomoe-spec-utils.rb (TomoeSpecUtils::Config::db_config):
+	used ENV["TOMOE_ENV"] as default value.
+
+	* db/migrate/004_create_meta_data.rb: renamed to "name" from "key"
+	because "key" is one of the reserved words in MySQL.
+	* module/dict/tomoe-dict-mysql.c: followed the change.
+
+	* module/dict/Makefile.am: ensure make libxml.la before
+	unihan-compiler.rb is run.
+
+	* db/migrate/001_create_chars.rb: utf8 field must be unique.
+
+	* configure.in: don't enable Ruby dictionary module when Ruby
+	isn't available.
+
+2006-12-12  Takuro Ashie <ashie@homa.ne.jp>
+
+	* module/dict/Makefile.am: Fix typo.
+
+2006-12-11  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/tomoe-dict-mysql.c (get_name): returned default value.
+
+	* lib/tomoe-config.c: supported MySQL backend in config file but
+	not tested.
+
+	* module/dict/tomoe-dict-mysql.c: supported PUA register.
+	* test/dict_spec.rb: added tests for the function.
+
+	* module/dict/tomoe-dict-mysql.c (register_char, unregister_char):
+	clean up.
+
+	* test/dict_spec.rb: added tests for MySQL backend.
+
+	* test/tomoe-spec-utils.rb, test/config.yaml.example: supported
+	environment.
+	* test/, benchmark/: followed the changes.
+
+	* configure.in, module/dict/tomoe-dict-mysql.c,
+	module/dict/Makefile.am, ext/ruby/tomoe-rb-dict.rb,
+	benchmark/search-by-dict.rb: supported MySQL.
+
+	* test/tomoe-spec-utils.rb: added DB related configurations.
+	* db/: updated schemas.
+
+2006-12-10  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/tomoe-dict-est.c: fixed a bug for caching. I want to
+	remove caching mechanism.
+
+	* module/dict/tomoe-dict-est.c: fixed a bug for empty query.
+
+	* benchmark/search-by-dict.rb: checked results.
+
+	* benchmark/convert-char.rb: added more information.
+
+	* module/dict/Makefile.am: unihan-schemer.rb -> unihan-compiler.rb.
+
+2006-12-08  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/unihan-compiler.rb: re-renamed from
+	unihan-schemer.rb. We don't need to adjust external constraints, now!
+
+	* db/: added SQL database related directory.
+	* db/migrate/: for updating database schema.
+	* db/migrate.rb: administrate schema.
+	* db/xml2db.rb: convert XML dictionary data to SQL database.
+	* db/search.rb: a script for searching to research SQL database
+	backend design.
+
+	* test/tomoe-spec-utils.rb: added Unicode related utility methods.
+	* module/dict/unihan-schemer.rb: used the utility methods.
+
+	* ext/ruby/tomoe-rb-reading.c: define a class for TomoeReadingType.
+
+	* configure.in, module/dict/Makefile.am: --enable-ruby-dict ->
+	--enable-dict-ruby.
+
+	* module/dict/tomoe-dict-ruby.c: fixed a bug for Ruby
+	cleanup. Now, Ruby based dictionary is work at least.
+
+2006-12-07  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/context_spec.rb: added missing == true.
+
+	* module/dict/tomoe-dict-svn.c (get_available_private_utf8):
+	update always.
+
+	* module/dict/tomoe-dict-svn.c: don't always update.
+
+	* benchmark/search-by-dict.rb: supported TomoeDictSvn.
+
+	* module/dict/tomoe-dict-svn.c: ensure flush all changes.
+	* module/dict/tomoe-dict-svn.c: don't initialize working copy.
+
+	* ext/ruby/tomoe-rb-dict.c: followed the change.
+
+	* module/dict/tomoe-dict-xml.[ch], module/dict/Makefile.am:
+	reverted. merged tomoe-dict-xml.c with tomoe-dict-xml.h.
+
+	* module/dict/tomoe-dict-svn.c, module/dict/Makefile.am: used
+	delegate instead of inheritance.
+	* test/dict_spec.rb: added tests for TomoeDictSvn.
+
+	* configure.in, module/dict/tomoe-dict-svn.c: added Subversion
+	backend.
+
+	* lib/tomoe-module.c: don't load module until it's needed.
+
+	* module/dict/tomoe-dict-xml.h: fixed a typo.
+
+	* NEWS: updated.
+
+	* module/dict/tomoe-dict-est.c: fixed a reference count related
+	bug.
+
+	* module/dict/tomoe-dict-xml.[ch]: split definitions of
+	TomoeDictXML to tomoe-dict-xml.h from tomoe-dict-xml.c.
+	* module/dict/Makefile.am: followed the change.
+
+2006-12-06  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/unihan-schemer.rb: renamed from unihan-compiler.rb.
+	* module/dict/Makefile.am: followed the change.
+
+	* TODO: updated.
+
+	* lib/tomoe-config.c: made name parameter optional for Unihan
+	backend.
+	* test/tomoe-spec-utils.rb: used Unihan backend by default.
+
+	* module/dict/unihan-compiler.rb, module/dict/tomoe-unihan.c,
+	module/dict/Makefile.am: supported merging kanjidic2.xml to
+	Unihan.txt.
+	* data/Makefile.am: don't install kanjidic2.xml to dictionary data
+	directory. We don't need it on runtime!
+
+	* ext/ruby/tomoe-rb-char.c: added Tomoe::Char#each.
+
+	* module/dict/tomoe-dict-est.c: supported is_editable.
+
+	* benchmark/search-by-recognizer.rb: supported est backend.
+
+	* lib/tomoe-context.[ch] (tomoe_context_get_char): added.
+	* ext/ruby/tomoe-rb-context.c: added Tomoe::Context#[].
+	* test/context_spec.rb: added tests for tomoe_context_get_char().
+
+	* ext/ruby/: fixed memory leaks.
+
+	* lib/tomoe-context.c (ensure_user_dict): added user dictionary to
+	shelf.
+
+	* module/dict/tomoe-unihan.c, module/dict/unihan-compiler.rb:
+	fixed a bug that readings and variants aren't set.
+
+	* lib/tomoe-dict.c (tomoe_dict_load): fixed a typo.
+
+	* lib/tomoe-context.c: fixed a bug related user dictionary.
+
+2006-12-06  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* module/recognizer/tomoe-recognizer-simple.c: Use g_build_filename()
+	for constructing the path name of dictionary.
+	* module/dict/tomoe-dict-est.c: Plugged memory leaks.
+
+2006-12-06  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-char.h (TOMOE_CHAR_PRIVATE_USE_AREA_START,
+	TOMOE_CHAR_PRIVATE_USE_AREA_END): added.
+	* lib/tomoe-dict.[ch] (tomoe_dict_is_editable,
+	tomoe_dict_get_available_private_utf8): added.
+	* lib/tomoe-dict.c (tomoe_dict_register_char): supported
+	registering GAIJI.
+	* module/dict/tomoe-dict-ptr-array.[ch]
+	(_tomoe_dict_ptr_array_get_available_private_utf8): added.
+	* module/dict/tomoe-dict-unihan.c, module/dict/tomoe-dict-xml.c:
+	supported is_editable and get_available_private_utf8 interfaces.
+
+	* ext/ruby/tomoe-rb-char.c (Tomoe::Char::PRIVATE_USE_AREA_START,
+	Tomoe::Char::PRIVATE_USE_AREA_END): added.
+
+	* test/context_spec.rb: added tests for registering character
+	without UTF8 value.
+	* test/tomoe-spec-utils.rb: added Unicode related utils.
+
+2006-12-05  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/tomoe-dict-ptr-array.[ch]: added.
+	* module/dict/Makefile.am, module/dict/tomoe-dict-unihan.c,
+	module/dict/tomoe-dict-xml.c: used tomoe-dict-ptr-array.[ch].
+
+	* lib/tomoe-context.[ch]: added tomoe_context_{,un}register().
+	* test/context_spec.rb: added tests for
+	tomoe_context_{,un}register().
+
+	* lib/glib-utils.c: fixed a boundary value related bug.
+	* test/data/one_stroke.data: followed the fixing.
+
+	* lib/tomoe-context.c, lib/tomoe-config.[ch]: supported user
+	dictionary.
+
+	* lib/tomoe-shelf.[ch]: renamed tomoe_shelf_add_dict() to
+	tomoe_shelf_register_dict() and tomoe_shelf_remove_dict() to
+	tomoe_shelf_unregister_dict().
+
+	* configure.in, data/Makefile.am: install handwriting.xml to
+	$(datadir)/recognizer/ and all.xml to $(datadir)/dict/.
+	* lib/tomoe-recognizer.c, lib/tomoe-config.c, lib/tomoe-dict.c,
+	module/recognizer/tomoe-recognizer-simple.c: followed the changes.
+
+	* configure.in, **/Makefile.am: moved directory configuration from
+	Makefile.am.
+	* module/recognizer/tomoe-recognizer-simple.c: used DICTDIR
+	instead of DATADIR.
+
+	* lib/tomoe-config.c: used DICTDIR and CONFDIR instead of
+	TOMOESYSCONFDIR and TOMOEDATADIR.
+	* lib/tomoe-recognizer.c: used RECOGNIZER_MODULEDIR instead of
+	RECOGNIZERDIR.
+
+	* module/recognizer/tomoe-recognizer-simple.c: loaded handwriting
+	dictionary by recognizer-simple.
+	* lib/tomoe-context.c: followed the changes.
+
+	* data/all.xml: renamed to ...
+	* data/handwriting.xml: ... this.
+	* benchmark/, test/: followed the changes.
+
+	* lib/tomoe-config.c: hid tomoe_config_load().
+	* lib/tomoe-context.c: removed config.
+
+	* module/dict/unihan-compiler.rb: converted romaji -> hiragana
+	for JA_KUN and romaji -> katakana for JA_ON.
+
+2006-12-04  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/recognizer/tomoe-recognizer-simple.c: had stroke list
+	dictionary.
+	* lib/tomoe-recognizer.[ch] (tomoe_recognizer_search): removed
+	TomoeDict argument.
+
+	* lib/tomoe-context.c: supported recognizer parameter.
+	* ext/ruby/tomoe-rb-recognizer.c: supported dictionary parameter.
+	* ext/ruby/tomoe-rb-dict.c: removed unused parameter for making
+	Unihan dictionary.
+
+	* test/context_spec.rb, benchmark/search-by-recognizer.rb:
+	followed the changes.
+
+	* lib/tomoe-config.c: added Unihan dictionary backend to system
+	dictionary.
+
+	* module/dict/tomoe-dict-unihan.c: set default name is NULL.
+
+	* module/dict/Makefile.am, module/dict/unihan-compiler.rb:
+	improved strange Unihan compiling.
+
+2006-12-04  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* configure.in, module/dict/Makefile.am: Add --enable-ruby-dict option.
+
+2006-12-04  Kouhei Sutou  <kou@cozmixng.org>
+
+	* module/dict/Makefile.am, module/dict/tomoe-dict-ruby.c: added
+	Ruby backend. (not worked)
+	* ext/ruby/rbtomoe.h (RVAL2TCND): added.
+
+	* configure.in: search unzip.
+	* module/dict/Makefile.am: fixed typo and clean-upped.
+
+	* module/dict/Makefile.am: fixed dependencies.
+
+	* module/dict/unihan-compiler.rb, module/dict/tomoe-dict-unihan.c,
+	module/dict/Makefile.am, configure.in: supported Unihan database.
+	* lib/tomoe-config.c, benchmark/load-dict.rb,
+	ext/ruby/tomoe-rb-dict.c, test/dict_spec.rb, tomoe-spec-utils.rb:
+	followed the changes.
+
+2006-12-01  Kouhei Sutou  <kou@cozmixng.org>
+
+	* data/kanjidic2-original.xsl: supported number-of-strokes.
+
+	* module/dict/tomoe-dict-est.c: editable can be set when
+	constructing.
+	* ext/ruby/tomoe-rb-dict.c: supported name.
+	* benchmark/search-by-dict.rb: added est support. Hyper Estraier's
+	attribute search is too slow...
+
+	* lib/tomoe-query.c: supported properties.
+	* lib/tomoe-query.[ch]: added tomoe_query_(set|get)_utf8().
+
+	* benchmark/search-by-dict.rb, benchmark/Makefile.am: added a
+	benchmark for searching by dictionary.
+
+	* benchmark/load-dict.rb: decremented number of loading from 10 to
+	3.
+
+	* benchmark/convert-char.rb, benchmark/Makefile.am: added
+	a benchmark for converting TomoeChar to/from XML.
+
+	* lib/tomoe-xml-parser.c: added warning message.
+
+	* NEWS, TODO: updated.
+
+	* module/dict/tomoe-dict-est.c: added cache mechanism but still
+	slow...
+
+2006-11-30  Kouhei Sutou  <kou@cozmixng.org>
+
+	* utils/xml2est.rb: added converter for Hyper Estraier backend.
+
+	* utils/dictionary.rb, utils/gtk2dictview.rb,
+	utils/makexmldict.rb: removed needless files.
+
+	* lib/tomoe-reading.[ch]: added tomoe_reading_to_xml().
+	* ext/ruby/tomoe-rb-reading.c: added Tomoe::Reading#to_xml.
+	* lib/tomoe-char.c (tomoe_char_to_xml_readings),
+	module/dict/tomoe-dict-est.c: used tomoe_reading_to_xml().
+
+	* test/context_spec.rb: sort result.
+
+	* lib/tomoe-config.c, test/tomoe-spec-utils.rb: supported Hyper
+	Estraier backend.
+
+	* lib/tomoe-candidate.c: renamed property name to "char" from
+	"character".
+	* ext/ruby/tomoe-rb-candidate.rb, test/context_spec.rb: followed
+	the changes.
+	* benchmark/search-by-recognizer.rb: followed the changes.
+
+	* benchmark/load-dict.rb: followed the changes.
+
+	* lib/tomoe-dict.[ch], module/dict/tomoe-dict-est.c,
+	module/dict/tomoe-dict-xml.c, ext/ruby/tomoe-rb-dict.rb:
+	implemented tomoe_dict_flush().
+
+	* ext/ruby/tomoe-rb-dict.rb: removed _char suffix.
+
+	* module/dict/tomoe-dict-est.c, module/dict/Makefile.am,
+	configure.in: added Hyper Estraier dictionary backend.
+	* ext/ruby/tomoe-rb-dict.c: supported Hyper Estraier dictionary.
+
+	* test/tomoe-spec-utils.rb, test/dict_spec.rb: added test for
+	Hyper Estraier backend.
+
+	* module/dict-tomoe-dict-xml.c,
+	module/recognizer/tomoe-recognizer-simple.c: cleanup.
+
+	* lib/tomoe-module.c: checked whether mod_path exists or not.
+
+	* ext/ruby/tomoe-rb-char.c: added Tomoe::Char#<=> and made
+	Tomoe::Char comparable.
+	* test/char_spec.rb: added tests for comparing Tomoe::Char.
+
+	* lib/tomoe-char.[ch]: represented radical and variant as gchar *
+	instead of TomoeChar *.
+	* ext/ruby/tomoe-rb-char.c, test/char_spec.rb: followed the
+	changes.
+	* test/tomoe-spec-utils.rb: added utility for making backtraces
+	more Emacs-style.
+
+	* lib/tomoe-xml-parser.[ch], lib/Makefile.am: split XML parsing
+	related functions from tomoe-dict-xml.[ch].
+	* module/dict/tomoe-dict-xml.c: used
+	_tomoe_xml_parser_parse_dictionary_file().
+	* lib/tomoe-char.[ch]: added tomoe_char_new_from_xml_data().
+	* ext/ruby/tomoe-rb-char.c: followed the changes.
+	* test/char_spec.rb: added test for dumping to XML and loading
+	from XML.
+
+2006-11-29  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-context.h: removed needless function.
+
+	* test/tomoe-spec-utils.rb: followed the previous changes.
+
+2006-11-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* recognizer, dict: Moved into module sub directory.
+	* configure.in, Makefile.am: Follow the changes.
+
+2006-11-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* tomoe.pc.in: Requirement glib-2.0.
+
+2006-11-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* version 0.4.0.
+
+2006-11-29  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe.c: removed warnings.
+
+	* lib/tomoe-module-impl.h: added.
+
+	* lib/tomoe-module.[ch], lib/tomoe-recognizer-loader.[ch],
+	lib/tomoe-dict-loader.[ch], lib/tomoe-recognizer-impl.h,
+	lib/tomoe-dict-impl.h, lib/Makefile.am: removed loaders!
+	TomoeModule, works hard!
+	* lib/tomoe-config.c, lib/tomoe.[ch], lib/tomoe-context.c
+	lib/tomoe-dict.[ch], lib/tomoe-recognizer.[ch],
+	dict/tomoe-dict-xml.c, recognizer/tomoe-recognizer-simple.c,
+	ext/ruby/tomoe-rb-dict.c, ext/ruby/tomoe-rb-recognizer.c,
+	benchmark/load-dict.rb, test/dict_spec.rb: followed the changes.
+
+2006-11-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-query.c: Add implementation of setter/getter of radicals
+	and variant.
+
+2006-11-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-recognizer-impl.h, lib/tomoe-dict-impl.h,
+	dict/tomoe-dict-xml.c, recognizer/tomoe-recognizer-simple.c: Give me
+	va_list directry.
+	* dict/tomoe-dict-xml.c: I have failed to copy-n-paste. Sorry.
+
+2006-11-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* dict/tomoe-dict-xml.c: Fix typo.
+	* doc/reference/tomoe.types: Remove tomoe_module_get_type().
+
+2006-11-29  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/Makefile.am: Add missing header files.
+
+2006-11-29  Kouhei Sutou  <kou@cozmixng.org>
+
+	* benchmark/search-by-recognizer.rb, benchmark/load-dict.rb:
+	followed the changes.
+
+2006-11-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-recognizer.c: Nullify klass->search.
+	* recognizer/tomoe-recognizer-simple-logic.[ch]: void *context ->
+	TomoeRecognizer *recognizer.
+	* lib/tomoe-dict-loader.c, lib/tomoe-recognizer-loader.c: g_free ->
+	g_list_free. Hi Kohei, were you sleepy last night?
+	* recognizer/tomoe-recognizer-simple.c: Append G_MODULE_EXPORT.
+	* dict/tomoe-dict-xml.c: Append static. Append G_MODULE_EXPORT.
+	* lib/tomoe-dict.c: Nullify virtual function's pointer.
+	* dict/tomoe-dict-xml.c: va_list welcome.
+	* lib/tomoe-dict-impl.h: va_list welcome.
+	* lib/tomoe-recognizer-impl.h, recognizer/tomoe-recognizer-simple.c:
+	va_list welcome.
+
+2006-11-29  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict-loader.[ch], lib/tomoe-recognizer-loader.[ch],
+	lib/tomoe-dict-impl.h, lib/tomoe-recognizer-impl.h,
+	lib/tomoe-module.c: used GTypeModule.
+	* dict/tomoe-dict-xml.c, recognizer/tomoe-recognizer-simple.c,
+	lib/tomoe-config.c, lib/tomoe-context.c, lib/tomoe.[ch],
+	lib/Makefile.am, ext/ruby/tomoe-rb-context.c,
+	ext/ruby/tomoe-rb-dict.c, ext/ruby/tomo-rb-recognizer.c,
+	test/tomoe-spec-utils.rb, test/context_spec.rb, test/dict_spec.rb:
+	followed the changes.
+
+2006-11-28  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict-impl.h: added.
+
+	* configure.in, Makefile.am, dict/, lib/tomoe-dict.[ch]: supported
+	dynamically dictionary backend loading.
+	* lib/tomoe-module.[ch], test/dict_spec.rb,
+	test/tomoe-spec-utils.rb, lib/tomoe-config.c,
+	ext/ruby/tomoe-rb-dict.c: followed the changes.
+
+	* lib/tomoe-recognizer-impl.h,
+	recognizer/tomoe-recognizer-simple.c: used gpointer instead of
+	void *.
+
+	* lib/tomoe-recognizer.c, lib/tomoe-recognizer-impl.h,
+	recognizer/tomoe-recognizer-simple.c: used TOMOE_RECOGNIZER_IMPL_*.
+
+	* lib/tomoe-module.[ch]: added for parent class of
+	TomoeRecognizer.
+	* lib/tomoe-recognizer.[ch]: used TomoeModule as parent.
+
+2006-11-28  Takuro Ashei  <ashie@homa.ne.jp>
+
+	* configure.in. Makefile.am: Remove src and utils.
+	* benchmark/Makefile.am: Add EXTRA_DIST.
+
+2006-11-28  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-query.[ch]: improved interface but not implemented.
+
+	* ext/ruby/rbtomoe.h, ext/ruby/tomoe-rb.h, ext/ruby/Makefile.am:
+	added rbtomoe.h.
+
+	* Makefile.am: added doc target.
+	* ext/ruby/Makefile.am: added tomoe.rb to distributed files.
+
+	* lib/tomoe-dict.[ch]: unified tomoe_dict_search_by_*() as
+	tomoe_dict_search().
+	* lib/tomoe-query.[ch]: added
+	tomoe_query_(set|get)_(min|max)_n_strokes().
+	* lib/tomoe-context.c, recognizer/tomoe-recognizer-simple-logic.c:
+	followed the changes.
+
+	* test/dict_spec.rb: (maybe) clean up.
+
+	* lib/tomoe-char.[ch]:
+	- implemented all functions.
+	- added properties.
+	* ext/ruby/tomoe-rb-char.c: followed the changes.
+	* test/char_spec.rb: added tests for Tomoe::Char.
+
+	* ext/ruby/tomoe-rb-reading.c, ext/ruby/tomoe-rb.h: clean up.
+
+	* test/context_spec.rb: KUN -> JA_KUN.
+
+2006-11-28  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-reading.h, lib/tomoe-dict.c:
+	Add TOMOE_READING_ALL -> UNKNOWN.
+
+2006-11-28  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-reading.h, lib/tomoe-dict.c: Add TOMOE_READING_ALL for
+	searching. Rename TOMOE_READING_ON and TOMOE_READING_KUN to ~_JA_ON and
+	~_JA_KUN.
+
+2006-11-28  Kouhei Sutou  <kou@cozmixng.org>
+
+	* configure.in, Makefile.am, benchmark/: added benchmarks for
+	loading dictionary and searching by recognizer.
+
+2006-11-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict.c: dispose () is possible to be called many times so
+	private values should be checked that it already is freed.
+	* configure.in: Preparation for next version.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/dict_spec.rb: ensure destroying Tomoe::Dict to test #save.
+
+	* lib/tomoe-dict.c: check whether the dict is editable or not.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.netb>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Remove redundant
+	calculations. Speed up.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.netb>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Speed up.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.netb>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Reuse TomoeCandidate in
+	the list of return value of tomoe_dict_search_by_n_strokes().
+	Hmm, I have a question. Why TomoeDict has
+	tomoe_dict_search_by_n_strokes? Should be used tomoe_context_search?
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.netb>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Removed needless
+	an argument.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict.h: updated documents.
+
+	* lib/Makefile.am: moved tomoe-recognizer-impl.h to public headers.
+
+	* lib/tomoe-writing.[ch], lib/tomoe-query.[ch]: number_of_strokes
+	-> n_strokes.
+	* recognizer/tomoe-recognizer-simple-logic.c, lib/tomoe-dict.c,
+	ext/ruby/tomoe-rb-writing.c: follow the changes.
+
+	* lib/tomoe-dict.[ch]: code_point -> utf8.
+
+	* lib/tomoe-char.c: changed internal variable name meta to meta_data.
+
+	* lib/tomoe-candidate.[ch]: tomoe_candidate_get_character() ->
+	tomoe_candidate_get_char().
+	* recognizer/tomoe-recognizer-simple-logic.c: followed the change.
+
+	* lib/tomoe-dict.c:
+	- letters -> chars.
+	- hide letters property. Use tomoe_dict_search_*() instead.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* data/hiragana.tdic, data/all.tdic: Remove.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/glib-utils.[ch] (g_ptr_array_foreach_reverse): added.
+	* lib/tomoe-dict.[ch]: removed tomoe_dict_get_letters() but added
+	tomoe_dict_search_by_n_strokes().
+	* recognizer/tomoe-recognizer-simple-logic.c: used
+	tomoe_dict_search_by_n_strokes() instead of
+	tomoe_dict_get_letters().
+	* test/context_spec.rb: followed new API.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch]: Change order of functions.
+	* lib/tomoe-dict.c: Check range of stroke points.
+	* data/all.xml: Fix invalid points.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: clearn-up cand_priv.
+
+	* lib/tomoe-shelf.c, lib/tomoe-dict.c: suppressed warnings.
+
+	* lib/tomoe-context.[ch], lib/tomoe-dict.[ch],
+	lib/tomoe-config.[ch], lib/tomoe-shelf.[ch]: removed save related
+	functions. We want them to be saved automatically.
+	* ext/ruby/tomoe-rb-dict.c, test/dict_spec.rb: followed new API.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Add error handling for XML parser.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.netb>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Cleaning code.
+	Speed up.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-config.c: don't copy system configuration file to user
+	configuration file. We don't want to work hard!
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Remove unused code.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-char.[ch]: tomoe_char_(get|set)_code ->
+	tomoe_char_(get|set)_utf8.
+	* lib/tomoe-dict.c, ext/ruby/tomoe-rb-char.c, test/char_spec.rb,
+	test/context_spec.rb: followed new API.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Clean up error handling. code-point -> utf8.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* data/all.xml, data/tomoe-dict.dtd, kanjidic2-original.xsl,
+	test/dict_spec.rb: code-point -> utf8.
+
+	* lib/tomoe-dict.c (text_handler): used tomoe_char_set_n_strokes;
+
+	* lib/tomoe-char.[ch] (tomoe_char_set_n_strokes,
+	tomoe_char_get_n_strokes): implemented.
+	* ext/ruby/tomoe-rb-char.c: implemented Tomoe::Char#n_strokes and
+	Tomoe::Char#n_strokes=.
+	* test/char_spec.r: added tests for Tomoe::Char#n_strokes and
+	Tomoe::Char#n_strokes=.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Use "state" flag instead of "in_hoge" flag for XML
+	parsing.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict.c: moved serializing TomoeChar to XML code to
+	TomoeChar.
+	* lib/tomoe-char.[ch]: added tomoe_char_to_xml().
+	* ext/ruby/tomoe-rb-char.c: added Tomoe::Char#to_xml and
+	Tomoe::Char#code=.
+
+	* test/context_spec.rb: shared Tomoe::Context.
+
+	* test/char_spec.rb, test/Makefile.am: added tests for
+	Tomoe::Char#to_xml.
+
+	* lib/tomoe-writing.c: returned empty string if no data to write.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Parse number-of-strokes element, but the value is
+	not stored to TomoeChar yet.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Cleaning code.
+	Speed up.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* test/data/matu.data, test/data/fuyu.data: update.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* test/data/*: update.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Add an error handler for parsing XML.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* recognizer/tomoe-recognizer-simple-logic.c (get_vertex): updated
+	error.
+	* lib/tomoe-writing.h, data/all.xml: 100 -> 1000.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Thow error on parsing invalid root element.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* src/tomoe-char.c: charCode -> char_code.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/context_spec.rb: split each test data with a spec.
+	* test/tomoe-spec-utils.rb: directories can be accessible by global.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Parse reading type.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Don't write dictionary name if it doesn't exist.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* data/readingtest.xml, data/userdb.xml: Removed.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* test/data/aki.data: update.
+	* test/tomoe-spec-utils.rb: Removed readingtest.xml.
+	* lib/tomoe-dict.c: Return.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* ext/ruby/tomoe-rb-char.c: added Tomoe::Char#writing.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Follow new XML format, but still broken;-P
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* ext/ruby/tomoe-rb-writing.c: added Tomoe::Writing#to_xml.
+	* lib/tomoe-writing.c (tomoe_writing_to_xml): followed new format.
+
+	* ext/ruby/tomoe-rb-dict.c: added Tomoe::Dict#[].
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Use TOMOE_WRITING_WIDTH.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/dict_spec.rb: added tests for parsing XML.
+
+	* lib/tomoe-writing.h: added TOMOE_WRITING_WIDTH and
+	TOMOE_WRITING_HEIGHT.
+	* ext/ruby/tomoe-rb-writing.c: added Tomoe::Writing::WIDTH and
+	Tomoe::Writing::HEIGHT.
+
+	* test/data/Makefile.am (EXTRA_DIST): added missing test data.
+
+	* test/data/*.data: normalized to 100x100 from 300x300.
+
+	* data/all.xml: normalized canvas size to 100x100 from 300x300.
+
+	* data/Makefile.am: added validate make target.
+	* configure.in: search rxp for validation.
+	* date/all.xml, data/kanjidic-original.xsl, data/tomoe-dict.dtd,
+	test/dict_spec.rb: changed dictionary XML format.
+
+2006-11-27  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: TomoeRecognizer now
+	accepts row stroke data.
+	* test/data/fuyu.data, test/data/matu.data, test/data/natu.data:
+	update.
+	* test/data/ike.data, test/data/niku.data, test/data/asi.data,
+	test/data/su.data, test/data/minami.data: New data.
+
+2006-11-27  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-writing.[ch] (tomoe_writing_to_xml): added
+	* lib/tomoe-dict.c: used tomoe_writing_to_xml();
+	* lib/tomoe-char.c: suppressed a warning.
+
+2006-11-27  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Add some error handler for XML parser.
+
+2006-11-26  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/dict_spec.rb, test/Makefile.am: added simple tests for
+	tomoe_dict_save.
+	* ext/ruby/tomoe-rb-dict.c: implemented Tomoe::Dict#initialie
+	and #save.
+	* lib/tomoe-char.[ch]: added tomoe_char_has_meta_data().
+	* lib/tomoe-dict.c: fixed bugs of tomoe_dict_save_xml().
+
+	* test/tomoe-spec-utils.rb, tomoe/*_spec.rb: improved test
+	environment.
+
+2006-11-26  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Use TOMOE_READING_INVALID for unknown reading type.
+
+2006-11-26  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: I misunderstood how to use g_markup_printf_escaped().
+
+2006-11-26  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Implement saving feature, but not tested yet.
+
+2006-11-26  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Fix a typo. Started to implement
+	tomoe_dict_save_xml().
+
+2006-11-26  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-config.c, lib/tomoe-dict.c: untabify.
+
+2006-11-26  Kouhei Sutou  <kou@cozmixng.org>
+
+	* doc/reference/Makefile.am: use lib/ as source directory instead
+	of top directory.
+	* doc/reference/tomoe-docs.sgml: commented out deprecated and new
+	symbols index.
+
+	* configure.in, Makefile.am, automake.sh, doc/: use GTK-Doc
+	instead of Doxygen.
+
+2006-11-25  Kouhei Sutou  <kou@cozmixng.org>
+
+	* configure.in: removed dependency on libxml.
+
+2006-11-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: clean up.
+
+2006-11-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-config.c:
+	 - (tomoe_config_constructor): Add a comment to discuss later.
+	 - (_tomoe_dict_load_system_dictionaries): Plug a memory leak.
+
+2006-11-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-config.c:
+	 - (tomoe_config_constructor): Do not use g_file_set_contents().
+	   It's since GTK+-2.8. Plug a memory leak.
+	 - (_tomoe_dict_load_system_dictionaries): Use full path for dict.
+	* data/config: Fix typo.
+
+2006-11-25  Kouhei Sutou  <kou@cozmixng.org>
+
+	* data/Makefile.am: removed config.xml and added config.
+	* data/config: added instead of ...
+	* data/config.xml: ... this.
+
+2006-11-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/Makefile.am, lib/tomoe-dict.c: Remove libxml dependency.
+
+2006-11-25  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Use GMarkup instead of libxml. But error checking
+	is very rough and saving feature is not implemented yet.
+	* data/Makefile.am: Do not install kanjidic2-original.{xml,xsl}.
+
+2006-11-25  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/glib-utils.h (TOMOE_HANDLE_ERROR): added.
+	* lib/tomoe-config.c: used TOMOE_HANDLE_ERROR.
+
+	* lib/tomoe-shelf.c (tomoe_shelf_has_dict): fixed minor bug.
+
+	* lib/tomoe-config.[ch]: used GKeyFile instead of XML for
+	configuration file format. GKeyFile was appeared from GLib 2.6. Is
+	it OK?
+	* test/tomoe-spec-utils.rb: followed new API.
+
+	* lib/tomoe-shelf.[ch] (tomoe_shelf_has_dict): added.
+
+2006-11-24  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer.c: Fix a vintage bug.
+	Now accuracy of recognition increased.
+	* test/data/matsu.data: update.
+
+2006-11-24  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-writing.c: remove_last_stroke works fine.
+
+2006-11-24  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Eliminate
+	tomoe_writing_get_point/tomoe_writing_get_number_of_points.
+	I've done it!
+	* lib/tomoe-writing.[ch]: Removed tomoe_wriing_get_point
+	tomoe_writing_get_number_of_points/tomoe_writing_get_last_point.
+
+2006-11-24  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-context.h, ext/ruby/tomoe-rb-context.c: renamed
+	tomoe_context_advanced_search() to
+	tomoe_context_multi_search(). (not implemented yet)
+
+	* lib/tomoe-context.[ch]: removed TomoeDict related API.
+	* lib/tomoe-config.[ch]: removed tomoe_config_setup_context() and
+	added tomoe_config_make_shelf() instead.
+	* ext/ruby/tomoe-rb-context.c: followed new API.
+
+	* configure.in: used pkg-config for checking libxml.
+	* configure.in, lib/Makefile.am, lib/tomoe-dict.c: removed
+	dependency on libxslt but there still is dependency on xsltproc.
+
+	* lib/tomoe-recognizer.c (tomoe_recognizer_search): check whether
+	module is loaded or not.
+	(tomoe_recognizer_find_recognizer): fixed inverted condition.
+	(tomoe_recognizer_find_recognizer): fixed a stupid bug.
+
+	* configure.in, ext/ruby/Makefile.am: made Ruby's installed
+	library and extension directories are customizable.
+
+2006-11-24  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Plugged a memory leak.
+
+2006-11-23  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/context_spec.rb: make check without make install is available.
+	* lib/tomoe-context.[ch] (tomoe_context_load_recognizer): added.
+	* lib/tomoe-recognizer.[ch]: can specify loaded module.
+	* ext/ruby/tomoe-rb-context.c: added Tomoe::Context#load_recognizer.
+
+	* lib/tomoe-writing.[ch] : reconstructed but still old API
+	exists. Removing them is next step.
+	* lib/tomoe-dict.c, ext/ruby/tomoe-writing.c,
+	test/writing_spec.rb: followed new API.
+
+2006-11-23  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-writing.c: Now tomoe_writing_get_strokes returns correct
+	stroke list. But the return value is allocated-list, so caller have to
+	call g_list_free. This style is not suited for other functions in
+	TOMOE. Well, hello, Kouhei, could you please fix the internal data structures in
+	TomoeWriting object?
+
+2006-11-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-candidate.[ch], lib/tomoe-char.[ch]: cleanup.
+
+	* lib/tomoe-query.[ch] lib/tomoe-reading.[ch]: added.
+	* lib/tomoe-dict.[ch], lib/tomoe-context.[ch],
+	lib/tomoe-char.[ch]: cleanup API.
+	* ext/ruby/, test/context_spec.rb: followed new API.
+	* configure.in, lib/Makefile.am: supported glib-mkenums.
+
+	* ext/ruby/Makefile.am: used tab instead of space for indentation.
+
+	* test/: moved test data for searching by stroke to test/data/.
+	* test/context_spec.rb: used test/data/*.data.
+
+2006-11-22  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* ext/ruby/Makefile.am: Add -version-info $(LT_VERSION_INFO).
+
+2006-11-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* test/test-config.xml: removed needless file.
+
+	* ext/ruby/, test/: followed new API.
+
+2006-11-22  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-writing.c: Implement tomoe_writing_get_strokes. I don't
+	know it's OK, maybe bad.
+
+2006-11-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-char.[ch]:
+	- tomoe_char_get_readings() returns GList * instead of GPtrArray *.
+	- add tomoe_char_add_reading() instead of tomoe_char_set_reading().
+	* lib/tomoe-dict.c: followed new API.
+	* test/: removed testtomoe.c.
+
+2006-11-22  Takuro Ashie  <ashie@home.ne.jp>
+
+	* ext/ruby/tomoe-rb-handwrite.c: Rename.
+	* ext/ruby/tomoe-rb-writing.c: Add.
+	* ext/ruby/Makefile.am: Follow above.
+
+2006-11-22  Takuro Ashie  <ashie@home.ne.jp>
+
+	* ext/ruby/tomoe-rb-handwrite.c, lib/tomoe-char.[ch],
+	  lib/tomoe-context.[ch], lib/tomoe-dict.c,
+	  lib/tomoe-recognizer-impl.h, lib/tomoe-recognizer.[ch],
+	  lib/tomoe-writing.[ch],
+	  recognizer/tomoe-recognizer-simple-logic.[ch],
+	  recognizer/tomoe-recognizer-simple.c, test/testtomoe.c:
+	Glyph -> Writing.
+
+2006-11-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-shelf.h, lib/tomoe-candidate.h, lib/tomoe-context.h,
+	lib/tomoe-dict.h, lib/tomoe-recognizer-impl.h,
+	lib/tomoe-recognizer.h: used #include "tomoe-XXX.h" instead of
+	#include <tomoe-XXX.h>.
+
+2006-11-22  Takuro Ashie  <ashie@home.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: Rename to tomoe-writing.[ch].
+	* lib/tomoe-writing.[ch]: Added.
+	* Makefile.am, lib/tomoe-char.h, lib/tomoe-recognizer-impl.h,
+	  lib/tomoe.h: Follow above changes.
+
+2006-11-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-char.[ch], lib/tomoe-dict.c: removed modified related
+	codes.
+
+	* data/Makefile.am, data/meta.xsl, lib/tomoe-dict.c: removed
+	needless meta.xsl.
+
+	* lib/tomoe-handwrite.[ch]: added new API idea *only*.
+
+	* lib/Makefile.am: added G_LOG_DOMAIN.
+
+	* ext/ruby/tomoe-rb-handwrite.c: implemented Tomoe::Glyph#each.
+	* test/handwrite_spec.rb: added tests for Tomoe::Glyph#each.
+
+2006-11-22  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* recognizer/tomoe-recognizer-simple-logic.c:
+	Revert previous fix and fix args of match_dict_to_input().
+	Sorry, it's my mistake ;-(
+
+2006-11-22  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe.h: added tomoe-handwrite.h.
+
+	* ext/ruby/tomoe-rb-handwrite.c, ext/ruby/tomoe-rb.[ch]: added
+	handwrite bindings.
+	* ext/ruby/tomoe-rb-context.c: used TomoeGlyph.
+
+	* test/context_spec.rb: followed new API.
+
+	* recognizer/tomoe-recognizer-simple-logic.c (get_candidates):
+	suppressed warnings.
+
+2006-11-22  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: Move members of TomoeGlypht to private.
+	* lib/tomoe-dict.c, recognizer/tomoe-recognizer-simple-logic.c,
+	  test/testtomoe.c: Follow avobe changes. But now runtime warnings are
+	occured. Please check these changes!
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.h: Fix typo.
+
+2006-11-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-char.[ch]: removed dependency on XML and TomoeDict.
+	* lib/tomoe-dict.[ch], test/testtomoe.c: followed API changes.
+
+	* recognizer/tomoe-recognizer-simple-logic.c: followed API changes.
+
+	* lib/tomoe-candidate.[ch] (tomoe_candidate_get_char): renamed to
+	tomoe_candidate_get_character to fit property name. 
+	* ext/ruby/tomoe-rb-candidate.c: used GObject property.
+	* test/: followed API changes.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.c: ref/unref glyph correctly.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c, test/testtomoe.c: Use tomoe_glyph_new() instead of
+	calloc().
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: GObjectize TomoeGlyph, but not completed
+	yet.
+	* lib/tomoe-char.c, lib/tomoe-config.c, lib/tomoe-dict.c,
+	  test/testtomoe.c:
+	Follow above changes.
+
+2006-11-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-context.[ch] (tomoe_context_search_by_reading),
+	lib/tomoe-dict.[ch] (tomoe_dict_search_by_reading): used GList *
+	instead of GPtrArray.
+
+	* test/context_spec.rb: added tests for
+	tomoe_context_search_by_reading.
+	* ext/ruby/tomoe-rb-context.c: added
+	Tomoe::Context#search_by_reading.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* test/testtomoe.c: Fix compile time warnings.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c, lib/tomoe-config.c,
+	  recognizer/tomoe-recognizer-simple-logic.c:
+	Fix compile time warnings.
+
+2006-11-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-config.c: removed debug print.
+
+	* ext/ruby/tomoe-rb-candidate.c, ext/ruby/Makefile.am,
+	ext/ruby/tomoe-rb.[ch]: added.
+	* ext/ruby/tomoe-rb-context.c, ext/ruby/tomoe-rb-char.c:
+	implemented some methods.
+	* test/: added tests written by Ruby.
+
+	* lib/tomoe-context.[ch] (tomoe_context_search_by_strokes),
+	lib/tomoe-recognizer.[ch] (tomoe_recognizer_search),
+	lib/tomoe-recognizer-impl.h (tomoe_recognizer_search_impl),
+	recognizer/: returned GList * instead of GPtrArray *.
+	* test/testtomoe.c: followed API changes.
+
+	* src/main.c, src/Makefile.am: removed needless file.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch]: Mark some functions as "should be restructed".
+
+2006-11-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-context.[ch] (tomoe_context_remove_dict): added.
+	* lib/tomoe-shelf.[ch] (tomoe_shelf_remove_dict): added.
+
+	* lib/tomoe-shelf.c (tomoe_shelf_add_dict): added invalid value
+	checks.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch]: Remove tomoe_char_is_editable().
+	Please use tomoe_dict_is_editable() instead.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Use g_object_notify ();
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.c: Add property functions.
+
+2006-11-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-config.[ch]: hid TomoeDictCfg.
+	* lib/tomoe-config.[ch] (tomoe_config_setup_context): added.
+	* lib/tomoe-config.[ch] (tomoe_config_get_dict_list): removed.
+
+	* lib/tomoe-context.c: used tomoe_config_setup_context() instead
+	of tomoe_config_get_dict_list().
+
+	* lib/tomoe-shelf.[ch] (tomoe_shelf_load_dict): removed.
+
+2006-11-21  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-candidate.c: Use property.
+	* lib/tomoe-dict.h: Fix typo.
+
+2006-11-21  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-context.[ch] (tomoe_context_get_dict_names,
+	tomoe_context_get_dict): added.
+
+	* lib/tomoe-shelf.[ch] (tomoe_shelf_get_dict,
+	tomoe_shelf_get_dict_names): added.
+	* lib/tomoe-shelf.[ch] (tomoe_shelf_get_dict_list): removed.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: calloc -> g_new.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: _PointerArray -> GPtrArray.
+	Code cleaning. Removed redundant codes. I think the fix make slightly
+	performance gain, but I can't feel it.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: _IntArray -> GArray..
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: Fix a horrible mistake.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.c: Partially reverted my previous commit.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* test/testtomoe.c: Plugged memory leak.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-candidate.[ch], lib/tomoe-context.c,
+	  recognizer/tomoe-recognizer-simple-logic.c, test/testtomoe.c:
+	GObjectize TomoeCadidate.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.c: Fixed a crash. I'm quite silly.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.c: strdup -> g_strdup, free -> g_free.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-candidate.[ch]: Split from tomo-char.[ch].
+	* lib/Makefile.am, lib/tomoe-context.[ch]: Add above files.
+	* lib/tomoe-char.[ch], recognizer/tomoe-recognizer-simple-logic.c:
+	Follow above changes.
+	* lib/tomoe-handwrite.c: include stdlib.h
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-context.h, lib/tomoe-dict.h, lib/tomoe-recognizer-impl.h,
+	  lib/tomoe-recognizer.h, lib/tomoe-shelf.h, lib/tomoe.h:
+	Fix include path.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* ext/ruby/tomoe-rb-context.c: added Context#add_dict and
+	Context#load_config.
+
+	* lib/tomoe-context.[ch]: moved dictionary list related APIs to
+	...
+	* lib/tomoe-shelf.[ch]: ... here.
+	* lib/tomoe.[ch]: removed tomoe_simple_load(). use
+	tomoe_context_load_config() instead.
+	* lib/Makefile.am: added tomoe-shelf.[ch].
+	* src/main.c, test/testtomoe.c: used tomoe_context_load_config()
+	instead of tomoe_simple_load().
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: Add.
+	* lib/tomoe-char.[ch]: Split handwrite related functions.
+	* lib/Makefile.am: Add tomoe-handwrite.[ch]
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict.c: Use g_object_unref instead of letter_free_func.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch]: Remvoe tomoe_string_compare().
+	If you need it, please make tomoe-utils.[ch] and move into these files.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict.c, lib/tomoe-context.c, lib/tomoe-dict.c,
+	lib/tomoe-recognizer.c: used dispose instead of finalize.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.c: Use system config file.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch]: GObjectize.
+	* lib/tomoe-dict.c, recognizer/tomoe-recognizer-simple-logic.c,
+	  test/testtomoe.c: Follow above change.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.c: Use GDir instead of Glob.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* configure.in, Makefile.am, ext/: added bindings for Ruby.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.c: Use g_object_unref instead of _dict_free_func.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict.c: Use g_build_filename.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.c: Use g_build_filename.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.[ch]: GObjectize.
+	* lib/tomoe.c: Use TomoeConfig object.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict.c: removed _ prefix and added static.
+
+	* lib/tomoe-dict.[ch]: made TomoeDict GObject.
+	* lib/tomoe-context.c, test/testtomoe.c: followed new API.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe.h: tomoe_simple_load(): Mark as FIXME.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.h: Reorder.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.h: Removed unused code. I'll add it again.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.[ch]: GObjectize.
+	* src/main.c, test/testtomoe.c: Use TomoeContext object.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-dict.[ch], lib/tomoe-char.[ch]: removed
+	tomoe_dict_interface.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.h: Remove obsolete code.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-recognizer.[ch]: hid private class.
+
+	* lib/tomoe-object.[ch]: removed.
+
+	* configure.in, lib/tomoe.c, lib/tomoe-recognizer.[ch]: used GObject.
+	* lib/tomoe-context.c: used g_object_unref instead of
+	tomoe_recognizer_{add_ref,free}.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.h: Minor fix.
+
+2006-11-20  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/Makefile.am: add glib-utils.h
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-data-types.h: removed. use gboolean instead.
+	* lib/, recognizer/tomoe-recognizer-simple-logic.c: followed the
+	above changes.
+
+	* lib/: used G_BEGIN_DECLS and G_END_DECLS.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict.c: Fixed crash.
+
+2006-11-20  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict.c, lib/tomoe-context.c: Fixed crash.
+
+2006-11-20  Kouhei Sutou  <kou@cozmixng.org>
+
+	* data/, test/testtomoe: used converted kanjidic2.xml as default
+	dictionary.
+
+2006-11-19  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/glib-utils.h: New file.
+	* lib/tomoe-char.c, lib/tomoe-context.c, lib/tomoe-config,
+	lib/tomoe-dict.c: Use TOMOE_PTR_ARRAY_FREE_ALL.
+
+2006-11-19  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-dict.c: Plugged a memory leak.
+
+2006-11-19  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.c, lib/tomoe-config.c, lib/tomoe-context.c,
+	lib/tomoe-dict.c, test/testtomoe.c: Plugged memory leaks.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.c, lib/tomoe-dict.c, lib/tomoe-context.c: Plugged
+	memory leaks. I had benn misunderstood about g_ptr_array_free ().
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.c, lib/tomoe-dict.c, test/testtomoe.c: Plugged memory
+	leaks partially.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-array.[ch]: Removed.
+	* lib/tomoe-context.[ch], lib/tomoe-recognizer-impl.h,
+	lib/tomoe-recognizer.[ch], recognizer/tomoe-recognizer-simple.c,
+	recognizer/tomoe-recognizer-simple-logic.[ch]:  Use GPtrArray instead
+	of TomoeArray. Now TomoeArray is flushed away.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.c: Fixed crash.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.[ch], src/main.c, test/testtomoe.c: Use GPtrArray
+	instead of TomoeArray.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.[ch]: Use GPtrArray instead of TomoeArray.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.[ch], lib/tomoe-dict.[ch],
+	lib/tomoe-recognizer-impl.h, lib/tomoe-rezognizer.h,
+	recognizer/recognizer-simple-logic.[ch], test/testtomoe.c: Use
+	GPtrArray instead of TomoeArray.
+
+2006-11-18  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.[ch], lib/tomoe-dict.c, recognizer/recognizer-simple-logic.c,
+	test/testtomoe.c: Use GPtrArray instead of TomoeArray.
+
+2006-11-17  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.[ch], tomoe-dict.c, test/testtomoe.c: Use
+	GPtrArray instead of TomoeArray.
+
+2006-11-17  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.[ch], lib/tomoe-context.[ch], lib/tomoe.c: Use
+	GPtrArray instead of TomoeArray.
+
+2006-11-17  Kouhei Sutou  <kou@cozmixng.org>
+
+	* Makefile.am, data/Makefile.am, test/test-config.xml: converted
+	by xsltproc before kanjidic2.xml is used.
+
+2006-11-17  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-context.c: db -> ctx.
+
+2006-11-17  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* recognizer/tomoe-recognizer-simple-logic.c: append static.
+
+2006-11-17  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-array.[ch]: _IntArray and _PointerArray are moved into
+	tomoe-recognizer-simple-logic.c:
+	* recognizer/tomoe-recognizer-simple-logic.[ch]: New files.
+
+2006-11-17  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-recognizer.[ch]: added missing files.
+
+2006-11-16  Kouhei Sutou  <kou@cozmixng.org>
+
+	* configure.in: added gmodule check.
+	* Makefile.am, lib/Makefile.am, lib/tomoe-recognizer.[ch]: made
+	handwriting recognizer implementation dynamic loadable.
+	* lib/tomoe-recognizer-impl.h: added for API of handwriting recognizer
+	implementation API.
+	* recognizer/tomoe-recognizer-simple.c: extracted implementation
+	in lib/tomoe-recognizer.c.
+
+	* lib/tomoe-recognizer.[ch], lib/tomoe-db.[ch]: extracted
+	handwriting recognition related functions from tomoe-dict.[ch].
+	* lib/tomoe-context.c: use TomoeRecognizer.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-array.c, lib/tomoe-char.c. lib/tomoe-config.c:
+	Change coding style.
+
+2006-11-16  Kouhei Sutou  <kou@cozmixng.org>
+
+	* lib/tomoe-db.[ch]: renamed to tomoe-context.
+	* lib/, src/, test/: followed the changes.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-array.c, lib/tomoe-char.c, lib/tomoe-config.c:
+	Minor fixes.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-debug.[ch]: Remove.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* libt/tomoe-handwrite.[ch]: Remove.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-array.[ch], lib/tomoe-dict.c:
+	int_array -> IntArray, pointer_array -> PointerArray.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch], lib/tomoe-data-type.h, lib/tomoe-dict.[ch],
+	  lib/tomoe-handwrite.c:
+	tomoe_bool -> TomoeBool.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-config.[ch], lib/tomoe-db.c: tomoe_dict_cfg -> TomoeDictCfg.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-array.[ch], lib/tomoe-char.c[ch], lib/tomoe-config.[ch],
+	  lib/tomoe-db.[ch], lib/tomoe-dict.[ch], lib/tomoe.c, src/main.c,
+	  test/testtomoe.c:
+	tomoe_array -> TomoeArray.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-db.[ch], lib/tomoe-dict.[ch], lib/tomoe-handwrite.[ch],
+	  test/testtomoe.c: tomoe_dict -> TomoeDict.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-config.[ch], lib/tomoe.c: tomoe_config -> TomoeConfig.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-db.[ch], lib/tomoe.[ch], src/main.c, test/testtomoe.c:
+	Rename tomoe_db -> TomoeDB.
+
+2006-11-16  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.[ch], lib/tomoe-db.c, lib/tomoe-dict.[ch]: get_xxx()
+	method -> is_xx(). I love is_xx() name if the function returns boolean
+	value.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.[ch], lib/tomoe-db.[ch], lib/tomoe-dict.[ch],
+	  lib/tomoe-handwrite.[ch], src/main.c, test/testtomoe.c:
+	Rename some struct.
+
+2006-11-16  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-array.[ch]: rename tomoe_array_getConst ->
+	tomoe_array_get_const.
+	* src/main.c: Ditto.
+	* test/testtomoe.c: Ditto.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-array.[ch]: rename this -> t_array.
+	* lib/tomoe-char.[ch]: rename this -> t_char or t_cand.
+	* lib/tomoe-config.c: rename this -> t_config.
+	* lib/tomoe-db.c: rename this -> t_db.
+	* lib/tomoe-dict.c: rename this -> t_dict.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Fix compile time warnings.
+	* lib/tomoe-array.h, lib/tomoe-char.h: Fix indent.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.c, lib/tomoe-config.h, lib/tomoe-db.[ch],
+	  lib/tomoe-dict.[ch], lib/tomoe-handwrite.[ch], lib/tomoe-object.h,
+	  lib/tomoe.[ch], src/main.c, test/testtomoe.c: ts4.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-char.c, lib/tomoe-dict.c, lib/tomoe-object.h, src/main.c:
+	Fix C++ style comments.
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe.[ch], src/main.c, test/testtomoe.c:
+	tomoe_term() -> tommoe_quit().
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe.[ch]: Remove tomeo_data_register().
+
+2006-11-16  Takuro Ashie  <ashie@homa.ne.jp>
+
+	* lib/tomoe-array.[ch], lib/tomoe-char.[ch], lib,tomoe-config.[ch],
+	  lib/tomoe-db.[ch], lib/tomoe-dict.[ch], lib/tomoe.c,
+	  src/main.c, test/testtomoe.c:
+	Change some CamelCase functions to snake_case.
+	Fix C++ style comments.
+	ts2 -> ts4.
+
+2006-11-16  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* data/kanjidic2.xsl: Applied the patch in [Tomoe-devel 102]
+
+2006-11-16  Kouhei Sutou  <kou@cozmixng.org>
+
+	* configure.in: suppressed automake warning.
+	* doc/Makefile.am: ditto.
+
+2006-10-29  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* configure.in: version-0.3.0.
+
+2006-10-25  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* test/tomoe-config.xml: Removed.
+	* test/test-config.xml: Added.
+	* test/testtomoe.c: Use test-config.xml.
+
+2006-10-16  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-char.c: Use "USE_TOMOE_OBJECT" for ifdef.
+
+2006-10-16  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* lib/tomoe-config.c: Create ~/.tomoe/config.xml if not exists.
+
+2006-10-13  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* Change config file loading order.
+	  1. load the file set of the argument of tomoe_config_new().
+	  2. load user own config file (~/.tomoe/config.xml).
+	  3. load system config file ($sysconfdir/config.xml).
+	  4. load default string in lib/tomoe-config.c.
+	* data/config.xml: A new file for system config file.
+	* data/Makefile.am: Added config.xml.
+	* lib/tomoe-config.c: The above explanation.
+
+2006-10-13  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	* data/config.xml: A new file for system config file.
+	* lib/tomoe-config.c: 
+
+2006-09-08 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* Classes for tomoe objects introduced (proposal).
+	+ lib/tomoe-object.[ch]: Added.
+	+ lib/tomoe-char.[ch]: TomoeCandidate added.
+	+ lib/Makefile.am: tomoe-object.[ch] added.
+
+2006-08-22 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* lib/tomoe-config.c: tomoe_config_save implemented.
+
+2006-08-21 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* lib/tomoe-config.[ch]: Compiler warnings fixed.
+
+2006-08-17 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* lib/tomoe-char.[ch], lib/tomoe-dict.[ch]: [set,get]_modified added.
+	* lib/tomoe-db.[ch]: tomoe_db_save added.
+
+2006-08-16 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* lib/tomoe_char.[ch]: tomoe_char_is_editable added.
+	* lib/tomoe-db.c, test/testtomoe.c, lib/tomoe-dict.[ch]: 
+	tomoe_dict_new: Argument editable added.
+
+2006-08-13 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* lib/tomoe-char.c: tomoe_char_get_meta: meta xsl availability check.
+	* lib/tomoe-dict.c: Save name, meta properties.
+
+2006-08-11 Juernjakob Harder <juernjakob.harder@gmail.com>
+
+	* lib/tomoe-dict.[ch]: tomoe_dict_insert added.
+
+2006-08-05 Juernjakob Harder <juernjakob.harder@gmail.com>
+	
+	* lib/tomoe-config.[ch]: Default user dictionary added.
+
+2006-07-12 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-config.c: File check/rights added.
+	* lib/tomoe-dict.c: Dictionary name added.
+	* data/*.xml: Dictionary name added.
+
+2006-07-11 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* configure.in: Version 0.3.0.
+	* lib/tomoe-array.h: tomoe_array commented.
+
+2006-07-04 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-char.[ch], lib/tomoe-dict.[ch], lib/tomoe.c, 
+	test/testtomoe.c, lib/tomoe-array.[ch], lib/tomoe-db.[ch], src/main.c:
+	Overall code cleanup, fixing, commenting, cosmetic changes
+	tomoe_dictInterface added, implemented by tomoe_dict used by tomoe_char
+	* TODO: Added.
+
+2006-07-03 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-char.[ch]: Renamed from tomoe-letter.[ch].
+	tomoe_char* renamed from tomoe_letter, tomoe_char struct hided.
+	Property setter/getter added.
+	* lib/tomoe-dict.[ch]: tomoe_char* renamed from tomoe_letter, 
+	tomoe_dict_save added. Replace tomoe-letter.h with tomoe-char.h.
+	* lib/Makefile.am: Replace tomoe-letter.[ch] with tomoe-char.[ch].
+	* test/testtomoe.c: Updated.
+
+2006-07-02 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-dict.[ch]: Methodes for modifying added.
+	* lib/tomoe-db.[ch]: tomoe_db_addDict now adds an already loaded 
+	dictionary. tomoe_db_loadDict, tomoe_db_loadDictList added.
+	* lib/tomoe-config.[ch]: Added. Holds a list of dictionaries to load.
+	* lib/tomoe-letter.[ch]: tomoe_candidate now holds tomoe_letter*, 
+	tomoe_letter_compare implemented.
+	* lib/tomoe-array.[ch]: tomoe_array_find fixed, tomoe_array_remove 
+	added.
+	* lib/tomoe.[ch]: tomoe_init do not load any dictionaries anymore, 
+	tomoe_simple_load added.
+	* lib/Makefile.am: tomoe-config.[ch] added.
+	* test/testtomoe.c: Expended to stroke, reading and modify tests.
+	* test/tomoe-config.xml: Added.
+	* test/testreading.c: Removed.
+	* test/Makefile.am: testreading removed.
+	* data/userdb.xml: Added.
+
+2006-06-20 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* tomoe-dict.[ch], tomoe-db.h, tomoe-letter.h: Comments and cosmetic
+	changes.
+
+2006-06-18 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* readingtest.xml: Added meta info.
+	* meta.xsl: Added.
+	* Makefile.am: Added meta.xsl.
+	* tomoe-dict.c: Meta info added, Xml reading restructured.
+	* tomoe-letter.[ch]: Meta info added.
+	* testreading.c: Show meta info, "init tomoe...".
+	* testtomoe.c: Show "init tomoe..."
+
+2006-06-17 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* kanjidic2.[xml,xsl]: Added.
+	* configure.in: Added libxslt.
+	* lib/Makefile.am: Added libxslt.
+	* data/Makefile.am: Added kanjidic2.xml, kanjidic2.xsl.
+	* lib/tomoe.c: Added kanjidic2.xml.
+	* lib/tomoe-db.c: tomoe_db_add_dict, check for NULL pointer added.
+	* tomoe-dict.c: Transformation of non-native dictionaries via xsl.
+
+2006-06-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* tomoe-array.[ch]: Renamed from array.[ch].
+	* lib/Makefile.am, lib/tomoe-db.c, lib/tomoe-dict.[ch],
+	  lib/tomoe-letter.h, lib/tomoe.c: Replace array.h with tomoe-array.h.
+
+2006-06-09 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-letter.[ch]: tomoe_string_compare added, tomoe_letter_clear
+	removed.
+	Readings added to tomoe_letter.
+	* lib/array.c: tomoe_merge_array warning fixed.
+	* lib/tomoe-dict.[ch]: tomoe_dict_get_reading, _parse_reading added.
+	Some commenting.
+	* data/readingtest.xml: Some format changes, DOCTYPE added.
+	* data/all.xml: DOCTYPE added.
+	* lib/tomoe-db.c: tomoe_db_get_reading implemented.
+	* test/testreading.c: Fixed.
+	* data/Makefile.am: tomoe-dict.dtd added.
+
+2006-06-09 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-db.c: Calls tomoe_dict_get_matched of all loaded 
+	dictionaries and merge.
+	* lib/array.[ch]: tomoe_array_merge added.
+	* readingtest.xml: Fixed.
+	* tomoe-dict.c: Dictionary root tag changed to tomoe_dictionary.
+	* Makefile.am: readingtest.xml all.xml added.
+
+2006-06-08 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-db.[ch]: Added.
+	* data/readingtest.xml: Added.
+	* test/testreading.c: Added.
+	* lib/tomoe.[ch]: Dictionary handling moved to tomoe-db, replaced by 
+	database. tomoe_get_matched returns now candidates in tomoe_array. 
+	API CHANGE
+	* lib/tomoe-dict.[ch]: *_get_matched is now handled by tomoe_dict.
+	* lib/tomoe-letter.[ch]: Reference count for tomoe_letter, 
+	tomoe_letter_compare and tomoe_candidate_compare added.
+	* lib/array.[ch]: tomoe_array added.
+	* test/Makefile.am: testreading.c added.
+	* Makefile.am: tomoe-db.[ch] added.
+	* main.c, test/testtomoe.c: Due to changed API, fixed 
+
+2006-06-04 Juernjakob Harder <juernjakob.harder@gmail.com>
+	* lib/tomoe-dict.c: Ported tomoe_dict_new to xml database.
+	* lib/tomoe.c: Changed all.tic to all.xml.
+	* data/all.xml: Added.
+	* utils/makexmldict.rb: Added.
+	* utils/dictionary/rb: Ported to xml database.
+	* configure.in: Added libxml2
+	* lib/Makefile.am: Added libxml2
+
+2006-01-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-letter.[ch]: Remove tomoe_*_init_with_*() functions.
+	* lib/tomoe-dict.[ch]: Return tomoe_dict* on tomoe_dict_ref();
+	* lib/tomoe_handwrite.[ch]: Add reference count.
+
+2006-01-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-debug.[ch]: Added.
+	* lib/Makefile.am: Add above files.
+
+2006-01-20 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.c: Create normalized glyph before start searching.
+
+2006-01-19 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/main.c: Use new API.
+
+2006-01-18 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/tomoe-dict.[ch]: Add reference count.
+
+2006-01-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* all Makefile.am: Sorry, license was wrong.
+
+2006-01-16 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: Implement some functions.
+
+2006-01-13 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-letter.[ch]: Add lacked functions.
+	* lib/tomoe-dict.h, lib/tomoe-handwrite.h, lib/tomoe.h:
+	Fix some comments.
+
+2006-01-12 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c, tomoe-letter.[ch]: Move some functions from
+	tomoe-dict.c to tomoe-letter.[ch].
+	* lib/tomoe-handwrite.[ch]: Implement some functions.
+
+2006-01-12 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: Implement some functions.
+
+2006-01-12 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe.h, lib/tomoe-letter.h, lib/tomoe-dict.h: Add comments.
+
+2006-01-12 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Fix clash bug.
+
+2006-01-12 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.{ch}, lib/tomoe.c: Hide tomoe_dict struct.
+	Fix C99 style declaration.
+	* lib/tomoe-handwrite.[ch]: Implement creating and freeing context.
+	* lib/tomoe-letter.c: Add copyright notice.
+
+2005-12-19 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.c: Fix double freeing.
+
+2005-12-19 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-letter.[ch]: Split letter related data types from
+	tomoe-data-types.h.
+
+2005-12-19 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-handwrite.[ch]: New file.
+	NEW API for handwriting based on object oriented.
+
+2005-12-14 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe-dict.[ch], src/tomoe-data-types.h:
+	New file (Splited from tomoe.[ch]).
+
+2005-11-04 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/array.h, src/array.c: Fix indent.
+
+2005-11-04 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/main.c: Fix indent.
+
+2005-11-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/main.c: Remove needless code.
+
+2005-11-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe.c: Allow NULL for freeing.
+
+2005-11-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.in, Makefile.am, utils/Makefile.am: Distribute also utils.
+
+2005-11-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe.h: Add some comments.
+
+2005-11-02 Takuro Ashie <ashie@homa.ne.jp>
+
+	* configure.in, lib/Makefile.am: Don't export internal functions.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* data/sample-data.txt: Remove.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe.h: Add comments.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/main.c:
+	Add "tomoe_" prefix for commented out code.
+	Remove needless cast.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/array.[ch]: Add "_" prefix for internal functions.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* src/match.c, src/match.rb: Remove old files.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* test/testtomoe.c: Add "tomoe_" prefix. Fix indent.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* lib/tomoe.[ch], src/main.c:
+	Add "tomoe_" prefix to structures. Fix indent.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* doc/Makefile.am, doc/doxygen.conf.in: Added.
+	* configure.in: Add added files.
+	* Makefile.am, data/Makefile.am, lib/Makefile.am, src/Makefile.am,
+	  test/Makefile.am: Add license description.
+
+2005-11-01 Takuro Ashie <ashie@homa.ne.jp>
+
+	* data/all.tdic, data/hiragana.tdic: Converted to UTF-8.
+
+2005-08-14 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* configure.in:
+	version 0.2.1.
+
+2005-08-11 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* lib/tomoe.c:
+	Fixed 0-division.
+
+2005-08-11 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* lib/tomoe.c:
+	the score became 1/100.
+
+2005-08-11 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* lib/tomoe.c:
+	scoring by weighinting with the number of storke.
+
+2005-06-29 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* configure.in:
+	version 0.2.0.
+
+2005-06-27 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* lib/tomoe.c:
+	More accurate score.
+
+2005-06-27 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* lib/tomoe.c:
+	Set the score.
+	But it does not indicate probable value yet.
+
+2005-06-24 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* Makefile.am, configure.in, tomoe.pc.in:
+	for pkgconfig.
+
+2005-06-24 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* src/main.c: New tomoe.
+	Old one is tomoe1.
+
+2005-06-24 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* lib/array.[ch], lib/tomoe.[ch],
+	  test/testtomoe.c:
+	Brushing up.
+
+2005-03-06 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* Reconstruction of directory trees.
+	./lib : tomoe library
+	./src : source codes for a program to use tomoe library with standard
+	input/output.
+
+2005-03-04 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* test/testtomoe.c:
+	Added a program for testing tomoe library.
+
+2005-03-03 Hiroyuki Ikezoe <poincare@ikezoe.net>
+
+	* starting librarization. 
+	It's still tentative.
+
+2005-02-09 Takuro Ashie <ashie@homa.ne.jp>
+
+	* version-0.1.1.
+
+2005-02-07  Hiroaki Nakamura  <hnakamur@good-day.co.jp>
+
+	* data/all.tdic: Added forgotten characters in JIS 1st level kanji
+	characters.  Also added 3 symbols.
+
+2004-12-27  Hiroaki Nakamura  <hnakamur@good-day.co.jp>
+
+	* Fixed AM_INIT_AUTOMAKE in confiugre.in.
+
+2004-12-15  Hiroaki Nakamura  <hnakamur@good-day.co.jp>
+
+	* Fixed indentation.
+	* src/match.c (load_data): Fixed to expand data structure and continue
+	loading even if the dictionary is larder than assumed size.

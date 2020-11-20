@@ -1,0 +1,87 @@
+<!-- ##### SECTION Title ##### -->
+tomoe-module-impl
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### USER_FUNCTION TomoeModuleInitFunc ##### -->
+<para>
+
+</para>
+
+@module: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION TomoeModuleExitFunc ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### USER_FUNCTION TomoeModuleInstantiateFunc ##### -->
+<para>
+
+</para>
+
+@first_property: 
+@var_args: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION TomoeModuleGetLogDomainFunc ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION TOMOE_MODULE_IMPL_INIT ##### -->
+<para>
+
+</para>
+
+@module: 
+@Returns: 
+
+
+<!-- ##### FUNCTION TOMOE_MODULE_IMPL_EXIT ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION TOMOE_MODULE_IMPL_INSTANTIATE ##### -->
+<para>
+
+</para>
+
+@first_property: 
+@var_args: 
+@Returns: 
+
+
+<!-- ##### FUNCTION TOMOE_MODULE_IMPL_GET_LOG_DOMAIN ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+

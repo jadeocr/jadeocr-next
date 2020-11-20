@@ -1,0 +1,21 @@
+%%
+headers
+#define NO_IMPORT_PYGOBJECT
+#include "pytomoe-utils.h"
+%%
+override tomoe_shelf_get_dict_names noargs
+static PyObject *
+_wrap_tomoe_shelf_get_dict_names(PyGObject *self)
+{
+    GList *names;
+    PyObject *py_names;
+
+    names = tomoe_shelf_get_dict_names (TOMOE_SHELF(self->obj));
+
+    CONVERT_STRING_LIST (py_names, names);
+
+    g_list_free (names);
+
+    return py_names;
+}
+%%
