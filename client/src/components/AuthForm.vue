@@ -168,9 +168,6 @@
         this.clearFields()
       },
     },
-    mounted() {
-      this.$store.dispatch('auth/autoSignIn')
-    }
   })
 </script>
 
