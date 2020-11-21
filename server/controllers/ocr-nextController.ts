@@ -11,7 +11,7 @@ exports.ocr = function(req, res, next) {
 
     ocrProcess.stdout.on('data', function(data) {
         var chars = new Array()
-        data = data.toString().split("\r\n")
+        data = data.toString().split("\n")
         for (let i = 0; i < data.length - 1; i++) {
             chars.push(String.fromCharCode(parseInt(data[i])))
         }
