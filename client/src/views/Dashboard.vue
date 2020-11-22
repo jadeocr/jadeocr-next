@@ -5,10 +5,28 @@
         <sidebar />
       </div>
       <div class="mt-12 md:mt-16 col-span-1 page-content">
-        <div
-          class="mx-6 text-2xl font-normal md:mx-4 md:text-3xl lg:mx-10 xl:mx-20"
-        >
-          Dashboard
+        <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
+          <div class="text-2xl font-normal md:text-3xl">
+            Dashboard
+          </div>
+          <div class="mt-4 text-lg">
+            <button
+              @click="changeMenuType('learn')"
+              :class="{ 'opacity-75': menuType != 'learn' }"
+            >
+              My Decks
+            </button>
+            |
+            <button
+              @click="changeMenuType('assigned')"
+              :class="{ 'opacity-75': menuType != 'assigned' }"
+            >
+              Assigned
+            </button>
+          </div>
+          <div class="mt-2 md:mt-12">
+            <deck-menu :menuType="menuType" />
+          </div>
         </div>
       </div>
     </div>
@@ -18,14 +36,27 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
+  import DeckMenu from '../components/DeckMenu.vue'
 
   export default defineComponent({
     name: 'Dashboard',
     components: {
       Sidebar,
+      DeckMenu,
+    },
+    data() {
+      return {
+        menuType: 'learn',
+      }
+    },
+    methods: {
+      changeMenuType(menuType: string): void {
+        this.menuType = menuType
+      },
     },
     mounted() {
       this.$store.dispatch('decks/fetchDecks')
-    }
+      /* this.$store.dispatch('decks/fetchAssignedDecks') */
+    },
   })
 </script>
