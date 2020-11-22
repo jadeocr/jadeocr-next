@@ -1,5 +1,6 @@
 <template>
   <div id="deck-menu">
+    <!-- Show personal decks -->
     <div
       v-if="$store.state.decks.decks.length && menuType == 'learn'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
@@ -23,6 +24,7 @@
       </div>
     </div>
 
+    <!-- Show assigned decks -->
     <div
       v-if="$store.state.decks.decksAssigned.length && menuType == 'assigned'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"

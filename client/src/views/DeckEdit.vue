@@ -11,6 +11,7 @@
               <div class="text-2xl font-normal md:text-3xl">
                 {{ name }}
               </div>
+              <!-- TODO: Add Editing grid -->
             </div>
           </div>
         </div>
@@ -23,6 +24,17 @@
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
 
+  interface Deck {
+    characters: Array<string>
+    readonly id: string
+    title: string
+    description: string
+    readonly creatorID: string
+    readonly creatorFirst: string
+    readonly creatorLast: string
+    isPublic: false
+  }
+
   export default defineComponent({
     name: 'DeckEdit',
     components: {
@@ -33,6 +45,11 @@
         type: String,
         required: false, // left null if on create
       },
+    },
+    data() {
+      return {
+        deck: Array<Deck>(),
+      }
     },
   })
 </script>
