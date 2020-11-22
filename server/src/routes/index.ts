@@ -17,11 +17,8 @@ router.post('/', function(req, res, next) {
   res.send('hello world')
 })
 
-var ocrController = require('../controllers/ocrController')
-router.post('/api/ocr', ocrController.post)
-
-var ocrNextController = require('../controllers/ocr-nextController')
-router.post('/api/ocr/next', ocrNextController.ocr)
+var ocrNextController = require('../controllers/ocrController')
+router.post('/api/ocr', ocrNextController.ocr)
 
 var userController = require('../controllers/userController')
 router.post('/api/signup', [

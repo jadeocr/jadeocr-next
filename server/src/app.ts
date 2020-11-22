@@ -10,8 +10,9 @@ var logger = require('morgan')
 var indexRouter = require('./routes/index')
 
 var mongoose = require('mongoose')
-var env = require('./env')
-mongoose.connect(env.mongooseURL, {
+const dotenv = require('dotenv').config()
+
+mongoose.connect(process.env.MONGOOSEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,

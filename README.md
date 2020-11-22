@@ -19,10 +19,9 @@ yarn && yarn twbuild
 yarn serve # Starts dev server on http://localhost:8080
 ```
 ### Server
-First set up a MongoDB server (locally or on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)) then add the following to **server/env.ts**
-```typescript
-let mongooseURL = 'my_mongodb_url_with_key'
-export { mongooseURL as mongooseURL }
+First set up a MongoDB server (locally or on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)) then add the following to **server/.env**
+```bash
+MONGOOSEURL="my_mongoose_url_with_key"
 ```
 On the server, make sure you have Python3 and [TensorFlow Lite](https://www.tensorflow.org/lite/guide/python) installed.
 Then run the following

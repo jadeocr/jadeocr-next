@@ -9,6 +9,7 @@ env.ts
 tailwind.css
 
 # local env files
+.env
 .env.local
 .env.*.local
 
