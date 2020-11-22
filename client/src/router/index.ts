@@ -32,6 +32,19 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/deckedit/create',
+    name: 'DeckEdit',
+    component: () =>
+      import(/* webpackChunkName: 'deckedit' */ '../views/DeckEdit.vue'),
+  },
+  {
+    path: '/deckedit/edit/:name',
+    name: 'DeckEdit',
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: 'deckedit' */ '../views/DeckEdit.vue'),
+  },
 ]
 
 const router = createRouter({

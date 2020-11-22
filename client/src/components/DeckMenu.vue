@@ -10,9 +10,14 @@
         class="my-4 mr-4 col-span-1"
       >
         <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
-          <div class="text-xl font-normal">
+          <router-link
+            class="text-xl font-normal"
+            :to="{
+              path: `/deckedit/edit/${$store.state.decks.decks[deck].title}`,
+            }"
+          >
             {{ $store.state.decks.decks[deck].title }}
-          </div>
+          </router-link>
           <div>{{ $store.state.decks.decks[deck].description }}</div>
         </div>
       </div>
@@ -32,6 +37,10 @@
             {{ $store.state.decks.decksAssigned[deck].title }}
           </div>
           <div>{{ $store.state.decks.decksAssigned[deck].description }}</div>
+          <div>
+            {{ $store.state.decks.decksAssigned[deck].creatorFirst }}
+            {{ $store.state.decks.decksAssigned[deck].creatorLast }}
+          </div>
         </div>
       </div>
     </div>
