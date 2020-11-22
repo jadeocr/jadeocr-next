@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/signup',
     name: 'Signup',
     component: () =>
-      import(/* webpackChunkNmae: 'signup' */ '../views/Signup.vue'),
+      import(/* webpackChunkName: 'signup' */ '../views/Signup.vue'),
   },
   {
     path: '/dashboard',
@@ -31,6 +31,19 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/deckedit/create',
+    name: 'DeckEdit',
+    component: () =>
+      import(/* webpackChunkName: 'deckedit' */ '../views/DeckEdit.vue'),
+  },
+  {
+    path: '/deckedit/edit/:name',
+    name: 'DeckEdit',
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: 'deckedit' */ '../views/DeckEdit.vue'),
   },
 ]
 
