@@ -1,3 +1,5 @@
+#! python3
+
 var hanziLookup = require('../public/hanzilookup/hanzilookup.min.js')
 var mmah = require('../public/hanzilookup/mmah.json')
 

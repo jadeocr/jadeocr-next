@@ -7,7 +7,13 @@ exports.ocr = function(req, res, next) {
         res.sendStatus(400)
         return
     } else {
-        var ocrProcess = spawn('python', [__dirname + '/ocr.py',
+        let python = "python3"
+
+        if(process.platform == "win32") {
+            python = "python"
+        }
+
+        var ocrProcess = spawn(python, [__dirname + '/ocr.py',
                          strokes
                     ])
 
