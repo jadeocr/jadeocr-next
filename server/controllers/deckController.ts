@@ -90,3 +90,9 @@ exports.getAssignedDecks = function(req, res, next) {
         }
     })
 }
+
+exports.updateStats = function(req, res, next) {
+    let user = req.user._id
+    
+    
+}

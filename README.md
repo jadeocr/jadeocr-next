@@ -24,8 +24,14 @@ First set up a MongoDB server (locally or on [MongoDB Atlas](https://www.mongodb
 let mongooseURL = 'my_mongodb_url_with_key'
 export { mongooseURL as mongooseURL }
 ```
+On the server, make sure you have Python3 and [TensorFlow Lite](https://www.tensorflow.org/lite/guide/python) installed.
 Then run the following
 ```bash
+# Prepare OCR neural net dependencies
+pip3 install svg.path numpy
+pip3 install git+https://github.com/mcyph/cnn_chinese_hw
+
+# Start up node.js server
 cd server
 yarn && yarn dev # Starts dev server on http://localhost:3000
 ```
