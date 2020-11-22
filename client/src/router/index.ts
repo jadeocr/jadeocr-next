@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: 'login' */ '../views/Login.vue'),
     beforeEnter: () => {
       store.dispatch('auth/autoSignIn')
-    }
+    },
   },
   {
     path: '/signup',

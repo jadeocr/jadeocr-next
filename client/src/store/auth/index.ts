@@ -42,7 +42,7 @@ export const auth = {
     // eslint-disable-next-line
     setTeacher(state: any, isTeacher: boolean) {
       state.isTeacher = isTeacher
-    }
+    },
   },
   actions: {
     signUp({ commit }: { commit: Function }, credentials: object): void {
@@ -51,17 +51,16 @@ export const auth = {
         url: `${apiBaseURL}/signup`,
         data: credentials,
         withCredentials: true,
+      }).catch(() => {
+        commit('setAuthErrorMsg', 'User already exists')
       })
-        .catch(() => {
-          commit('setAuthErrorMsg', 'User already exists')
-        })
     },
     signIn({ commit }: { commit: Function }, credentials: object): void {
       axios({
         method: 'post',
         url: `${apiBaseURL}/signin`,
         data: credentials,
-        withCredentials: true
+        withCredentials: true,
       })
         .then((res) => {
           commit('setSignedIn', true)
@@ -96,7 +95,7 @@ export const auth = {
       axios({
         method: 'post',
         url: `${apiBaseURL}/signout`,
-        withCredentials: true
+        withCredentials: true,
       })
         .then(() => {
           commit('setSignedIn', false)
@@ -105,6 +104,6 @@ export const auth = {
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
   },
 }

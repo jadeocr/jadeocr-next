@@ -92,11 +92,11 @@
   import router from '../router/index'
 
   interface Credentials {
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    confirmPassword: string,
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    confirmPassword: string
   }
 
   export default defineComponent({
@@ -139,7 +139,7 @@
           confirmPassword: '',
         }
       },
-      callSignUp() {
+      callSignUp(): void {
         this.$store.commit('auth/setAuthErrorMsg', '')
         if (
           this.validatePassword(
