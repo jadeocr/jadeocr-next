@@ -1,4 +1,12 @@
 <template>
+  <div class="w-full py-2 text-center bg-nord2">
+    Welcome to the development build of jadeocr2.0!
+    Check back later, or check our 
+    <a href="https://github.com/TanayB11/jadeocr-next"
+      class="text-blue-300 hover:opacity-75">
+      GitHub!
+    </a>
+  </div>
   <start-link linkType="navigation" class="mt-6" />
   <router-view />
 </template>
