@@ -11,7 +11,11 @@ An improved version of [jadeocr](https://jadeocr.com), built with Vue3 and TypeS
 
 
 ## Quickstart
-First clone this repo, then run the following to quickly spin up a dev instance
+First clone this repo, then set up your environment variables in **client/.env**
+```bash
+VUE_APP_API_BASEURL="my_server_url/api"
+```
+Then run the following to quickly spin up a dev instance
 ### Client
 ```bash
 cd client

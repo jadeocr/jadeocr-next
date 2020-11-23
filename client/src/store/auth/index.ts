@@ -1,7 +1,6 @@
 import router from '../../router/index'
 import axios from 'axios'
-
-const apiBaseURL = 'http://localhost:3000/api'
+const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
 export const auth = {
   namespaced: true,

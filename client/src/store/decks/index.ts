@@ -1,5 +1,6 @@
 import axios from 'axios'
-const apiBaseURL = 'http://localhost:3000/api'
+const apiBaseURL = process.env.VUE_APP_API_BASEURL
+
 
 interface Deck {
   characters: Array<string>
