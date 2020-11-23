@@ -12,15 +12,21 @@ const authMiddleware = (req, res, next) => {
   }
 }
 
-/* GET home page. */
+// Get home page
 router.post('/', function(req, res, next) {
   res.send('hello world')
 })
 
+
+
+// OCR
 var ocrNextController = require('../controllers/ocrController')
 router.post('/api/ocr', ocrNextController.ocr)
 
+
+// Authentication
 var userController = require('../controllers/userController')
+
 router.post('/api/signup', [
   body('email').isString().notEmpty().trim().escape().isEmail(),
   body('firstName').isString().notEmpty().trim().escape(),
@@ -28,17 +34,24 @@ router.post('/api/signup', [
   body('password').isString().notEmpty().trim().escape(),
   body('confirmPassword').isString().notEmpty().trim().escape(),
 ], userController.signup)
+
 router.post('/api/signin', passport.authenticate('local'), function(req, res, next) {
   res.send(req.user)
 })
+
 router.post('/api/signout', authMiddleware, function(req, res, next) {
   req.logout()
   res.sendStatus(200)
 })
+
 router.get('/api/user', authMiddleware, userController.user)
 router.get('/api/user/details', authMiddleware, userController.details)
 
+
+
+// Decks
 var deckController = require('../controllers/deckController')
+
 router.post('/api/deck/create', authMiddleware, [
   body('title').trim().escape(),
   body('description').trim().escape(),
@@ -67,47 +80,66 @@ router.post('/api/deck/create', authMiddleware, [
     }
   }),
 ], deckController.createDeck)
+
 router.get('/api/deck/decks', authMiddleware, deckController.findDecks)
 router.get('/api/deck/public', authMiddleware, deckController.publicDecks)
 router.get('/api/deck/assigned', authMiddleware, deckController.getAssignedDecks)
 
+
+
+// Character
 var characterController = require('../controllers/characterController')
 router.get('/api/pinyin', characterController.pinyin)
 router.get('/api/definition', characterController.definition)
+
 router.get('/api/strokes', [
   body('character').trim().escape(),
   ], characterController.graphics)
+
 router.get('/api/animated', [
   body('character').trim().escape(),
   ], characterController.animated)
+
 router.get('/api/static', [
   body('character').trim().escape(),
   ], characterController.static)
 
+
+
+// Classes
 var classController = require('../controllers/classController')
+
 router.post('/api/class/create', authMiddleware, [
   body('className').trim().escape(),
   body('description').trim().escape(),
 ], classController.createClass)
+
 router.post('/api/class/remove', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.removeClass)
+
 router.post('/api/class/join', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.join)
+
 router.post('/api/class/leave', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.leave)
+
 router.post('/api/class/assign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deck').trim().escape(),
 ], classController.assign)
+
 router.post('/api/class/unassign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deck').trim().escape(),
 ], classController.unassign)
+
 router.post('/api/class/assigned', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.getAssignedDecks)
 
+
 module.exports = router
+
