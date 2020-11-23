@@ -23,16 +23,22 @@ First set up a MongoDB server (locally or on [MongoDB Atlas](https://www.mongodb
 ```bash
 MONGOOSEURL="my_mongoose_url_with_key"
 ```
-On the server, make sure you have Python3 and [TensorFlow Lite](https://www.tensorflow.org/lite/guide/python) installed.
+On the server, make sure you have Python3 and [TensorFlow Lite](https://www.tensorflow.org/lite/guide/python) installed. Also make sure that you have installed `virtualenv` (`pip install virtualenv`) to isolate dependencies from the rest of your system.
 Then run the following
 ```bash
-# Prepare OCR neural net dependencies
-pip3 install svg.path numpy
-pip3 install git+https://github.com/mcyph/cnn_chinese_hw
+cd server
+
+# Python setup
+virtualenv venv # Creates python virtual environment
+source venv/bin/activate # Activates virtual environment (run each time before working with the server)
+pip install --upgrade pip # Updates pip
+pip install -r requirements.txt # Installs dependencies
 
 # Start up node.js server
 cd server
 yarn && yarn dev # Starts dev server on http://localhost:3000
+
+deactivate # Deactivates virtual environment (run this when you're done)
 ```
 
 
