@@ -5,10 +5,8 @@ var passport = require('passport')
 var { body } = require('express-validator')
 var { authMiddleware } = require('./authMiddleware')
 
-// Get home page
-router.post('/', function(req, res, next) {
-  res.send('hello world')
-})
+var ocrNextController = require('../controllers/ocrController')
+
+router.post('/api/ocr', ocrNextController.ocr)
 
 module.exports = router
-

@@ -7,8 +7,6 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
-var indexRouter = require('./routes/index')
-
 var mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 
@@ -83,7 +81,20 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+
+var indexRouter = require('./routes/index')
+var userRouter = require('./routes/user')
+var decksRouter = require('./routes/deck')
+var characterRouter = require('./routes/character')
+var classRouter = require('./routes/class')
+var ocrRouter = require('./routes/ocr')
+
 app.use('/', indexRouter)
+app.use('/', userRouter)
+app.use('/', decksRouter)
+app.use('/', characterRouter)
+app.use('/', classRouter)
+app.use('/', ocrRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
