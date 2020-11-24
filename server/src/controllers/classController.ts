@@ -222,8 +222,8 @@ exports.unassign = function(req, res, next) {
         } else if (Class.teacher != teacher) {
             res.sendStatus(403)
         } else {
-            if (!Class.assignedDecks) {
-                res.send("No decks to remove")
+            if (Class.assignedDecks.length == 0) {
+                res.status(400).send("No decks to remove")
             } else {
                 for (let i in Class.assignedDecks) {
                     if (Class.assignedDecks[i] == deck) {

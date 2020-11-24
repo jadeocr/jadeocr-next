@@ -2,17 +2,23 @@ var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
 var { validationResult } = require('express-validator')
+var {v4: uuidv4} = require('uuid')
 
 exports.createDeck = function(req, res, next) {
     let errors = validationResult(req)
-    
+
     if (!errors.isEmpty()) {
         res.send(errors)
     } else {
+        let characterArray = []
+        for (let i of req.body.characters) {
+            characterArray.push({char: i, id: uuidv4()})
+        }
+
         var deck = new deckModel({
             title: req.body.title,
             description: req.body.description,
-            characters: req.body.characters,
+            characters: characterArray,
             creator: req.user.id,
             creatorFirst: req.user.firstName,
             creatorLast: req.user.lastName,
@@ -89,10 +95,4 @@ exports.getAssignedDecks = function(req, res, next) {
             }
         }
     })
-}
-
-exports.updateStats = function(req, res, next) {
-    let user = req.user._id
-    
-    
 }
