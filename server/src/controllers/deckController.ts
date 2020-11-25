@@ -1,3 +1,5 @@
+import { Decipher } from "crypto"
+
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -95,4 +97,44 @@ exports.getAssignedDecks = function(req, res, next) {
             }
         }
     })
+}
+
+exports.practiced = function(req, res, next) {
+
+}
+
+exports.quized = function(req, res, next) {
+    let deckId = req.body.deck
+    let results = req.body.results
+    let userId = req.user._id
+
+    userDetailedModel.findOne({_id: userId}, function(userErr, user) { //user_err might always evaluate to true tho /s
+        if (userErr) console.log(userErr)
+
+        if (!user) {
+            res.status(400).send("Could not find user")
+        } else {
+            deckModel.findOne({_id: deckId}, function(deck_err, deck) {
+                if (deck_err) console.log(deck_err)
+
+                if (!deck) {
+                    res.status(400).send("Could not find deck")
+                } else {
+                    if (user.decks.length == 0) {
+                        user.decks.push({deck: deckId})
+                    }
+                }
+            })
+        }
+    })
+
+    let writeResultsToUser = function(user, results, deck) {
+        let writeArray = []
+
+        for (let i of results) {
+            writeArray.push({id: i.id, correct: i.correct, overriden: i.overriden})
+        }
+    
+
+    }
 }
