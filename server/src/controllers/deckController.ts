@@ -1,7 +1,3 @@
-import { Decipher } from "crypto"
-import e = require("express")
-import { send } from "process"
-
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -111,7 +107,6 @@ exports.getAssignedDecks = function(req, res, next) {
                 classArray.push({classCode: user.classes[i]})
 
                 if (parseInt(i) + 1 == user.classes.length) {
-
                     var deckArray = []
 
                     classModel.find({$or: classArray}, function(err, classResults) {
@@ -146,6 +141,8 @@ exports.practiced = function(req, res, next) {
     let deckId = req.body.deck
     let results = req.body.results
     let userId = String(req.user._id)
+
+    
 }
 
 exports.quizzed = function(req, res, next) {
@@ -171,37 +168,18 @@ exports.quizzed = function(req, res, next) {
                     if (user.decks.length == 0) {
                         user.decks.push({deckId: deckId})
                         writeResultsToUser(results, user.decks[0], 0)
-                        user.save(function(err) {
-                            if (err) {
-                                res.status(400).send(err)
-                            } else {
-                                res.sendStatus(200)
-                            }
-                        })
+                        saveUser(user)
                         return
                     } else {
                         for (let i in user.decks) {
                             if (user.decks[i].deckId == deckId) {
-                                console.log('got in')
                                 writeResultsToUser(results, user.decks[i], user.decks[i].totalQuizAttempts)
-                                user.save(function(err) {
-                                    if (err) {
-                                        res.status(400).send(err)
-                                    } else {
-                                        res.sendStatus(200)
-                                    }
-                                })
+                                saveUser(user)
                                 return
                             } else if (parseInt(i) + 1 == user.decks.length) {
                                 user.decks.push({deckId: deckId})
                                 writeResultsToUser(results, user.decks[parseInt(i) + 1], 0)
-                                user.save(function(err) {
-                                    if (err) {
-                                        res.status(400).send(err)
-                                    } else {
-                                        res.sendStatus(200)
-                                    }
-                                })
+                                saveUser(user)
                                 return
                             }
                         }
@@ -235,6 +213,16 @@ exports.quizzed = function(req, res, next) {
                 overriden: overriden,
             },
             stats: writeArray
+        })
+    }
+
+    let saveUser = function(userToSave) {
+        userToSave.save(function(err) {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                res.sendStatus(200)
+            }
         })
     }
 }
