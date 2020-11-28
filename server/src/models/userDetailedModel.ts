@@ -12,6 +12,7 @@ var userDetailedSchema = new mongoose.Schema({
     stats: Array,
     decks: [{
         deckId: String,
+        totalQuizAttempts: Number,
         quizAttempts: [{
             attempt: Number,
             summary: {
@@ -20,8 +21,8 @@ var userDetailedSchema = new mongoose.Schema({
                 overriden: Number,
             },
             stats: [{
-                correct: Boolean,
                 charId: String,
+                correct: Boolean,
                 overriden: Boolean,
             }]
         }],

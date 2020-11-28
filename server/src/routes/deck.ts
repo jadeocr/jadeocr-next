@@ -29,6 +29,8 @@ router.post('/api/deck/create', authMiddleware, [
   }),
 ], deckController.createDeck)
 
+router.post('/api/deck/quizzed', authMiddleware, deckController.quizzed)
+
 router.get('/api/deck/decks', authMiddleware, deckController.findDecks)
 router.get('/api/deck/public', authMiddleware, deckController.publicDecks)
 router.get('/api/deck/assigned', authMiddleware, deckController.getAssignedDecks)
