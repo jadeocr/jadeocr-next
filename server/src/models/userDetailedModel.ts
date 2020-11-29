@@ -30,7 +30,7 @@ var userDetailedSchema = new mongoose.Schema({
         }],
         srs: [{
             charId: String,
-            nextDue: Date,
+            nextDue: String,
             interval: Number,
             repetitions: Number,
             easiness: Number,
