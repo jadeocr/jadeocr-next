@@ -139,90 +139,31 @@ exports.getAssignedDecks = function(req, res, next) {
 }
 
 exports.practiced = function(req, res, next) {
-    // let deckId = req.body.deck
-    // let results = req.body.results //array of {id, quality}
+    let deckId = req.body.deck
+    let results = req.body.results //array of {id, quality}
 
-    // userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, user) {
-    //     if (userErr) {
-    //         console.log(userErr)
-    //         res.status(400).send('There was an error while finding user')
-    //     } else if (!user) {
-    //         res.status(400).send('No user found')
-    //     } else if (!results) {
-    //         res.status(400).send('No results sent')
-    //     } else {
-    //         deckModel.findOne({id: deckId}, function(deckErr, deck) {
-    //             if (deckErr) {
-    //                 console.log(deckErr)
-    //                 res.status(400).send('There was an error while finding decks')
-    //             } else if (!deck) {
-    //                 res.status(400).send('No deck found')
-    //             } else {
-    //                 let tempDeckArray
-    //                 if (user.decks.length == 0) {
-    //                     //Create new deck with srs numbers
-    //                 } else if (tempDeckArray = user.deck.filter( e => e.deckId == deckId)) {
-    //                     console.log(tempDeckArray) //Not sure if this works
-    //                 } else {
-    //                     //Create new deck with srs numbers
-    //                 }
-    //             }
-    //         })
-    //     }
-    // })
-
-
-    let testResults = [
-        {charId: "1", quality: 5},
-        {charId: "2", quality: 5},
-        {charId: "3", quality: 1},
-        {charId: "4", quality: 5},
-    ]
-
-    let testDeck = {
-        characters: [
-            {char: "我", id: "1"},
-            {char: "你", id: "2"},
-            {char: "好", id: "3"},
-            {char: "坏", id: "4"},
-        ]
-    }
-    
-
-    let testUserDeck = {
-        srs: [
-            {charId: "1", nextDue: "1606765499519", interval: "5", repetitions: 1, easiness: 3},
-            {charId: "2", nextDue: "1606765499519", interval: "5", repetitions: 2, easiness: 3},
-            // {charId: "3", nextDue: "1606765499519", interval: "5", repetitions: 0, easiness: 2.5},
-            {charId: "4", nextDue: "1606765499519", interval: "5", repetitions: 3, easiness: 1.8},
-        ]
-    }
-    
-
-    let writeSRS = function(results, deck, userDeck) {
+    let writeSRS = function(resultsForSRS, deck, deckInUser) {
         let srsInUser = {}
         let validDeckIds = {}
 
-        for (let i in userDeck.srs) {  //Indexes the srs in user
-            srsInUser[userDeck.srs[i].charId] = i
+        for (let i in deckInUser.srs) {  //Indexes the srs in user
+            srsInUser[deckInUser.srs[i].charId] = i
         }
         for (let i of deck.characters) { //Indexes the deck
             validDeckIds[i.id] = true
         }
 
-        for (let i of results) {
+        for (let i of resultsForSRS) {
             let index = srsInUser[i.charId]  //Index of character in the userSRS array
-            let srsObject = userDeck.srs[index]
-            
-            if (!index) {
-                let millisecondsInDay = 1000 * 60 *60 * 24
+            let srsObject = deckInUser.srs[index]
+            let millisecondsInDay = 1000 * 60 *60 * 24
 
-                let easiness = 2.5 + ( 0.1 - ( 5 - i.quality ) * ( 0.08 + ( 5 - i.quality) * 0.02 ) )
+            if (!index) {let easiness = 2.5 + ( 0.1 - ( 5 - i.quality ) * ( 0.08 + ( 5 - i.quality) * 0.02 ) )
                 let repetitions = (i.quality == 5) ? 1 : 0
                 let interval = 1
                 let nextDue = Date.now() + millisecondsInDay * interval
 
-                userDeck.srs.push({
+                deckInUser.srs.push({
                     charId: i.charId,
                     nextDue: nextDue,
                     interval: interval,
@@ -230,8 +171,6 @@ exports.practiced = function(req, res, next) {
                     easiness: easiness
                 })
             } else {
-                let millisecondsInDay = 1000 * 60 *60 * 24
-
                 let easiness = srsObject.easiness + ( 0.1 - ( 5 - i.quality ) * ( 0.08 + ( 5 - i.quality) * 0.02 ) )
                 let repetitions = (i.quality == 5) ? srsObject.repetitions + 1 : 0
                 let interval = 1
@@ -249,56 +188,62 @@ exports.practiced = function(req, res, next) {
                 srsObject.easiness = easiness
             }
         }
-
-        // res.send({srs: srsInUser, deck: deckTest})
-        res.send(testUserDeck)
     }
 
-    writeSRS(testResults, testDeck, testUserDeck)
+    let initNewDeckInUser = function(user, deckId, deckName, deckDescription) {
+        user.decks.push({deckId: deckId, deckName: deckName, deckDescription: deckDescription})
+    }
 
-    // res.sendStatus(200)
+    let saveUser = function(userToSave) {
+        userToSave.save(function(err) {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                res.sendStatus(200)
+            }
+        })
+    }
+
+    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, user) {
+        if (userErr) {
+            console.log(userErr)
+            res.status(400).send('There was an error while finding user')
+        } else if (!user) {
+            res.status(400).send('No user found')
+        } else if (!results) {
+            res.status(400).send('No results sent')
+        } else if (!deckId) {
+            res.status(400).send('No deck sent')
+        } else {
+            deckModel.findOne({_id: deckId}, function(deckErr, deck) {
+                if (deckErr) {
+                    console.log(deckErr)
+                    res.status(400).send('There was an error while finding decks')
+                } else if (!deck) {
+                    res.status(400).send('No deck found')
+                } else {
+                    let deckInUser
+                    if (user.decks.length == 0) {
+                        initNewDeckInUser(user, deckId, deck.title, deck.description)
+                        writeSRS(results, deck, user.decks[0])
+                        saveUser(user)
+                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                        writeSRS(results, deck, deckInUser)
+                        saveUser(user)
+                    } else {
+                        initNewDeckInUser(user, deckId, deck.title, deck.description)
+                        writeSRS(results, deck, user.decks[user.decks.length - 1])
+                        saveUser(user)
+                    }
+                }
+            })
+        }
+    })    
 }
 
 exports.quizzed = function(req, res, next) {
     let deckId = req.body.deck
     let results = req.body.results
-
-    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, user) { //user_err might always evaluate to true tho /s
-        //Doesn't use "_id" because "_id" autogenerated, linked to main user db with "id"
-        if (userErr) console.log(userErr)
-
-        if (!user) {
-            res.status(400).send('No user found')
-        } else if (!results) {
-            res.status(400).send("No results sent")
-        } else {
-            deckModel.findOne({_id: deckId}, function(deck_err, deck) {
-                if (deck_err) console.log(deck_err)
-
-                if (!deck) {
-                    res.status(400).send("Could not find deck")
-                } else {
-                    if (user.decks.length == 0) {  //Init new deck
-                        user.decks.push({deckId: deckId, deckName: deck.title, deckDescription: deck.description})
-                        writeResultsToUser(results, user.decks[0], 0)
-                        saveUser(user)
-                    } else {
-                        for (let i in user.decks) {
-                            if (user.decks[i].deckId == deckId) {
-                                writeResultsToUser(results, user.decks[i], user.decks[i].totalQuizAttempts)
-                                saveUser(user)
-                                return
-                            } else if (parseInt(i) + 1 == user.decks.length) { // Init new deck
-                                user.decks.push({deckId: deckId, deckName: deck.title, deckDescription: deck.description})
-                                writeResultsToUser(results, user.decks[parseInt(i) + 1], 0)
-                                saveUser(user)
-                            }
-                        }
-                    }
-                }
-            })
-        }
-    })
 
     let writeResultsToUser = function(results, deck, attemptNumber) {
         let writeArray = []
@@ -327,6 +272,10 @@ exports.quizzed = function(req, res, next) {
         })
     }
 
+    let initNewDeckInUser = function(user, deckId, deckName, deckDescription) {
+            user.decks.push({deckId: deckId, deckName: deckName, deckDescription: deckDescription})
+    }
+
     let saveUser = function(userToSave) {
         userToSave.save(function(err) {
             if (err) {
@@ -336,4 +285,37 @@ exports.quizzed = function(req, res, next) {
             }
         })
     }
+
+    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, user) { //user_err might always evaluate to true tho /s
+        //Doesn't use "_id" because "_id" autogenerated, linked to main user db with "id"
+        if (userErr) console.log(userErr)
+
+        if (!user) {
+            res.status(400).send('No user found')
+        } else if (!results) {
+            res.status(400).send("No results sent")
+        } else {
+            deckModel.findOne({_id: deckId}, function(deck_err, deck) {
+                if (deck_err) console.log(deck_err)
+
+                if (!deck) {
+                    res.status(400).send("Could not find deck")
+                } else {
+                    let deckInUser
+                    if (user.decks.length == 0) {
+                        initNewDeckInUser(user, deckId, deck.title, deck.description)
+                        writeResultsToUser(results, user.decks[0], 0)
+                        saveUser(user)
+                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                        writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts)
+                        saveUser(user)
+                    } else {
+                        initNewDeckInUser(user, deckId, deck.title, deck.description)
+                                writeResultsToUser(results, user.decks[user.decks.length - 1], 0)
+                                saveUser(user)
+                    }
+                }
+            })
+        }
+    })
 }
