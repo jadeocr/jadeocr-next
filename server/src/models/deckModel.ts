@@ -3,7 +3,10 @@ var mongoose = require('mongoose')
 var deckSchema = new mongoose.Schema({
     title: String,
     description: String,
-    characters: Array,
+    characters: [{
+        char: String,
+        id: String
+    }],
     creator: String,
     creatorFirst: String,
     creatorLast: String,
