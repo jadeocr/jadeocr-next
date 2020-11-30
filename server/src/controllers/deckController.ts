@@ -96,32 +96,85 @@ exports.deck = function(req, res, next) {
     })
 }
 
-//Needs to be completely overhauled
 exports.srs = function(req, res, next) {
     let deckId = req.body.deckId
 
-    userDetailedModel.findOne({id: req.user._id}, function(err, user) {
-        if (err) {
-            console.log(err)
+    let compare = function(a, b) {
+        return a.nextDue - b.nextDue
+    }
+
+    let sendWithoutSRS = function(deck) {
+        let sendArray = []
+        for (let i in deck.characters) {
+            sendArray.push(deck.characters[i])
+            if (parseInt(i) == 14) break
+        }
+        res.send(sendArray)
+    }
+
+    let sendWithSRS = function(deckInUser, deck) {
+        let sendArray = []
+        let srsIndexes = {}
+        let deckIndexes = {}
+
+        for (let i in deckInUser.srs) { //Indexes srs array
+            srsIndexes[deckInUser.srs[i].charId] = i
+        }
+        for (let i in deck.characters) { //Indexes the deck, adds dummy items to srs array to aid sorting
+            deckIndexes[deck.characters[i].id] = i
+            if (!srsIndexes[deck.characters[i].id]) {
+                deckInUser.srs.push({
+                    charId: deck.characters[i].id,
+                    nextDue: Date.now()
+                })
+            }
+        }
+
+        deckInUser.srs.sort(compare)
+
+        let numberSent = 0
+        for (let i of deckInUser.srs) {
+            if (deckIndexes[i.charId]) {
+                sendArray.push(deck[deckIndexes[i.charId]])
+                numberSent++
+                if (numberSent == 14) {
+                    res.send(sendArray)
+                    break
+                }
+            } else {
+                continue
+            }
+        }
+    }
+
+    userDetailedModel.findOne({id: req.user._id}, function(userErr, returnedUser) {
+        if (userErr) {
+            console.log(userErr)
             req.status(400).send('There was an error')
-        } else if (!user) {
+        } else if (!returnedUser) {
             req.status(400).send('No user found')
         } else {
-            deckModel.findOne({_id: deckId}, function(err, deck) {
-                if (err) {
-                    console.log(err)
+            deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
+                if (deckErr) {
+                    console.log(deckErr)
                     req.status(400).send('There was an error')
-                } else if (!deck) {
+                } else if (!returnedDeck) {
                     req.status(400).send('No deck found')
                 } else {
-                    let sendArray = []
-                   if (user.decks.length == 0) {
-                       for (let i in deck.characters) {
-                            sendArray.push(deck.characters[i])
-                            if (parseInt(i) == 14) break
-                       }
-                       res.send(sendArray)
-                   }
+                    checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
+                        if (result) {
+                            let deckInUser
+                            if (user.decks.length == 0) {
+                                sendWithoutSRS(deck)
+                            } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                                sendWithSRS(deckInUser, deck)
+                            } else {
+                                sendWithoutSRS(deck)
+                            }
+                        } else {
+                            res.status(403).send('User does not have access to deck')
+                        }
+                    })
                 }
             })
         }
