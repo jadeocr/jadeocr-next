@@ -4,6 +4,27 @@ var classModel = require('../models/classModel')
 var { validationResult } = require('express-validator')
 var {v4: uuidv4} = require('uuid')
 
+let intersect = function(a, b) {
+    var setA = new Set(a);
+    var setB = new Set(b);
+    var intersection = new Set([...setA].filter(x => setB.has(x)));
+    return Array.from(intersection);
+  }
+
+let checkAccess = function(user, deck, callback) {
+    if (deck.creator == user.id) {
+        callback(true, user, deck)
+    } else if (deck.access.isPublic == true) {
+        callback(true, user, deck)
+    } else {
+        if (intersect(user.classes, deck.access.classes).length > 0) {
+            callback(true, user, deck)
+        } else {
+            callback(false, user, deck)
+        }
+    }
+}
+
 exports.createDeck = function(req, res, next) {
     let errors = validationResult(req)
 
@@ -22,7 +43,9 @@ exports.createDeck = function(req, res, next) {
             creator: req.user.id,
             creatorFirst: req.user.firstName,
             creatorLast: req.user.lastName,
-            isPublic: req.body.isPublic
+            access: {
+                isPublic: req.body.isPublic
+            }
         })
         
         deck.save(function(err) {
@@ -40,6 +63,36 @@ exports.findDecks = function(req, res, next) {
     deckModel.find({creator: req.user._id}, function(err, decks) {
         if (err) console.log(err) 
         res.send(decks)
+    })
+}
+
+exports.deck = function(req, res, next) {
+    let deckId = req.body.deckId
+
+    userDetailedModel.findOne({id: req.user._id}, function(userErr, returnedUser) {
+        if (userErr) {
+            console.log(userErr)
+            req.status(400).send('There was an error')
+        } else if (!returnedUser) {
+            req.status(400).send('No user found')
+        } else {
+            deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
+                if (deckErr) {
+                    console.log(deckErr)
+                    req.status(400).send('There was an error')
+                } else if (!returnedDeck) {
+                    req.status(400).send('No deck found')
+                } else {
+                    checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
+                        if (result) {
+                            res.send(deck)
+                        } else {
+                            res.status(403).send('User does not have access to deck')
+                        }
+                    })
+                }
+            })
+        }
     })
 }
 
@@ -62,23 +115,13 @@ exports.srs = function(req, res, next) {
                     req.status(400).send('No deck found')
                 } else {
                     let sendArray = []
-                    if (user.decks.length == 0) {
-                        sendArray.push({deck: deck, srs: false})
-                        req.status(200).send(sendArray)
-                        return
-                    } else {
-                        for (let i in user.decks) {
-                            if (user.decks[i].deckId == deckId) {
-                                sendArray.push({deck: deck, srs: user.decks[i].srs})
-                                req.status(200).send(sendArray)
-                                return
-                            } else if (parseInt(i) + 1 == user.decks.length) {
-                                sendArray.push({deck: deck, srs: false})
-                                req.status(200).send(sendArray)
-                                return
-                            }
-                        }
-                    }
+                   if (user.decks.length == 0) {
+                       for (let i in deck.characters) {
+                            sendArray.push(deck.characters[i])
+                            if (parseInt(i) == 14) break
+                       }
+                       res.send(sendArray)
+                   }
                 }
             })
         }
@@ -204,37 +247,43 @@ exports.practiced = function(req, res, next) {
         })
     }
 
-    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, user) {
+    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, returnedUser) {
         if (userErr) {
             console.log(userErr)
             res.status(400).send('There was an error while finding user')
-        } else if (!user) {
+        } else if (!returnedUser) {
             res.status(400).send('No user found')
         } else if (!results) {
             res.status(400).send('No results sent')
         } else if (!deckId) {
             res.status(400).send('No deck sent')
         } else {
-            deckModel.findOne({_id: deckId}, function(deckErr, deck) {
+            deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
                 if (deckErr) {
                     console.log(deckErr)
                     res.status(400).send('There was an error while finding decks')
-                } else if (!deck) {
+                } else if (!returnedDeck) {
                     res.status(400).send('No deck found')
                 } else {
-                    let deckInUser
-                    if (user.decks.length == 0) {
-                        initNewDeckInUser(user, deckId, deck.title, deck.description)
-                        writeSRS(results, deck, user.decks[0])
-                        saveUser(user)
-                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
-                        writeSRS(results, deck, deckInUser)
-                        saveUser(user)
-                    } else {
-                        initNewDeckInUser(user, deckId, deck.title, deck.description)
-                        writeSRS(results, deck, user.decks[user.decks.length - 1])
-                        saveUser(user)
-                    }
+                    checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
+                        if (result) {
+                            let deckInUser
+                            if (user.decks.length == 0) {
+                                initNewDeckInUser(user, deckId, deck.title, deck.description)
+                                writeSRS(results, deck, user.decks[0])
+                                saveUser(user)
+                            } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                                writeSRS(results, deck, deckInUser)
+                                saveUser(user)
+                            } else {
+                                initNewDeckInUser(user, deckId, deck.title, deck.description)
+                                writeSRS(results, deck, user.decks[user.decks.length - 1])
+                                saveUser(user)
+                            }
+                        } else {
+                            res.status(403).send('User does not have access to deck')
+                        }                        
+                    })
                 }
             })
         }
@@ -286,34 +335,40 @@ exports.quizzed = function(req, res, next) {
         })
     }
 
-    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, user) { //user_err might always evaluate to true tho /s
+    userDetailedModel.findOne({id: String(req.user._id)}, function(userErr, returnedUser) { //user_err might always evaluate to true tho /s
         //Doesn't use "_id" because "_id" autogenerated, linked to main user db with "id"
         if (userErr) console.log(userErr)
 
-        if (!user) {
+        if (!returnedUser) {
             res.status(400).send('No user found')
         } else if (!results) {
             res.status(400).send("No results sent")
         } else {
-            deckModel.findOne({_id: deckId}, function(deck_err, deck) {
+            deckModel.findOne({_id: deckId}, function(deck_err, returnedDeck) {
                 if (deck_err) console.log(deck_err)
 
-                if (!deck) {
+                if (!returnedDeck) {
                     res.status(400).send("Could not find deck")
                 } else {
-                    let deckInUser
-                    if (user.decks.length == 0) {
-                        initNewDeckInUser(user, deckId, deck.title, deck.description)
-                        writeResultsToUser(results, user.decks[0], 0)
-                        saveUser(user)
-                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
-                        writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts)
-                        saveUser(user)
-                    } else {
-                        initNewDeckInUser(user, deckId, deck.title, deck.description)
+                    checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
+                        if (result) {
+                            let deckInUser
+                            if (user.decks.length == 0) {
+                                initNewDeckInUser(user, deckId, deck.title, deck.description)
+                                writeResultsToUser(results, user.decks[0], 0)
+                                saveUser(user)
+                            } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                                writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts)
+                                saveUser(user)
+                            } else {
+                                initNewDeckInUser(user, deckId, deck.title, deck.description)
                                 writeResultsToUser(results, user.decks[user.decks.length - 1], 0)
                                 saveUser(user)
-                    }
+                            }
+                        } else {
+                            res.status(403).send('User does not have access to deck')
+                        }
+                    })                   
                 }
             })
         }
