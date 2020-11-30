@@ -1,3 +1,5 @@
+import { send } from "process"
+
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -23,6 +25,10 @@ let checkAccess = function(user, deck, callback) {
             callback(false, user, deck)
         }
     }
+}
+
+let compare = function(a, b) {
+    return a.nextDue - b.nextDue
 }
 
 exports.createDeck = function(req, res, next) {
@@ -59,7 +65,7 @@ exports.createDeck = function(req, res, next) {
     }    
 }
 
-exports.findDecks = function(req, res, next) {
+exports.findCreatedDecks = function(req, res, next) {
     deckModel.find({creator: req.user._id}, function(err, decks) {
         if (err) console.log(err) 
         res.send(decks)
@@ -98,10 +104,6 @@ exports.deck = function(req, res, next) {
 
 exports.srs = function(req, res, next) {
     let deckId = req.body.deckId
-
-    let compare = function(a, b) {
-        return a.nextDue - b.nextDue
-    }
 
     let sendWithoutSRS = function(deck) {
         let sendArray = []
@@ -177,6 +179,33 @@ exports.srs = function(req, res, next) {
                     })
                 }
             })
+        }
+    })
+}
+
+exports.getDecksWithDueDates = function(req, res, next) {
+    userDetailedModel.findOne({id: req.user._id}, function(err, returnedUser) {
+        if (err) {
+            console.log(err)
+            res.status(400).send('There was an error')
+        } else if (returnedUser.decks.length == 0) {
+            res.status(400).send('User is not using any decks with srs')
+        } else {
+            let sendArray = []
+            for (let i of returnedUser.decks) {
+                if (i.srs.length == 0) {
+                    continue
+                } else {
+                    i.srs.sort(compare)
+                    sendArray.push({
+                        deckId: i.deckId,
+                        deckName: i.deckName,
+                        deckDescription: i.deckDescription,
+                        nextDue: i.srs[0].nextDue,
+                    })
+                }
+            }
+            res.send(sendArray)
         }
     })
 }
