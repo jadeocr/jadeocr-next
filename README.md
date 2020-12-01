@@ -58,6 +58,7 @@ Browse through the [issues](https://github.com/TanayB11/jadeocr-next/issues) or 
 ### Pull Requests
 Pull requests are also always welcome. Here are a couple simple guidelines:
 * Make sure your code is readable and commented when necessary
+* Try to adhere to this [style guide](https://docs.gitlab.com/ee/development/newlines_styleguide.html)
 * Document your changes adequately when opening a pull request
 
 Thank you so much for taking the time to contribute!
