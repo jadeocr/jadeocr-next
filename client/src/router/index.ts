@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/deckedit/edit/:name',
+    path: '/deckedit/edit/:id',
     name: 'DeckEdit',
     props: true,
     component: () =>

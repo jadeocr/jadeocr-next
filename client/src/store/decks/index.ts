@@ -4,7 +4,7 @@ const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
 interface Deck {
   characters: Array<string>
-  readonly id: string
+  readonly _id: string
   title: string
   description: string
   readonly creatorID: string

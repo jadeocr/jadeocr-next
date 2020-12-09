@@ -9,7 +9,7 @@
           <div class="mt-12 md:mt-16 col-span-1 page-content">
             <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
               <div class="text-2xl font-normal md:text-3xl">
-                {{ name }}
+                {{ deck.title }}
               </div>
               <!-- TODO: Add Editing grid -->
             </div>
@@ -26,7 +26,7 @@
 
   interface Deck {
     characters: Array<string>
-    readonly id: string
+    readonly _id: string
     title: string
     description: string
     readonly creatorID: string
@@ -41,16 +41,27 @@
       Sidebar,
     },
     props: {
-      name: {
+      id: {
         type: String,
         required: false, // left null if on create
       },
     },
     data() {
       return {
-        deck: Array<Deck>(),
+        deck: {} as Deck,
       }
     },
+    methods: {
+      findDeck(): Deck {
+        return this.$store.state.decks.decks.find(( deck: Deck ) => {
+          return deck._id == this.id
+        })
+      }
+    },
+    mounted() {
+      this.deck = this.findDeck()
+      console.log(this.deck)
+    }
   })
 </script>
 
