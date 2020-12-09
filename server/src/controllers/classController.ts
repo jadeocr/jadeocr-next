@@ -2,6 +2,22 @@ var classModel = require('../models/classModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var deckModel = require('../models/deckModel')
 
+let saveClassAndDeck = function(classToSave, deckToSave, res) {
+    classToSave.save(function(classErr) {
+        if (classErr) {
+            res.status(400).send(classErr)
+        } else {
+            deckToSave.save(function(deckErr) {
+                if (deckErr) {
+                    res.status(400).send(deckErr)
+                } else {
+                    res.sendStatus(200)
+                }
+            })
+        }
+    })
+}
+
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
         res.sendStatus(403)
@@ -165,27 +181,11 @@ exports.assign = function(req, res, next) {
     let classCode = req.body.classCode
     let deckId = req.body.deck
 
-    let saveClassAndDeck = function(classToSave, deckToSave) {
-        classToSave.save(function(classErr) {
-            if (classErr) {
-                res.status(400).send(classErr)
-            } else {
-                deckToSave.save(function(deckErr) {
-                    if (deckErr) {
-                        res.status(400).send(deckErr)
-                    } else {
-                        res.sendStatus(200)
-                    }
-                })
-            }
-        })
-    }
-
     let assignDeck = function(Class, deckId, deck) {
-        if (Class.assignedDecks.length == 0) {
+        if (!Class.assignedDecks.length) {
             Class.assignedDecks.push(deckId)
             deck.access.classes[Class.classCode] = true
-            saveClassAndDeck(Class, deck)
+            saveClassAndDeck(Class, deck, res)
         } else {
             for (let i in Class.assignedDecks) {
                 if (Class.assignedDecks[i] == deckId) {
@@ -193,7 +193,7 @@ exports.assign = function(req, res, next) {
                 } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
                     Class.assignedDecks.push(deckId)
                     deck.access.classes[Class.classCode] = true
-                    saveClassAndDeck(Class, deck)
+                    saveClassAndDeck(Class, deck, res)
                 }
             }
         }
@@ -229,22 +229,6 @@ exports.unassign = function(req, res, next) {
     let classCode = req.body.classCode
     let deckId = req.body.deck
 
-    let saveClassAndDeck = function(classToSave, deckToSave) {
-        classToSave.save(function(classErr) {
-            if (classErr) {
-                res.status(400).send(classErr)
-            } else {
-                deckToSave.save(function(deckErr) {
-                    if (deckErr) {
-                        res.status(400).send(deckErr)
-                    } else {
-                        res.sendStatus(200)
-                    }
-                })
-            }
-        })
-    }
-
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
@@ -264,7 +248,7 @@ exports.unassign = function(req, res, next) {
                             if (Class.assignedDecks[i] == deckId) {
                                 Class.assignedDecks.splice(i, 1)
                                 delete returnedDeck.access[classCode]
-                                saveClassAndDeck(Class, returnedDeck)
+                                saveClassAndDeck(Class, returnedDeck, res)
                                 break
                             } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
                                 res.status(400).send("Deck not assigned")

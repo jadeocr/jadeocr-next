@@ -109,7 +109,7 @@ exports.srs = function(req, res, next) {
         let sendArray = []
         for (let i in deck.characters) {
             sendArray.push(deck.characters[i])
-            if (parseInt(i) == 14) break
+            if (parseInt(i) == 14) break //Max number of cards for review is 15
         }
         res.send(sendArray)
     }
