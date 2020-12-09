@@ -60,7 +60,6 @@
     },
     mounted() {
       this.deck = this.findDeck()
-      console.log(this.deck)
     }
   })
 </script>

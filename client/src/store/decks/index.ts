@@ -33,7 +33,7 @@ export const decks = {
     fetchDecks({ commit }: { commit: Function }): void {
       axios({
         method: 'get',
-        url: `${apiBaseURL}/deck/decks`,
+        url: `${apiBaseURL}/deck/mydecks`,
         withCredentials: true,
       })
         .then((res) => {
