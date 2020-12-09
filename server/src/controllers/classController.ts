@@ -1,8 +1,22 @@
-//TODO: Make the variables reference the right things, add status
-
 var classModel = require('../models/classModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var deckModel = require('../models/deckModel')
+
+let saveClassAndDeck = function(classToSave, deckToSave, res) {
+    classToSave.save(function(classErr) {
+        if (classErr) {
+            res.status(400).send(classErr)
+        } else {
+            deckToSave.save(function(deckErr) {
+                if (deckErr) {
+                    res.status(400).send(deckErr)
+                } else {
+                    res.sendStatus(200)
+                }
+            })
+        }
+    })
+}
 
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
@@ -165,47 +179,47 @@ exports.leave = function(req, res, next) {
 exports.assign = function(req, res, next) {
     let teacher = String(req.user._id)
     let classCode = req.body.classCode
-    let deck = req.body.deck
+    let deckId = req.body.deck
 
-    classModel.findOne({classCode: classCode}, function(err, Class) {
-        if (err) {
-            console.log(err)
+    let assignDeck = function(Class, deckId, deck) {
+        if (!Class.assignedDecks.length) {
+            Class.assignedDecks.push(deckId)
+            deck.access.classes[Class.classCode] = true
+            saveClassAndDeck(Class, deck, res)
+        } else {
+            for (let i in Class.assignedDecks) {
+                if (Class.assignedDecks[i] == deckId) {
+                    res.status(400).send("Deck already assigned")
+                } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
+                    Class.assignedDecks.push(deckId)
+                    deck.access.classes[Class.classCode] = true
+                    saveClassAndDeck(Class, deck, res)
+                }
+            }
+        }
+    }
+    
+    classModel.findOne({classCode: classCode}, function(classErr, Class) {
+        if (classErr) {
+            console.log(classErr)
             res.status(400).send("There was an error")
         } else if (!Class) {
             res.status(400).send("The class does not exist")
         } else if (Class.teacher != teacher) {
             res.sendStatus(403)
         } else {
-            deckModel.findOne({_id: deck}, function(err, returnedDeck) {
-                if (err) {
-                    console.log(err)
+            deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
+                if (deckErr) {
+                    console.log(deckErr)
                     res.status(400).send('There was an error')
-                } else if (returnedDeck.isPublic == true) {
-                    assignDeck()
+                } else if (returnedDeck.access.isPublic == true) {
+                    assignDeck(Class, deckId, returnedDeck)
                 } else if (returnedDeck.creator == teacher) {
-                    assignDeck()
+                    assignDeck(Class, deckId, returnedDeck)
                 } else {
                     res.status(403).send('User does not have permission to access deck')
                 }
             })
-        }
-
-        let assignDeck = function() {
-            if (Class.assignedDecks.length == 0) {
-                Class.assignedDecks.push(deck)
-                Class.save()
-                res.sendStatus(200)
-            } else {
-                for (let i in Class.assignedDecks) {
-                    if (Class.assignedDecks[i] == deck) {
-                        res.status(400).send("Deck already assigned")
-                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                        Class.assignedDecks.push(deck)
-                        Class.save()
-                        res.sendStatus(200)
-                    }
-                }
-            }
         }
     })
 }
@@ -213,7 +227,7 @@ exports.assign = function(req, res, next) {
 exports.unassign = function(req, res, next) {
     let teacher = req.user._id
     let classCode = req.body.classCode
-    let deck = req.body.deck
+    let deckId = req.body.deck
 
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
@@ -222,19 +236,26 @@ exports.unassign = function(req, res, next) {
         } else if (Class.teacher != teacher) {
             res.sendStatus(403)
         } else {
-            if (!Class.assignedDecks) {
-                res.send("No decks to remove")
+            if (Class.assignedDecks.length == 0) {
+                res.status(400).send("No decks to remove")
             } else {
-                for (let i in Class.assignedDecks) {
-                    if (Class.assignedDecks[i] == deck) {
-                        Class.assignedDecks.splice(i, 1)
-                        Class.save()
-                        res.sendStatus(200)
-                        break
-                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                        res.status(400).send("Deck not assigned")
+                deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
+                    if (deckErr) {
+                        console.log(deckErr)
+                        res.status(400).send('There was an error')
+                    } else {
+                        for (let i in Class.assignedDecks) {
+                            if (Class.assignedDecks[i] == deckId) {
+                                Class.assignedDecks.splice(i, 1)
+                                delete returnedDeck.access[classCode]
+                                saveClassAndDeck(Class, returnedDeck, res)
+                                break
+                            } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
+                                res.status(400).send("Deck not assigned")
+                            }
+                        }
                     }
-                }
+                })
             }
         }
     })
