@@ -29,7 +29,12 @@ router.post('/api/deck/create', authMiddleware, [
   }),
 ], deckController.createDeck)
 
-router.get('/api/deck/decks', authMiddleware, deckController.findDecks)
+router.post('/api/deck/srs', authMiddleware, deckController.srs)
+router.post('/api/deck/quizzed', authMiddleware, deckController.quizzed)
+router.post('/api/deck/practiced', authMiddleware, deckController.practiced)
+
+router.get('/api/deck/mydecks', authMiddleware, deckController.findCreatedDecks)
+router.post('/api/deck/deck', authMiddleware, deckController.deck)
 router.get('/api/deck/public', authMiddleware, deckController.publicDecks)
 router.get('/api/deck/assigned', authMiddleware, deckController.getAssignedDecks)
 

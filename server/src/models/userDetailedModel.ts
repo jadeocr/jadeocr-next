@@ -10,6 +10,32 @@ var userDetailedSchema = new mongoose.Schema({
     classes: Array,
     classesTeaching: Array,
     stats: Array,
+    decks: [{
+        deckId: String,
+        deckName: String,
+        deckDescription: String,
+        totalQuizAttempts: Number,
+        quizAttempts: [{
+            attempt: Number,
+            summary: {
+                correct: Number,
+                total: Number,
+                overriden: Number,
+            },
+            stats: [{
+                charId: String,
+                correct: Boolean,
+                overriden: Boolean,
+            }]
+        }],
+        srs: [{
+            charId: String,
+            nextDue: String,
+            interval: Number,
+            repetitions: Number,
+            easiness: Number,
+        }]
+    }],
 })
 
 module.exports = mongoose.model('userDetailed', userDetailedSchema)
