@@ -5,6 +5,8 @@ var deckSchema = new mongoose.Schema({
     description: String,
     characters: [{
         char: String,
+        pinyin: String,
+        definition: String,
         id: String
     }],
     creator: String,

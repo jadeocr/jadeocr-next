@@ -39,7 +39,12 @@ exports.createDeck = function(req, res, next) {
     } else {
         let characterArray = []
         for (let i of req.body.characters) {
-            characterArray.push({char: i, id: uuidv4()})
+            characterArray.push({
+                char: i.char,
+                definition: i.definition,
+                pinyin: i.pinyin,
+                id: uuidv4()
+            })
         }
 
         var deck = new deckModel({

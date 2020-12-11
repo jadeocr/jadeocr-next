@@ -10,7 +10,7 @@ var deckController = require('../controllers/deckController')
 router.post('/api/deck/create', authMiddleware, [
   body('title').trim().escape(),
   body('description').trim().escape(),
-  body('characters.*').trim().escape().custom(value => {
+  body('characters.*.char').trim().escape().custom(value => {
     if (value.length < 1) {
       throw new Error('All characters must have values')
     } else if (value.match(/[\u3400-\u9FBF]/)) {
