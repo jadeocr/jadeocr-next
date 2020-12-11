@@ -134,19 +134,14 @@ exports.srs = function(req, res, next) {
 
         deckInUser.srs.sort(compare)
 
-        let numberSent = 0
-        for (let i of deckInUser.srs) {
-            if (deckIndexes[i.charId]) {
-                sendArray.push(deck[deckIndexes[i.charId]])
-                numberSent++
-                if (numberSent == 14) {
-                    res.send(sendArray)
-                    break
-                }
-            } else {
-                continue
+        for (let i in deckInUser.srs) {
+            if (deckIndexes[deckInUser.srs[i].charId]) {
+                sendArray.push(deck[deckIndexes[deckInUser.srs[i].charId]])
+                if (parseInt(i) == 14) break //Max number of cards for review is 15
             }
         }
+
+        res.send(sendArray)
     }
 
     userDetailedModel.findOne({id: req.user._id}, function(userErr, returnedUser) {
