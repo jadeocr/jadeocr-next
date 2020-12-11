@@ -29,6 +29,22 @@ exports.definition = function(req, res, next) {
     })
 }
 
+exports.pinyinAndDefinition = function(req, res, next) {
+    let character = req.body.character
+
+    characterModel.findOne({character: character}, function(err, char) {
+        if (err) console.log(err)
+        if (!char) {
+            res.send("No matches found")
+        } else {
+            res.send({
+                definition: char.definition,
+                pinyin: char.pinyin
+            })
+        }
+    })
+}
+
 exports.graphics = function(req, res, next) {
     let character = req.body.character
 

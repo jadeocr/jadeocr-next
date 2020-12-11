@@ -9,6 +9,7 @@ var characterController = require('../controllers/characterController')
 
 router.get('/api/pinyin', characterController.pinyin)
 router.get('/api/definition', characterController.definition)
+router.get('/api/pinyinAndDefinition', characterController.pinyinAndDefinition)
 
 router.get('/api/strokes', [
   body('character').trim().escape(),

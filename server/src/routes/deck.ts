@@ -10,7 +10,7 @@ var deckController = require('../controllers/deckController')
 router.post('/api/deck/create', authMiddleware, [
   body('title').trim().escape(),
   body('description').trim().escape(),
-  body('characters.*').trim().escape().custom(value => {
+  body('characters.*.char').trim().escape().custom(value => {
     if (value.length < 1) {
       throw new Error('All characters must have values')
     } else if (value.match(/[\u3400-\u9FBF]/)) {
@@ -28,6 +28,28 @@ router.post('/api/deck/create', authMiddleware, [
     return value == 'true'
   }),
 ], deckController.createDeck)
+router.post('/api/deck/update', authMiddleware, [
+  body('title').trim().escape(),
+  body('description').trim().escape(),
+  body('characters.*.char').trim().escape().custom(value => {
+    if (value.length < 1) {
+      throw new Error('All characters must have values')
+    } else if (value.match(/[\u3400-\u9FBF]/)) {
+      if (value.length > 1) {
+        throw new Error('Only 1 character allowed per card')
+      } else {
+        return true
+      }
+    } else {
+      throw new Error('Only Chinese characters allowed')
+    }
+  }),
+  body('isPublic').customSanitizer(value => {
+    if (typeof value == 'boolean') return value
+    return value == 'true'
+  }),
+], deckController.updateDeck)
+router.post('/api/deck/delete', authMiddleware, deckController.deleteDeck)
 
 router.post('/api/deck/srs', authMiddleware, deckController.srs)
 router.post('/api/deck/quizzed', authMiddleware, deckController.quizzed)

@@ -39,7 +39,12 @@ exports.createDeck = function(req, res, next) {
     } else {
         let characterArray = []
         for (let i of req.body.characters) {
-            characterArray.push({char: i, id: uuidv4()})
+            characterArray.push({
+                char: i.char,
+                definition: i.definition,
+                pinyin: i.pinyin,
+                id: uuidv4()
+            })
         }
 
         var deck = new deckModel({
@@ -63,6 +68,71 @@ exports.createDeck = function(req, res, next) {
             }
         })
     }    
+}
+
+exports.updateDeck = function(req, res, next) {
+    let deckId = req.body.deckId
+    let userId = String(req.user._id)
+    let title = req.body.title
+    let description = req.body.description
+    let isPublic = req.body.isPublic
+    let characters = req.body.characters
+
+    deckModel.findById(deckId, function(err, deck) {
+        if (err) {
+            console.log(err)
+            res.status(400).send('There was an error')
+        } else if (!deck) {
+            res.status(400).send('No deck found')
+        } else if (deck.creator == userId) {
+            let characterArray = []
+            for (let i of characters) {
+                let id = i.id || uuidv4()
+
+                characterArray.push({
+                    char: i.char,
+                    definition: i.definition,
+                    pinyin: i.pinyin,
+                    id: id
+                })
+            }
+
+            deck.title = title
+            deck.description = description
+            deck.characters = characterArray
+            deck.access = {
+                isPublic: isPublic
+            }
+
+            deck.save(function(saveErr) {
+                if (saveErr) console.log(saveErr)
+                res.sendStatus(200)
+            })
+        } else {
+            res.status(403).send('User does not have access to deck')
+        }
+    })
+}
+
+exports.deleteDeck = function(req, res, next) {
+    let deckId = req.body.deckId
+    let userId = String(req.user._id)
+
+    deckModel.findById(deckId, function(err, deck) {
+        if (err) {
+            console.log(err)
+            res.status(400).send('There was an error')
+        } else if (!deck) {
+            res.status(400).send('No deck found')
+        } else if (deck.creator == userId) {
+            deck.remove(function(removeErr) {
+                if (err) console.log(removeErr)
+                res.send('Deck removed')
+            })
+        } else {
+            res.status(403).send('User does not have access to deck')
+        }
+    })
 }
 
 exports.findCreatedDecks = function(req, res, next) {
@@ -134,19 +204,14 @@ exports.srs = function(req, res, next) {
 
         deckInUser.srs.sort(compare)
 
-        let numberSent = 0
-        for (let i of deckInUser.srs) {
-            if (deckIndexes[i.charId]) {
-                sendArray.push(deck[deckIndexes[i.charId]])
-                numberSent++
-                if (numberSent == 14) {
-                    res.send(sendArray)
-                    break
-                }
-            } else {
-                continue
+        for (let i in deckInUser.srs) {
+            if (deckIndexes[deckInUser.srs[i].charId]) {
+                sendArray.push(deck[deckIndexes[deckInUser.srs[i].charId]])
+                if (parseInt(i) == 14) break //Max number of cards for review is 15
             }
         }
+
+        res.send(sendArray)
     }
 
     userDetailedModel.findOne({id: req.user._id}, function(userErr, returnedUser) {
