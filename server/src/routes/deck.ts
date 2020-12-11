@@ -28,6 +28,7 @@ router.post('/api/deck/create', authMiddleware, [
     return value == 'true'
   }),
 ], deckController.createDeck)
+router.post('/api/deck/delete', authMiddleware, deckController.deleteDeck)
 
 router.post('/api/deck/srs', authMiddleware, deckController.srs)
 router.post('/api/deck/quizzed', authMiddleware, deckController.quizzed)

@@ -70,6 +70,31 @@ exports.createDeck = function(req, res, next) {
     }    
 }
 
+exports.updateDeck = function(req, res, next) {
+
+}
+
+exports.deleteDeck = function(req, res, next) {
+    let deckId = req.body.deckId
+    let userId = String(req.user._id)
+
+    deckModel.findById(deckId, function(err, deck) {
+        if (err) {
+            console.log(err)
+            res.status(400).send('There was an error')
+        } else if (!deck) {
+            res.status(400).send('No deck found')
+        } else if (deck.creator == userId) {
+            deck.remove(function(removeErr) {
+                if (err) console.log(removeErr)
+                res.send('Deck removed')
+            })
+        } else {
+            res.status(403).send('User does not have access to deck')
+        }
+    })
+}
+
 exports.findCreatedDecks = function(req, res, next) {
     deckModel.find({creator: req.user._id}, function(err, decks) {
         if (err) console.log(err) 
