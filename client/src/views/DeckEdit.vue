@@ -69,7 +69,10 @@
                     </svg>
                   </button>
                 </div>
-                <div v-if="$store.state.decks.decksErrorMsg" class="mt-4 font-normal text-nord11">
+                <div
+                  v-if="$store.state.decks.decksErrorMsg"
+                  class="mt-4 font-normal text-nord11"
+                >
                   {{ $store.state.decks.decksErrorMsg }}
                 </div>
               </div>

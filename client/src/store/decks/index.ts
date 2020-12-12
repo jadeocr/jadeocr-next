@@ -29,6 +29,7 @@ export const decks = {
     decksErrorMsg: '',
   },
   getters: {
+    // eslint-disable-next-line
     getDeck(state: any, id: string): Deck {
       return state.decks.decks.find((deck: Deck) => {
         return deck._id == id
@@ -36,12 +37,15 @@ export const decks = {
     },
   },
   mutations: {
+    // eslint-disable-next-line
     setDecks(state: any, decks: Array<Deck>) {
       state.decks = decks
     },
+    // eslint-disable-next-line
     setAssignedDecks(state: any, decksAssigned: Array<Deck>) {
       state.decksAssigned = decksAssigned
     },
+    // eslint-disable-next-line
     setDeckErrMsg(state: any, msg: string) {
       state.decksErrorMsg = msg
     },

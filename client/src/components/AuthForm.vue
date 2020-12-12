@@ -88,7 +88,6 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import router from '../router/index'
 
   interface Credentials {
     firstName: string
