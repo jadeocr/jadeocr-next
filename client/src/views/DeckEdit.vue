@@ -43,16 +43,25 @@
                   </form>
                 </div>
                 <div class="mt-12">
-                  <button v-if="id" class="px-3 py-2 rounded bg-nord10" @click="callUpdateDeck()">
+                  <button v-if="id" class="px-3 py-2 mr-4 rounded bg-nord10" @click="callUpdateDeck()">
                     Save Changes
                   </button>
-                  <button v-else class="px-3 py-2 rounded bg-nord10" @click="callCreateDeck()">
+                  <button v-else class="px-3 py-2 mr-4 rounded bg-nord10" @click="callCreateDeck()">
                     Create Deck
                   </button>
-                  <div>
-                    <button v-if="id" class="px-4 py-2 my-4 rounded bg-nord11" @click="callDeleteDeck()">
+                  <div class="mt-8">
+                    <button class="px-4 py-2 mr-4 rounded bg-nord2" @click="togglePublic()">
+                      <div v-if="deck.isPublic">Public</div>
+                      <div v-else>Private</div>
+                    </button>
+                    <button v-if="id" class="px-4 py-2 mr-4 rounded bg-nord11" @click="toggleModalVisibility()">
                       Delete Deck
                     </button>
+                    <modal headline="Confirm deck deletion"
+                    v-if="modalIsVisible" @confirm-delete="callDeleteDeck()" @exit-modal="toggleModalVisibility()">
+                      Are you sure you want to permanently delete the deck
+                      {{ deck.title }}?
+                    </modal>
                   </div>
                 </div>
               </div>
@@ -67,6 +76,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
+  import Modal from '../components/Modal.vue'
 
 
   interface Character {
@@ -85,13 +95,14 @@
     readonly creatorID: string
     readonly creatorFirst: string
     readonly creatorLast: string
-    isPublic: false
+    isPublic: boolean
   }
 
   export default defineComponent({
     name: 'DeckEdit',
     components: {
       Sidebar,
+      Modal,
     },
     props: {
       id: {
@@ -102,6 +113,7 @@
     data() {
       return {
         deck: {} as Deck,
+        modalIsVisible: false,
       }
     },
     methods: {
@@ -124,6 +136,9 @@
           throw new Error('Number to add to deck is not valid!')
         }
       },
+      togglePublic(): void {
+        this.deck.isPublic = !this.deck.isPublic
+      },
       callCreateDeck(): void {
         this.$store.dispatch('decks/createDeck', this.deck)
       },
@@ -132,6 +147,10 @@
       },
       callDeleteDeck(): void {
         this.$store.dispatch('decks/deleteDeck', this.deck)
+        this.toggleModalVisibility()
+      },
+      toggleModalVisibility(): void {
+        this.modalIsVisible = !this.modalIsVisible 
       }
     },
     mounted() {

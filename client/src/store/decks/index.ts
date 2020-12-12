@@ -18,7 +18,7 @@ interface Deck {
   readonly creatorID: string
   readonly creatorFirst: string
   readonly creatorLast: string
-  isPublic: false
+  isPublic: boolean
 }
 
 export const decks = {
