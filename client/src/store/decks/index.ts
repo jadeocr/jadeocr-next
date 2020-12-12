@@ -145,5 +145,25 @@ export const decks = {
           console.log(err.response.data)
         })
     },
+    getPinyinDefinition({ commit }: { commit: Function }, payload: {
+      deck: Deck,
+      charIndex: number
+    }): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/pinyinAndDefinition`,
+        data: {
+          'character': payload.deck.characters[payload.charIndex].char
+        }
+      })
+      .then((res: any) => {
+        const currChar = payload.deck.characters[payload.charIndex]
+        currChar.pinyin = res.data.pinyin.join(', ')
+        currChar.definition = res.data.definition
+      })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+    }
   },
 }

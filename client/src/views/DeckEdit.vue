@@ -81,6 +81,7 @@
                   <form class="flex flex-wrap my-6 -mx-4">
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
+                        @change="callGetPinyinDefinition(i)"
                         v-model="deck.characters[i].char"
                         class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline chinese focus:outline-none focus:shadow-outline-none"
                         :placeholder="i + 1 + '. 学'"
@@ -190,7 +191,12 @@
     },
     data() {
       return {
-        deck: {} as Deck,
+        deck: {
+          title: '',
+          description: '',
+          characters: Array<Character>(),
+          isPublic: false,
+        } as Deck,
         modalIsVisible: false,
       }
     },
@@ -230,18 +236,18 @@
       toggleModalVisibility(): void {
         this.modalIsVisible = !this.modalIsVisible
       },
+      callGetPinyinDefinition(i: number): void {
+        this.$store.dispatch('decks/getPinyinDefinition', {
+          deck: this.deck,
+          charIndex: i
+        })
+      }
     },
     mounted() {
       this.$store.commit('decks/setDeckErrMsg', '')
       if (this.id) {
         this.deck = this.findDeck()
       } else {
-        this.deck = {
-          title: '',
-          description: '',
-          characters: Array<Character>(),
-          isPublic: false,
-        } as Deck
         this.addCard(1)
       }
     },
