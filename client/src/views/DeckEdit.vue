@@ -8,22 +8,64 @@
         <div class="col-span-1">
           <div class="mt-12 md:mt-16 col-span-1 page-content">
             <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
-              <input v-model='deck.title' class="w-full py-2 text-2xl font-normal md:text-3xl" type="text" placeholder='Title'>
+              <input
+                v-model="deck.title"
+                class="w-full py-2 text-2xl font-normal md:text-3xl"
+                type="text"
+                placeholder="Title"
+              />
               <!-- Editing Grid -->
               <div class="my-6 md:w-1/3">
-                <input v-model='deck.description' class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none" type="text" placeholder='Description'>
+                <input
+                  v-model="deck.description"
+                  class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                  type="text"
+                  placeholder="Description"
+                />
               </div>
               <div>
                 <div class="mt-8">
-                  <button class='px-4 py-2 mr-4 rounded bg-nord2' @click="addCard(1)">
-                    <svg class="bi bi-plus" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
-                      <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
+                  <button
+                    class="px-4 py-2 mr-4 rounded bg-nord2"
+                    @click="addCard(1)"
+                  >
+                    <svg
+                      class="bi bi-plus"
+                      width="1.25em"
+                      height="1.25em"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                        clip-rule="evenodd"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </button>
-                  <button class='px-4 py-2 mr-4 rounded bg-nord2' @click="addCard(-1)">
-                    <svg class="bi bi-dash" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M3.5 8a.5.5 0 01.5-.5h8a.5.5 0 010 1H4a.5.5 0 01-.5-.5z" clip-rule="evenodd"/>
+                  <button
+                    class="px-4 py-2 mr-4 rounded bg-nord2"
+                    @click="addCard(-1)"
+                  >
+                    <svg
+                      class="bi bi-dash"
+                      width="1.25em"
+                      height="1.25em"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M3.5 8a.5.5 0 01.5-.5h8a.5.5 0 010 1H4a.5.5 0 01-.5-.5z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -32,33 +74,64 @@
                 <div v-for="(n, i) in deck.characters" :key="i.key">
                   <form class="flex flex-wrap my-6 -mx-4">
                     <div class="w-1/3 px-4 lg:w-1/4">
-                      <input v-model="deck.characters[i].char" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline chinese focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. 学'">
+                      <input
+                        v-model="deck.characters[i].char"
+                        class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline chinese focus:outline-none focus:shadow-outline-none"
+                        :placeholder="i + 1 + '. 学'"
+                      />
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
-                      <input v-model="deck.characters[i].pinyin" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. xué'">
+                      <input
+                        v-model="deck.characters[i].pinyin"
+                        class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                        :placeholder="i + 1 + '. xué'"
+                      />
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
-                      <input v-model="deck.characters[i].definition" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. to study'">
+                      <input
+                        v-model="deck.characters[i].definition"
+                        class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                        :placeholder="i + 1 + '. to study'"
+                      />
                     </div>
                   </form>
                 </div>
                 <div class="mt-12">
-                  <button v-if="id" class="px-3 py-2 mr-4 rounded bg-nord10" @click="callUpdateDeck()">
-                    Save Changes
-                  </button>
-                  <button v-else class="px-3 py-2 mr-4 rounded bg-nord10" @click="callCreateDeck()">
-                    Create Deck
+                  <button
+                    class="px-4 py-2 rounded bg-nord2"
+                    @click="togglePublic()"
+                  >
+                    <div v-if="deck.isPublic">Public</div>
+                    <div v-else>Private</div>
                   </button>
                   <div class="mt-8">
-                    <button class="px-4 py-2 mr-4 rounded bg-nord2" @click="togglePublic()">
-                      <div v-if="deck.isPublic">Public</div>
-                      <div v-else>Private</div>
+                    <button
+                      v-if="id"
+                      class="px-3 py-2 mr-4 rounded bg-nord10"
+                      @click="callUpdateDeck()"
+                    >
+                      Save Changes
                     </button>
-                    <button v-if="id" class="px-4 py-2 mr-4 rounded bg-nord11" @click="toggleModalVisibility()">
+                    <button
+                      v-else
+                      class="px-3 py-2 mr-4 rounded bg-nord10"
+                      @click="callCreateDeck()"
+                    >
+                      Create Deck
+                    </button>
+                    <button
+                      v-if="id"
+                      class="px-4 py-2 mr-4 rounded bg-nord11"
+                      @click="toggleModalVisibility()"
+                    >
                       Delete Deck
                     </button>
-                    <modal headline="Confirm deck deletion"
-                    v-if="modalIsVisible" @confirm-delete="callDeleteDeck()" @exit-modal="toggleModalVisibility()">
+                    <modal
+                      headline="Confirm deck deletion"
+                      v-if="modalIsVisible"
+                      @confirm-delete="callDeleteDeck()"
+                      @exit-modal="toggleModalVisibility()"
+                    >
                       Are you sure you want to permanently delete the deck
                       {{ deck.title }}?
                     </modal>
@@ -78,10 +151,9 @@
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
 
-
   interface Character {
     // readonly _id: string // Mongo generated
-    readonly id: string // UUID generated, need to change server to use _id later 
+    readonly id: string // UUID generated, need to change server to use _id later
     char: string
     definition: string
     pinyin: string
@@ -118,7 +190,7 @@
     },
     methods: {
       findDeck(): Deck {
-        return this.$store.state.decks.decks.find(( deck: Deck ) => {
+        return this.$store.state.decks.decks.find((deck: Deck) => {
           return deck._id == this.id
         })
       },
@@ -130,7 +202,7 @@
             id: '',
             char: '',
             pinyin: '',
-            definition: ''
+            definition: '',
           } as Character)
         } else {
           throw new Error('Number to add to deck is not valid!')
@@ -150,8 +222,8 @@
         this.toggleModalVisibility()
       },
       toggleModalVisibility(): void {
-        this.modalIsVisible = !this.modalIsVisible 
-      }
+        this.modalIsVisible = !this.modalIsVisible
+      },
     },
     mounted() {
       if (this.id) {
@@ -165,21 +237,20 @@
         } as Deck
         this.addCard(1)
       }
-    }
+    },
   })
 </script>
 
 <style scoped>
-input {
-  background-color: transparent;
-  outline-width: 0;
-}
-input.border-underline {
-  border-bottom: 2px solid rgba(255,255,255,0.4);
-  transition: border-bottom 0.25s ease-in-out;
-}
-input.border-underline:focus {
-  border-bottom: 2px solid rgba(255,255,255,1);
-}
+  input {
+    background-color: transparent;
+    outline-width: 0;
+  }
+  input.border-underline {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    transition: border-bottom 0.25s ease-in-out;
+  }
+  input.border-underline:focus {
+    border-bottom: 2px solid rgba(255, 255, 255, 1);
+  }
 </style>
-

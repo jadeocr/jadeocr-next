@@ -4,7 +4,7 @@ const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
 interface Character {
   // readonly _id: string // Mongo generated
-  readonly id: string // UUID generated, need to change server to use _id later 
+  readonly id: string // UUID generated, need to change server to use _id later
   char: string
   definition: string
   pinyin: string
@@ -28,11 +28,11 @@ export const decks = {
     decksAssigned: Array<Deck>(),
   },
   getters: {
-    getDeck(state: any, id:string): Deck {
-      return state.decks.decks.find(( deck: Deck ) => {
+    getDeck(state: any, id: string): Deck {
+      return state.decks.decks.find((deck: Deck) => {
         return deck._id == id
       })
-    }
+    },
   },
   mutations: {
     setDecks(state: any, decks: Array<Deck>) {
@@ -79,15 +79,15 @@ export const decks = {
           title: deck.title,
           description: deck.description,
           characters: deck.characters,
-          isPublic: deck.isPublic
-        }
+          isPublic: deck.isPublic,
+        },
       })
-      .then(() => {
-        router.push({ name: 'Dashboard' })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        .then(() => {
+          router.push({ name: 'Dashboard' })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     updateDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
@@ -100,14 +100,14 @@ export const decks = {
           description: deck.description,
           characters: deck.characters,
           isPublic: deck.isPublic,
-        }
+        },
       })
-      .then(() => {
-        router.push({ name: 'Dashboard' })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        .then(() => {
+          router.push({ name: 'Dashboard' })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     deleteDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
@@ -116,14 +116,14 @@ export const decks = {
         withCredentials: true,
         data: {
           deckId: deck._id,
-        }
+        },
       })
-      .then(() => {
-        router.push({ name: 'Dashboard' })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        .then(() => {
+          router.push({ name: 'Dashboard' })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
   },
 }
