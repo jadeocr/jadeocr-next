@@ -76,40 +76,45 @@ exports.updateDeck = function(req, res, next) {
     let isPublic = req.body.isPublic
     let characters = req.body.characters
 
-    deckModel.findById(deckId, function(err, deck) {
-        if (err) {
-            console.log(err)
-            res.status(400).send('There was an error')
-        } else if (!deck) {
-            res.status(400).send('No deck found')
-        } else if (deck.creator == userId) {
-            let characterArray = []
-            for (let i of characters) {
-                let id = i.id || uuidv4()
+    let errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.send(errors)
+    } else {
+        deckModel.findById(deckId, function(err, deck) {
+            if (err) {
+                console.log(err)
+                res.status(400).send('There was an error')
+            } else if (!deck) {
+                res.status(400).send('No deck found')
+            } else if (deck.creator == userId) {
+                let characterArray = []
+                for (let i of characters) {
+                    let id = i.id || uuidv4()
 
-                characterArray.push({
-                    char: i.char,
-                    definition: i.definition,
-                    pinyin: i.pinyin,
-                    id: id
+                    characterArray.push({
+                        char: i.char,
+                        definition: i.definition,
+                        pinyin: i.pinyin,
+                        id: id
+                    })
+
+                    deck.title = title
+                    deck.description = description
+                    deck.characters = characterArray
+                    deck.access = {
+                        isPublic: isPublic
+                    }   
+                }
+
+                deck.save(function(saveErr) {
+                    if (saveErr) console.log(saveErr)
+                    res.sendStatus(200)
                 })
-
-                deck.title = title
-                deck.description = description
-                deck.characters = characterArray
-                deck.access = {
-                    isPublic: isPublic
-                }   
+            } else {
+                res.status(403).send('User does not have access to deck')
             }
-            
-            deck.save(function(saveErr) {
-                if (saveErr) console.log(saveErr)
-                res.sendStatus(200)
-            })
-        } else {
-            res.status(403).send('User does not have access to deck')
-        }
-    })
+        })
+    }
 }
 
 exports.deleteDeck = function(req, res, next) {
