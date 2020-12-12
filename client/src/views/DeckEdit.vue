@@ -52,7 +52,7 @@
                     Create Deck
                   </button>
                   <div>
-                    <button v-if="id" class="px-4 py-2 my-4 rounded bg-nord11">
+                    <button v-if="id" class="px-4 py-2 my-4 rounded bg-nord11" @click="callDeleteDeck()">
                       Delete Deck
                     </button>
                   </div>
@@ -123,7 +123,7 @@
             definition: ''
           } as Character)
         } else {
-          throw 'Number to add to deck is not valid!'
+          throw new Error('Number to add to deck is not valid!')
         }
       },
       callCreateDeck(): void {
@@ -131,6 +131,9 @@
       },
       callUpdateDeck(): void {
         this.$store.dispatch('decks/updateDeck', this.deck)
+      },
+      callDeleteDeck(): void {
+        this.$store.dispatch('decks/deleteDeck', this.deck)
       }
     },
     mounted() {
