@@ -37,12 +37,16 @@ exports.createDeck = function(req, res, next) {
     } else {
         let characterArray = []
         for (let i of req.body.characters) {
-            characterArray.push({
-                char: i.char,
-                definition: i.definition,
-                pinyin: i.pinyin,
-                id: uuidv4()
-            })
+          if (!i.char) {
+              continue
+          } else {
+              characterArray.push({
+                  char: i.char,
+                  definition: i.definition,
+                  pinyin: i.pinyin,
+                  id: uuidv4()
+              })
+          }
         }
 
         var deck = new deckModel({
