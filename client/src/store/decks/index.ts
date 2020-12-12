@@ -1,3 +1,4 @@
+import router from '../../router/index'
 import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
@@ -17,7 +18,7 @@ interface Deck {
   readonly creatorID: string
   readonly creatorFirst: string
   readonly creatorLast: string
-  isPublic: false
+  isPublic: boolean
 }
 
 export const decks = {
@@ -68,13 +69,21 @@ export const decks = {
           console.log(err)
         })
     },
+    // TODO: Error handling
     createDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
         method: 'post',
-        url: `${apiBaseURL}/deck/create`
+        url: `${apiBaseURL}/deck/create`,
+        withCredentials: true,
+        data: {
+          title: deck.title,
+          description: deck.description,
+          characters: deck.characters,
+          isPublic: deck.isPublic
+        }
       })
-      .then((res) => {
-        console.log(res)
+      .then(() => {
+        router.push({ name: 'Dashboard' })
       })
       .catch((err) => {
         console.log(err)
@@ -83,15 +92,38 @@ export const decks = {
     updateDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
         method: 'post',
-        url: `${apiBaseURL}/deck/create`,
-        data: JSON.parse(JSON.stringify(deck))
+        url: `${apiBaseURL}/deck/update`,
+        withCredentials: true,
+        data: {
+          deckId: deck._id,
+          title: deck.title,
+          description: deck.description,
+          characters: deck.characters,
+          isPublic: deck.isPublic,
+        }
       })
-      .then((res) => {
-        console.log(res)
+      .then(() => {
+        router.push({ name: 'Dashboard' })
       })
       .catch((err) => {
         console.log(err)
       })
-    }
+    },
+    deleteDeck({ commit }: { commit: Function }, deck: Deck): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/delete`,
+        withCredentials: true,
+        data: {
+          deckId: deck._id,
+        }
+      })
+      .then(() => {
+        router.push({ name: 'Dashboard' })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
   },
 }

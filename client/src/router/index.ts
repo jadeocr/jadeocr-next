@@ -34,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/deckedit/create',
-    name: 'DeckEdit',
+    name: 'DeckCreate',
     component: () =>
       import(/* webpackChunkName: 'deckedit' */ '../views/DeckEdit.vue'),
     meta: {
