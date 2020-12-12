@@ -1,9 +1,16 @@
 import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
+interface Character {
+  // readonly _id: string // Mongo generated
+  readonly id: string // UUID generated, need to change server to use _id later 
+  char: string
+  definition: string
+  pinyin: string
+}
 
 interface Deck {
-  characters: Array<string>
+  characters: Array<Character>
   readonly _id: string
   title: string
   description: string
@@ -19,13 +26,18 @@ export const decks = {
     decks: Array<Deck>(),
     decksAssigned: Array<Deck>(),
   },
+  getters: {
+    getDeck(state: any, id:string): Deck {
+      return state.decks.decks.find(( deck: Deck ) => {
+        return deck._id == id
+      })
+    }
+  },
   mutations: {
-    // eslint-disable-next-line
-    setDecks(state: any, decks:Array<Deck>) {
+    setDecks(state: any, decks: Array<Deck>) {
       state.decks = decks
     },
-    // eslint-disable-next-line
-    setAssignedDecks(state: any, decksAssigned:Array<Deck>) {
+    setAssignedDecks(state: any, decksAssigned: Array<Deck>) {
       state.decksAssigned = decksAssigned
     },
   },
@@ -56,5 +68,30 @@ export const decks = {
           console.log(err)
         })
     },
+    createDeck({ commit }: { commit: Function }, deck: Deck): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/create`
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    updateDeck({ commit }: { commit: Function }, deck: Deck): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/create`,
+        data: JSON.parse(JSON.stringify(deck))
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   },
 }

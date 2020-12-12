@@ -1,8 +1,15 @@
 <template>
   <div id="deck-menu">
     <!-- Show personal decks -->
+    <div v-if="!$store.state.decks.decks.length && menuType == 'learn'">
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
+          Create a deck to get started!
+        </div>
+      </div>
+    </div>
     <div
-      v-if="$store.state.decks.decks.length && menuType == 'learn'"
+      v-else-if="$store.state.decks.decks.length && menuType == 'learn'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
     >
       <div
@@ -25,6 +32,13 @@
     </div>
 
     <!-- Show assigned decks -->
+    <div v-if="!$store.state.decks.decksAssigned.length && menuType == 'assigned'">
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
+          Join a class to view assigned decks!
+        </div>
+      </div>
+    </div>
     <div
       v-if="$store.state.decks.decksAssigned.length && menuType == 'assigned'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"

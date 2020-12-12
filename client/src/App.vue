@@ -19,6 +19,7 @@
 <style>
   @import './assets/css/tailwind.css';
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400&display=swap');
 
   body {
     background-size: cover;
@@ -30,6 +31,10 @@
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     color: #ffffff;
+  }
+
+  .chinese {
+    font-family: 'Noto Sans SC', sans-serif;
   }
 
   /* Slidable content for dashboard pages */
