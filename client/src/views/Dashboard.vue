@@ -24,8 +24,11 @@
               Assigned
             </button>
           </div>
-          <div class="mt-2 md:mt-12">
-            <deck-menu :menuType="menuType" />
+          <div class="mt-8">
+            <router-link :to="{ name: 'DeckCreate' }" class="px-3 py-2 mt-8 rounded bg-nord2">
+              Create Deck
+            </router-link>
+            <deck-menu :menuType="menuType" class="mt-2 md:mt-12"/>
           </div>
         </div>
       </div>

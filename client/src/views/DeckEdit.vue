@@ -8,12 +8,10 @@
         <div class="col-span-1">
           <div class="mt-12 md:mt-16 col-span-1 page-content">
             <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
-              <div class="text-2xl font-normal md:text-3xl">
-                {{ deck.title }}
-              </div>
+              <input v-model='deck.title' class="w-full py-2 text-2xl font-normal md:text-3xl" type="text" placeholder='Title'>
               <!-- Editing Grid -->
               <div class="my-6 md:w-1/3">
-                <input v-model='deck.description' class="w-full py-2 leading-tight text-gray-200 shadow appearance-none focus:outline-none focus:shadow-outline-none" type="text" placeholder='Description'>
+                <input v-model='deck.description' class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none" type="text" placeholder='Description'>
               </div>
               <div>
                 <div class="mt-8">
@@ -34,13 +32,13 @@
                 <div v-for="(n, i) in deck.characters" :key="i.key">
                   <form class="flex flex-wrap my-6 -mx-4">
                     <div class="w-1/3 px-4 lg:w-1/4">
-                      <input v-model="deck.characters[i].char" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none chinese focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. 学'">
+                      <input v-model="deck.characters[i].char" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline chinese focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. 学'">
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
-                      <input v-model="deck.characters[i].pinyin" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. xué'">
+                      <input v-model="deck.characters[i].pinyin" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. xué'">
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
-                      <input v-model="deck.characters[i].definition" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. to study'">
+                      <input v-model="deck.characters[i].definition" class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none" :placeholder="(i+1)+'. to study'">
                     </div>
                   </form>
                 </div>
@@ -137,7 +135,17 @@
       }
     },
     mounted() {
-      this.deck = this.findDeck()
+      if (this.id) {
+        this.deck = this.findDeck()
+      } else {
+        this.deck = {
+          title: '',
+          description: '',
+          characters: Array<Character>(),
+          isPublic: false,
+        } as Deck
+        this.addCard(1)
+      }
     }
   })
 </script>
@@ -145,10 +153,13 @@
 <style scoped>
 input {
   background-color: transparent;
+  outline-width: 0;
+}
+input.border-underline {
   border-bottom: 2px solid rgba(255,255,255,0.4);
   transition: border-bottom 0.25s ease-in-out;
 }
-input:focus {
+input.border-underline:focus {
   border-bottom: 2px solid rgba(255,255,255,1);
 }
 </style>
