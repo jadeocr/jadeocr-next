@@ -8,7 +8,7 @@ var { authMiddleware } = require('./authMiddleware')
 var deckController = require('../controllers/deckController')
 
 router.post('/api/deck/create', authMiddleware, [
-  body('title').trim().escape().not().empty(),
+  body('title').trim().escape().notEmpty(),
   body('description').trim().escape(),
   body('characters.*.char').trim().escape().custom(value => {
     if (value.length < 1) {
@@ -29,7 +29,7 @@ router.post('/api/deck/create', authMiddleware, [
   }),
 ], deckController.createDeck)
 router.post('/api/deck/update', authMiddleware, [
-  body('title').trim().escape().not().empty(),
+  body('title').trim().escape().notEmpty(),
   body('description').trim().escape(),
   body('characters.*.char').trim().escape().custom(value => {
     if (value.length < 1) {
