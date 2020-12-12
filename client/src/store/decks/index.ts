@@ -90,9 +90,13 @@ export const decks = {
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
-          if (err.response.data.errors[0].param == 'title') {
+          const msg: string = err.response.data.errors[0].msg
+          if (msg == 'title') {
             commit('setDeckErrMsg', 'Missing title')
+          } else {
+            commit('setDeckErrMsg', msg)
           }
+          console.log(err.response.data)
         })
     },
     updateDeck({ commit }: { commit: Function }, deck: Deck): void {
@@ -112,9 +116,13 @@ export const decks = {
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
-          if (err.response.data.errors[0].param == 'title') {
-            commit('setDeckErrMsg', 'Title is missing')
+          const msg: string = err.response.data.errors[0].msg
+          if (msg == 'title') {
+            commit('setDeckErrMsg', 'Missing title')
+          } else {
+            commit('setDeckErrMsg', msg)
           }
+          console.log(err.response.data)
         })
     },
     deleteDeck({ commit }: { commit: Function }, deck: Deck): void {
