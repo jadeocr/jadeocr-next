@@ -12,7 +12,7 @@ router.post('/api/deck/create', authMiddleware, [
   body('description').trim().escape(),
   body('characters.*.char').trim().escape().custom(value => {
     if (value.length < 1) {
-      throw new Error('All characters must have values')
+      return true
     } else if (value.match(/[\u3400-\u9FBF]/)) {
       if (value.length > 1) {
         throw new Error('Only 1 character allowed per card')
@@ -33,7 +33,7 @@ router.post('/api/deck/update', authMiddleware, [
   body('description').trim().escape(),
   body('characters.*.char').trim().escape().custom(value => {
     if (value.length < 1) {
-      throw new Error('All characters must have values')
+      return true
     } else if (value.match(/[\u3400-\u9FBF]/)) {
       if (value.length > 1) {
         throw new Error('Only 1 character allowed per card')

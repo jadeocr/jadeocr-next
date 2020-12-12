@@ -91,19 +91,23 @@ exports.updateDeck = function(req, res, next) {
                 for (let i of characters) {
                     let id = i.id || uuidv4()
 
-                    characterArray.push({
-                        char: i.char,
-                        definition: i.definition,
-                        pinyin: i.pinyin,
-                        id: id
-                    })
+                    if (!i.char) {
+                        continue
+                    } else {
+                        characterArray.push({
+                            char: i.char,
+                            definition: i.definition,
+                            pinyin: i.pinyin,
+                            id: id
+                        })
+                    }
+                }
 
-                    deck.title = title
-                    deck.description = description
-                    deck.characters = characterArray
-                    deck.access = {
-                        isPublic: isPublic
-                    }   
+                deck.title = title
+                deck.description = description
+                deck.characters = characterArray
+                deck.access = {
+                    isPublic: isPublic
                 }
 
                 deck.save(function(saveErr) {
