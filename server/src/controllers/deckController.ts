@@ -1,5 +1,3 @@
-import { send } from "process"
-
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
