@@ -99,13 +99,13 @@ exports.updateDeck = function(req, res, next) {
                 deck.characters = characterArray
                 deck.access = {
                     isPublic: isPublic
-                }
-
-                deck.save(function(saveErr) {
-                    if (saveErr) console.log(saveErr)
-                    res.sendStatus(200)
-                })
+                }   
             }
+            
+            deck.save(function(saveErr) {
+                if (saveErr) console.log(saveErr)
+                res.sendStatus(200)
+            })
         } else {
             res.status(403).send('User does not have access to deck')
         }
