@@ -45,7 +45,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <p class="ml-5">Learn</p>
+            <p class="ml-5">Dashboard</p>
           </div>
         </router-link>
       </div>

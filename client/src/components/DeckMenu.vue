@@ -21,7 +21,7 @@
           <router-link
             class="text-xl font-normal"
             :to="{
-              path: `/deckedit/edit/${$store.state.decks.decks[deck]._id}`,
+              path: `/deck/${$store.state.decks.decks[deck]._id}`,
             }"
           >
             {{ $store.state.decks.decks[deck].title }}

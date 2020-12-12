@@ -26,6 +26,7 @@
           </div>
           <div class="mt-8">
             <router-link
+              v-if="menuType == 'learn'"
               :to="{ name: 'DeckCreate' }"
               class="px-3 py-2 mt-8 rounded bg-nord2"
             >

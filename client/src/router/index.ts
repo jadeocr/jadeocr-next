@@ -59,6 +59,16 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/deck/:id',
+    props: true,
+    name: 'Deck',
+    component: () =>
+      import(/* webpackChunkName: 'deckedit' */ '../views/Deck.vue'),
+    meta: {
+      requiresAuth: true,
+    },
   }
 ]
 
