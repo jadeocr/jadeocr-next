@@ -75,20 +75,20 @@
             </div>
           </div>
         </div>
-        <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <div class="px-4 sm:px-6 sm:flex sm:flex-row-reverse">
           <button
             type="button"
-            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord11 shadow-sm sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord11 sm:ml-3 sm:w-auto sm:text-sm"
             @click="$emit('confirm-delete', $event)"
           >
             Delete
           </button>
           <button
             type="button"
-            class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white rounded bg-nord10 shadow-sm sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord10 sm:ml-3 sm:w-auto sm:text-sm"
             @click="$emit('exit-modal', $event)"
           >
-            Go Back
+            Cancel
           </button>
         </div>
       </div>

@@ -69,6 +69,9 @@
                     </svg>
                   </button>
                 </div>
+                <div v-if="$store.state.decks.decksErrorMsg" class="mt-4 font-normal text-nord11">
+                  {{ $store.state.decks.decksErrorMsg }}
+                </div>
               </div>
               <div class="mt-12">
                 <div v-for="(n, i) in deck.characters" :key="i.key">
@@ -226,6 +229,7 @@
       },
     },
     mounted() {
+      this.$store.commit('decks/setDeckErrMsg', '')
       if (this.id) {
         this.deck = this.findDeck()
       } else {

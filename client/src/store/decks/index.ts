@@ -26,6 +26,7 @@ export const decks = {
   state: {
     decks: Array<Deck>(),
     decksAssigned: Array<Deck>(),
+    decksErrorMsg: '',
   },
   getters: {
     getDeck(state: any, id: string): Deck {
@@ -41,6 +42,9 @@ export const decks = {
     setAssignedDecks(state: any, decksAssigned: Array<Deck>) {
       state.decksAssigned = decksAssigned
     },
+    setDeckErrMsg(state: any, msg: string) {
+      state.decksErrorMsg = msg
+    },
   },
   actions: {
     fetchDecks({ commit }: { commit: Function }): void {
@@ -53,7 +57,7 @@ export const decks = {
           commit('setDecks', res.data)
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data)
         })
     },
     fetchAssignedDecks({ commit }: { commit: Function }): void {
@@ -66,7 +70,7 @@ export const decks = {
           console.log(res) // TODO: Update state with value
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data)
         })
     },
     // TODO: Error handling
@@ -86,7 +90,9 @@ export const decks = {
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
-          console.log(err)
+          if (err.response.data.errors[0].param == 'title') {
+            commit('setDeckErrMsg', 'Missing title')
+          }
         })
     },
     updateDeck({ commit }: { commit: Function }, deck: Deck): void {
@@ -106,7 +112,9 @@ export const decks = {
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
-          console.log(err)
+          if (err.response.data.errors[0].param == 'title') {
+            commit('setDeckErrMsg', 'Title is missing')
+          }
         })
     },
     deleteDeck({ commit }: { commit: Function }, deck: Deck): void {
@@ -122,7 +130,7 @@ export const decks = {
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data)
         })
     },
   },
