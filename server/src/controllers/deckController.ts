@@ -33,7 +33,7 @@ exports.createDeck = function(req, res, next) {
     let errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-        res.send(errors)
+        res.status(400).send(errors)
     } else {
         let characterArray = []
         for (let i of req.body.characters) {
@@ -78,7 +78,7 @@ exports.updateDeck = function(req, res, next) {
 
     let errors = validationResult(req)
     if (!errors.isEmpty()) {
-        res.send(errors)
+        res.status(400).send(errors)
     } else {
         deckModel.findById(deckId, function(err, deck) {
             if (err) {
