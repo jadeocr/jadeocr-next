@@ -71,10 +71,11 @@ export const decks = {
         withCredentials: true,
       })
         .then((res) => {
-          console.log(res) // TODO: Update state with value
+          // console.log(res) // TODO: Update state with value
+          commit('setAssignedDecks', res.data)
         })
-        .catch((err) => {
-          console.log(err.response.data)
+        .catch(() => { // User is not enrolled in any classes, can return
+          return
         })
     },
     // TODO: Error handling

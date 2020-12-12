@@ -62,7 +62,7 @@
     },
     mounted() {
       this.$store.dispatch('decks/fetchDecks')
-      /* this.$store.dispatch('decks/fetchAssignedDecks') */
+      this.$store.dispatch('decks/fetchAssignedDecks')
     },
   })
 </script>

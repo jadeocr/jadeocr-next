@@ -51,6 +51,15 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/classes',
+    name: 'Classes',
+    component: () =>
+      import(/* webpackChunkName: 'deckedit' */ '../views/Classes.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  }
 ]
 
 const router = createRouter({
