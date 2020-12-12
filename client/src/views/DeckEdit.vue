@@ -6,7 +6,7 @@
           <sidebar />
         </div>
         <div class="col-span-1">
-          <div class="mt-12 md:mt-16 col-span-1 page-content">
+          <div class="mt-12 overflow-y-auto md:mt-16 page-content">
             <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
               <input
                 v-model="deck.title"
@@ -111,7 +111,7 @@
                     <div v-if="deck.isPublic">Public</div>
                     <div v-else>Private</div>
                   </button>
-                  <div class="mt-8">
+                  <div class="mt-8 mb-16">
                     <button
                       v-if="id"
                       class="px-3 py-2 mr-4 rounded bg-nord10"
