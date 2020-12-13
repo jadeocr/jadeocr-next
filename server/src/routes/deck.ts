@@ -56,6 +56,7 @@ router.post('/api/deck/quizzed', authMiddleware, deckController.quizzed)
 router.post('/api/deck/practiced', authMiddleware, deckController.practiced)
 
 router.get('/api/deck/mydecks', authMiddleware, deckController.findCreatedDecks)
+router.post('/api/deck/getDecksWithDueDates', authMiddleware, deckController.getDecksWithDueDates)
 router.post('/api/deck/deck', authMiddleware, deckController.deck)
 router.get('/api/deck/public', authMiddleware, deckController.publicDecks)
 router.get('/api/deck/assigned', authMiddleware, deckController.getAssignedDecks)
