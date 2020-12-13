@@ -1,3 +1,5 @@
+import { send } from "process"
+
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -149,7 +151,15 @@ exports.deleteDeck = function(req, res, next) {
 exports.findCreatedDecks = function(req, res, next) {
     deckModel.find({creator: req.user._id}, function(err, decks) {
         if (err) console.log(err) 
-        res.send(decks)
+        let sendArray = []
+        for (let deck of decks) {
+            sendArray.push({
+                deckId: deck._id,
+                deckName: deck.deckName,
+                deckDescription: deck.deckDescription
+            })
+        }
+        res.send(sendArray)
     })
 }
 
