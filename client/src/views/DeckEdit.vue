@@ -103,28 +103,34 @@
                     </div>
                   </form>
                 </div>
-                <div class="mt-12">
+                <div class="mt-20">
                   <button
-                    class="px-4 py-2 rounded bg-nord2"
-                    @click="togglePublic()"
+                    class="px-4 py-2 mr-4 rounded bg-nord2"
+                    @click="$router.go(-1)"
                   >
-                    <div v-if="deck.isPublic">Public</div>
-                    <div v-else>Private</div>
+                    Cancel
+                  </button>
+                  <button
+                    v-if="id"
+                    class="px-3 py-2 mr-4 rounded bg-nord10"
+                    @click="callUpdateDeck()"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    v-else
+                    class="px-3 py-2 mr-4 rounded bg-nord10"
+                    @click="callCreateDeck()"
+                  >
+                    Create Deck
                   </button>
                   <div class="mt-8 mb-16">
                     <button
-                      v-if="id"
-                      class="px-3 py-2 mr-4 rounded bg-nord10"
-                      @click="callUpdateDeck()"
+                      class="px-4 py-2 mr-4 rounded bg-nord2"
+                      @click="togglePublic()"
                     >
-                      Save Changes
-                    </button>
-                    <button
-                      v-else
-                      class="px-3 py-2 mr-4 rounded bg-nord10"
-                      @click="callCreateDeck()"
-                    >
-                      Create Deck
+                      <div v-if="deck.isPublic">Public</div>
+                      <div v-else>Private</div>
                     </button>
                     <button
                       v-if="id"
