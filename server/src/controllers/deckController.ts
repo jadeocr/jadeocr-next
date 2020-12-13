@@ -155,8 +155,8 @@ exports.findCreatedDecks = function(req, res, next) {
         for (let deck of decks) {
             sendArray.push({
                 deckId: deck._id,
-                deckName: deck.deckName,
-                deckDescription: deck.deckDescription
+                deckName: deck.title,
+                deckDescription: deck.description
             })
         }
         res.send(sendArray)
