@@ -11,6 +11,12 @@
           </div>
           <div class="mt-4 text-lg">
             <button
+              @click="changeMenuType('all')"
+              :class="{ 'opacity-75': menuType != 'all' }"
+            >
+              All
+            </button> |
+            <button
               @click="changeMenuType('learn')"
               :class="{ 'opacity-75': menuType != 'learn' }"
             >
@@ -60,10 +66,6 @@
       changeMenuType(menuType: string): void {
         this.menuType = menuType
       },
-    },
-    mounted() {
-      this.$store.dispatch('decks/fetchDecks')
-      this.$store.dispatch('decks/fetchAssignedDecks')
     },
   })
 </script>

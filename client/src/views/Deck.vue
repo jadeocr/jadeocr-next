@@ -8,10 +8,10 @@
         <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
           <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
             <div class="text-2xl font-normal text-center md:text-3xl md:text-left">
-              {{ deck.title }}
+              {{ deck.deckName }}
             </div>
             <div class="mt-1 text-lg font-normal text-center md:text-xl text-nord5 md:text-left">
-              {{ deck.description }}
+              {{ deck.deckDescription }}
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2">
               <div class="mt-10 col-span-1">
@@ -30,9 +30,9 @@
                   </button>
                   <div class="mt-12 text-center lg:mt-12 md:text-left">
                     <p class="mb-6 text-xl font-normal">Vocabulary</p>
-                    <table class="border border-white xl:mb-12 lg:w-3/4">
+                    <table class="xl:mb-12 lg:w-3/4">
                       <tr v-for="(n, i) in deck.characters" :key="i.key" class="py-2">
-                        <td class="px-2 py-4 text-lg font-normal xl:px-4 chinese">
+                        <td class="py-4 pr-2 text-lg font-normal xl:pr-4 chinese">
                           {{ i+1 }}.
                         </td>
                         <td class="px-4 py-4 text-lg font-normal chinese">
@@ -62,7 +62,7 @@
                 <div class="mt-8 text-lg">
                   <router-link
                     class="font-normal opacity-75"
-                    :to="{ path: `/deckedit/edit/${deck._id}` }"
+                    :to="{ path: `/deckedit/edit/${deck.deckId}` }"
                   >
                     Edit Deck
                   </router-link>
@@ -98,9 +98,9 @@
 
   interface Deck {
     characters: Array<Character>
-    readonly _id: string
-    title: string
-    description: string
+    readonly deckId: string
+    deckName: string
+    deckDescription: string
     readonly creatorID: string
     readonly creatorFirst: string
     readonly creatorLast: string
@@ -126,7 +126,7 @@
     methods: {
       findDeck(): Deck {
         return this.$store.state.decks.decks.find((deck: Deck) => {
-          return deck._id == this.id
+          return deck.deckId == this.id
         })
       },
     },

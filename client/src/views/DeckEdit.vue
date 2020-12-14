@@ -9,7 +9,7 @@
           <div class="mt-12 overflow-y-auto md:mt-16 page-content">
             <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
               <input
-                v-model="deck.title"
+                v-model="$store.state.decks.currDeck.title"
                 class="w-full py-2 text-2xl font-normal md:text-3xl"
                 type="text"
                 placeholder="Title"
@@ -17,7 +17,7 @@
               <!-- Editing Grid -->
               <div class="my-6 md:w-1/3">
                 <input
-                  v-model="deck.description"
+                  v-model="$store.state.decks.currDeck.description"
                   class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                   type="text"
                   placeholder="Description"
@@ -77,26 +77,26 @@
                 </div>
               </div>
               <div class="mt-12">
-                <div v-for="(n, i) in deck.characters" :key="i.key">
+                <div v-for="(n, i) in $store.state.decks.currDeck.characters" :key="i.key">
                   <form class="flex flex-wrap my-6 -mx-4">
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
                         @change="callGetPinyinDefinition(i)"
-                        v-model="deck.characters[i].char"
+                        v-model="$store.state.decks.currDeck.characters[i].char"
                         class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline chinese focus:outline-none focus:shadow-outline-none"
                         :placeholder="i + 1 + '. 学'"
                       />
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
-                        v-model="deck.characters[i].pinyin"
+                        v-model="$store.state.decks.currDeck.characters[i].pinyin"
                         class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                         :placeholder="i + 1 + '. xué'"
                       />
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
-                        v-model="deck.characters[i].definition"
+                        v-model="$store.state.decks.currDeck.characters[i].definition"
                         class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                         :placeholder="i + 1 + '. to study'"
                       />
@@ -146,7 +146,7 @@
                       @exit-modal="toggleModalVisibility()"
                     >
                       Are you sure you want to permanently delete the deck
-                      {{ deck.title }}?
+                      {{ deck.deckName }}?
                     </modal>
                   </div>
                 </div>
@@ -174,7 +174,7 @@
 
   interface Deck {
     characters: Array<Character>
-    readonly _id: string
+    readonly deckId: string
     title: string
     description: string
     readonly creatorID: string
@@ -207,16 +207,11 @@
       }
     },
     methods: {
-      findDeck(): Deck {
-        return this.$store.state.decks.decks.find((deck: Deck) => {
-          return deck._id == this.id
-        })
-      },
       addCard(num: number): void {
         if (num == -1) {
-          this.deck.characters.splice(this.deck.characters.length - 1)
+          this.$store.state.decks.currDeck.characters.splice(this.$store.state.decks.currDeck.characters.length - 1)
         } else if (num == 1) {
-          this.deck.characters.push({
+          this.$store.state.decks.currDeck.characters.push({
             id: '',
             char: '',
             pinyin: '',
@@ -227,16 +222,16 @@
         }
       },
       togglePublic(): void {
-        this.deck.isPublic = !this.deck.isPublic
+        this.$store.state.decks.currDeck.access.isPublic = !this.$store.state.decks.currDeck.access.isPublic
       },
       callCreateDeck(): void {
-        this.$store.dispatch('decks/createDeck', this.deck)
+        this.$store.dispatch('decks/createDeck', this.$store.state.decks.currDeck)
       },
       callUpdateDeck(): void {
-        this.$store.dispatch('decks/updateDeck', this.deck)
+        this.$store.dispatch('decks/updateDeck', this.$store.state.decks.currDeck)
       },
       callDeleteDeck(): void {
-        this.$store.dispatch('decks/deleteDeck', this.deck)
+        this.$store.dispatch('decks/deleteDeck', this.$store.state.decks.currDeck)
         this.toggleModalVisibility()
       },
       toggleModalVisibility(): void {
@@ -244,7 +239,7 @@
       },
       callGetPinyinDefinition(i: number): void {
         this.$store.dispatch('decks/getPinyinDefinition', {
-          deck: this.deck,
+          deck: this.$store.state.decks.currDeck,
           charIndex: i
         })
       }
@@ -252,7 +247,7 @@
     mounted() {
       this.$store.commit('decks/setDeckErrMsg', '')
       if (this.id) {
-        this.deck = this.findDeck()
+        this.$store.dispatch('decks/fetchCards', this.id)
       } else {
         this.addCard(1)
       }
