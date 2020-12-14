@@ -12,9 +12,9 @@ interface Character {
 
 interface Deck {
   characters: Array<Character>
-  readonly _id: string
-  title: string
-  description: string
+  readonly deckId: string
+  deckName: string
+  deckDescription: string
   readonly creatorID: string
   readonly creatorFirst: string
   readonly creatorLast: string
@@ -32,7 +32,7 @@ export const decks = {
     // eslint-disable-next-line
     getDeck(state: any, id: string): Deck {
       return state.decks.decks.find((deck: Deck) => {
-        return deck._id == id
+        return deck.deckId == id
       })
     },
   },
@@ -51,14 +51,28 @@ export const decks = {
     },
   },
   actions: {
-    fetchDecks({ commit }: { commit: Function }): void {
+    fetchAllDecks({ commit }: { commit: Function }): void {
       axios({
-        method: 'get',
-        url: `${apiBaseURL}/deck/mydecks`,
+        method: 'post',
+        url: `${apiBaseURL}/deck/getUsedDecks`,
         withCredentials: true,
       })
         .then((res) => {
-          commit('setDecks', res.data)
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
+    fetchCreatedDecks({ commit }: { commit: Function }): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/createdDecks`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          console.log(res)
+          commit('setDecks', res.data) // TODO: Update mutation name
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -85,8 +99,8 @@ export const decks = {
         url: `${apiBaseURL}/deck/create`,
         withCredentials: true,
         data: {
-          title: deck.title,
-          description: deck.description,
+          deckName: deck.deckName,
+          description: deck.deckDescription, // inconsistency between description and deckDescription
           characters: deck.characters,
           isPublic: deck.isPublic,
         },
@@ -110,9 +124,9 @@ export const decks = {
         url: `${apiBaseURL}/deck/update`,
         withCredentials: true,
         data: {
-          deckId: deck._id,
-          title: deck.title,
-          description: deck.description,
+          deckId: deck.deckId,
+          deckName: deck.deckName,
+          description: deck.deckDescription,
           characters: deck.characters,
           isPublic: deck.isPublic,
         },
@@ -136,7 +150,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/delete`,
         withCredentials: true,
         data: {
-          deckId: deck._id,
+          deckId: deck.deckId,
         },
       })
         .then(() => {

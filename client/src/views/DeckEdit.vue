@@ -9,7 +9,7 @@
           <div class="mt-12 overflow-y-auto md:mt-16 page-content">
             <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
               <input
-                v-model="deck.title"
+                v-model="deck.deckName"
                 class="w-full py-2 text-2xl font-normal md:text-3xl"
                 type="text"
                 placeholder="Title"
@@ -17,7 +17,7 @@
               <!-- Editing Grid -->
               <div class="my-6 md:w-1/3">
                 <input
-                  v-model="deck.description"
+                  v-model="deck.deckDescription"
                   class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                   type="text"
                   placeholder="Description"
@@ -146,7 +146,7 @@
                       @exit-modal="toggleModalVisibility()"
                     >
                       Are you sure you want to permanently delete the deck
-                      {{ deck.title }}?
+                      {{ deck.deckName }}?
                     </modal>
                   </div>
                 </div>
@@ -174,8 +174,8 @@
 
   interface Deck {
     characters: Array<Character>
-    readonly _id: string
-    title: string
+    readonly deckId: string
+    deckName: string
     description: string
     readonly creatorID: string
     readonly creatorFirst: string
@@ -198,7 +198,7 @@
     data() {
       return {
         deck: {
-          title: '',
+          deckName: '',
           description: '',
           characters: Array<Character>(),
           isPublic: false,
@@ -209,7 +209,7 @@
     methods: {
       findDeck(): Deck {
         return this.$store.state.decks.decks.find((deck: Deck) => {
-          return deck._id == this.id
+          return deck.deckId == this.id
         })
       },
       addCard(num: number): void {
