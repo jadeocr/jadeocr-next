@@ -13,8 +13,8 @@ interface Character {
 interface Deck {
   characters: Array<Character>
   readonly deckId: string
-  deckName: string
-  deckDescription: string
+  title: string
+  description: string
   readonly creatorID: string
   readonly creatorFirst: string
   readonly creatorLast: string
@@ -26,6 +26,7 @@ export const decks = {
   state: {
     decksCreated: Array<Deck>(),
     decksAssigned: Array<Deck>(),
+    currDeck: {} as Deck,
     decksErrorMsg: '',
   },
   getters: {
@@ -49,6 +50,11 @@ export const decks = {
     setDeckErrMsg(state: any, msg: string) {
       state.decksErrorMsg = msg
     },
+    // eslint-disable-next-line
+    setCurrDeck(state: any, deck: any) { // TODO: Fix _id on deck
+      state.currDeck = deck
+      state.currDeck.deckId = deck._id
+    }
   },
   actions: {
     fetchAllDecks({ commit }: { commit: Function }): void {
@@ -91,6 +97,22 @@ export const decks = {
           return
         })
     },
+    fetchCards({ commit }: { commit: Function }, deckId: string): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/deck`,
+        withCredentials: true,
+        data: {
+          deckId: deckId,
+        }
+      })
+        .then((res) => {
+          commit('setCurrDeck', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     // TODO: Error handling
     createDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
@@ -98,8 +120,8 @@ export const decks = {
         url: `${apiBaseURL}/deck/create`,
         withCredentials: true,
         data: {
-          deckName: deck.deckName,
-          description: deck.deckDescription, // inconsistency between description and deckDescription
+          title: deck.title,
+          description: deck.description, // inconsistency between description and description
           characters: deck.characters,
           isPublic: deck.isPublic,
         },
@@ -124,8 +146,8 @@ export const decks = {
         withCredentials: true,
         data: {
           deckId: deck.deckId,
-          deckName: deck.deckName,
-          description: deck.deckDescription,
+          title: deck.title,
+          description: deck.description,
           characters: deck.characters,
           isPublic: deck.isPublic,
         },
@@ -134,13 +156,12 @@ export const decks = {
           router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
-          const msg: string = err.response.data.errors[0].msg
+          const msg: string = err.response.data
           if (msg == 'title') {
             commit('setDeckErrMsg', 'Missing title')
           } else {
             commit('setDeckErrMsg', msg)
           }
-          console.log(err.response.data)
         })
     },
     deleteDeck({ commit }: { commit: Function }, deck: Deck): void {

@@ -125,7 +125,7 @@
     },
     methods: {
       findDeck(): Deck {
-        return this.$store.state.decks.decksCreated.find((deck: Deck) => {
+        return this.$store.state.decks.decks.find((deck: Deck) => {
           return deck.deckId == this.id
         })
       },
