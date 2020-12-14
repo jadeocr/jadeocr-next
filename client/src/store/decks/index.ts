@@ -24,7 +24,7 @@ interface Deck {
 export const decks = {
   namespaced: true,
   state: {
-    decks: Array<Deck>(),
+    decksCreated: Array<Deck>(),
     decksAssigned: Array<Deck>(),
     decksErrorMsg: '',
   },
@@ -38,8 +38,8 @@ export const decks = {
   },
   mutations: {
     // eslint-disable-next-line
-    setDecks(state: any, decks: Array<Deck>) {
-      state.decks = decks
+    setDecksCreated(state: any, decks: Array<Deck>) {
+      state.decksCreated = decks
     },
     // eslint-disable-next-line
     setAssignedDecks(state: any, decksAssigned: Array<Deck>) {
@@ -71,8 +71,7 @@ export const decks = {
         withCredentials: true,
       })
         .then((res) => {
-          console.log(res)
-          commit('setDecks', res.data) // TODO: Update mutation name
+          commit('setDecksCreated', res.data) // TODO: Update mutation name
         })
         .catch((err) => {
           console.log(err.response.data)

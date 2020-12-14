@@ -1,7 +1,7 @@
 <template>
   <div id="deck-menu">
     <!-- Show personal decks -->
-    <div v-if="!$store.state.decks.decks.length && (menuType == 'learn' || menuType == 'all')">
+    <div v-if="!$store.state.decks.decksCreated.length && (menuType == 'learn' || menuType == 'all')">
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
           Create a deck to get started!
@@ -9,11 +9,11 @@
       </div>
     </div>
     <div
-      v-else-if="$store.state.decks.decks.length && menuType == 'learn'"
+      v-else-if="$store.state.decks.decksCreated.length && menuType == 'learn'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
     >
       <div
-        v-for="(n, deck) in $store.state.decks.decks"
+        v-for="(n, deck) in $store.state.decks.decksCreated"
         :key="deck.key"
         class="my-4 mr-4 col-span-1"
       >
@@ -21,12 +21,12 @@
           <router-link
             class="text-xl font-normal"
             :to="{
-              path: `/deck/${$store.state.decks.decks[deck].deckId}`,
+              path: `/deck/${$store.state.decks.decksCreated[deck].deckId}`,
             }"
           >
-            {{ $store.state.decks.decks[deck].deckName }}
+            {{ $store.state.decks.decksCreated[deck].deckName }}
           </router-link>
-          <div>{{ $store.state.decks.decks[deck].deckDescription }}</div>
+          <div>{{ $store.state.decks.decksCreated[deck].deckDescription }}</div>
         </div>
       </div>
     </div>
