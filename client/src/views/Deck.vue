@@ -8,10 +8,10 @@
         <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
           <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
             <div class="text-2xl font-normal text-center md:text-3xl md:text-left">
-              {{ deck.deckName }}
+              {{ $store.state.decks.currDeck.title }}
             </div>
             <div class="mt-1 text-lg font-normal text-center md:text-xl text-nord5 md:text-left">
-              {{ deck.deckDescription }}
+              {{ $store.state.decks.currDeck.description }}
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2">
               <div class="mt-10 col-span-1">
@@ -31,18 +31,18 @@
                   <div class="mt-12 text-center lg:mt-12 md:text-left">
                     <p class="mb-6 text-xl font-normal">Vocabulary</p>
                     <table class="xl:mb-12 lg:w-3/4">
-                      <tr v-for="(n, i) in deck.characters" :key="i.key" class="py-2">
+                      <tr v-for="(n, i) in $store.state.decks.currDeck.characters" :key="i.key" class="py-2">
                         <td class="py-4 pr-2 text-lg font-normal xl:pr-4 chinese">
                           {{ i+1 }}.
                         </td>
                         <td class="px-4 py-4 text-lg font-normal chinese">
-                          {{ deck.characters[i].char }}
+                          {{ $store.state.decks.currDeck.characters[i].char }}
                         </td>
                         <td class="px-4 lg:px-8 chinese">
-                          {{ deck.characters[i].pinyin }}
+                          {{ $store.state.decks.currDeck.characters[i].pinyin }}
                         </td>
                         <td class="px-4 lg:px-8 chinese">
-                          {{ deck.characters[i].definition }}
+                          {{ $store.state.decks.currDeck.characters[i].pinyin }}
                         </td>
                       </tr>
                     </table>
@@ -123,15 +123,8 @@
         deck: {} as Deck
       }
     },
-    methods: {
-      findDeck(): Deck {
-        return this.$store.state.decks.decks.find((deck: Deck) => {
-          return deck.deckId == this.id
-        })
-      },
-    },
     mounted() {
-      this.deck = this.findDeck()
+      this.$store.dispatch('decks/fetchCards', this.id)
     }
   })
 </script>
