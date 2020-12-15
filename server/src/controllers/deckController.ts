@@ -450,21 +450,27 @@ exports.getDecksWithDueDates = function(req, res, next) {
         } else if (returnedUser.decks.length == 0) {
             res.status(400).send('User is not using any decks with srs')
         } else {
-            let sendArray = []
-            for (let i of returnedUser.decks) {
-                if (i.srs.length == 0) {
-                    continue
+            updateUserWithDeck(returnedUser, function(user) {
+                if (!user) {
+                    res.status(400).send('There was an error')
                 } else {
-                    i.srs.sort(compare)
-                    sendArray.push({
-                        deckId: i.deckId,
-                        deckName: i.deckName,
-                        deckDescription: i.deckDescription,
-                        nextDue: i.srs[0].nextDue,
-                    })
+                    let sendArray = []
+                    for (let i of user.decks) {
+                        if (i.srs.length == 0) {
+                            continue
+                        } else {
+                            i.srs.sort(compare)
+                            sendArray.push({
+                                deckId: i.deckId,
+                                deckName: i.deckName,
+                                deckDescription: i.deckDescription,
+                                nextDue: i.srs[0].nextDue,
+                            })
+                        }
+                    }
+                    res.send(sendArray)
                 }
-            }
-            res.send(sendArray)
+            })           
         }
     })
 }
