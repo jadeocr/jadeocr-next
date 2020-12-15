@@ -240,7 +240,6 @@
     },
     mounted() {
       this.$store.commit('decks/setDeckErrMsg', '')
-      console.log(this.id)
       if (this.$store.state.decks.currDeck.deckId == this.id) {
         this.$store.dispatch('decks/fetchCards', this.id)
       } else if (!this.id) {

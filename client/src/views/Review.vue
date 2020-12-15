@@ -9,6 +9,15 @@
 
   export default defineComponent({
     name: 'Review',
+    props: {
+      id: {
+        type: String,
+        required: true
+      }
+    },
+    mounted() {
+      this.$store.dispatch('decks/getCardsToReview', this.id)
+    }
   })
 </script>
 
