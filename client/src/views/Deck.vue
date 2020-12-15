@@ -19,15 +19,15 @@
                   Learn
                 </div>
                 <div class="mt-6 text-center md:mt-8 md:text-left">
-                  <button class="px-3 py-2 mr-2 rounded bg-nord10">
+                  <router-link class="px-3 py-2 mr-2 rounded bg-nord10" :to="{ path: `/review/${id}` }">
                     Flashcards
-                  </button>
-                  <button class="px-3 py-2 rounded lg:mx-4 bg-nord10">
+                  </router-link>
+                  <router-link class="px-3 py-2 rounded lg:mx-4 bg-nord10" :to="{ path: `/review/${id}` }">
                     Handwriting
-                  </button>
-                  <button class="px-3 py-2 mx-2 rounded lg:mx-2 md:mx-0 md:my-4 lg:my-0 bg-nord10">
+                  </router-link>
+                  <router-link class="px-3 py-2 mx-2 rounded lg:mx-2 md:mx-0 md:my-4 lg:my-0 bg-nord10" :to="{ path: `/review/${id}` }">
                     Quiz
-                  </button>
+                  </router-link>
                   <div class="mt-12 text-center lg:mt-12 md:text-left">
                     <p class="mb-6 text-xl font-normal">Vocabulary</p>
                     <table class="xl:mb-12 lg:w-3/4">
@@ -42,7 +42,7 @@
                           {{ $store.state.decks.currDeck.characters[i].pinyin }}
                         </td>
                         <td class="px-4 lg:px-8 chinese">
-                          {{ $store.state.decks.currDeck.characters[i].pinyin }}
+                          {{ $store.state.decks.currDeck.characters[i].definition }}
                         </td>
                       </tr>
                     </table>

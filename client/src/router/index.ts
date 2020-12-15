@@ -55,7 +55,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/classes',
     name: 'Classes',
     component: () =>
-      import(/* webpackChunkName: 'deckedit' */ '../views/Classes.vue'),
+      import(/* webpackChunkName: 'classes' */ '../views/Classes.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -65,10 +65,20 @@ const routes: Array<RouteRecordRaw> = [
     props: true,
     name: 'Deck',
     component: () =>
-      import(/* webpackChunkName: 'deckedit' */ '../views/Deck.vue'),
+      import(/* webpackChunkName: 'deck' */ '../views/Deck.vue'),
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/review/:id',
+    props: true,
+    name: 'Review',
+    component: () =>
+      import(/* webpackChunkName: 'review' */ '../views/Review.vue'),
+    meta: {
+      requiresAuth: true,
+    }
   }
 ]
 
