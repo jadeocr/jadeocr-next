@@ -79,15 +79,15 @@
                   Deck Info
                 </div>
                 <div class="mt-8">
-                  Created by {{ deck.creatorFirst + ' ' + deck.creatorLast }}
+                  Created by {{ $store.state.decks.currDeck.creatorFirst + ' ' + $store.state.decks.currDeck.creatorLast }}
                 </div>
                 <div class="mt-4">
-                  This deck is {{ deck.isPublic ? 'public' : 'private' }}
+                  This deck is {{ $store.state.decks.currDeck.access.isPublic ? 'public' : 'private' }}
                 </div>
                 <div class="mt-8 text-lg">
                   <router-link
                     class="font-normal opacity-75"
-                    :to="{ path: `/deckedit/edit/${deck.deckId}` }"
+                    :to="{ path: `/deckedit/edit/${$store.state.decks.currDeck.deckId}` }"
                   >
                     Edit Deck
                   </router-link>
@@ -113,24 +113,7 @@
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
 
-  interface Character {
-    // readonly _id: string // Mongo generated
-    readonly id: string // UUID generated, need to change server to use _id later
-    char: string
-    definition: string
-    pinyin: string
-  }
-
-  interface Deck {
-    characters: Array<Character>
-    readonly deckId: string
-    deckName: string
-    deckDescription: string
-    readonly creatorID: string
-    readonly creatorFirst: string
-    readonly creatorLast: string
-    isPublic: boolean
-  }
+  import { Deck } from '../interfaces/Deck'
 
   export default defineComponent({
     name: 'Deck',

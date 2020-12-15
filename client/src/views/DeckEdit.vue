@@ -136,7 +136,7 @@
                       class="px-4 py-2 mr-4 rounded bg-nord2"
                       @click="togglePublic()"
                     >
-                      <div v-if="$store.state.decks.currDeck.isPublic">
+                      <div v-if="$store.state.decks.currDeck.access.isPublic"> 
                         Public
                       </div>
                       <div v-else>Private</div>
@@ -172,25 +172,8 @@
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
-
-  interface Character {
-    // readonly _id: string // Mongo generated
-    readonly id: string // UUID generated, need to change server to use _id later
-    char: string
-    definition: string
-    pinyin: string
-  }
-
-  interface Deck {
-    characters: Array<Character>
-    readonly deckId: string
-    title: string
-    description: string
-    readonly creatorID: string
-    readonly creatorFirst: string
-    readonly creatorLast: string
-    isPublic: boolean
-  }
+  import { Deck } from '../interfaces/Deck'
+  import { Character } from '../interfaces/Character'
 
   export default defineComponent({
     name: 'DeckEdit',
@@ -268,10 +251,14 @@
           title: '',
           description: '',
           characters: Array<Character>(),
-          isPublic: false,
+          access: {
+            isPublic: false,
+          },
         } as Deck)
         this.addCard(1)
       }
+
+      console.log(this.$store.state.decks.currDeck)
     },
   })
 </script>

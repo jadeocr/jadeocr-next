@@ -1,25 +1,7 @@
-import router from '../../router/index'
-import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
-
-interface Character {
-  // readonly _id: string // Mongo generated
-  readonly id: string // UUID generated, need to change server to use _id later
-  char: string
-  definition: string
-  pinyin: string
-}
-
-interface Deck {
-  characters: Array<Character>
-  readonly _id: string
-  title: string
-  description: string
-  readonly creatorID: string
-  readonly creatorFirst: string
-  readonly creatorLast: string
-  isPublic: boolean
-}
+import axios from 'axios'
+import router from '../../router/index'
+import { Deck } from '../../interfaces/Deck'
 
 export const decks = {
   namespaced: true,
@@ -56,7 +38,6 @@ export const decks = {
       })
         .then((res) => {
           commit('setDecks', res.data)
-          console.log(res.data)
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -88,7 +69,7 @@ export const decks = {
           title: deck.title,
           description: deck.description, // inconsistency between description and description
           characters: deck.characters,
-          isPublic: deck.isPublic,
+          isPublic: deck.access.isPublic,
         },
       })
         .then(() => {
@@ -114,7 +95,7 @@ export const decks = {
           title: deck.title,
           description: deck.description,
           characters: deck.characters,
-          isPublic: deck.isPublic,
+          isPublic: deck.access.isPublic,
         },
       })
         .then(() => {
