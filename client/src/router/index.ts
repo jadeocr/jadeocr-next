@@ -64,8 +64,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/deck/:id',
     props: true,
     name: 'Deck',
-    component: () =>
-      import(/* webpackChunkName: 'deck' */ '../views/Deck.vue'),
+    component: () => import(/* webpackChunkName: 'deck' */ '../views/Deck.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -78,8 +77,8 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: 'review' */ '../views/Review.vue'),
     meta: {
       requiresAuth: true,
-    }
-  }
+    },
+  },
 ]
 
 const router = createRouter({

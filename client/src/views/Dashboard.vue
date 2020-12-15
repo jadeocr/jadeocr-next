@@ -15,7 +15,8 @@
               :class="{ 'opacity-75': menuType != 'all' }"
             >
               All
-            </button> |
+            </button>
+            |
             <button
               @click="changeMenuType('learn')"
               :class="{ 'opacity-75': menuType != 'learn' }"
