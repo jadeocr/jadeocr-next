@@ -136,7 +136,7 @@
                       class="px-4 py-2 mr-4 rounded bg-nord2"
                       @click="togglePublic()"
                     >
-                      <div v-if="true"> 
+                      <div v-if="$store.state.decks.currDeck.access.isPublic"> 
                         Public
                       </div>
                       <div v-else>Private</div>
