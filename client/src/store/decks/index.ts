@@ -2,6 +2,7 @@ const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import axios from 'axios'
 import router from '../../router/index'
 import { Deck } from '../../interfaces/Deck'
+import { Character } from '../../interfaces/Character'
 
 export const decks = {
   namespaced: true,
@@ -17,8 +18,24 @@ export const decks = {
       state.decks = decks
     },
     // eslint-disable-next-line
-    setCurrDeck(state: any, deck: Deck) {
-      state.currDeck = deck
+    setCurrDeck(state: any, deck: Deck | Number) {
+      state.currDeck = deck == -1 ? {
+        characters: Array<Character>(),
+        title: '',
+        description: '',
+        access: {
+          isPublic: false
+        }
+      } : deck
+      console.log(state.currDeck)
+    },
+    // eslint-disable-next-line
+    pushToCurrDeck(state: any) {
+      state.currDeck.characters.push({
+        char: '',
+        definition: '',
+        pinyin: '',
+      } as Character)
     },
     // eslint-disable-next-line
     setAssignedDecks(state: any, decksAssigned: Array<Deck>) {

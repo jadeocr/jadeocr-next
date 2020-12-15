@@ -136,7 +136,7 @@
                       class="px-4 py-2 mr-4 rounded bg-nord2"
                       @click="togglePublic()"
                     >
-                      <div v-if="$store.state.decks.currDeck.access.isPublic"> 
+                      <div v-if="true"> 
                         Public
                       </div>
                       <div v-else>Private</div>
@@ -199,12 +199,7 @@
             this.$store.state.decks.currDeck.characters.length - 1
           )
         } else if (num == 1) {
-          this.$store.state.decks.currDeck.characters.push({
-            id: '',
-            char: '',
-            pinyin: '',
-            definition: '',
-          } as Character)
+          this.$store.commit('decks/pushToCurrDeck')
         } else {
           throw new Error('Number to add to deck is not valid!')
         }
@@ -242,22 +237,15 @@
         })
       },
     },
-    mounted() {
+    created() {
       this.$store.commit('decks/setDeckErrMsg', '')
+      console.log(this.id)
       if (this.id && this.$store.state.decks.currDeck.deckId == this.id) {
         this.$store.dispatch('decks/fetchCards', this.id)
       } else if (!this.id) {
-        this.$store.commit('decks/setCurrDeck', {
-          title: '',
-          description: '',
-          characters: Array<Character>(),
-          access: {
-            isPublic: false,
-          },
-        } as Deck)
+        this.$store.commit('decks/setCurrDeck', -1)
         this.addCard(1)
       }
-
       console.log(this.$store.state.decks.currDeck)
     },
   })
