@@ -33,7 +33,7 @@ var userDetailedSchema = new mongoose.Schema({
         }],
         srs: [{
             charId: String,
-            nextDue: String,
+            nextDue: Number,
             interval: Number,
             repetitions: Number,
             easiness: Number,

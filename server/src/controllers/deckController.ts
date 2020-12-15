@@ -1,3 +1,5 @@
+import { Decipher } from "crypto"
+
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -302,6 +304,14 @@ exports.allDecks = function(req, res, next) {
                 if (deck.srs.length) {
                     srsed = true
                 }
+                var nextDueDate = 0
+                for (let i = 0; i < deck.srs.length; i++) {
+                    if (i == 0) {
+                        nextDueDate = deck.srs[i]
+                    } else if (deck.srs[i].nextDue < nextDueDate) {
+                        nextDueDate = deck.srs[i].nextDue
+                    }
+                }
                 sendArray.push({
                     deckId: deck.deckId,
                     deckName: deck.deckName,
@@ -310,6 +320,7 @@ exports.allDecks = function(req, res, next) {
                     learned: deck.learned,
                     quizzed: quizzed,
                     srsed: srsed,
+                    nextDueDate: nextDueDate,
                 })
             }
             res.send(sendArray)
