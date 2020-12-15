@@ -89,7 +89,7 @@ let updateUserWithDeck = function(user, callback) {
         for (let i in decks) {
             deckIndexes[decks[i]._id] = i
         }
-        
+
         let decksToDelete = []
         for (let i in user.decks) {
             if (decks[deckIndexes[user.decks[i].deckId]] === undefined) { //Gets index of deck with a deckid
@@ -101,7 +101,7 @@ let updateUserWithDeck = function(user, callback) {
         }
 
         for (let i = decksToDelete.length - 1; i >= 0; i--) {
-            user.decks.splice(i, 1)
+            user.decks.splice(decksToDelete[i], 1)
         }
 
         user.save(function(saveErr, savedUser) {
