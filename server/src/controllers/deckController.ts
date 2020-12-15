@@ -11,7 +11,7 @@ let intersect = function(a, b) {
     var setB = new Set(b);
     var intersection = new Set([...setA].filter(x => setB.has(x)));
     return Array.from(intersection);
-  }
+}
 
 let checkAccess = function(user, deck, callback) {
     if (deck.creator == user.id) {
@@ -74,6 +74,47 @@ let compare = function(a, b) {
     return a.nextDue - b.nextDue
 }
 
+let updateUserWithDeck = function(user, callback) {
+    let deckIdArray = []
+    
+    for (let deck of user.decks) {
+        deckIdArray.push({
+            _id: deck.deckId
+        })
+    }
+
+    deckModel.find({ $or: deckIdArray}, function(err, decks) {
+        let deckIndexes = {}
+
+        for (let i in decks) {
+            deckIndexes[decks[i].deckId] = i
+        }
+        
+        let decksToDelete = []
+        for (let i in user.decks) {
+            if (!decks[deckIndexes[user.decks[i]]]) { //Gets index of deck with a deckid
+                decksToDelete.push(i)
+            } else {
+                user.decks[i].deckName = decks[deckIndexes[user.decks[i]]].title
+                user.decks[i].deckDescription = decks[deckIndexes[user.decks[i]]].description
+            }
+        }
+
+        for (let i = decksToDelete.length - 1; i >= 0; i--) {
+            user.decks.splice(i, 1)
+        }
+
+        user.save(function(saveErr, savedUser) {
+            if (saveErr) {
+                console.log(saveErr)
+                callback(false)
+            } else {
+                callback(savedUser)
+            }
+        })
+    })
+}
+
 exports.createDeck = function(req, res, next) {
     let errors = validationResult(req)
     let userId = String(req.user._id)
@@ -132,7 +173,7 @@ exports.createDeck = function(req, res, next) {
                 })
             }
         })
-    }    
+    }
 }
 
 exports.updateDeck = function(req, res, next) {
@@ -294,36 +335,42 @@ exports.allDecks = function(req, res, next) {
         } else if (!returnedUser) {
             res.status(400).send('No user found')
         } else {
-            var sendArray = []
-            for (let deck of returnedUser.decks) {
-                var quizzed = false
-                if (deck.quizAttempts.length) {
-                    quizzed = true
-                }
-                var srsed = false
-                if (deck.srs.length) {
-                    srsed = true
-                }
-                var nextDueDate = 0
-                for (let i = 0; i < deck.srs.length; i++) {
-                    if (i == 0) {
-                        nextDueDate = deck.srs[i]
-                    } else if (deck.srs[i].nextDue < nextDueDate) {
-                        nextDueDate = deck.srs[i].nextDue
+            updateUserWithDeck(returnedUser, function(user) {
+                if (!user) {
+                    res.status(400).send('There was an error')
+                } else {
+                    var sendArray = []
+                    for (let deck of user.decks) {
+                        var quizzed = false
+                        if (deck.quizAttempts.length) {
+                            quizzed = true
+                        }
+                        var srsed = false
+                        if (deck.srs.length) {
+                            srsed = true
+                        }
+                        var nextDueDate = 0
+                        for (let i = 0; i < deck.srs.length; i++) {
+                            if (i == 0) {
+                                nextDueDate = deck.srs[i]
+                            } else if (deck.srs[i].nextDue < nextDueDate) {
+                                nextDueDate = deck.srs[i].nextDue
+                            }
+                        }
+                        sendArray.push({
+                            deckId: deck.deckId,
+                            deckName: deck.deckName,
+                            deckDescription: deck.deckDescription,
+                            isOwner: deck.isOwner,
+                            learned: deck.learned,
+                            quizzed: quizzed,
+                            srsed: srsed,
+                            nextDueDate: nextDueDate,
+                        })
                     }
+                    res.send(sendArray)
                 }
-                sendArray.push({
-                    deckId: deck.deckId,
-                    deckName: deck.deckName,
-                    deckDescription: deck.deckDescription,
-                    isOwner: deck.isOwner,
-                    learned: deck.learned,
-                    quizzed: quizzed,
-                    srsed: srsed,
-                    nextDueDate: nextDueDate,
-                })
-            }
-            res.send(sendArray)
+            })
         }
     })
 }
