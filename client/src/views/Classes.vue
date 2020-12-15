@@ -10,8 +10,7 @@
             <div class="text-2xl font-normal md:text-3xl">
               Classes
             </div>
-            <div class="mt-4 text-lg">
-            </div>
+            <div class="mt-4 text-lg"></div>
           </div>
         </div>
       </div>
@@ -26,10 +25,9 @@
   export default defineComponent({
     name: 'Classes',
     components: {
-      Sidebar
+      Sidebar,
     },
   })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

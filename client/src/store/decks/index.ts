@@ -1,38 +1,41 @@
-import router from '../../router/index'
-import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
-
-interface Character {
-  // readonly _id: string // Mongo generated
-  readonly id: string // UUID generated, need to change server to use _id later
-  char: string
-  definition: string
-  pinyin: string
-}
-
-interface Deck {
-  characters: Array<Character>
-  readonly deckId: string
-  title: string
-  description: string
-  readonly creatorID: string
-  readonly creatorFirst: string
-  readonly creatorLast: string
-  isPublic: boolean
-}
+import axios from 'axios'
+import router from '../../router/index'
+import { Deck } from '../../interfaces/Deck'
+import { Character } from '../../interfaces/Character'
 
 export const decks = {
   namespaced: true,
   state: {
-    decksCreated: Array<Deck>(),
-    decksAssigned: Array<Deck>(),
+    decks: Array<Deck>(),
     currDeck: {} as Deck,
+    decksAssigned: Array<Deck>(),
     decksErrorMsg: '',
   },
   mutations: {
     // eslint-disable-next-line
-    setDecksCreated(state: any, decks: Array<Deck>) {
-      state.decksCreated = decks
+    setDecks(state: any, decks: Array<Deck>) {
+      state.decks = decks
+    },
+    // eslint-disable-next-line
+    setCurrDeck(state: any, deck: Deck | Number) {
+      state.currDeck = deck == -1 ? {
+        characters: Array<Character>(),
+        title: '',
+        description: '',
+        access: {
+          isPublic: false
+        }
+      } : deck
+      console.log(state.currDeck)
+    },
+    // eslint-disable-next-line
+    pushToCurrDeck(state: any) {
+      state.currDeck.characters.push({
+        char: '',
+        definition: '',
+        pinyin: '',
+      } as Character)
     },
     // eslint-disable-next-line
     setAssignedDecks(state: any, decksAssigned: Array<Deck>) {
@@ -42,51 +45,19 @@ export const decks = {
     setDeckErrMsg(state: any, msg: string) {
       state.decksErrorMsg = msg
     },
-    // eslint-disable-next-line
-    setCurrDeck(state: any, deck: any) { // TODO: Fix _id on deck
-      state.currDeck = deck
-      state.currDeck.deckId = deck._id
-    }
   },
   actions: {
-    fetchAllDecks({ commit }: { commit: Function }): void {
+    fetchDecks({ commit }: { commit: Function }): void {
       axios({
         method: 'post',
-        url: `${apiBaseURL}/deck/getUsedDecks`,
+        url: `${apiBaseURL}/deck/allDecks`,
         withCredentials: true,
       })
         .then((res) => {
-          console.log(res.data)
+          commit('setDecks', res.data)
         })
         .catch((err) => {
           console.log(err.response.data)
-        })
-    },
-    fetchCreatedDecks({ commit }: { commit: Function }): void {
-      axios({
-        method: 'post',
-        url: `${apiBaseURL}/deck/createdDecks`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          commit('setDecksCreated', res.data) // TODO: Update mutation name
-        })
-        .catch((err) => {
-          console.log(err.response.data)
-        })
-    },
-    fetchAssignedDecks({ commit }: { commit: Function }): void {
-      axios({
-        method: 'get',
-        url: `${apiBaseURL}/deck/assigned`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          // console.log(res) // TODO: Update state with value
-          commit('setAssignedDecks', res.data)
-        })
-        .catch(() => { // User is not enrolled in any classes, can return
-          return
         })
     },
     fetchCards({ commit }: { commit: Function }, deckId: string): void {
@@ -96,13 +67,13 @@ export const decks = {
         withCredentials: true,
         data: {
           deckId: deckId,
-        }
+        },
       })
         .then((res) => {
           commit('setCurrDeck', res.data)
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data)
         })
     },
     // TODO: Error handling
@@ -115,7 +86,7 @@ export const decks = {
           title: deck.title,
           description: deck.description, // inconsistency between description and description
           characters: deck.characters,
-          isPublic: deck.isPublic,
+          isPublic: deck.access.isPublic,
         },
       })
         .then(() => {
@@ -137,11 +108,11 @@ export const decks = {
         url: `${apiBaseURL}/deck/update`,
         withCredentials: true,
         data: {
-          deckId: deck.deckId,
+          deckId: deck._id,
           title: deck.title,
           description: deck.description,
           characters: deck.characters,
-          isPublic: deck.isPublic,
+          isPublic: deck.access.isPublic,
         },
       })
         .then(() => {
@@ -162,7 +133,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/delete`,
         withCredentials: true,
         data: {
-          deckId: deck.deckId,
+          deckId: deck._id,
         },
       })
         .then(() => {
@@ -172,26 +143,29 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    getPinyinDefinition({ commit }: { commit: Function }, payload: {
-      deck: Deck,
-      charIndex: number
-    }): void {
+    getPinyinDefinition(
+      { commit }: { commit: Function },
+      payload: {
+        deck: Deck
+        charIndex: number
+      }
+    ): void {
       axios({
         method: 'post',
         url: `${apiBaseURL}/pinyinAndDefinition`,
         data: {
-          'character': payload.deck.characters[payload.charIndex].char
-        }
+          character: payload.deck.characters[payload.charIndex].char,
+        },
       })
-      .then((res: any) => {
-        const currChar = payload.deck.characters[payload.charIndex]
-        currChar.pinyin = res.data.pinyin.join(', ')
-        currChar.definition = res.data.definition
-      })
-      .catch((err) => {
-        console.log(err.response.data)
-      })
-    }
+        .then((res: any) => {
+          const currChar = payload.deck.characters[payload.charIndex]
+          currChar.pinyin = res.data.pinyin.join(', ')
+          currChar.definition = res.data.definition
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
   },
   getCardsToReview({ commit }: { commit: Function }, deckId: string): void {
     axios({
@@ -199,13 +173,13 @@ export const decks = {
       url: `${apiBaseURL}/deck/srs`,
       data: {
         deckId: deckId,
-      }
+      },
     })
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+  },
 }

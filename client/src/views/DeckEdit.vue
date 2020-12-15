@@ -77,7 +77,10 @@
                 </div>
               </div>
               <div class="mt-12">
-                <div v-for="(n, i) in $store.state.decks.currDeck.characters" :key="i.key">
+                <div
+                  v-for="(n, i) in $store.state.decks.currDeck.characters"
+                  :key="i.key"
+                >
                   <form class="flex flex-wrap my-6 -mx-4">
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
@@ -89,14 +92,18 @@
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
-                        v-model="$store.state.decks.currDeck.characters[i].pinyin"
+                        v-model="
+                          $store.state.decks.currDeck.characters[i].pinyin
+                        "
                         class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                         :placeholder="i + 1 + '. xué'"
                       />
                     </div>
                     <div class="w-1/3 px-4 lg:w-1/4">
                       <input
-                        v-model="$store.state.decks.currDeck.characters[i].definition"
+                        v-model="
+                          $store.state.decks.currDeck.characters[i].definition
+                        "
                         class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                         :placeholder="i + 1 + '. to study'"
                       />
@@ -129,7 +136,9 @@
                       class="px-4 py-2 mr-4 rounded bg-nord2"
                       @click="togglePublic()"
                     >
-                      <div v-if="$store.state.decks.currDeck.isPublic">Public</div>
+                      <div v-if="$store.state.decks.currDeck.access.isPublic"> 
+                        Public
+                      </div>
                       <div v-else>Private</div>
                     </button>
                     <button
@@ -163,25 +172,8 @@
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
-
-  interface Character {
-    // readonly _id: string // Mongo generated
-    readonly id: string // UUID generated, need to change server to use _id later
-    char: string
-    definition: string
-    pinyin: string
-  }
-
-  interface Deck {
-    characters: Array<Character>
-    readonly deckId: string
-    title: string
-    description: string
-    readonly creatorID: string
-    readonly creatorFirst: string
-    readonly creatorLast: string
-    isPublic: boolean
-  }
+  import { Deck } from '../interfaces/Deck'
+  import { Character } from '../interfaces/Character'
 
   export default defineComponent({
     name: 'DeckEdit',
@@ -203,29 +195,36 @@
     methods: {
       addCard(num: number): void {
         if (num == -1) {
-          this.$store.state.decks.currDeck.characters.splice(this.$store.state.decks.currDeck.characters.length - 1)
+          this.$store.state.decks.currDeck.characters.splice(
+            this.$store.state.decks.currDeck.characters.length - 1
+          )
         } else if (num == 1) {
-          this.$store.state.decks.currDeck.characters.push({
-            id: '',
-            char: '',
-            pinyin: '',
-            definition: '',
-          } as Character)
+          this.$store.commit('decks/pushToCurrDeck')
         } else {
           throw new Error('Number to add to deck is not valid!')
         }
       },
       togglePublic(): void {
-        this.$store.state.decks.currDeck.access.isPublic = !this.$store.state.decks.currDeck.access.isPublic
+        this.$store.state.decks.currDeck.access.isPublic = !this.$store.state
+          .decks.currDeck.access.isPublic
       },
       callCreateDeck(): void {
-        this.$store.dispatch('decks/createDeck', this.$store.state.decks.currDeck)
+        this.$store.dispatch(
+          'decks/createDeck',
+          this.$store.state.decks.currDeck
+        )
       },
       callUpdateDeck(): void {
-        this.$store.dispatch('decks/updateDeck', this.$store.state.decks.currDeck)
+        this.$store.dispatch(
+          'decks/updateDeck',
+          this.$store.state.decks.currDeck
+        )
       },
       callDeleteDeck(): void {
-        this.$store.dispatch('decks/deleteDeck', this.$store.state.decks.currDeck)
+        this.$store.dispatch(
+          'decks/deleteDeck',
+          this.$store.state.decks.currDeck
+        )
         this.toggleModalVisibility()
       },
       toggleModalVisibility(): void {
@@ -234,23 +233,20 @@
       callGetPinyinDefinition(i: number): void {
         this.$store.dispatch('decks/getPinyinDefinition', {
           deck: this.$store.state.decks.currDeck,
-          charIndex: i
+          charIndex: i,
         })
-      }
+      },
     },
-    mounted() {
+    created() {
       this.$store.commit('decks/setDeckErrMsg', '')
-      if (this.$store.state.decks.currDeck.deckId == this.id) {
+      console.log(this.id)
+      if (this.id && this.$store.state.decks.currDeck.deckId == this.id) {
         this.$store.dispatch('decks/fetchCards', this.id)
       } else if (!this.id) {
-        this.$store.commit('decks/setCurrDeck', {
-          title: '',
-          description: '',
-          characters: Array<Character>(),
-          isPublic: false,
-        } as Deck)
+        this.$store.commit('decks/setCurrDeck', -1)
         this.addCard(1)
       }
+      console.log(this.$store.state.decks.currDeck)
     },
   })
 </script>

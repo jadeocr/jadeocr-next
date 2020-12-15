@@ -1,7 +1,5 @@
 <template>
-  <div id="review">
-
-  </div> 
+  <div id="review"></div>
 </template>
 
 <script lang="ts">
@@ -12,14 +10,13 @@
     props: {
       id: {
         type: String,
-        required: true
-      }
+        required: true,
+      },
     },
     mounted() {
       this.$store.dispatch('decks/getCardsToReview', this.id)
-    }
+    },
   })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
