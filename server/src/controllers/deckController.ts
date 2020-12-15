@@ -87,16 +87,16 @@ let updateUserWithDeck = function(user, callback) {
         let deckIndexes = {}
 
         for (let i in decks) {
-            deckIndexes[decks[i].deckId] = i
+            deckIndexes[decks[i]._id] = i
         }
         
         let decksToDelete = []
         for (let i in user.decks) {
-            if (!decks[deckIndexes[user.decks[i]]]) { //Gets index of deck with a deckid
+            if (decks[deckIndexes[user.decks[i].deckId]] === undefined) { //Gets index of deck with a deckid
                 decksToDelete.push(i)
             } else {
-                user.decks[i].deckName = decks[deckIndexes[user.decks[i]]].title
-                user.decks[i].deckDescription = decks[deckIndexes[user.decks[i]]].description
+                user.decks[i].deckName = decks[deckIndexes[user.decks[i].deckId]].title
+                user.decks[i].deckDescription = decks[deckIndexes[user.decks[i].deckId]].description
             }
         }
 
@@ -162,7 +162,6 @@ exports.createDeck = function(req, res, next) {
                         latestAccessDate: Date.now(),
                         isOwner: true,
                     })
-
                     updateLatestAccessDate(user, savedDeck, function(result) {
                         if (result) {
                             res.sendStatus(200)
