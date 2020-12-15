@@ -14,6 +14,7 @@ var userDetailedSchema = new mongoose.Schema({
         deckId: String,
         deckName: String,
         deckDescription: String,
+        latestAccessDate: Number,
         totalQuizAttempts: Number,
         quizAttempts: [{
             attempt: Number,
