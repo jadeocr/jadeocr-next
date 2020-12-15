@@ -62,5 +62,6 @@ router.post('/api/deck/getDecksWithDueDates', authMiddleware, deckController.get
 router.post('/api/deck/deck', authMiddleware, deckController.deck)
 router.get('/api/deck/public', authMiddleware, deckController.publicDecks)
 router.get('/api/deck/assigned', authMiddleware, deckController.getAssignedDecks)
+router.post('/api/deck/allDecks', authMiddleware, deckController.allDecks)
 
 module.exports = router
