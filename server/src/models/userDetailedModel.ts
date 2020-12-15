@@ -16,6 +16,8 @@ var userDetailedSchema = new mongoose.Schema({
         deckDescription: String,
         latestAccessDate: Number,
         totalQuizAttempts: Number,
+        isOwner: { type: Boolean, default: false},
+        learned: { type: Boolean, default: false},
         quizAttempts: [{
             attempt: Number,
             summary: {
@@ -31,7 +33,7 @@ var userDetailedSchema = new mongoose.Schema({
         }],
         srs: [{
             charId: String,
-            nextDue: String,
+            nextDue: Number,
             interval: Number,
             repetitions: Number,
             easiness: Number,

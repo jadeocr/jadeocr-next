@@ -1,3 +1,5 @@
+import { Decipher } from "crypto"
+
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -36,17 +38,13 @@ let updateLatestAccessDate = function(user, deck, callback) {
         })
     }
 
-    if (!user.decks.length) { //Creates new deck entry if there are no decks
-        createNewDeckEntry(user, deck)
-    } else {
-        for (let i in user.decks) {
-            if (user.decks[i].deckId == deck._id) {
-                user.decks[i].latestAccessDate = Date.now()
-            } else if (parseInt(i) == user.decks.length - 1) { //Creates new deck entry if no matching decks are found
-                createNewDeckEntry(user, deck)
-            }
+    checkIfDeckEntryExists(user, deck._id, function(i) {
+        if (i !== false) {
+            user.decks[i].latestAccessDate = Date.now()
+        } else {
+            createNewDeckEntry(user, deck)
         }
-    }
+    })
 
     user.save(function(saveUserErr) {
         if (saveUserErr) {
@@ -56,6 +54,20 @@ let updateLatestAccessDate = function(user, deck, callback) {
             callback(true)
         }
     })
+}
+
+let checkIfDeckEntryExists = function(user, deckId, callback) {
+    if (!user.decks.length) {
+        callback(false)
+    } else {
+        for (let i in user.decks) {
+            if (user.decks[i].deckId == deckId) {
+                callback(i)
+            } else if (parseInt(i) == user.decks.length - 1) {
+                callback(false)
+            }
+        }
+    }
 }
 
 let compare = function(a, b) {
@@ -102,7 +114,14 @@ exports.createDeck = function(req, res, next) {
                 res.sendStatus(400)
             } else {
                 userDetailedModel.findOne({id: userId}, function (userErr, user) {
-                    
+                    user.decks.push({
+                        deckId: savedDeck._id,
+                        deckName: savedDeck.title,
+                        deckDescription: savedDeck.description,
+                        latestAccessDate: Date.now(),
+                        isOwner: true,
+                    })
+
                     updateLatestAccessDate(user, savedDeck, function(result) {
                         if (result) {
                             res.sendStatus(200)
@@ -261,6 +280,50 @@ exports.deck = function(req, res, next) {
                     })
                 }
             })
+        }
+    })
+}
+
+exports.allDecks = function(req, res, next) {
+    let userId = String(req.user._id)
+
+    userDetailedModel.findOne({id: userId}, function(userErr, returnedUser) {
+        if (userErr) {
+            console.log(userErr)
+            res.status(400).send('There was an error')
+        } else if (!returnedUser) {
+            res.status(400).send('No user found')
+        } else {
+            var sendArray = []
+            for (let deck of returnedUser.decks) {
+                var quizzed = false
+                if (deck.quizAttempts.length) {
+                    quizzed = true
+                }
+                var srsed = false
+                if (deck.srs.length) {
+                    srsed = true
+                }
+                var nextDueDate = 0
+                for (let i = 0; i < deck.srs.length; i++) {
+                    if (i == 0) {
+                        nextDueDate = deck.srs[i]
+                    } else if (deck.srs[i].nextDue < nextDueDate) {
+                        nextDueDate = deck.srs[i].nextDue
+                    }
+                }
+                sendArray.push({
+                    deckId: deck.deckId,
+                    deckName: deck.deckName,
+                    deckDescription: deck.deckDescription,
+                    isOwner: deck.isOwner,
+                    learned: deck.learned,
+                    quizzed: quizzed,
+                    srsed: srsed,
+                    nextDueDate: nextDueDate,
+                })
+            }
+            res.send(sendArray)
         }
     })
 }
@@ -611,6 +674,54 @@ exports.quizzed = function(req, res, next) {
                                 writeResultsToUser(results, user.decks[user.decks.length - 1], 0)
                                 saveUser(user, returnedDeck)
                             }
+                        } else {
+                            res.status(403).send('User does not have access to deck')
+                        }
+                    })                   
+                }
+            })
+        }
+    })
+}
+
+exports.learned = function(req, res, next) {
+    let deckId = req.body.deckId
+    let userId = String(req.user._id)
+
+    userDetailedModel.findOne({id: userId}, function(userErr, returnedUser) {
+        if (userErr) console.log(userErr)
+
+        if (!returnedUser) {
+            res.status(400).send('No user found')
+        } else {
+            deckModel.findOne({_id: deckId}, function(deck_err, returnedDeck) {
+                if (deck_err) console.log(deck_err)
+
+                if (!returnedDeck) {
+                    res.status(400).send("Could not find deck")
+                } else {
+                    checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
+                        if (result) {
+                            checkIfDeckEntryExists(user, deck._id, function(i) {
+                                if (i !== false) {
+                                    user.decks[i].learned = true
+                                } else {
+                                    user.decks.push({
+                                        deckId: deck._id,
+                                        deckName: deck.title,
+                                        deckDescription: deck.description,
+                                        learned: true,
+                                    })
+                                }
+                            })
+
+                            updateLatestAccessDate(user, deck, function(result) {
+                                if (result) {
+                                    res.sendStatus(200)
+                                } else{
+                                    res.status(400).send('There was an error')
+                                }
+                            })
                         } else {
                             res.status(403).send('User does not have access to deck')
                         }
