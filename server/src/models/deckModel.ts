@@ -12,6 +12,7 @@ var deckSchema = new mongoose.Schema({
     creator: String,
     creatorFirst: String,
     creatorLast: String,
+    createdDate: Number,
     access: {
         isPublic: Boolean,
         users: Object,

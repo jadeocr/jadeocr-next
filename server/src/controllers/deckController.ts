@@ -1,5 +1,3 @@
-import { send } from "process"
-
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -27,12 +25,46 @@ let checkAccess = function(user, deck, callback) {
     }
 }
 
+let updateLatestAccessDate = function(user, deck, callback) {
+    
+    let createNewDeckEntry = function(user, deck) {
+        user.decks.push({
+            deckId: deck._id,
+            deckName: deck.title,
+            deckDescription: deck.description,
+            latestAccessDate: Date.now(),
+        })
+    }
+
+    if (!user.decks.length) { //Creates new deck entry if there are no decks
+        createNewDeckEntry(user, deck)
+    } else {
+        for (let i in user.decks) {
+            if (user.decks[i].deckId == deck._id) {
+                user.decks[i].latestAccessDate = Date.now()
+            } else if (parseInt(i) == user.decks.length - 1) { //Creates new deck entry if no matching decks are found
+                createNewDeckEntry(user, deck)
+            }
+        }
+    }
+
+    user.save(function(saveUserErr) {
+        if (saveUserErr) {
+            console.log(saveUserErr)
+            callback(false)
+        } else {
+            callback(true)
+        }
+    })
+}
+
 let compare = function(a, b) {
     return a.nextDue - b.nextDue
 }
 
 exports.createDeck = function(req, res, next) {
     let errors = validationResult(req)
+    let userId = String(req.user._id)
 
     if (!errors.isEmpty()) {
         res.status(400).send(errors)
@@ -58,17 +90,27 @@ exports.createDeck = function(req, res, next) {
             creator: req.user.id,
             creatorFirst: req.user.firstName,
             creatorLast: req.user.lastName,
+            createdDate: Date.now(),
             access: {
                 isPublic: req.body.isPublic
             }
         })
         
-        deck.save(function(err) {
+        deck.save(function(err, savedDeck) {
             if (err) {
                 console.log(err)
                 res.sendStatus(400)
             } else {
-                res.sendStatus(200)
+                userDetailedModel.findOne({id: userId}, function (userErr, user) {
+                    
+                    updateLatestAccessDate(user, savedDeck, function(result) {
+                        if (result) {
+                            res.sendStatus(200)
+                        } else {
+                            res.sendStatus(400)
+                        }
+                    })
+                })
             }
         })
     }    
@@ -118,7 +160,22 @@ exports.updateDeck = function(req, res, next) {
 
                 deck.save(function(saveErr) {
                     if (saveErr) console.log(saveErr)
-                    res.sendStatus(200)
+                    userDetailedModel.findOne({id: userId}, function(userErr, user) {
+                        if (userErr) {
+                            console.log(userErr)
+                            res.status(400).send('There was an error')
+                        } else if (!user) {
+                            res.status(400).send('No user found')
+                        } else {
+                            updateLatestAccessDate(user, deck, function(result) {
+                                if (result) {
+                                    res.sendStatus(200)
+                                } else {
+                                    res.sendStatus(400)
+                                }
+                            })
+                        }
+                    })
                 })
             } else {
                 res.status(403).send('User does not have access to deck')
@@ -266,14 +323,20 @@ exports.srs = function(req, res, next) {
                 } else {
                     checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
                         if (result) {
-                            let deckInUser
-                            if (user.decks.length == 0) {
-                                sendWithoutSRS(deck)
-                            } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
-                                sendWithSRS(deckInUser, deck)
-                            } else {
-                                sendWithoutSRS(deck)
-                            }
+                            updateLatestAccessDate(user, deck, function(result) {
+                                if (result) {
+                                    let deckInUser
+                                    if (user.decks.length == 0) {
+                                        sendWithoutSRS(deck)
+                                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                                        sendWithSRS(deckInUser, deck)
+                                    } else {
+                                        sendWithoutSRS(deck)
+                                    }
+                                } else {
+                                    res.status(400).send('There was an error')
+                                }
+                            })
                         } else {
                             res.status(403).send('User does not have access to deck')
                         }
@@ -420,12 +483,12 @@ exports.practiced = function(req, res, next) {
         user.decks.push({deckId: deckId, deckName: deckName, deckDescription: deckDescription})
     }
 
-    let saveUser = function(userToSave) {
-        userToSave.save(function(err) {
-            if (err) {
-                res.status(400).send(err)
-            } else {
+    let saveUser = function(userToSave, deckInfo) {
+        updateLatestAccessDate(userToSave, deckInfo, function(result) { //Saves user as well
+            if (result) {
                 res.sendStatus(200)
+            } else {
+                res.status(400).send('There was an error')
             }
         })
     }
@@ -454,14 +517,14 @@ exports.practiced = function(req, res, next) {
                             if (user.decks.length == 0) {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
                                 writeSRS(results, deck, user.decks[0])
-                                saveUser(user)
+                                saveUser(user, deck)
                             } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
                                 writeSRS(results, deck, deckInUser)
-                                saveUser(user)
+                                saveUser(user, deck)
                             } else {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
                                 writeSRS(results, deck, user.decks[user.decks.length - 1])
-                                saveUser(user)
+                                saveUser(user, deck)
                             }
                         } else {
                             res.status(403).send('User does not have access to deck')
@@ -508,12 +571,12 @@ exports.quizzed = function(req, res, next) {
             user.decks.push({deckId: deckId, deckName: deckName, deckDescription: deckDescription})
     }
 
-    let saveUser = function(userToSave) {
-        userToSave.save(function(err) {
-            if (err) {
-                res.status(400).send(err)
-            } else {
+    let saveUser = function(userToSave, deckInfo) {
+        updateLatestAccessDate(userToSave, deckInfo, function(result) { //Saves user as well
+            if (result) {
                 res.sendStatus(200)
+            } else {
+                res.status(400).send('There was an error')
             }
         })
     }
@@ -539,14 +602,14 @@ exports.quizzed = function(req, res, next) {
                             if (user.decks.length == 0) {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
                                 writeResultsToUser(results, user.decks[0], 0)
-                                saveUser(user)
+                                saveUser(user, returnedDeck)
                             } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
                                 writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts)
-                                saveUser(user)
+                                saveUser(user, returnedDeck)
                             } else {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
                                 writeResultsToUser(results, user.decks[user.decks.length - 1], 0)
-                                saveUser(user)
+                                saveUser(user, returnedDeck)
                             }
                         } else {
                             res.status(403).send('User does not have access to deck')
