@@ -260,16 +260,16 @@ exports.deck = function(req, res, next) {
     userDetailedModel.findOne({id: req.user._id}, function(userErr, returnedUser) {
         if (userErr) {
             console.log(userErr)
-            req.status(400).send('There was an error')
+            res.status(400).send('There was an error')
         } else if (!returnedUser) {
-            req.status(400).send('No user found')
+            res.status(400).send('No user found')
         } else {
             deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
                 if (deckErr) {
                     console.log(deckErr)
-                    req.status(400).send('There was an error')
+                    res.status(400).send('There was an error')
                 } else if (!returnedDeck) {
-                    req.status(400).send('No deck found')
+                    res.status(400).send('No deck found')
                 } else {
                     checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
                         if (result) {
@@ -373,16 +373,16 @@ exports.srs = function(req, res, next) {
     userDetailedModel.findOne({id: req.user._id}, function(userErr, returnedUser) {
         if (userErr) {
             console.log(userErr)
-            req.status(400).send('There was an error')
+            res.status(400).send('There was an error')
         } else if (!returnedUser) {
-            req.status(400).send('No user found')
+            res.status(400).send('No user found')
         } else {
             deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
                 if (deckErr) {
                     console.log(deckErr)
-                    req.status(400).send('There was an error')
+                    res.status(400).send('There was an error')
                 } else if (!returnedDeck) {
-                    req.status(400).send('No deck found')
+                    res.status(400).send('No deck found')
                 } else {
                     checkAccess(returnedUser, returnedDeck, function(result, user, deck) {
                         if (result) {

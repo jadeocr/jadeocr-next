@@ -193,12 +193,12 @@ export const decks = {
       })
     }
   },
-  getCardsToReview({ commit }: { commit: Function }, deck: Deck): void {
+  getCardsToReview({ commit }: { commit: Function }, deckId: string): void {
     axios({
       method: 'post',
       url: `${apiBaseURL}/deck/srs`,
       data: {
-        deckId: deck.deckId,
+        deckId: deckId,
       }
     })
     .then((res) => {
