@@ -29,14 +29,6 @@ export const decks = {
     currDeck: {} as Deck,
     decksErrorMsg: '',
   },
-  getters: {
-    // eslint-disable-next-line
-    getDeck(state: any, id: string): Deck {
-      return state.decks.decks.find((deck: Deck) => {
-        return deck.deckId == id
-      })
-    },
-  },
   mutations: {
     // eslint-disable-next-line
     setDecksCreated(state: any, decks: Array<Deck>) {
@@ -201,4 +193,19 @@ export const decks = {
       })
     }
   },
+  getCardsToReview({ commit }: { commit: Function }, deck: Deck): void {
+    axios({
+      method: 'post',
+      url: `${apiBaseURL}/deck/srs`,
+      data: {
+        deckId: deck.deckId,
+      }
+    })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 }

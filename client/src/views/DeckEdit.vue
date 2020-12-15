@@ -129,7 +129,7 @@
                       class="px-4 py-2 mr-4 rounded bg-nord2"
                       @click="togglePublic()"
                     >
-                      <div v-if="deck.isPublic">Public</div>
+                      <div v-if="$store.state.decks.currDeck.isPublic">Public</div>
                       <div v-else>Private</div>
                     </button>
                     <button
@@ -146,7 +146,7 @@
                       @exit-modal="toggleModalVisibility()"
                     >
                       Are you sure you want to permanently delete the deck
-                      {{ deck.deckName }}?
+                      {{ $store.state.decks.currDeck.deckName }}?
                     </modal>
                   </div>
                 </div>
@@ -197,12 +197,6 @@
     },
     data() {
       return {
-        deck: {
-          title: '',
-          description: '',
-          characters: Array<Character>(),
-          isPublic: false,
-        } as Deck,
         modalIsVisible: false,
       }
     },
@@ -246,9 +240,16 @@
     },
     mounted() {
       this.$store.commit('decks/setDeckErrMsg', '')
-      if (this.id) {
+      console.log(this.id)
+      if (this.$store.state.decks.currDeck.deckId == this.id) {
         this.$store.dispatch('decks/fetchCards', this.id)
-      } else {
+      } else if (!this.id) {
+        this.$store.commit('decks/setCurrDeck', {
+          title: '',
+          description: '',
+          characters: Array<Character>(),
+          isPublic: false,
+        } as Deck)
         this.addCard(1)
       }
     },
