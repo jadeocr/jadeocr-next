@@ -87,16 +87,16 @@ let updateUserWithDeck = function(user, callback) {
         let deckIndexes = {}
 
         for (let i in decks) {
-            deckIndexes[decks[i].deckId] = i
+            deckIndexes[decks[i]._id] = i
         }
         
         let decksToDelete = []
         for (let i in user.decks) {
-            if (!decks[deckIndexes[user.decks[i]]]) { //Gets index of deck with a deckid
+            if (decks[deckIndexes[user.decks[i].deckId]] === undefined) { //Gets index of deck with a deckid
                 decksToDelete.push(i)
             } else {
-                user.decks[i].deckName = decks[deckIndexes[user.decks[i]]].title
-                user.decks[i].deckDescription = decks[deckIndexes[user.decks[i]]].description
+                user.decks[i].deckName = decks[deckIndexes[user.decks[i].deckId]].title
+                user.decks[i].deckDescription = decks[deckIndexes[user.decks[i].deckId]].description
             }
         }
 
@@ -162,7 +162,6 @@ exports.createDeck = function(req, res, next) {
                         latestAccessDate: Date.now(),
                         isOwner: true,
                     })
-
                     updateLatestAccessDate(user, savedDeck, function(result) {
                         if (result) {
                             res.sendStatus(200)
@@ -274,21 +273,6 @@ exports.findCreatedDecks = function(req, res, next) {
                 deckId: deck._id,
                 deckName: deck.title,
                 deckDescription: deck.description
-            })
-        }
-        res.send(sendArray)
-    })
-}
-
-exports.getUsedDecks = function(req, res, next) {
-    userDetailedModel.findOne({id: req.user._id}, function(err, user) {
-        if (err) console.log(err)
-        let sendArray = []
-        for (let deck of user.decks) {
-            sendArray.push({
-                deckId: deck.deckId,
-                deckName: deck.deckName,
-                deckDescription: deck.deckDescription,
             })
         }
         res.send(sendArray)
@@ -465,21 +449,27 @@ exports.getDecksWithDueDates = function(req, res, next) {
         } else if (returnedUser.decks.length == 0) {
             res.status(400).send('User is not using any decks with srs')
         } else {
-            let sendArray = []
-            for (let i of returnedUser.decks) {
-                if (i.srs.length == 0) {
-                    continue
+            updateUserWithDeck(returnedUser, function(user) {
+                if (!user) {
+                    res.status(400).send('There was an error')
                 } else {
-                    i.srs.sort(compare)
-                    sendArray.push({
-                        deckId: i.deckId,
-                        deckName: i.deckName,
-                        deckDescription: i.deckDescription,
-                        nextDue: i.srs[0].nextDue,
-                    })
+                    let sendArray = []
+                    for (let i of user.decks) {
+                        if (i.srs.length == 0) {
+                            continue
+                        } else {
+                            i.srs.sort(compare)
+                            sendArray.push({
+                                deckId: i.deckId,
+                                deckName: i.deckName,
+                                deckDescription: i.deckDescription,
+                                nextDue: i.srs[0].nextDue,
+                            })
+                        }
+                    }
+                    res.send(sendArray)
                 }
-            }
-            res.send(sendArray)
+            })           
         }
     })
 }
