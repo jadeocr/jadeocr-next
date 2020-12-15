@@ -280,21 +280,6 @@ exports.findCreatedDecks = function(req, res, next) {
     })
 }
 
-exports.getUsedDecks = function(req, res, next) {
-    userDetailedModel.findOne({id: req.user._id}, function(err, user) {
-        if (err) console.log(err)
-        let sendArray = []
-        for (let deck of user.decks) {
-            sendArray.push({
-                deckId: deck.deckId,
-                deckName: deck.deckName,
-                deckDescription: deck.deckDescription,
-            })
-        }
-        res.send(sendArray)
-    })
-}
-
 exports.deck = function(req, res, next) {
     let deckId = req.body.deckId
 
