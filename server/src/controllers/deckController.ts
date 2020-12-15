@@ -345,6 +345,7 @@ exports.allDecks = function(req, res, next) {
                             deckId: deck.deckId,
                             deckName: deck.deckName,
                             deckDescription: deck.deckDescription,
+                            latestAccessDate: deck.latestAccessDate,
                             isOwner: deck.isOwner,
                             learned: deck.learned,
                             quizzed: quizzed,
