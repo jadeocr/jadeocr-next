@@ -61,14 +61,24 @@ export const auth = {
         data: credentials,
         withCredentials: true,
       })
-        .then((res) => {
-          commit('setSignedIn', true)
-          commit('setUID', res.config.data._id)
-          commit('setEmail', res.config.data.email)
-          commit('setFirstName', res.config.data.firstName)
-          commit('setLastName', res.config.data.lastName)
-          commit('setTeacher', res.config.data.isTeacher)
-          router.push({ name: 'Dashboard' })
+        .then(() => {
+          axios({
+            method: 'get',
+            url: `${apiBaseURL}/user`,
+            withCredentials: true,
+          })
+          .then((res) => {
+            commit('setSignedIn', true)
+            commit('setUID', res.data._id)
+            commit('setEmail', res.data.email)
+            commit('setFirstName', res.data.firstName)
+            commit('setLastName', res.data.lastName)
+            commit('setTeacher', res.data.isTeacher)
+            router.push({ name: 'Dashboard' })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         })
         .catch((err) => {
           if (err.response.status == 401) {
@@ -82,8 +92,13 @@ export const auth = {
         url: `${apiBaseURL}/user`,
         withCredentials: true,
       })
-        .then(() => {
+        .then((res) => {
           commit('setSignedIn', true)
+          commit('setUID', res.data._id)
+          commit('setEmail', res.data.email)
+          commit('setFirstName', res.data.firstName)
+          commit('setLastName', res.data.lastName)
+          commit('setTeacher', res.data.isTeacher)
           router.push({ name: 'Dashboard' })
         })
         .catch(() => {
