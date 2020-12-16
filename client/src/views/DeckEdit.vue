@@ -239,14 +239,12 @@
     },
     created() {
       this.$store.commit('decks/setDeckErrMsg', '')
-      console.log(this.id)
       if (this.id && this.$store.state.decks.currDeck.deckId == this.id) {
         this.$store.dispatch('decks/fetchCards', this.id)
       } else if (!this.id) {
         this.$store.commit('decks/setCurrDeck', -1)
         this.addCard(1)
       }
-      console.log(this.$store.state.decks.currDeck)
     },
   })
 </script>
