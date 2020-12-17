@@ -27,6 +27,7 @@ export const decks = {
           isPublic: false
         }
       } : deck
+      console.log(state.currDeck)
     },
     // eslint-disable-next-line
     pushToCurrDeck(state: any) {
