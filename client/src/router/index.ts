@@ -70,7 +70,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/review/:id',
+    path: '/review/:type/:id/:title',
     props: true,
     name: 'Review',
     component: () =>

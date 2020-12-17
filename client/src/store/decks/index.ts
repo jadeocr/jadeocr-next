@@ -178,11 +178,26 @@ export const decks = {
         },
       })
         .then((res) => {
-          console.log(res.data)
+          commit('setCurrDeck', res.data)
+          // console.log(res.data)
         })
         .catch((err) => {
           console.log(err.response.data)
         })
     },
+    sendReviewResults({ commit }: { commit: Function }, data: string): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/practiced`,
+        withCredentials: true,
+        data: data
+      })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   },
 }
