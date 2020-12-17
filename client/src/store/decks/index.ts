@@ -30,7 +30,6 @@ export const decks = {
               },
             }
           : deck
-      console.log(state.currDeck)
     },
     // eslint-disable-next-line
     pushToCurrDeck(state: any) {
@@ -169,20 +168,21 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-  },
-  getCardsToReview({ commit }: { commit: Function }, deckId: string): void {
-    axios({
-      method: 'post',
-      url: `${apiBaseURL}/deck/srs`,
-      data: {
-        deckId: deckId,
-      },
-    })
-      .then((res) => {
-        console.log(res.data)
+    getCardsToReview({ commit }: { commit: Function }, deckId: string): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/srs`,
+        withCredentials: true,
+        data: {
+          deckId: deckId,
+        },
       })
-      .catch((err) => {
-        console.log(err.response.data)
-      })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
   },
 }

@@ -98,10 +98,12 @@
                   -->
                   This deck is
                   {{
-                    JSON.stringify($store.state.decks.currDeck)
-                      .substring(22, 26) == 'true'
-                      ? 'Public'
-                      : 'Private'
+                    JSON.stringify($store.state.decks.currDeck).substring(
+                      22,
+                      26
+                    ) == 'true'
+                      ? 'public'
+                      : 'private'
                   }}
                 </div>
                 <div class="mt-8 text-lg">
