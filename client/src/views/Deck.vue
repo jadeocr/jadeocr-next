@@ -92,7 +92,7 @@
                     This is the worst piece of code I have ever seen
                     I am thankful to say that I did not write this
                     If something with deck publicity breaks on this page, it's
-                    probably here
+                    probably here. Specifically decks always shown as private.
                     哎呀
                     – Tanay
                   -->
