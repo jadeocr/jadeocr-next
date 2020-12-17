@@ -19,14 +19,17 @@ export const decks = {
     },
     // eslint-disable-next-line
     setCurrDeck(state: any, deck: Deck | Number) {
-      state.currDeck = deck == -1 ? {
-        characters: Array<Character>(),
-        title: '',
-        description: '',
-        access: {
-          isPublic: false
-        }
-      } : deck
+      state.currDeck =
+        deck == -1
+          ? {
+              characters: Array<Character>(),
+              title: '',
+              description: '',
+              access: {
+                isPublic: false,
+              },
+            }
+          : deck
       console.log(state.currDeck)
     },
     // eslint-disable-next-line

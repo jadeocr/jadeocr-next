@@ -11,4 +11,3 @@ export interface Deck {
   readonly creatorLast?: string
   access: Access
 }
-
