@@ -82,8 +82,11 @@
                   Created by {{ $store.state.decks.currDeck.creatorFirst + ' ' + $store.state.decks.currDeck.creatorLast }}
                 </div>
                 <div class="mt-4">
-                  <!-- This deck is {{ $store.state.decks.currDeck.access.isPublic ? 'public' : 'private' }} -->
-                  This deck is {{ JSON.stringify($store.state.decks.currDeck).substr(22,30).substr(0,4) == 'true' ? 'Public' : 'Private' }}
+                  This deck is 
+                  <span v-if="$store.state.decks.currDeck.access.isPublic"> 
+                    Public
+                  </span>
+                  <span v-else>Private</span>
                 </div>
                 <div class="mt-8 text-lg">
                   <router-link
@@ -127,12 +130,7 @@
         required: true,
       },
     },
-    data() {
-      return {
-        deck: {} as Deck,
-      }
-    },
-    mounted() {
+    created() {
       this.$store.dispatch('decks/fetchCards', this.id)
     },
   })
