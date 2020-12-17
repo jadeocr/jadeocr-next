@@ -426,7 +426,7 @@ exports.srs = function(req, res, next) {
                                     let deckInUser
                                     if (user.decks.length == 0) {
                                         sendWithoutSRS(deck)
-                                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
+                                    } else if (deckInUser == user.decks.filter( e => e.deckId == deckId)[0]) {
                                         sendWithSRS(deckInUser, deck)
                                     } else {
                                         sendWithoutSRS(deck)
