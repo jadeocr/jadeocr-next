@@ -94,7 +94,7 @@
                     If something with deck publicity breaks on this page, it's
                     probably here. Specifically decks always shown as private.
                     哎呀
-                    – Tanay
+                    –Tanay
                   -->
                   This deck is
                   {{
