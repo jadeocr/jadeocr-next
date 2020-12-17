@@ -59,12 +59,15 @@ let updateLatestAccessDate = function(user, deck, callback) {
 let checkIfDeckEntryExists = function(user, deckId, callback) {
     if (!user.decks.length) {
         callback(false)
+        return
     } else {
         for (let i in user.decks) {
             if (user.decks[i].deckId == deckId) {
                 callback(i)
+                return
             } else if (parseInt(i) == user.decks.length - 1) {
                 callback(false)
+                return
             }
         }
     }
