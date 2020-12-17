@@ -99,8 +99,7 @@
                   This deck is
                   {{
                     JSON.stringify($store.state.decks.currDeck)
-                      .substr(22, 30)
-                      .substr(0, 4) == 'true'
+                      .substr(22, 4) == 'true'
                       ? 'Public'
                       : 'Private'
                   }}
