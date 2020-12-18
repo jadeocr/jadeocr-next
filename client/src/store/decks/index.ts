@@ -182,8 +182,8 @@ export const decks = {
         withCredentials: true,
         data: payload,
       })
-        .then((res) => {
-          console.log(res)
+        .then(() => {
+          router.push({ name: 'Deck', params: { id: payload.deckId }})
         })
         .catch((err) => {
           console.log(err)
