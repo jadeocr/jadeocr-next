@@ -113,7 +113,7 @@
           quality: correctness == 'correct' ? 5 : 0,
         } as ReviewResult)
         if (this.currReviewIndex + 1 == this.cards.length) {
-          this.$store.dispatch('decks/sendReviewResults', this.results)
+          this.sendResults()
         } else {
           this.currReviewIndex++
           this.visibleCardData = [
@@ -137,7 +137,7 @@
       },
       sendResults(): void {
         this.$store.dispatch('decks/sendReviewResults', {
-          deck: this.id,
+          deckId: this.id,
           results: this.results,
         })
       },

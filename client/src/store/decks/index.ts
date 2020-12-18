@@ -171,15 +171,16 @@ export const decks = {
     },
     sendReviewResults(
       { commit }: { commit: Function },
-      results: Array<ReviewResult>
+      payload: {
+        deckId: string
+        results: Array<ReviewResult>
+      }
     ): void {
       axios({
         method: 'post',
         url: `${apiBaseURL}/deck/practiced`,
         withCredentials: true,
-        data: {
-          results: results,
-        },
+        data: payload,
       })
         .then((res) => {
           console.log(res)
