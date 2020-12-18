@@ -100,7 +100,8 @@
     data() {
       return {
         cards: Array<Character>(),
-        visibleCardData: [],
+        // eslint-disable-next-line
+        visibleCardData: [] as any,
         currReviewIndex: 0,
         results: Array<ReviewResult>(),
       }
@@ -113,9 +114,7 @@
         } as ReviewResult)
         if (this.currReviewIndex + 1 == this.cards.length) {
           this.$store.dispatch('decks/sendReviewResults', this.results)
-          console.log(this.results)
         } else {
-          console.log(this.currReviewIndex)
           this.currReviewIndex++
           this.visibleCardData = [
             this.cards[this.currReviewIndex].pinyin,
@@ -204,3 +203,4 @@
     }
   }
 </style>
+
