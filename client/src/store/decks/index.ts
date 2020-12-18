@@ -3,6 +3,7 @@ import axios from 'axios'
 import router from '../../router/index'
 import { Deck } from '../../interfaces/Deck'
 import { Character } from '../../interfaces/Character'
+import { ReviewResult } from '../../interfaces/ReviewResult'
 
 export const decks = {
   namespaced: true,
@@ -30,7 +31,6 @@ export const decks = {
               },
             }
           : deck
-      console.log(state.currDeck)
     },
     // eslint-disable-next-line
     pushToCurrDeck(state: any) {
@@ -169,20 +169,25 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-  },
-  getCardsToReview({ commit }: { commit: Function }, deckId: string): void {
-    axios({
-      method: 'post',
-      url: `${apiBaseURL}/deck/srs`,
-      data: {
-        deckId: deckId,
-      },
-    })
-      .then((res) => {
-        console.log(res.data)
+    sendReviewResults(
+      { commit }: { commit: Function },
+      payload: {
+        deckId: string
+        results: Array<ReviewResult>
+      }
+    ): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/practiced`,
+        withCredentials: true,
+        data: payload,
       })
-      .catch((err) => {
-        console.log(err.response.data)
-      })
+        .then(() => {
+          router.push({ name: 'Deck', params: { id: payload.deckId }})
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
 }
