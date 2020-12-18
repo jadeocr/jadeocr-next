@@ -532,7 +532,7 @@ exports.getAssignedDecks = function(req, res, next) {
 }
 
 exports.practiced = function(req, res, next) {
-    let deckId = req.body.deck
+    let deckId = req.body.deckId
     let results = req.body.results //array of {id, quality}
 
     let writeSRS = function(resultsForSRS, deck, deckInUser) {
