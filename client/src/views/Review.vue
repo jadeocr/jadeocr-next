@@ -5,7 +5,7 @@
     </div>
     <div class="w-3/5 mx-auto mt-8 text-center lg:w-1/2">
       <div class='card-container'>
-        <div class='py-12 text-xl font-normal rounded bg-nord0 card lg:text-2xl xl:text-3xl md:text-3xl'>
+        <div class="px-6 py-12 text-xl font-normal rounded bg-nord0 card lg:text-2xl xl:text-3xl md:text-3xl">
           <div>
             <p v-for="(n, side) in visibleCardData" :key="side.key" class="font-light chinese">
               {{ visibleCardData[side] }}
@@ -15,7 +15,9 @@
       </div>
       <div class="mt-10">
         <div class="flex items-center justify-between m-auto mt-4 md:w-2/3 opacity-87">
-          <div class='px-4 py-3 rounded-md bg-nord12'>
+          <div class='px-4 py-3 rounded-md bg-nord7'
+            @click="cardCheck('correct')"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
             </svg>
@@ -26,7 +28,9 @@
           >
             {{ type == 'flashcards' ? 'Flip Card' : 'Check Writing' }}
           </div>
-          <div class='px-4 py-3 btn bg-nord7 rounded-md'>
+          <div class='px-4 py-3 btn bg-nord12 rounded-md'
+            @click="cardCheck('incorrect')"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
             </svg>
@@ -72,6 +76,23 @@
       }
     },
     methods: {
+      cardCheck(correctness: string): void {
+        this.results.push({
+          id: this.cards[this.currReviewIndex].id,
+          quality: correctness == 'correct' ? 5 : 0,
+        } as ReviewResult)
+        if (this.currReviewIndex + 1  == this.cards.length) {
+          this.$store.dispatch('decks/sendReviewResults', this.results)
+          console.log(this.results)
+        } else {
+          console.log(this.currReviewIndex)
+          this.currReviewIndex++
+          this.visibleCardData = [
+            this.cards[this.currReviewIndex].pinyin,
+            this.cards[this.currReviewIndex].definition,
+          ]
+        }
+      },
       resetVisibleCard(): void {
         this.visibleCardData = [
           this.cards[this.currReviewIndex].pinyin,
@@ -153,5 +174,4 @@
   }
 }
 </style>
-
 
