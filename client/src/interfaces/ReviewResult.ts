@@ -1,4 +1,4 @@
 export interface ReviewResult {
-  id: String
-  quality: Number
+  id: string
+  quality: number
 }

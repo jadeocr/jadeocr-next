@@ -169,14 +169,17 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    sendReviewResults({ commit }: { commit: Function }, results: Array<ReviewResult>): void {
+    sendReviewResults(
+      { commit }: { commit: Function },
+      results: Array<ReviewResult>
+    ): void {
       axios({
         method: 'post',
         url: `${apiBaseURL}/deck/practiced`,
         withCredentials: true,
         data: {
-          results: results
-        }
+          results: results,
+        },
       })
         .then((res) => {
           console.log(res)
@@ -184,6 +187,6 @@ export const decks = {
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
   },
 }

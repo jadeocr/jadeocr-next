@@ -27,19 +27,25 @@
                 <div class="mt-6 text-center md:mt-8 md:text-left">
                   <router-link
                     class="px-3 py-2 mr-2 rounded bg-nord10"
-                    :to="{ path: `/review/flashcards/${id}/${$store.state.decks.currDeck.title}` }"
+                    :to="{
+                      path: `/review/flashcards/${id}/${$store.state.decks.currDeck.title}`,
+                    }"
                   >
                     Flashcards
                   </router-link>
                   <router-link
                     class="px-3 py-2 rounded lg:mx-4 bg-nord10"
-                    :to="{ path: `/review/ocr/${id}/${$store.state.decks.currDeck.title}` }"
+                    :to="{
+                      path: `/review/ocr/${id}/${$store.state.decks.currDeck.title}`,
+                    }"
                   >
                     Handwriting
                   </router-link>
                   <router-link
                     class="px-3 py-2 mx-2 rounded lg:mx-2 md:mx-0 md:my-4 lg:my-0 bg-nord10"
-                    :to="{ path: `/review/quiz/${id}/${$store.state.decks.currDeck.title}` }"
+                    :to="{
+                      path: `/review/quiz/${id}/${$store.state.decks.currDeck.title}`,
+                    }"
                   >
                     Quiz
                   </router-link>
