@@ -58,29 +58,6 @@
           class="flex items-center justify-between m-auto mt-4 md:w-2/3 opacity-87"
         >
           <div
-            class="px-4 py-3 rounded-md bg-nord7"
-            @click="cardCheck('correct')"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1.1em"
-              fill="currentColor"
-              class="bi bi-check2"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-              />
-            </svg>
-          </div>
-          <div
-            class="px-4 py-2 mx-auto font-normal text-md rounded-md md:text-lg unselect bg-nord9"
-            @click="flipCard()"
-          >
-            {{ type == 'flashcards' ? 'Flip Card' : 'Check Writing' }}
-          </div>
-          <div
             class="px-4 py-3 btn bg-nord12 rounded-md"
             @click="cardCheck('incorrect')"
           >
@@ -97,10 +74,33 @@
               />
             </svg>
           </div>
+          <div
+            class="px-4 py-2 mx-auto font-normal text-md rounded-md md:text-lg unselect bg-nord9"
+            @click="flipCard()"
+          >
+            {{ type == 'flashcards' ? 'Flip Card' : 'Check Writing' }}
+          </div>
+          <div
+            class="px-4 py-3 rounded-md bg-nord7"
+            @click="cardCheck('correct')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.1em"
+              fill="currentColor"
+              class="bi bi-check2"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+              />
+            </svg>
+          </div>
         </div>
       </div>
 			<div v-if="pred"
-			class="mt-4 text-lg text-teal-500 md:mt-8 md:text-xl">
+			class="mt-4 text-lg text-teal-500 md:mt-8 md:text-xl chinese">
 				{{ pred }}
 			</div>
     </div>
