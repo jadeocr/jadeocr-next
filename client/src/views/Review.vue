@@ -20,6 +20,17 @@
             </p>
           </div>
         </div>
+				<div v-if='type == "ocr"' id="draw-wrapper" ref="draw-wrapper" class='mt-8 lg:ml-10 lg:mt-0'>
+					<canvas id='draw'></canvas>
+					<div class="flex justify-end mt-1 mr-0 md:mt-5 lg:mt-2" id="canvas-ctrls">
+						<div id='clearbtn' class="mx-2">
+							<svg class="bi bi-arrow-counterclockwise" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M12.83 6.706a5 5 0 0 0-7.103-3.16.5.5 0 1 1-.454-.892A6 6 0 1 1 2.545 5.5a.5.5 0 1 1 .91.417 5 5 0 1 0 9.375.789z"/>
+								<path fill-rule="evenodd" d="M7.854.146a.5.5 0 0 0-.708 0l-2.5 2.5a.5.5 0 0 0 0 .708l2.5 2.5a.5.5 0 1 0 .708-.708L5.707 3 7.854.854a.5.5 0 0 0 0-.708z"/>
+							</svg>
+						</div>
+					</div>
+				</div>
       </div>
       <div class="mt-10">
         <div
@@ -166,41 +177,103 @@
 </script>
 
 <style scoped>
-  .card {
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+#review {
+	touch-action: manipulation;
+}
 
-  @media (max-width: 640px) {
-    .card {
-      height: 50vh;
-    }
-  }
-  @media (min-width: 768px) {
-    .card {
-      height: 50vh;
-    }
-  }
-  @media (min-width: 1024px) {
-    .card-container {
-      display: flex;
-      justify-content: space-between;
-    }
-    .card {
-      height: 40vh;
-    }
-    #draw-wrapper {
-      width: 80vh;
-      height: 40vh;
-    }
-    .bi {
-      width: 1.25em;
-      height: 1.25em;
-    }
-  }
+.card {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(255,255,255,0.07);
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn:hover {
+	opacity: 0.75;
+}
+
+.btn-cyan {
+	background-color: #26a69a;
+	opacity: 0.87;
+}
+
+.btn-review-red {
+	background-color: #ff7043;
+	opacity: 0.87;
+}
+
+.unselect {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+
+#draw-wrapper {
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	border-radius: 10px;
+	width: 100%;
+	height: 60vw;
+}
+
+#canvas-ctrls {
+	height: 1rem;
+}
+
+canvas {
+	border-radius: 10px 10px 10px 10px;
+	width: 100%;	
+	height: 87.5%;
+	touch-action: none;
+}
+
+.bi {
+	width: 0.75em;
+	height: 0.75em;
+}
+
+#clearbtn:hover {
+	opacity: 0.75; 
+}
+
+@media (max-width: 768px) and (orientation:landscape) {
+	#canvas-ctrls {
+		margin-top: 1.5rem;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation:portrait) {
+	#canvas-ctrls {
+		margin-top: 2rem;
+	}
+}
+
+@media(min-width: 1024px) {
+	.card-container {
+		display: flex;
+		justify-content: space-between;  
+	}
+	.card {
+		height: 40vh;
+	}
+	#draw-wrapper {
+		width: 80vh;
+		height: 40vh;
+	}
+	.bi {
+		width: 1.25em;
+		height: 1.25em;
+	}
+}
 </style>
 
