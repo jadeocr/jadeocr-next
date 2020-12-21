@@ -99,6 +99,10 @@
           </div>
         </div>
       </div>
+			<div v-if="pred"
+			class="mt-4 text-lg text-teal-500 md:mt-8 md:text-xl">
+				{{ pred }}
+			</div>
     </div>
   </div>
 </template>
@@ -169,6 +173,7 @@
         ]
       },
       callOcr(): void {
+        this.pred = 'Checking...'
         axios({
           method: 'post',
           withCredentials: true,
@@ -178,9 +183,8 @@
           },
         })
           .then((res) => {
-            // TODO: add loading message
-            this.pred = res.data
-            this.flipCard()
+            this.pred = res.data[0] == this.cards[this.currReviewIndex].char ? 'Correct! ' : 'Try again! '
+            this.pred += `You wrote ${res.data[0]}`
           })
           .catch((err) => {
             console.log(err)
