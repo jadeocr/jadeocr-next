@@ -20,17 +20,38 @@
             </p>
           </div>
         </div>
-				<div v-if='type == "ocr"' id="draw-wrapper" ref="draw-wrapper" class='mt-8 lg:ml-10 lg:mt-0'>
-					<canvas id='draw'></canvas>
-					<div class="flex justify-end mt-1 mr-0 md:mt-5 lg:mt-2" id="canvas-ctrls">
-						<div id='clearbtn' class="mx-2">
-							<svg class="bi bi-arrow-counterclockwise" width="1.25em" height="1.25em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								<path fill-rule="evenodd" d="M12.83 6.706a5 5 0 0 0-7.103-3.16.5.5 0 1 1-.454-.892A6 6 0 1 1 2.545 5.5a.5.5 0 1 1 .91.417 5 5 0 1 0 9.375.789z"/>
-								<path fill-rule="evenodd" d="M7.854.146a.5.5 0 0 0-.708 0l-2.5 2.5a.5.5 0 0 0 0 .708l2.5 2.5a.5.5 0 1 0 .708-.708L5.707 3 7.854.854a.5.5 0 0 0 0-.708z"/>
-							</svg>
-						</div>
-					</div>
-				</div>
+        <div
+          v-if="type == 'ocr'"
+          id="draw-wrapper"
+          ref="draw-wrapper"
+          class="mt-8 lg:ml-10 lg:mt-0"
+        >
+          <canvas id="draw"></canvas>
+          <div
+            class="flex justify-end mt-1 mr-0 md:mt-5 lg:mt-2"
+            id="canvas-ctrls"
+          >
+            <div id="clearbtn" class="mx-2">
+              <svg
+                class="bi bi-arrow-counterclockwise"
+                width="1.25em"
+                height="1.25em"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.83 6.706a5 5 0 0 0-7.103-3.16.5.5 0 1 1-.454-.892A6 6 0 1 1 2.545 5.5a.5.5 0 1 1 .91.417 5 5 0 1 0 9.375.789z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M7.854.146a.5.5 0 0 0-.708 0l-2.5 2.5a.5.5 0 0 0 0 .708l2.5 2.5a.5.5 0 1 0 .708-.708L5.707 3 7.854.854a.5.5 0 0 0 0-.708z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="mt-10">
         <div
@@ -117,6 +138,10 @@
         results: Array<ReviewResult>(),
         canvas: HTMLCanvasElement,
         ctx: CanvasRenderingContext2D,
+        // Mouse movement tracker
+        xPos: 0,
+        yPos: 0,
+        pred: '',
       }
     },
     methods: {
@@ -172,31 +197,33 @@
           })
       },
       setPos(e: MouseEvent) {
-        const domRect = this.canvas.getBoundingClientRect()
-        this.xPos = (e.clientX - domRect.left) / domRect.width * this.canvas.width
-        this.yPos = (e.clientY - domRect.top) / domRect.height * this.canvas.height
+        const domRect = this.canvas.prototype.getBoundingClientRect()
+        this.xPos =
+          ((e.clientX - domRect.left) / domRect.width) * this.canvas.prototype.width
+        this.yPos =
+          ((e.clientY - domRect.top) / domRect.height) * this.canvas.prototype.width
       },
-      draw(e) {
-        if(!window.matchMedia("(pointer: coarse)").matches) {
+      draw(e: MouseEvent) {
+        if (!window.matchMedia('(pointer: coarse)').matches) {
           // is not touchscreen
-          if (e.buttons !== 1) return;
+          if (e.buttons !== 1) return
         }
-			
-        this.ctx.beginPath()
-        this.ctx.lineWidth = 20
-        this.ctx.lineCap = 'round'
-        this.ctx.strokeStyle = '#ffffff'
-        
-        this.ctx.moveTo(this.xPos, this.yPos)
+
+        this.ctx.prototype.beginPath()
+        this.ctx.prototype.lineWidth = 20
+        this.ctx.prototype.lineCap = 'round'
+        this.ctx.prototype.strokeStyle = '#ffffff'
+
+        this.ctx.prototype.moveTo(this.xPos, this.yPos)
         this.setPos(e)
-        this.ctx.lineTo(this.xPos, this.yPos)
-        this.ctx.stroke()
+        this.ctx.prototype.lineTo(this.xPos, this.yPos)
+        this.ctx.prototype.stroke()
       },
       clearCanvas() {
         this.pred = ''
-        this.cardFace = 'back'
-        this.switchSide()
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        /* this.cardFace = 'back' */
+        this.flipCard()
+        this.ctx.prototype.clearRect(0, 0, this.canvas.prototype.width, this.canvas.prototype.height)
       },
     },
     mounted() {
@@ -204,122 +231,121 @@
     },
     updated() {
       if (this.type == 'ocr') {
-        this.canvas = document.getElementById("draw")
-        this.ctx = this.canvas.getContext("2d")
+        this.canvas = document.getElementById('draw') as HTMLCanvasElement
+        this.ctx = this.canvas.prototype.getContext('2d') as CanvasRenderingContext2D
 
-        this.ctx.canvas.width = window.innerWidth
-        this.ctx.canvas.height = window.innerHeight
+        this.ctx.prototype.canvas.width = window.innerWidth
+        this.ctx.prototype.canvas.height = window.innerHeight
 
-        this.ctx.lineWidth = 10
-        this.ctx.lineCap = 'round'
-        this.ctx.strokeStyle = '#ffffff'
+        this.ctx.prototype.lineWidth = 10
+        this.ctx.prototype.lineCap = 'round'
+        this.ctx.prototype.strokeStyle = '#ffffff'
 
-        this.canvas.addEventListener("pointermove", this.draw, false)
-        this.canvas.addEventListener("pointerdown", this.setPos, false)
-        this.canvas.addEventListener("pointerenter", this.setPos, false)
+        this.canvas.prototype.addEventListener('pointermove', this.draw, false)
+        this.canvas.prototype.addEventListener('pointerdown', this.setPos, false)
+        this.canvas.prototype.addEventListener('pointerenter', this.setPos, false)
       }
     },
   })
 </script>
 
 <style scoped>
-#review {
-	touch-action: manipulation;
-}
+  #review {
+    touch-action: manipulation;
+  }
 
-.card {
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(255,255,255,0.07);
-	z-index: 2;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+  .card {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.07);
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.btn:hover {
-	opacity: 0.75;
-}
+  .btn:hover {
+    opacity: 0.75;
+  }
 
-.btn-cyan {
-	background-color: #26a69a;
-	opacity: 0.87;
-}
+  .btn-cyan {
+    background-color: #26a69a;
+    opacity: 0.87;
+  }
 
-.btn-review-red {
-	background-color: #ff7043;
-	opacity: 0.87;
-}
+  .btn-review-red {
+    background-color: #ff7043;
+    opacity: 0.87;
+  }
 
-.unselect {
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-	cursor: default;
-}
+  .unselect {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: default;
+  }
 
-#draw-wrapper {
-	border: 1px solid rgba(255, 255, 255, 0.6);
-	border-radius: 10px;
-	width: 100%;
-	height: 60vw;
-}
+  #draw-wrapper {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    width: 100%;
+    height: 60vw;
+  }
 
-#canvas-ctrls {
-	height: 1rem;
-}
+  #canvas-ctrls {
+    height: 1rem;
+  }
 
-canvas {
-	border-radius: 10px 10px 10px 10px;
-	width: 100%;	
-	height: 87.5%;
-	touch-action: none;
-}
+  canvas {
+    border-radius: 10px 10px 10px 10px;
+    width: 100%;
+    height: 87.5%;
+    touch-action: none;
+  }
 
-.bi {
-	width: 0.75em;
-	height: 0.75em;
-}
+  .bi {
+    width: 0.75em;
+    height: 0.75em;
+  }
 
-#clearbtn:hover {
-	opacity: 0.75; 
-}
+  #clearbtn:hover {
+    opacity: 0.75;
+  }
 
-@media (max-width: 768px) and (orientation:landscape) {
-	#canvas-ctrls {
-		margin-top: 1.5rem;
-	}
-}
+  @media (max-width: 768px) and (orientation: landscape) {
+    #canvas-ctrls {
+      margin-top: 1.5rem;
+    }
+  }
 
-@media (min-width: 768px) and (max-width: 1024px) and (orientation:portrait) {
-	#canvas-ctrls {
-		margin-top: 2rem;
-	}
-}
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    #canvas-ctrls {
+      margin-top: 2rem;
+    }
+  }
 
-@media(min-width: 1024px) {
-	.card-container {
-		display: flex;
-		justify-content: space-between;  
-	}
-	.card {
-		height: 40vh;
-	}
-	#draw-wrapper {
-		width: 80vh;
-		height: 40vh;
-	}
-	.bi {
-		width: 1.25em;
-		height: 1.25em;
-	}
-}
+  @media (min-width: 1024px) {
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .card {
+      height: 40vh;
+    }
+    #draw-wrapper {
+      width: 80vh;
+      height: 40vh;
+    }
+    .bi {
+      width: 1.25em;
+      height: 1.25em;
+    }
+  }
 </style>
-
