@@ -174,11 +174,13 @@
           withCredentials: true,
           url: `${apiBaseURL}/ocr`,
           data: {
-            strokes: this.strokeArray,
+            strokes: JSON.stringify(this.strokeArray),
           },
         })
           .then((res) => {
-            console.log(res.data.chars)
+            // TODO: add loading message
+            this.pred = res.data
+            this.flipCard()
           })
           .catch((err) => {
             console.log(err)
