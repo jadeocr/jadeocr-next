@@ -115,6 +115,8 @@
         visibleCardData: [] as any,
         currReviewIndex: 0,
         results: Array<ReviewResult>(),
+        canvas: HTMLCanvasElement,
+        ctx: CanvasRenderingContext2D,
       }
     },
     methods: {
@@ -169,9 +171,53 @@
             console.log(err.response.data)
           })
       },
+      setPos(e: MouseEvent) {
+        const domRect = this.canvas.getBoundingClientRect()
+        this.xPos = (e.clientX - domRect.left) / domRect.width * this.canvas.width
+        this.yPos = (e.clientY - domRect.top) / domRect.height * this.canvas.height
+      },
+      draw(e) {
+        if(!window.matchMedia("(pointer: coarse)").matches) {
+          // is not touchscreen
+          if (e.buttons !== 1) return;
+        }
+			
+        this.ctx.beginPath()
+        this.ctx.lineWidth = 20
+        this.ctx.lineCap = 'round'
+        this.ctx.strokeStyle = '#ffffff'
+        
+        this.ctx.moveTo(this.xPos, this.yPos)
+        this.setPos(e)
+        this.ctx.lineTo(this.xPos, this.yPos)
+        this.ctx.stroke()
+      },
+      clearCanvas() {
+        this.pred = ''
+        this.cardFace = 'back'
+        this.switchSide()
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      },
     },
     mounted() {
       this.getCardsToReview()
+    },
+    updated() {
+      if (this.type == 'ocr') {
+        this.canvas = document.getElementById("draw")
+        this.ctx = this.canvas.getContext("2d")
+
+        this.ctx.canvas.width = window.innerWidth
+        this.ctx.canvas.height = window.innerHeight
+
+        this.ctx.lineWidth = 10
+        this.ctx.lineCap = 'round'
+        this.ctx.strokeStyle = '#ffffff'
+
+        this.canvas.addEventListener("pointermove", this.draw, false)
+        this.canvas.addEventListener("pointerdown", this.setPos, false)
+        this.canvas.addEventListener("pointerenter", this.setPos, false)
+      }
     },
   })
 </script>
