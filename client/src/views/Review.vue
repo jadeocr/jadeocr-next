@@ -31,7 +31,7 @@
             class="flex justify-end mt-1 mr-0 md:mt-5 lg:mt-2"
             id="canvas-ctrls"
           >
-            <div id="clearbtn" class="mx-2">
+            <div id="clearbtn" class="mx-2" @click="clearCanvas()">
               <svg
                 class="bi bi-arrow-counterclockwise"
                 width="1.25em"
@@ -136,12 +136,14 @@
         visibleCardData: [] as any,
         currReviewIndex: 0,
         results: Array<ReviewResult>(),
-        canvas: HTMLCanvasElement,
-        ctx: CanvasRenderingContext2D,
         // Mouse movement tracker
         xPos: 0,
         yPos: 0,
+        subStrokeArray: [] as any,
+        strokeArray: [] as any,
+        mouseState: 'up',
         pred: '',
+        currTime: Date.now(),
       }
     },
     methods: {
@@ -166,7 +168,26 @@
           this.cards[this.currReviewIndex].definition,
         ]
       },
+      callOcr(): void {
+        axios({
+          method: 'post',
+          withCredentials: true,
+          url: `${apiBaseURL}/ocr`,
+          data: {
+            strokes: this.strokeArray,
+          },
+        })
+          .then((res) => {
+            console.log(res.data.chars)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      },
       flipCard(): void {
+        if (this.type == 'ocr') {
+          this.callOcr()
+        }
         if (this.visibleCardData.length == 3) {
           this.resetVisibleCard()
         } else {
@@ -197,53 +218,73 @@
           })
       },
       setPos(e: MouseEvent) {
-        const domRect = this.canvas.prototype.getBoundingClientRect()
-        this.xPos =
-          ((e.clientX - domRect.left) / domRect.width) * this.canvas.prototype.width
-        this.yPos =
-          ((e.clientY - domRect.top) / domRect.height) * this.canvas.prototype.width
+        // repeated in various functions to bypass typescript issue
+        const canvas = document.getElementById('draw') as HTMLCanvasElement
+        const domRect = canvas.getBoundingClientRect()
+        this.xPos = (e.clientX - domRect.left) / domRect.width * canvas.width
+        this.yPos = (e.clientY - domRect.top) / domRect.height * canvas.height
       },
-      draw(e: MouseEvent) {
-        if (!window.matchMedia('(pointer: coarse)').matches) {
-          // is not touchscreen
-          if (e.buttons !== 1) return
+      drawLine(e: MouseEvent, ctx: any) {
+        if (!window.matchMedia("(pointer: coarse)").matches) {
+          if (e.buttons !== 1) return // is not touchscreen
         }
-
-        this.ctx.prototype.beginPath()
-        this.ctx.prototype.lineWidth = 20
-        this.ctx.prototype.lineCap = 'round'
-        this.ctx.prototype.strokeStyle = '#ffffff'
-
-        this.ctx.prototype.moveTo(this.xPos, this.yPos)
+        ctx.beginPath()
+        ctx.lineWidth = 5
+        ctx.strokeStyle = '#ffffff'
+        ctx.lineCap = 'round'
+        ctx.moveTo(this.xPos, this.yPos)
         this.setPos(e)
-        this.ctx.prototype.lineTo(this.xPos, this.yPos)
-        this.ctx.prototype.stroke()
+        ctx.lineTo(this.xPos, this.yPos)
+        ctx.stroke()
+      },
+      mouseDown(e: MouseEvent) {
+        this.mouseState = 'down'
+        this.setPos(e)
+      },
+      mouseUp(e: MouseEvent) {
+        const canvas = document.getElementById('draw') as HTMLCanvasElement
+        const ctx = canvas?.getContext('2d')
+        if (this.mouseState == 'down') {
+          this.drawLine(e, ctx)
+          this.xPos = 0
+          this.yPos = 0
+          this.mouseState = 'up'
+          this.strokeArray.push(this.subStrokeArray)
+          this.subStrokeArray = []
+        }
+      },
+      move(e: MouseEvent) {
+        const canvas = document.getElementById('draw') as HTMLCanvasElement
+        const ctx = canvas?.getContext('2d')
+        if (this.mouseState == 'down') {
+          this.drawLine(e, ctx)
+          this.setPos(e)
+
+          if ((Date.now() - this.currTime) > 20) {
+            this.currTime = Date.now()
+            this.subStrokeArray.push([this.xPos, this.yPos])
+          }
+        }
       },
       clearCanvas() {
+        const canvas = document.getElementById('draw') as HTMLCanvasElement
+        const ctx = canvas?.getContext('2d')
         this.pred = ''
-        /* this.cardFace = 'back' */
-        this.flipCard()
-        this.ctx.prototype.clearRect(0, 0, this.canvas.prototype.width, this.canvas.prototype.height)
-      },
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          this.strokeArray = []
+        }
+      }
     },
     mounted() {
       this.getCardsToReview()
     },
     updated() {
       if (this.type == 'ocr') {
-        this.canvas = document.getElementById('draw') as HTMLCanvasElement
-        this.ctx = this.canvas.prototype.getContext('2d') as CanvasRenderingContext2D
-
-        this.ctx.prototype.canvas.width = window.innerWidth
-        this.ctx.prototype.canvas.height = window.innerHeight
-
-        this.ctx.prototype.lineWidth = 10
-        this.ctx.prototype.lineCap = 'round'
-        this.ctx.prototype.strokeStyle = '#ffffff'
-
-        this.canvas.prototype.addEventListener('pointermove', this.draw, false)
-        this.canvas.prototype.addEventListener('pointerdown', this.setPos, false)
-        this.canvas.prototype.addEventListener('pointerenter', this.setPos, false)
+        const canvas = document.getElementById('draw') as HTMLCanvasElement
+        canvas?.addEventListener('pointermove', this.move, false)
+        canvas?.addEventListener('pointerdown', this.mouseDown, false)
+        canvas?.addEventListener('pointerup', this.mouseUp, false)
       }
     },
   })
