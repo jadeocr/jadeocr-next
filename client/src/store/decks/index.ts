@@ -183,7 +183,7 @@ export const decks = {
         data: payload,
       })
         .then(() => {
-          router.push({ name: 'Deck', params: { id: payload.deckId }})
+          router.push({ name: 'Deck', params: { id: payload.deckId } })
         })
         .catch((err) => {
           console.log(err)
