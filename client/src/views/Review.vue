@@ -185,7 +185,7 @@
       },
       override(correctness: string): void {
         this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
-        this.pred = `Marked card (${this.cards[this.currReviewIndex].char}) as ${correctness}`
+        this.pred = `Marked card ${this.cards[this.currReviewIndex].char} as ${correctness}`
       },
       resetVisibleCard(): void {
         this.visibleCardData = [
@@ -208,11 +208,11 @@
             if (this.type == 'quiz') {
               const correctness = res.data[0] == currCard ? 'correct' : 'incorrect'
               this.cardCheck(correctness)
-              this.pred = correctness == 'correct' ? 'Correct! ' : 'Incorrect '
+              this.pred = correctness == 'correct' ? 'Correct!' : 'Incorrect!'
             } else {
               this.pred = res.data[0] == currCard ? 'Correct! ' : 'Try again! '
+              this.pred += `You wrote ${res.data[0]}`
             }
-            this.pred += `You wrote ${res.data[0]}`
           })
           .catch((err) => {
             console.log(err.response.data)
@@ -231,7 +231,7 @@
       handleQuizCheckButton(): void {
         if (this.checkButtonMsg == 'Check Writing') {
           this.flipCard()
-          this.checkButtonMsg = 'Next Card'
+          this.checkButtonMsg = 'Continue'
         } else {
           this.checkButtonMsg = 'Check Writing'
           this.clearCanvas()
