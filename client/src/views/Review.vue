@@ -139,7 +139,7 @@
         // eslint-disable-next-line
         visibleCardData: [] as any,
         currReviewIndex: 0,
-        results: Array<ReviewResult>(),
+        results: Array<ReviewResult | any>(),
         // Mouse movement tracker
         xPos: 0,
         yPos: 0,
@@ -152,10 +152,18 @@
     },
     methods: {
       cardCheck(correctness: string): void {
-        this.results.push({
-          id: this.cards[this.currReviewIndex].id,
-          quality: correctness == 'correct' ? 5 : 0,
-        } as ReviewResult)
+        if (this.type == 'quiz') {
+          this.results.push({
+            id: this.cards[this.currReviewIndex].id,
+            correct: correctness == 'correctness',
+            overriden: false,
+          })
+        } else {
+          this.results.push({
+            id: this.cards[this.currReviewIndex].id,
+            quality: correctness == 'correct' ? 5 : 0,
+          } as ReviewResult)
+        }
         if (this.currReviewIndex + 1 == this.cards.length) {
           this.sendResults()
         } else {
@@ -168,8 +176,12 @@
         }
       },
       override(correctness: string): void {
-        this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
-        this.pred = `Marked previous card (${this.cards[this.currReviewIndex - 1].char}) as ${correctness}`
+        if (this.currReviewIndex == 0) {
+          this.pred = 'Check your writing before overriding results!'
+        } else {
+          this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
+          this.pred = `Marked previous card (${this.cards[this.currReviewIndex - 1].char}) as ${correctness}`
+        }
       },
       resetVisibleCard(): void {
         this.visibleCardData = [
@@ -213,10 +225,11 @@
         }
       },
       sendResults(): void {
-        this.$store.dispatch('decks/sendReviewResults', {
-          deckId: this.id,
-          results: this.results,
-        })
+        console.log(this.results)
+        /* this.$store.dispatch('decks/sendReviewResults', { */
+        /*   deckId: this.id, */
+        /*   results: this.results, */
+        /* }) */
       },
       getCardsToReview(): void {
         if (this.type == 'quiz') {
