@@ -21,7 +21,7 @@
           </div>
         </div>
         <div
-          v-if="type == 'ocr'"
+          v-if="type == 'ocr' || type == 'quiz'"
           id="draw-wrapper"
           ref="draw-wrapper"
           class="mt-8 lg:ml-10 lg:mt-0"
@@ -191,7 +191,7 @@
           })
       },
       flipCard(): void {
-        if (this.type == 'ocr') {
+        if (this.type == 'ocr' || this.type == 'quiz') {
           this.callOcr()
         }
         if (this.visibleCardData.length == 3) {
@@ -207,21 +207,26 @@
         })
       },
       getCardsToReview(): void {
-        axios({
-          method: 'post',
-          url: `${apiBaseURL}/deck/srs`,
-          withCredentials: true,
-          data: {
-            deckId: this.id,
-          },
-        })
-          .then((res) => {
-            this.cards = res.data
-            this.resetVisibleCard()
+        if (this.type == 'quiz') {
+          this.cards = this.$store.state.decks.currDeck.characters
+          this.resetVisibleCard()
+        } else {
+          axios({
+            method: 'post',
+            url: `${apiBaseURL}/deck/srs`,
+            withCredentials: true,
+            data: {
+              deckId: this.id,
+            },
           })
-          .catch((err) => {
-            console.log(err.response.data)
-          })
+            .then((res) => {
+              this.cards = res.data
+              this.resetVisibleCard()
+            })
+            .catch((err) => {
+              console.log(err.response.data)
+            })
+        }
       },
       setPos(e: MouseEvent) {
         // repeated in various functions to bypass typescript issue
@@ -286,7 +291,7 @@
       this.getCardsToReview()
     },
     updated() {
-      if (this.type == 'ocr') {
+      if (this.type == 'ocr' || this.type == 'quiz') {
         const canvas = document.getElementById('draw') as HTMLCanvasElement
         canvas?.addEventListener('pointermove', this.move, false)
         canvas?.addEventListener('pointerdown', this.mouseDown, false)
