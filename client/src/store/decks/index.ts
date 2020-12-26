@@ -177,6 +177,7 @@ export const decks = {
         results: Array<ReviewResult>
       }
     ): void {
+      console.log(payload.deckId)
       if (payload.type == 'quiz') {
         axios({
           method: 'post',
@@ -186,6 +187,12 @@ export const decks = {
             deckId: payload.deckId,
             results: payload.results
           }
+        })
+        .then(() => {
+          router.push({ name: 'Deck', params: { id: payload.deckId } })
+        })
+        .catch((err) => {
+          console.log(err.response.data)
         })
       } else {
         axios({
@@ -201,7 +208,7 @@ export const decks = {
             router.push({ name: 'Deck', params: { id: payload.deckId } })
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err.response.data)
           })
       }
     },

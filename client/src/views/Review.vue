@@ -207,11 +207,11 @@
               this.pred = correctness == 'correct' ? 'Correct! ' : 'Incorrect '
             } else {
               this.pred = res.data[0] == currCard ? 'Correct! ' : 'Try again! '
-              this.pred += `You wrote ${res.data[0]}`
             }
+            this.pred += `You wrote ${res.data[0]}`
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err.response.data)
           })
       },
       flipCard(): void {
@@ -225,11 +225,11 @@
         }
       },
       sendResults(): void {
-        console.log(this.results)
-        /* this.$store.dispatch('decks/sendReviewResults', { */
-        /*   deckId: this.id, */
-        /*   results: this.results, */
-        /* }) */
+        this.$store.dispatch('decks/sendReviewResults', {
+          deckId: this.id,
+          type: this.type,
+          results: this.results,
+        })
       },
       getCardsToReview(): void {
         if (this.type == 'quiz') {
