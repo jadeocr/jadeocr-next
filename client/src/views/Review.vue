@@ -58,6 +58,7 @@
           class="flex items-center justify-between m-auto mt-4 md:w-2/3 opacity-87"
         >
           <div
+            v-if="type != 'quiz'"
             class="px-4 py-3 btn bg-nord12 rounded-md"
             @click="cardCheck('incorrect')"
           >
@@ -81,6 +82,7 @@
             {{ type == 'flashcards' ? 'Flip Card' : 'Check Writing' }}
           </div>
           <div
+            v-if="type != 'quiz'"
             class="px-4 py-3 rounded-md bg-nord7"
             @click="cardCheck('correct')"
           >
