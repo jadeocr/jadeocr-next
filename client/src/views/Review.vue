@@ -58,9 +58,8 @@
           class="flex items-center justify-between m-auto mt-4 md:w-2/3 opacity-87"
         >
           <div
-            v-if="type != 'quiz'"
             class="px-4 py-3 btn bg-nord12 rounded-md"
-            @click="cardCheck('incorrect')"
+            @click="type != 'quiz' ? cardCheck('incorrect') : override('incorrect')"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -82,9 +81,8 @@
             {{ type == 'flashcards' ? 'Flip Card' : 'Check Writing' }}
           </div>
           <div
-            v-if="type != 'quiz'"
             class="px-4 py-3 rounded-md bg-nord7"
-            @click="cardCheck('correct')"
+            @click="type != 'quiz' ? cardCheck('correct') : override('correct')"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -169,6 +167,10 @@
           ]
         }
       },
+      override(correctness: string): void {
+        this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
+        this.pred = `Marked previous card (${this.cards[this.currReviewIndex - 1].char}) as ${correctness}`
+      },
       resetVisibleCard(): void {
         this.visibleCardData = [
           this.cards[this.currReviewIndex].pinyin,
@@ -188,10 +190,9 @@
           .then((res) => {
             const currCard = this.cards[this.currReviewIndex].char
             if (this.type == 'quiz') {
-              const correctness = res.data[0] == currCard || res.data[1] == currCard ?
-                'correct' : 'incorrect'
+              const correctness = res.data[0] == currCard ? 'correct' : 'incorrect'
               this.cardCheck(correctness)
-              this.pred = correctness ? 'Correct! ' : 'Try again! '
+              this.pred = correctness == 'correct' ? 'Correct! ' : 'Incorrect '
             } else {
               this.pred = res.data[0] == currCard ? 'Correct! ' : 'Try again! '
               this.pred += `You wrote ${res.data[0]}`
@@ -205,7 +206,7 @@
         if (this.type == 'ocr' || this.type == 'quiz') {
           this.callOcr()
         }
-        if (this.visibleCardData.length == 3) {
+        if (this.visibleCardData.length == 3) { // If showing all sides of card
           this.resetVisibleCard()
         } else {
           this.visibleCardData.push(this.cards[this.currReviewIndex].char)
