@@ -160,6 +160,7 @@
           this.sendResults()
         } else {
           this.currReviewIndex++
+          this.clearCanvas()
           this.visibleCardData = [
             this.cards[this.currReviewIndex].pinyin,
             this.cards[this.currReviewIndex].definition,
@@ -183,8 +184,16 @@
           },
         })
           .then((res) => {
-            this.pred = res.data[0] == this.cards[this.currReviewIndex].char ? 'Correct! ' : 'Try again! '
-            this.pred += `You wrote ${res.data[0]}`
+            const currCard = this.cards[this.currReviewIndex].char
+            if (this.type == 'quiz') {
+              const correctness = res.data[0] == currCard || res.data[1] == currCard ?
+                'correct' : 'incorrect'
+              this.cardCheck(correctness)
+              this.pred = correctness ? 'Correct! ' : 'Try again! '
+            } else {
+              this.pred = res.data[0] == currCard ? 'Correct! ' : 'Try again! '
+              this.pred += `You wrote ${res.data[0]}`
+            }
           })
           .catch((err) => {
             console.log(err)
