@@ -74,7 +74,12 @@
               />
             </svg>
           </div>
-          <div
+          <div v-if="type == 'quiz'" @click="handleQuizCheckButton()"
+            class="px-4 py-2 mx-auto font-normal text-md rounded-md md:text-lg unselect bg-nord9"
+          >
+            {{ checkButtonMsg }}
+          </div>
+          <div v-else
             class="px-4 py-2 mx-auto font-normal text-md rounded-md md:text-lg unselect bg-nord9"
             @click="flipCard()"
           >
@@ -148,6 +153,7 @@
         mouseState: 'up',
         pred: '',
         currTime: Date.now(),
+        checkButtonMsg: 'Check Writing', // Used on quiz route to move on 
       }
     },
     methods: {
@@ -167,21 +173,19 @@
         if (this.currReviewIndex + 1 == this.cards.length) {
           this.sendResults()
         } else {
-          this.currReviewIndex++
-          this.clearCanvas()
-          this.visibleCardData = [
-            this.cards[this.currReviewIndex].pinyin,
-            this.cards[this.currReviewIndex].definition,
-          ]
+          if (this.type != 'quiz') {
+            this.currReviewIndex++
+            this.clearCanvas()
+            this.visibleCardData = [
+              this.cards[this.currReviewIndex].pinyin,
+              this.cards[this.currReviewIndex].definition,
+            ]
+          }
         }
       },
       override(correctness: string): void {
-        if (this.currReviewIndex == 0) {
-          this.pred = 'Check your writing before overriding results!'
-        } else {
-          this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
-          this.pred = `Marked previous card (${this.cards[this.currReviewIndex - 1].char}) as ${correctness}`
-        }
+        this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
+        this.pred = `Marked card (${this.cards[this.currReviewIndex].char}) as ${correctness}`
       },
       resetVisibleCard(): void {
         this.visibleCardData = [
@@ -222,6 +226,24 @@
           this.resetVisibleCard()
         } else {
           this.visibleCardData.push(this.cards[this.currReviewIndex].char)
+        }
+      },
+      handleQuizCheckButton(): void {
+        if (this.checkButtonMsg == 'Check Writing') {
+          this.flipCard()
+          this.checkButtonMsg = 'Next Card'
+        } else {
+          this.checkButtonMsg = 'Check Writing'
+          this.clearCanvas()
+          if (this.currReviewIndex + 1 == this.cards.length) { // TODO: Redundant code
+            this.sendResults()
+          } else {
+            this.currReviewIndex++
+            this.visibleCardData = [
+              this.cards[this.currReviewIndex].pinyin,
+              this.cards[this.currReviewIndex].definition,
+            ]
+          }
         }
       },
       sendResults(): void {
