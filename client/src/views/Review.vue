@@ -21,7 +21,7 @@
           </div>
         </div>
         <div
-          v-if="type == 'ocr'"
+          v-if="type == 'ocr' || type == 'quiz'"
           id="draw-wrapper"
           ref="draw-wrapper"
           class="mt-8 lg:ml-10 lg:mt-0"
@@ -58,6 +58,7 @@
           class="flex items-center justify-between m-auto mt-4 md:w-2/3 opacity-87"
         >
           <div
+            v-if="type != 'quiz'"
             class="px-4 py-3 btn bg-nord12 rounded-md"
             @click="cardCheck('incorrect')"
           >
@@ -81,6 +82,7 @@
             {{ type == 'flashcards' ? 'Flip Card' : 'Check Writing' }}
           </div>
           <div
+            v-if="type != 'quiz'"
             class="px-4 py-3 rounded-md bg-nord7"
             @click="cardCheck('correct')"
           >
@@ -160,6 +162,7 @@
           this.sendResults()
         } else {
           this.currReviewIndex++
+          this.clearCanvas()
           this.visibleCardData = [
             this.cards[this.currReviewIndex].pinyin,
             this.cards[this.currReviewIndex].definition,
@@ -183,15 +186,23 @@
           },
         })
           .then((res) => {
-            this.pred = res.data[0] == this.cards[this.currReviewIndex].char ? 'Correct! ' : 'Try again! '
-            this.pred += `You wrote ${res.data[0]}`
+            const currCard = this.cards[this.currReviewIndex].char
+            if (this.type == 'quiz') {
+              const correctness = res.data[0] == currCard || res.data[1] == currCard ?
+                'correct' : 'incorrect'
+              this.cardCheck(correctness)
+              this.pred = correctness ? 'Correct! ' : 'Try again! '
+            } else {
+              this.pred = res.data[0] == currCard ? 'Correct! ' : 'Try again! '
+              this.pred += `You wrote ${res.data[0]}`
+            }
           })
           .catch((err) => {
             console.log(err)
           })
       },
       flipCard(): void {
-        if (this.type == 'ocr') {
+        if (this.type == 'ocr' || this.type == 'quiz') {
           this.callOcr()
         }
         if (this.visibleCardData.length == 3) {
@@ -207,21 +218,26 @@
         })
       },
       getCardsToReview(): void {
-        axios({
-          method: 'post',
-          url: `${apiBaseURL}/deck/srs`,
-          withCredentials: true,
-          data: {
-            deckId: this.id,
-          },
-        })
-          .then((res) => {
-            this.cards = res.data
-            this.resetVisibleCard()
+        if (this.type == 'quiz') {
+          this.cards = this.$store.state.decks.currDeck.characters
+          this.resetVisibleCard()
+        } else {
+          axios({
+            method: 'post',
+            url: `${apiBaseURL}/deck/srs`,
+            withCredentials: true,
+            data: {
+              deckId: this.id,
+            },
           })
-          .catch((err) => {
-            console.log(err.response.data)
-          })
+            .then((res) => {
+              this.cards = res.data
+              this.resetVisibleCard()
+            })
+            .catch((err) => {
+              console.log(err.response.data)
+            })
+        }
       },
       setPos(e: MouseEvent) {
         // repeated in various functions to bypass typescript issue
@@ -286,7 +302,7 @@
       this.getCardsToReview()
     },
     updated() {
-      if (this.type == 'ocr') {
+      if (this.type == 'ocr' || this.type == 'quiz') {
         const canvas = document.getElementById('draw') as HTMLCanvasElement
         canvas?.addEventListener('pointermove', this.move, false)
         canvas?.addEventListener('pointerdown', this.mouseDown, false)
