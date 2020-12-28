@@ -1,4 +1,5 @@
 import { Decipher } from "crypto"
+import { send } from "process"
 
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
@@ -395,13 +396,18 @@ exports.srs = function(req, res, next) {
 
         deckInUser.srs.sort(compare)
 
-        for (let i in deckInUser.srs) {
-            if (deckIndexes[deckInUser.srs[i].charId]) {
-                sendArray.push(deck[deckIndexes[deckInUser.srs[i].charId]])
-                if (parseInt(i) == 14) break //Max number of cards for review is 15
+        var count = 0
+        for (let i of deckInUser.srs) {
+            if (deckIndexes[i.charId]) {
+                sendArray.push(deck["characters"][deckIndexes[i.charId]])
+
+                count++
+                if (count == 15) {
+                    break
+                }
+                //Max number of cards for review is 15
             }
         }
-
         res.send(sendArray)
     }
 
@@ -426,7 +432,7 @@ exports.srs = function(req, res, next) {
                                     let deckInUser
                                     if (user.decks.length == 0) {
                                         sendWithoutSRS(deck)
-                                    } else if (deckInUser == user.decks.filter( e => e.deckId == deckId)[0]) {
+                                    } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
                                         sendWithSRS(deckInUser, deck)
                                     } else {
                                         sendWithoutSRS(deck)
@@ -555,7 +561,8 @@ exports.practiced = function(req, res, next) {
             let srsObject = deckInUser.srs[index]
             let millisecondsInDay = 1000 * 60 *60 * 24
 
-            if (!index) {let easiness = 2.5 + ( 0.1 - ( 5 - i.quality ) * ( 0.08 + ( 5 - i.quality) * 0.02 ) )
+            if (!index) {
+                let easiness = 2.5 + ( 0.1 - ( 5 - i.quality ) * ( 0.08 + ( 5 - i.quality) * 0.02 ) )
                 let repetitions = (i.quality == 5) ? 1 : 0
                 let interval = 1
                 let nextDue = Date.now() + millisecondsInDay * interval
@@ -575,7 +582,6 @@ exports.practiced = function(req, res, next) {
                     interval = 6
                 } else if (repetitions > 2) {
                     interval = Math.ceil(srsObject.interval * easiness)
-                    console.log(srsObject)
                 }
                 let nextDue = Date.now() + millisecondsInDay * interval
 
