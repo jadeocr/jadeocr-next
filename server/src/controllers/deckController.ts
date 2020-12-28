@@ -1,6 +1,3 @@
-import { Decipher } from "crypto"
-import { send } from "process"
-
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -651,8 +648,12 @@ exports.practiced = function(req, res, next) {
 }
 
 exports.quizzed = function(req, res, next) {
-    let deckId = req.body.deck
+    let deckId = req.body.deckId
     let results = req.body.results
+
+    if (typeof(results) == "string") {
+        results = JSON.parse(results)
+    }
 
     let writeResultsToUser = function(results, deck, attemptNumber) {
         let writeArray = []
@@ -718,7 +719,7 @@ exports.quizzed = function(req, res, next) {
                                 writeResultsToUser(results, user.decks[0], 0)
                                 saveUser(user, returnedDeck)
                             } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
-                                writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts)
+                                writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts ?? 0)
                                 saveUser(user, returnedDeck)
                             } else {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
