@@ -535,6 +535,10 @@ exports.practiced = function(req, res, next) {
     let deckId = req.body.deckId
     let results = req.body.results //array of {id, quality}
 
+    if (typeof(results) == "string") {
+        results = JSON.parse(results)
+    }
+
     let writeSRS = function(resultsForSRS, deck, deckInUser) {
         let srsInUser = {}
         let validDeckIds = {}
