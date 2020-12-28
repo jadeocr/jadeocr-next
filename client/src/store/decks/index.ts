@@ -173,21 +173,44 @@ export const decks = {
       { commit }: { commit: Function },
       payload: {
         deckId: string
+        type: string
         results: Array<ReviewResult>
       }
     ): void {
-      axios({
-        method: 'post',
-        url: `${apiBaseURL}/deck/practiced`,
-        withCredentials: true,
-        data: payload,
-      })
+      console.log(payload.deckId)
+      if (payload.type == 'quiz') {
+        axios({
+          method: 'post',
+          url: `${apiBaseURL}/deck/quizzed`,
+          withCredentials: true,
+          data: {
+            deckId: payload.deckId,
+            results: payload.results
+          }
+        })
         .then(() => {
           router.push({ name: 'Deck', params: { id: payload.deckId } })
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data)
         })
+      } else {
+        axios({
+          method: 'post',
+          url: `${apiBaseURL}/deck/practiced`,
+          withCredentials: true,
+          data: {
+            deckId: payload.deckId,
+            results: payload.results
+          },
+        })
+          .then(() => {
+            router.push({ name: 'Deck', params: { id: payload.deckId } })
+          })
+          .catch((err) => {
+            console.log(err.response.data)
+          })
+      }
     },
   },
 }
