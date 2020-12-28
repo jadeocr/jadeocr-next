@@ -161,7 +161,7 @@
         if (this.type == 'quiz') {
           this.results.push({
             id: this.cards[this.currReviewIndex].id,
-            correct: correctness == 'correctness',
+            correct: correctness == 'correct',
             overriden: false,
           })
         } else {
