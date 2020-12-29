@@ -29,6 +29,28 @@
                 </span>
               </form>
             </div>
+            <div v-if="$store.state.classes.classes">
+              <div
+                v-for="(n, c) in $store.state.classes.classes"
+                :key="c.key"
+                class="my-4 mr-4 col-span-1"
+              >
+                <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+                  <div
+                    class="text-xl font-normal"
+                  >
+                    {{ $store.state.classes.classes[c] }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
+                  Create a deck to get started!
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -54,6 +76,9 @@
       callJoinClass(): void {
         this.$store.dispatch('classes/joinClass', this.classCode)
       },
+    },
+    mounted() {
+      this.$store.dispatch('classes/getClasses')
     },
   })
 </script>
