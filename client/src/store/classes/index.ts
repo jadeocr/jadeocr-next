@@ -30,6 +30,9 @@ export const classes = {
           classCode: classCode
         }
       })
+        .then(() => {
+          commit('setClassErrMsg', '')
+        })
         .catch((err) => {
           commit('setClassErrMsg', err.response.data)
           console.log(err.response.data)

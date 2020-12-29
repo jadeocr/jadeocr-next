@@ -11,7 +11,7 @@
               Classes
             </div>
             <div class="mt-4">
-              <div class="w-1/3 lg:w-1/4">
+              <form class="w-1/3 lg:w-1/4" @submit.prevent="">
                 <input
                   v-model="classCode"
                   class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
@@ -20,13 +20,14 @@
                 <button
                   @click="callJoinClass()"
                   class="px-3 py-2 mt-6 font-light rounded bg-nord2"
+                  type="submit"
                 >
                   Join Class
                 </button>
-                <div class="font-normal text-nord11" >
-                  {{ $store.state.classes.classErrorMsg }}
-                </div>
-              </div>
+                <span class="mx-4 font-normal text-nord11">
+                  {{ $store.state.classes.classErrMsg }}
+                </span>
+              </form>
             </div>
           </div>
         </div>
@@ -53,9 +54,6 @@
       callJoinClass(): void {
         this.$store.dispatch('classes/joinClass', this.classCode)
       },
-    },
-    mounted() {
-      console.log('hi')
     },
   })
 </script>
