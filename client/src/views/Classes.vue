@@ -10,7 +10,24 @@
             <div class="text-2xl font-normal md:text-3xl">
               Classes
             </div>
-            <div class="mt-4 text-lg"></div>
+            <div class="mt-4">
+              <div class="w-1/3 lg:w-1/4">
+                <input
+                  v-model="classCode"
+                  class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                  :placeholder="'Enter your six-digit class code'"
+                />
+                <button
+                  @click="callJoinClass()"
+                  class="px-3 py-2 mt-6 font-light rounded bg-nord2"
+                >
+                  Join Class
+                </button>
+                <div class="font-normal text-nord11" >
+                  {{ $store.state.classes.classErrorMsg }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -27,7 +44,32 @@
     components: {
       Sidebar,
     },
+    data() {
+      return {
+        classCode: "",
+      }
+    },
+    methods: {
+      callJoinClass(): void {
+        this.$store.dispatch('classes/joinClass', this.classCode)
+      },
+    },
+    mounted() {
+      console.log('hi')
+    },
   })
 </script>
 
-<style scoped></style>
+<style scoped>
+  input {
+    background-color: transparent;
+    outline-width: 0;
+  }
+  input.border-underline {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    transition: border-bottom 0.25s ease-in-out;
+  }
+  input.border-underline:focus {
+    border-bottom: 2px solid rgba(255, 255, 255, 1);
+  }
+</style>
