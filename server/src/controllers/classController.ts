@@ -22,7 +22,8 @@ exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
         res.sendStatus(403)
     } else {
-        let teacher = req.user._id
+        let teacherId = req.user._id
+        let teacherName = req.user.firstName + " " + req.user.lastName
         let className = req.body.className || "No name provided"
         let description = req.body.description || "No description provided"
         let private = req.body.private || true
@@ -35,7 +36,8 @@ exports.createClass = function(req, res, next) {
                     createClass()
                 } else {
                     var Class = new classModel({
-                        teacher: teacher,
+                        teacherId: teacherId,
+                        teacherName: teacherName,
                         name: className,
                         description: description,
                         private: private,
@@ -46,7 +48,7 @@ exports.createClass = function(req, res, next) {
                             console.log(err)
                             res.sendStatus(400)
                         } else {
-                            userDetailedModel.findOne({id: teacher}, function(err, returnedTeacher) {
+                            userDetailedModel.findOne({id: teacherId}, function(err, returnedTeacher) {
                                 if (err) {
                                     console.log(err)
                                     res.status(400).send('There was an error')
@@ -67,7 +69,7 @@ exports.createClass = function(req, res, next) {
 }
 
 exports.removeClass = function(req, res, next) {
-    let teacher = req.user._id
+    let teacher = String(req.user._id)
     let classCode = req.body.classCode
 
     classModel.findOne({classCode: classCode}, function(err, Class) {
@@ -76,9 +78,9 @@ exports.removeClass = function(req, res, next) {
             res.send('There was an error')
         } else if (!Class) {
             res.send('No class found')
-        } else if (Class.teacher != teacher) {
+        } else if (Class.teacherId != teacher) {
             res.sendStatus(401)
-        } else if (Class.teacher == teacher) {
+        } else if (Class.teacherId == teacher) {
             classModel.deleteOne({_id: Class._id}, function(err) {
                 if (err) console.log(err)
                 res.sendStatus(200)
@@ -99,7 +101,7 @@ exports.join = function(req, res, next) {
             res.sendStatus(400)
         } else if (!Class) {
             res.status(400).send('Class does not exist')
-        }  else if (Class.teacher == student) {
+        }  else if (Class.teacherId == student) {
             res.send('User cannot join a class they teach')
         } else if (Class.students.length == 0) {
             Class.students.push(student)
@@ -142,7 +144,7 @@ exports.leave = function(req, res, next) {
         if (err) {
             console.log(err)
             res.send("There was an error")
-        } else if (student == Class.teacher) {
+        } else if (student == Class.teacherId) {
             res.send('Teacher cannot leave class they teach')
         } else if (Class.students.length == 0) {
             res.send('Student not in class')
@@ -174,6 +176,119 @@ exports.leave = function(req, res, next) {
             }
         })
     }
+}
+
+exports.getJoinedClasses = function(req, res, next) {
+    let userId = String(req.user._id)
+
+    userDetailedModel.findOne({id: userId}, function(userErr, user) {
+        if (userErr) {console.log(userErr)}
+
+        if (!user) {
+            res.status(400).send('No user found')
+        } else {
+            let classCodeArray = []
+
+            for (let Class of user.classes) {
+                classCodeArray.push({
+                    classCode: Class
+                })
+            }
+
+            classModel.find({ $or: classCodeArray}, function(classErr, classes) {
+                if (classErr) {console.log(classErr)}
+    
+                if (!classes) {
+                    res.send('User has not joined any classes')
+                } else {
+                    let classArray = []
+
+                    for (let Class of classes) {
+                        classArray.push({
+                            name: Class.name,
+                            description: Class.description,
+                            teacherName: Class.teacherName,
+                            classCode: Class.classCode,
+                        })
+                    }
+
+                    res.send(classArray)
+                }
+            })
+        }        
+    })
+}
+
+exports.getTeachingClasses = function(req, res, next) {
+    let teacherId = String(req.user._id)
+
+    userDetailedModel.findOne({id: teacherId}, function(userErr, teacher) {
+        if (userErr) {console.log(userErr)}
+
+        if (!teacher) {
+            res.status(400).send('No user found')
+        } else if (teacher.isTeacher == false) {
+            res.status(403).send('User is not a teacher')
+        } else {
+            let classCodeArray = []
+
+            for (let Class of teacher.classesTeaching) {
+                classCodeArray.push({
+                    classCode: Class
+                })
+            }
+
+            classModel.find({ $or: classCodeArray}, function(classErr, classes) {
+                if (classErr) {console.log(classErr)}
+    
+                if (!classes) {
+                    res.send('User has not joined any classes')
+                } else {
+                    let classArray = []
+
+                    for (let Class of classes) {
+                        classArray.push({
+                            name: Class.name,
+                            description: Class.description,
+                            teacherName: Class.teacherName,
+                            classCode: Class.classCode,
+                        })
+                    }
+
+                    res.send(classArray)
+                }
+            })
+        }        
+    })
+}
+
+exports.Class = function(req, res, next) {
+    let classCode = req.body.classCode
+    let userId = String(req.user._id)
+
+    classModel.findOne({classCode: classCode}, function(err, Class) {
+        if (!Class) {
+            res.status(400).send('No class found')
+        } else {
+            
+            if (Class.teacherId == userId) {
+                res.send(Class)
+            } else {
+                if (!Class.students) {
+                    res.status(403).send('User does not teach this class or is not in this class')
+                } else {
+                    for (let i in Class.students) {
+                        if (Class.students[i] == userId) {
+                            res.send(Class)
+                            break
+                        } else if (parseInt(i) + 1 == Class.students.length) {
+                            res.status(403).send('User does not teach this class or is not in this class')
+                        }
+                    }
+                } 
+            }
+        }
+    })
 }
 
 exports.assign = function(req, res, next) {
