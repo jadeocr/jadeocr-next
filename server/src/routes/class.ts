@@ -24,6 +24,13 @@ router.post('/api/class/leave', authMiddleware, [
   body('classCode').trim().escape(),
 ], classController.leave)
 
+router.post('/api/class/getJoinedClasses', authMiddleware, classController.getJoinedClasses)
+router.post('/api/class/getTeachingClasses', authMiddleware, classController.getTeachingClasses)
+
+router.post('/api/class/class', authMiddleware, [
+  body('classCode').trim().escape(),
+], classController.Class)
+
 router.post('/api/class/assign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deck').trim().escape(),
