@@ -195,26 +195,30 @@ exports.getJoinedClasses = function(req, res, next) {
                 })
             }
 
-            classModel.find({ $or: classCodeArray}, function(classErr, classes) {
-                if (classErr) {console.log(classErr)}
-    
-                if (!classes) {
-                    res.send('User has not joined any classes')
-                } else {
-                    let classArray = []
+            if (classCodeArray.length) {
+              classModel.find({ $or: classCodeArray}, function(classErr, classes) {
+                  if (classErr) {console.log(classErr)}
+      
+                  if (!classes) {
+                      res.status(400).send('User has not joined any classes')
+                  } else {
+                      let classArray = []
 
-                    for (let Class of classes) {
-                        classArray.push({
-                            name: Class.name,
-                            description: Class.description,
-                            teacherName: Class.teacherName,
-                            classCode: Class.classCode,
-                        })
-                    }
+                      for (let Class of classes) { // bypass js keyword
+                          classArray.push({
+                              name: Class.name,
+                              description: Class.description,
+                              teacherName: Class.teacherName,
+                              classCode: Class.classCode,
+                          })
+                      }
 
-                    res.send(classArray)
-                }
-            })
+                      res.status(200).send(classArray)
+                  }
+              })
+            } else {
+              res.status(400).send('User has not joined any classes')
+            }
         }        
     })
 }
@@ -238,26 +242,30 @@ exports.getTeachingClasses = function(req, res, next) {
                 })
             }
 
-            classModel.find({ $or: classCodeArray}, function(classErr, classes) {
-                if (classErr) {console.log(classErr)}
-    
-                if (!classes) {
-                    res.send('User has not joined any classes')
-                } else {
-                    let classArray = []
+            if (classCodeArray.length) {
+              classModel.find({ $or: classCodeArray}, function(classErr, classes) {
+                  if (classErr) {console.log(classErr)}
+      
+                  if (!classes) {
+                      res.send('User is not teaching any classes')
+                  } else {
+                      let classArray = []
 
-                    for (let Class of classes) {
-                        classArray.push({
-                            name: Class.name,
-                            description: Class.description,
-                            teacherName: Class.teacherName,
-                            classCode: Class.classCode,
-                        })
-                    }
+                      for (let Class of classes) {
+                          classArray.push({
+                              name: Class.name,
+                              description: Class.description,
+                              teacherName: Class.teacherName,
+                              classCode: Class.classCode,
+                          })
+                      }
 
-                    res.send(classArray)
-                }
-            })
+                      res.status(200).send(classArray)
+                  }
+              })
+            } else {
+              res.status(400).send('User is not teaching any classes')
+            }
         }        
     })
 }
