@@ -111,7 +111,7 @@ exports.join = function(req, res, next) {
         } else {
             for (let i in Class.students) {
                 if (String(Class.students[i]) == student) {
-                    res.send("Student already in class")
+                    res.status(400).send("Student already in class")
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
                     Class.students.push(student)
