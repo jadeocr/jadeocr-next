@@ -11,7 +11,7 @@
               Classes
             </div>
             <div class="mt-4">
-              <form class="w-1/3 lg:w-1/4" @submit.prevent="">
+              <form class="w-3/4 md:w-1/2 lg:w-1/3" @submit.prevent="">
                 <input
                   v-model="classCode"
                   class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
@@ -19,7 +19,7 @@
                 />
                 <button
                   @click="callJoinClass()"
-                  class="px-3 py-2 mt-6 font-light rounded bg-nord2"
+                  class="px-3 py-2 my-6 font-light rounded bg-nord2"
                   type="submit"
                 >
                   Join Class
@@ -29,25 +29,58 @@
                 </span>
               </form>
             </div>
-            <div v-if="$store.state.classes.classes">
+            <div
+              v-if="$store.state.classes.classes.length"
+              class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+            >
               <div
                 v-for="(n, c) in $store.state.classes.classes"
                 :key="c.key"
                 class="my-4 mr-4 col-span-1"
               >
                 <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
-                  <div
+                  <router-link
                     class="text-xl font-normal"
+                    :to="{
+                      path: `/class/${$store.state.classes.classes[c].classCode}`,
+                    }"
                   >
-                    {{ $store.state.classes.classes[c] }}
+                    {{ $store.state.classes.classes[c].name }}
+                  </router-link>
+                  <div>{{ $store.state.classes.classes[c].description }}</div>
+                </div>
+              </div>
+            </div>
+            <div
+              v-else-if="$store.state.classes.classesTeaching.length"
+              class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+            >
+              <div
+                v-for="(n, c) in $store.state.classes.classesTeaching"
+                :key="c.key"
+                class="my-4 mr-4 col-span-1"
+              >
+                <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+                  <router-link
+                    class="text-xl font-normal"
+                    :to="{
+                      path: `/class/${$store.state.classes.classesTeaching[c].classCode}`,
+                    }"
+                  >
+                    {{ $store.state.classes.classesTeaching[c].name }}
+                  </router-link>
+                  <div>
+                    {{ $store.state.classes.classesTeaching[c].description }}
                   </div>
                 </div>
               </div>
             </div>
             <div v-else>
               <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
-                  Create a deck to get started!
+                <div
+                  class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                >
+                  Join a class to see it appear here!
                 </div>
               </div>
             </div>
@@ -69,7 +102,7 @@
     },
     data() {
       return {
-        classCode: "",
+        classCode: '',
       }
     },
     methods: {
@@ -78,7 +111,9 @@
       },
     },
     mounted() {
-      this.$store.dispatch('classes/getClasses')
+      this.$store.commit('classes/setClassErrMsg', '')
+      this.$store.dispatch('classes/getClassesJoined')
+      this.$store.dispatch('classes/getClassesTeaching')
     },
   })
 </script>

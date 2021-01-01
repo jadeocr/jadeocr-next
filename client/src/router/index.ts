@@ -79,6 +79,16 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/class/:classCode',
+    props: true,
+    name: 'Class',
+    component: () =>
+      import(/* webpackChunkName: 'class' */ '../views/Class.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 const router = createRouter({

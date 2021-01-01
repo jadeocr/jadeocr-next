@@ -185,15 +185,15 @@ export const decks = {
           withCredentials: true,
           data: {
             deckId: payload.deckId,
-            results: payload.results
-          }
+            results: payload.results,
+          },
         })
-        .then(() => {
-          router.push({ name: 'Deck', params: { id: payload.deckId } })
-        })
-        .catch((err) => {
-          console.log(err.response.data)
-        })
+          .then(() => {
+            router.push({ name: 'Deck', params: { id: payload.deckId } })
+          })
+          .catch((err) => {
+            console.log(err.response.data)
+          })
       } else {
         axios({
           method: 'post',
@@ -201,7 +201,7 @@ export const decks = {
           withCredentials: true,
           data: {
             deckId: payload.deckId,
-            results: payload.results
+            results: payload.results,
           },
         })
           .then(() => {
