@@ -11,7 +11,7 @@
               Classes
             </div>
             <div class="mt-4">
-              <form class="w-1/3 lg:w-1/4" @submit.prevent="">
+              <form class="w-3/4 md:w-1/2 lg:w-1/3" @submit.prevent="">
                 <input
                   v-model="classCode"
                   class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
@@ -78,6 +78,7 @@
       },
     },
     mounted() {
+      this.$store.commit('classes/setClassErrMsg', '')
       this.$store.dispatch('classes/getClasses')
     },
   })
