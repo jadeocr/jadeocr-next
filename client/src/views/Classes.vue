@@ -19,7 +19,7 @@
                 />
                 <button
                   @click="callJoinClass()"
-                  class="px-3 py-2 mt-6 font-light rounded bg-nord2"
+                  class="px-3 py-2 my-6 font-light rounded bg-nord2"
                   type="submit"
                 >
                   Join Class

@@ -80,7 +80,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/class/:id',
+    path: '/class/:classCode',
     props: true,
     name: 'Class',
     component: () =>
