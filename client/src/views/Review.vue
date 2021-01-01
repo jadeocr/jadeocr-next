@@ -59,7 +59,9 @@
         >
           <div
             class="px-4 py-3 btn bg-nord12 rounded-md"
-            @click="type != 'quiz' ? cardCheck('incorrect') : override('incorrect')"
+            @click="
+              type != 'quiz' ? cardCheck('incorrect') : override('incorrect')
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -74,12 +76,15 @@
               />
             </svg>
           </div>
-          <div v-if="type == 'quiz'" @click="handleQuizCheckButton()"
+          <div
+            v-if="type == 'quiz'"
+            @click="handleQuizCheckButton()"
             class="px-4 py-2 mx-auto font-normal text-md rounded-md md:text-lg unselect bg-nord9"
           >
             {{ checkButtonMsg }}
           </div>
-          <div v-else
+          <div
+            v-else
             class="px-4 py-2 mx-auto font-normal text-md rounded-md md:text-lg unselect bg-nord9"
             @click="flipCard()"
           >
@@ -104,10 +109,12 @@
           </div>
         </div>
       </div>
-			<div v-if="pred"
-			class="mt-4 text-lg text-teal-500 md:mt-8 md:text-xl chinese">
-				{{ pred }}
-			</div>
+      <div
+        v-if="pred"
+        class="mt-4 text-lg text-teal-500 md:mt-8 md:text-xl chinese"
+      >
+        {{ pred }}
+      </div>
     </div>
   </div>
 </template>
@@ -153,7 +160,7 @@
         mouseState: 'up',
         pred: '',
         currTime: Date.now(),
-        checkButtonMsg: 'Check Writing', // Used on quiz route to move on 
+        checkButtonMsg: 'Check Writing', // Used on quiz route to move on
       }
     },
     methods: {
@@ -184,8 +191,11 @@
         }
       },
       override(correctness: string): void {
-        this.results[this.results.length - 1].quality = correctness == 'correct' ? 5 : 0
-        this.pred = `Marked card ${this.cards[this.currReviewIndex].char} as ${correctness}`
+        this.results[this.results.length - 1].quality =
+          correctness == 'correct' ? 5 : 0
+        this.pred = `Marked card ${
+          this.cards[this.currReviewIndex].char
+        } as ${correctness}`
       },
       resetVisibleCard(): void {
         this.visibleCardData = [
@@ -206,7 +216,8 @@
           .then((res) => {
             const currCard = this.cards[this.currReviewIndex].char
             if (this.type == 'quiz') {
-              const correctness = res.data[0] == currCard ? 'correct' : 'incorrect'
+              const correctness =
+                res.data[0] == currCard ? 'correct' : 'incorrect'
               this.cardCheck(correctness)
               this.pred = correctness == 'correct' ? 'Correct!' : 'Incorrect!'
             } else {
@@ -222,7 +233,8 @@
         if (this.type == 'ocr' || this.type == 'quiz') {
           this.callOcr()
         }
-        if (this.visibleCardData.length == 3) { // If showing all sides of card
+        if (this.visibleCardData.length == 3) {
+          // If showing all sides of card
           this.resetVisibleCard()
         } else {
           this.visibleCardData.push(this.cards[this.currReviewIndex].char)
@@ -235,7 +247,8 @@
         } else {
           this.checkButtonMsg = 'Check Writing'
           this.clearCanvas()
-          if (this.currReviewIndex + 1 == this.cards.length) { // TODO: Redundant code
+          if (this.currReviewIndex + 1 == this.cards.length) {
+            // TODO: Redundant code
             this.sendResults()
           } else {
             this.currReviewIndex++
@@ -279,11 +292,11 @@
         // repeated in various functions to bypass typescript issue
         const canvas = document.getElementById('draw') as HTMLCanvasElement
         const domRect = canvas.getBoundingClientRect()
-        this.xPos = (e.clientX - domRect.left) / domRect.width * canvas.width
-        this.yPos = (e.clientY - domRect.top) / domRect.height * canvas.height
+        this.xPos = ((e.clientX - domRect.left) / domRect.width) * canvas.width
+        this.yPos = ((e.clientY - domRect.top) / domRect.height) * canvas.height
       },
       drawLine(e: MouseEvent, ctx: any) {
-        if (!window.matchMedia("(pointer: coarse)").matches) {
+        if (!window.matchMedia('(pointer: coarse)').matches) {
           if (e.buttons !== 1) return // is not touchscreen
         }
         ctx.beginPath()
@@ -318,7 +331,7 @@
           this.drawLine(e, ctx)
           this.setPos(e)
 
-          if ((Date.now() - this.currTime) > 20) {
+          if (Date.now() - this.currTime > 20) {
             this.currTime = Date.now()
             this.subStrokeArray.push([this.xPos, this.yPos])
           }
@@ -332,7 +345,7 @@
           ctx.clearRect(0, 0, canvas.width, canvas.height)
           this.strokeArray = []
         }
-      }
+      },
     },
     mounted() {
       this.getCardsToReview()

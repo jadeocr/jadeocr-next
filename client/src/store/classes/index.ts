@@ -14,7 +14,6 @@ export const classes = {
     // eslint-disable-next-line
     setClasses(state: any, classes: Array<ClassI>) {
       state.classes = classes
-      console.log(state.classes)
     },
     // eslint-disable-next-line
     setClassesTeaching(state: any, classesTeaching: Array<ClassI>) {
@@ -23,10 +22,31 @@ export const classes = {
     // eslint-disable-next-line
     setClassErrMsg(state: any, msg: string) {
       state.classErrMsg = msg
-    }
+    },
   },
   actions: {
-    getClasses({ commit, rootState }: { commit: Function, rootState: any }): void {
+    getClassesTeaching({
+      commit,
+      rootState,
+    }: {
+      commit: Function
+      rootState: any
+    }): void {
+      if (rootState.auth.isTeacher) {
+        axios({
+          method: 'post',
+          withCredentials: true,
+          url: `${apiBaseURL}/class/getTeachingClasses`,
+        })
+          .then((res) => {
+            commit('setClassesTeaching', res.data)
+          })
+          .catch((err) => {
+            console.log(err.response.data)
+          })
+      }
+    },
+    getClassesJoined({ commit }: { commit: Function }): void {
       axios({
         method: 'post',
         withCredentials: true,
@@ -34,22 +54,6 @@ export const classes = {
       })
         .then((res) => {
           commit('setClasses', res.data)
-        })
-        .then(() => {
-          if (rootState.auth.isTeacher) {
-            axios({
-              method: 'post',
-              withCredentials: true,
-              url: `${apiBaseURL}/class/getTeachingClasses`,
-            })
-            .then((res) => {
-              commit('setClassesTeaching', res.data)
-              console.log(res.data)
-            })
-            .catch((err) => {
-              console.log(err.response.data)
-            })
-          }
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -61,8 +65,8 @@ export const classes = {
         withCredentials: true,
         url: `${apiBaseURL}/class/join`,
         data: {
-          classCode: classCode
-        }
+          classCode: classCode,
+        },
       })
         .then(() => {
           commit('setClassErrMsg', '')
@@ -71,6 +75,6 @@ export const classes = {
           commit('setClassErrMsg', err.response.data)
           console.log(err.response.data)
         })
-    }
+    },
   },
 }

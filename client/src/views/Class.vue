@@ -4,12 +4,10 @@
       <div class="col-span-1">
         <sidebar />
       </div>
-      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
-      </div>
+      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content"></div>
     </div>
   </div>
 </template>
-
 
 <script lang="ts">
   import { defineComponent } from 'vue'
@@ -21,7 +19,7 @@
       id: {
         type: String,
         required: true,
-      }
+      },
     },
     components: {
       Sidebar,
@@ -29,7 +27,4 @@
   })
 </script>
 
-
-<style scoped>
-
-</style>
+<style scoped></style>

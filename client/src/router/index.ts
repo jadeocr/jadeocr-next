@@ -83,7 +83,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/class/:id',
     props: true,
     name: 'Class',
-    component: () => import(/* webpackChunkName: 'class' */ '../views/Class.vue'),
+    component: () =>
+      import(/* webpackChunkName: 'class' */ '../views/Class.vue'),
     meta: {
       requiresAuth: true,
     },
