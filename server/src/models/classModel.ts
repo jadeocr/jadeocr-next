@@ -20,6 +20,8 @@ var classSchema = new mongoose.Schema({
         },
         scramble: Boolean,
         repetitions: Number,
+        assignedDate: Number,
+        dueDate: Number,
         results: {type: Object, default: {}},
     }],
 }, {minimize: false})

@@ -314,23 +314,24 @@ exports.assign = function(req, res, next) {
         let front = req.body.front
         let scramble = req.body.scramble
         let repetitions = req.body.repetitions
+        let dueDate = req.body.dueDate
 
-        let assignDeck = function(Class, deckId, deck) {
+        let checkIfDeckIsAssigned = function(Class, deckId, deck) {
             if (!Class.assignedDecks.length) {
-                checkIfArgumentsAreCorrect(Class, deckId, deck)
+                assignDeck(Class, deckId, deck)
             } else {
                 for (let i in Class.assignedDecks) {
                     if (Class.assignedDecks[i] == deckId) {
                         res.status(400).send("Deck already assigned")
                         break
                     } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                        checkIfArgumentsAreCorrect(Class, deckId, deck)
+                        assignDeck(Class, deckId, deck)
                     }
                 }
             }
         }
 
-        let checkIfArgumentsAreCorrect = function (Class, deckId, deck) {
+        let assignDeck = function (Class, deckId, deck) {
             if (mode != "quiz" && front == "handwriting") {
                 res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
             } else if (!Number.isInteger(repetitions) && repetitions) {
@@ -350,6 +351,8 @@ exports.assign = function(req, res, next) {
                     front: front,
                     scramble: scramble,
                     repetitions: repetitions,
+                    assignedDate: Date.now(),
+                    dueDate: dueDate,
                 })
                 deck.access.classes[Class.classCode] = true
                 saveClassAndDeck(Class, deck, res)
@@ -370,9 +373,9 @@ exports.assign = function(req, res, next) {
                         console.log(deckErr)
                         res.status(400).send('There was an error')
                     } else if (returnedDeck.access.isPublic == true) {
-                        assignDeck(Class, deckId, returnedDeck)
+                        checkIfDeckIsAssigned(Class, deckId, returnedDeck)
                     } else if (returnedDeck.creator == teacher) {
-                        assignDeck(Class, deckId, returnedDeck)
+                        checkIfDeckIsAssigned(Class, deckId, returnedDeck)
                     } else {
                         res.status(403).send('User does not have permission to access deck')
                     }
@@ -469,3 +472,4 @@ exports.getAssignedDecks = function(req, res, next) {
 //get assigned decks as teacher (get class as teacher)
 //submit finished deck (only for students)
 //see results of deck as teacher
+//assign deck with due dates
