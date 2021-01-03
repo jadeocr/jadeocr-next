@@ -53,6 +53,7 @@ router.post('/api/class/assign', authMiddleware, [
   }),
   body("scramble").trim().toBoolean(),
   body("repetitions").trim().escape(),
+  body("dueDate").trim().exists().isNumeric(),
 ], classController.assign)
 
 router.post('/api/class/unassign', authMiddleware, [
