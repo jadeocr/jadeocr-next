@@ -146,7 +146,9 @@ exports.createDeck = function(req, res, next) {
             creatorLast: req.user.lastName,
             createdDate: Date.now(),
             access: {
-                isPublic: req.body.isPublic
+                isPublic: req.body.isPublic,
+                users: undefined,
+                classes: undefined,
             }
         })
         

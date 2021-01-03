@@ -1,6 +1,7 @@
 var classModel = require('../models/classModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var deckModel = require('../models/deckModel')
+var { validationResult } = require('express-validator')
 
 let saveClassAndDeck = function(classToSave, deckToSave, res) {
     classToSave.save(function(classErr) {
@@ -300,51 +301,85 @@ exports.Class = function(req, res, next) {
 }
 
 exports.assign = function(req, res, next) {
-    let teacher = String(req.user._id)
-    let classCode = req.body.classCode
-    let deckId = req.body.deck
+    let errors = validationResult(req)
 
-    let assignDeck = function(Class, deckId, deck) {
-        if (!Class.assignedDecks.length) {
-            Class.assignedDecks.push(deckId)
-            deck.access.classes[Class.classCode] = true
-            saveClassAndDeck(Class, deck, res)
-        } else {
-            for (let i in Class.assignedDecks) {
-                if (Class.assignedDecks[i] == deckId) {
-                    res.status(400).send("Deck already assigned")
-                } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                    Class.assignedDecks.push(deckId)
-                    deck.access.classes[Class.classCode] = true
-                    saveClassAndDeck(Class, deck, res)
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    } else {
+        let teacher = String(req.user._id)
+        let classCode = req.body.classCode
+        let deckId = req.body.deck
+        let mode = req.body.mode
+        let handwriting = req.body.handwriting
+        let front = req.body.front
+        let scramble = req.body.scramble
+        let repetitions = req.body.repetitions
+
+        let assignDeck = function(Class, deckId, deck) {
+            if (!Class.assignedDecks.length) {
+                checkIfArgumentsAreCorrect(Class, deckId, deck)
+            } else {
+                for (let i in Class.assignedDecks) {
+                    if (Class.assignedDecks[i] == deckId) {
+                        res.status(400).send("Deck already assigned")
+                        break
+                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
+                        checkIfArgumentsAreCorrect(Class, deckId, deck)
+                    }
                 }
             }
         }
-    }
-    
-    classModel.findOne({classCode: classCode}, function(classErr, Class) {
-        if (classErr) {
-            console.log(classErr)
-            res.status(400).send("There was an error")
-        } else if (!Class) {
-            res.status(400).send("The class does not exist")
-        } else if (Class.teacher != teacher) {
-            res.sendStatus(403)
-        } else {
-            deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
-                if (deckErr) {
-                    console.log(deckErr)
-                    res.status(400).send('There was an error')
-                } else if (returnedDeck.access.isPublic == true) {
-                    assignDeck(Class, deckId, returnedDeck)
-                } else if (returnedDeck.creator == teacher) {
-                    assignDeck(Class, deckId, returnedDeck)
-                } else {
-                    res.status(403).send('User does not have permission to access deck')
+
+        let checkIfArgumentsAreCorrect = function (Class, deckId, deck) {
+            if (mode != "quiz" && front == "handwriting") {
+                res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
+            } else if (!Number.isInteger(repetitions) && repetitions) {
+                res.status(400).send('If a repetitions value is sent, it must be an integer')
+            } else if (mode == "learn" && !repetitions) {
+                res.status(400).send('A repetitions value must be sent for learn mode')
+            } else if (mode != "learn" && scramble) {
+                res.status(400).send('Only learn mode supports scramble')
+            } else {
+                if (!repetitions) {
+                    repetitions = 1
                 }
-            })
+                Class.assignedDecks.push({
+                    deckId: deckId,
+                    mode: mode,
+                    handwriting: handwriting,
+                    front: front,
+                    scramble: scramble,
+                    repetitions: repetitions,
+                })
+                deck.access.classes[Class.classCode] = true
+                saveClassAndDeck(Class, deck, res)
+            }
         }
-    })
+        
+        classModel.findOne({classCode: classCode}, function(classErr, Class) {
+            if (classErr) {
+                console.log(classErr)
+                res.status(400).send("There was an error")
+            } else if (!Class) {
+                res.status(400).send("The class does not exist")
+            } else if (Class.teacherId != teacher) {
+                res.sendStatus(403)
+            } else {
+                deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
+                    if (deckErr) {
+                        console.log(deckErr)
+                        res.status(400).send('There was an error')
+                    } else if (returnedDeck.access.isPublic == true) {
+                        assignDeck(Class, deckId, returnedDeck)
+                    } else if (returnedDeck.creator == teacher) {
+                        assignDeck(Class, deckId, returnedDeck)
+                    } else {
+                        res.status(403).send('User does not have permission to access deck')
+                    }
+                })
+            }
+        })
+    }
 }
 
 exports.unassign = function(req, res, next) {
@@ -428,3 +463,9 @@ exports.getAssignedDecks = function(req, res, next) {
         }
     })
 }
+
+
+//get assigned decks as student (get class as student)
+//get assigned decks as teacher (get class as teacher)
+//submit finished deck (only for students)
+//see results of deck as teacher

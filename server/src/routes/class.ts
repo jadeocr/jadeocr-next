@@ -1,3 +1,5 @@
+import e = require("express")
+
 var express = require('express')
 var router = express.Router()
 var cors = require('cors')
@@ -32,8 +34,25 @@ router.post('/api/class/class', authMiddleware, [
 ], classController.Class)
 
 router.post('/api/class/assign', authMiddleware, [
-  body('classCode').trim().escape(),
-  body('deck').trim().escape(),
+  body('classCode').trim().escape().exists(),
+  body('deck').trim().escape().exists(),
+  body('mode').custom(value => {
+    if ((value == "learn") || (value == "quiz") || (value == "srs")) {
+      return true
+    } else {
+      throw new Error('mode must be: "learn", "srs", "quiz"')
+    }
+  }),
+  body("handwriting").trim().toBoolean(),
+  body("front").custom(value => {
+    if ((value == "character") || (value == "pinyin") || (value == "definition") || (value == "handwriting")) {
+      return true
+    } else {
+      throw new Error('front must be: "character", "pinyin", "definition", "handwriting"')
+    }
+  }),
+  body("scramble").trim().toBoolean(),
+  body("repetitions").trim().escape(),
 ], classController.assign)
 
 router.post('/api/class/unassign', authMiddleware, [

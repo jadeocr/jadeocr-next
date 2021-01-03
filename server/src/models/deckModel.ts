@@ -15,9 +15,9 @@ var deckSchema = new mongoose.Schema({
     createdDate: Number,
     access: {
         isPublic: Boolean,
-        users: Object,
-        classes: Object,
+        users: {type: Object, default: {}},
+        classes: {type: Object, default: {}},
     },
-})
+}, {minimize: false})
 
 module.exports = new mongoose.model("decks", deckSchema)
