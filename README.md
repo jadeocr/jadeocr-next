@@ -50,7 +50,7 @@ deactivate # Deactivates virtual environment (run this when you're done)
 Thank you for reading this far and considering contributing! Contributions are very much appreciated, and they are what makes this project what it is! We are looking for contributions of features/feature requests, bug fixes, documentation fixes, and anything else you can think of! The best contributions are those that will add value to the user experience. If you need to get in touch, please see the [contact/help](#Contact/Help) section.
 
 ### Issues
-Browse through the [issues](https://github.com/TanayB11/jadeocr-next/issues) or submit one. Here are a couple guidelines to follow:
+Browse through the [issues](https://github.com/jadeocr/jadeocr-next/issues) or submit one. Here are a couple guidelines to follow:
 * Make sure all of your dependencies are up to date
 * Include steps to reproduce the issue
 * Expected behavior and what went wrong
@@ -59,6 +59,7 @@ Browse through the [issues](https://github.com/TanayB11/jadeocr-next/issues) or 
 Pull requests are also always welcome. Here are a couple simple guidelines:
 * Make sure your code is readable and commented when necessary
 * Try to adhere to this [style guide](https://docs.gitlab.com/ee/development/newlines_styleguide.html)
+* For the web client, make sure to lint your code before submitting a pull request by running `yarn lint`
 * Document your changes adequately when opening a pull request
 
 Thank you so much for taking the time to contribute!
