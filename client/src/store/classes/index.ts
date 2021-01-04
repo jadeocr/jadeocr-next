@@ -76,5 +76,18 @@ export const classes = {
           console.log(err.response.data)
         })
     },
+    deleteClass({ commit }: { commit: Function }, classCode: string): void {
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/remove`,
+        data: {
+          classCode: classCode
+        }
+      })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    }
   },
 }

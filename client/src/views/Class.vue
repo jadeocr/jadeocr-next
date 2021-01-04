@@ -24,6 +24,34 @@
               <div class="text-xl font-normal md:text-2xl">
                 Class Info
               </div>
+              <div class="mt-8">
+                Created by
+                {{ currClass.teacherName }}
+              </div>
+              <div class="mt-8">
+                <button
+                  v-if="$store.state.auth.isTeacher"
+                  @click="toggleModalVisibility()"
+                  class="mb-4 font-normal opacity-75"
+                >
+                  Delete Class
+                </button>
+                <button
+                  class="px-4 py-2 rounded bg-nord2"
+                  @click="$router.go(-1)"
+                >
+                  Go Back
+                </button>
+              </div>
+              <modal
+                headline="Confirm class deletion"
+                v-if="modalIsVisible"
+                @confirm-delete="callDeleteClass()"
+                @exit-modal="toggleModalVisibility()"
+              >
+                Are you sure you want to permanently delete the class
+                {{ currClass.name }}?
+              </modal>
             </div>
           </div>
         </div>
@@ -33,9 +61,10 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import Modal from '../components/Modal.vue'
   import Sidebar from '../components/Sidebar.vue'
   import { ClassI } from '../interfaces/Class'
+  import { defineComponent } from 'vue'
 
   export default defineComponent({
     name: 'Class',
@@ -48,10 +77,21 @@
     data() {
       return {
         currClass: {} as ClassI,
+        modalIsVisible: false
       }
+    },
+    methods: {
+      toggleModalVisibility(): void {
+        this.modalIsVisible = !this.modalIsVisible
+      },
+      callDeleteClass(): void {
+        this.$store.dispatch('classes/deleteClass', this.classCode)
+        this.toggleModalVisibility()
+      },
     },
     components: {
       Sidebar,
+      Modal,
     },
     mounted() { // find name of class
       // note: can store in order of class code and do a binary search for

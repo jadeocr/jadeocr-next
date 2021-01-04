@@ -76,9 +76,9 @@ exports.removeClass = function(req, res, next) {
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
-            res.send('There was an error')
+            res.status(400).send('There was an error')
         } else if (!Class) {
-            res.send('No class found')
+            res.status(400).send('No class found')
         } else if (Class.teacherId != teacher) {
             res.sendStatus(401)
         } else if (Class.teacherId == teacher) {
