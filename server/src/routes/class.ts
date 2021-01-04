@@ -61,8 +61,19 @@ router.post('/api/class/unassign', authMiddleware, [
   body('deck').trim().escape(),
 ], classController.unassign)
 
-router.post('/api/class/assigned', authMiddleware, [
+router.post('/api/class/getAssignedDecksAsStudent', authMiddleware, [
   body('classCode').trim().escape(),
+], classController.getAssignedDecksAsStudent)
+
+router.post('/api/class/getAssignedDecksAsTeacher', authMiddleware, [
+  body('classCode').trim().escape(),
+], classController.getAssignedDecksAsTeacher)
+
+router.post('/api/class/submitFinishedDeck', authMiddleware, classController.submitFinishedDeck)
+
+router.post('/api/class/getDeckResults', authMiddleware, [
+  body('classCode').trim().escape(),
+  body('deckId').trim().escape(),
 ], classController.getAssignedDecksAsStudent)
 
 module.exports = router
