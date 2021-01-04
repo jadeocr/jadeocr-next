@@ -9,6 +9,8 @@ An improved version of [jadeocr](https://jadeocr.com), built with Vue3 and TypeS
 * Vue3 + TypeScript
 * Node.js + Express
 
+## Docs
+Take a look at the [documentation site](https://docs.jadeocr.com) for the information below and an API reference.
 
 ## Quickstart
 First clone this repo, then set up your environment variables in **client/.env**
