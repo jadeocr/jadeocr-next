@@ -5,10 +5,16 @@ var classSchema = new mongoose.Schema({
     teacherName: String,
     name: String,
     description: String,
-    students: Array,
+    students: [{
+        firstName: String,
+        lastName: String,
+        id: String,
+    }],
     classCode: String,
     assignedDecks: [{
         deckId: String,
+        deckName: String,
+        deckDescription: String,
         mode: {
             type: String,
             enum: ["learn", "srs", "quiz"],

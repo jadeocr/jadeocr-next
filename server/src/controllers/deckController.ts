@@ -657,13 +657,18 @@ exports.quizzed = function(req, res, next) {
         results = JSON.parse(results)
     }
 
-    let writeResultsToUser = function(results, deck, attemptNumber) {
+    let writeResultsToUser = function(results, deckInUser, deckInDB, attemptNumber) {
         let writeArray = []
+        let charactersInDeck = {}
         let numCorrect = 0
         let overriden = 0
 
+        for (let char of deckInDB) {
+            charactersInDeck[char.id] = char.char
+        }
+        
         for (let i of results) {
-            writeArray.push({charId: i.id, correct: i.correct, overriden: i.overriden})
+            writeArray.push({char: charactersInDeck[i.id],charId: i.id, correct: i.correct, overriden: i.overriden})
             if (i.correct == true) {
                 numCorrect++
             }
@@ -672,8 +677,8 @@ exports.quizzed = function(req, res, next) {
             }
         }
 
-        deck.totalQuizAttempts = attemptNumber + 1
-        deck.quizAttempts.push({
+        deckInUser.totalQuizAttempts = attemptNumber + 1
+        deckInUser.quizAttempts.push({
             attempt: attemptNumber + 1,
             summary: {
                 correct: numCorrect,
@@ -718,14 +723,14 @@ exports.quizzed = function(req, res, next) {
                             let deckInUser
                             if (user.decks.length == 0) {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
-                                writeResultsToUser(results, user.decks[0], 0)
+                                writeResultsToUser(results, user.decks[0], returnedDeck, 0)
                                 saveUser(user, returnedDeck)
                             } else if (deckInUser = user.decks.filter( e => e.deckId == deckId)[0]) {
-                                writeResultsToUser(results, deckInUser, deckInUser.totalQuizAttempts ?? 0)
+                                writeResultsToUser(results, deckInUser, returnedDeck, deckInUser.totalQuizAttempts ?? 0)
                                 saveUser(user, returnedDeck)
                             } else {
                                 initNewDeckInUser(user, deckId, deck.title, deck.description)
-                                writeResultsToUser(results, user.decks[user.decks.length - 1], 0)
+                                writeResultsToUser(results, user.decks[user.decks.length - 1], returnedDeck, 0)
                                 saveUser(user, returnedDeck)
                             }
                         } else {

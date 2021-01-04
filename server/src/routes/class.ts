@@ -63,6 +63,6 @@ router.post('/api/class/unassign', authMiddleware, [
 
 router.post('/api/class/assigned', authMiddleware, [
   body('classCode').trim().escape(),
-], classController.getAssignedDecks)
+], classController.getAssignedDecksAsStudent)
 
 module.exports = router

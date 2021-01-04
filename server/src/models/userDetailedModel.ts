@@ -26,6 +26,7 @@ var userDetailedSchema = new mongoose.Schema({
                 overriden: Number,
             },
             stats: [{
+                char: String,
                 charId: String,
                 correct: Boolean,
                 overriden: Boolean,
