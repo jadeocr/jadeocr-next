@@ -316,14 +316,14 @@ exports.assign = function(req, res, next) {
         res.status(400).json({ errors: errors.array() });
     } else {
         let teacher = String(req.user._id)
-        let classCode = req.body.classCode
-        let deckId = req.body.deck
-        let mode = req.body.mode
-        let handwriting = req.body.handwriting
-        let front = req.body.front
-        let scramble = req.body.scramble
-        let repetitions = req.body.repetitions
-        let dueDate = req.body.dueDate
+        let classCode = req.body.classCode //Required
+        let deckId = req.body.deckId //Required
+        let mode = req.body.mode //Required. Allowed: ("learn", "srs", "quiz")
+        let handwriting = req.body.handwriting //Defaults to false
+        let front = req.body.front //Required. Allowed: ("character", "pinyin", "definition", "handwriting")
+        let scramble = req.body.scramble //Defaults to false
+        let repetitions = req.body.repetitions //Defaults to 1
+        let dueDate = req.body.dueDate //Required. epoch time in milliseconds
 
         let checkIfDeckIsAssigned = function(Class, deckId, deck) {
             if (!Class.assignedDecks.length) {
@@ -345,8 +345,6 @@ exports.assign = function(req, res, next) {
                 res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
             } else if (isNaN(parseInt(repetitions))) {
                 res.status(400).send('If a repetitions value is sent, it must be an integer')
-            } else if (mode == "learn" && !repetitions) {
-                res.status(400).send('A repetitions value must be sent for learn mode')
             } else if (mode != "learn" && scramble) {
                 res.status(400).send('Only learn mode supports scramble')
             } else {
@@ -399,7 +397,7 @@ exports.assign = function(req, res, next) {
 exports.unassign = function(req, res, next) {
     let teacher = req.user._id
     let classCode = req.body.classCode
-    let deckId = req.body.deck
+    let deckId = req.body.deckId
 
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
@@ -436,7 +434,7 @@ exports.unassign = function(req, res, next) {
 }
 
 
-exports.getAssignedDecksAsStudent= function(req, res, next) {
+exports.getAssignedDecksAsStudent = function(req, res, next) {
     let user = String(req.user._id)
     let classCode = req.body.classCode
 
@@ -564,8 +562,8 @@ exports.submitFinishedDeck = function(req, res, next) {
     let user = String(req.user._id)
     let deckId = req.body.deckId
     let classCode = req.body.classCode
-    let mode = req.body.mode
-    let quizResults = req.body.results
+    let mode = req.body.mode //Required. Allowed: ("learn", "srs", "quiz")
+    let quizResults = req.body.results //Only needed if mode is quiz
 
     let writeSubmitedDeck = function(deckInClass, deckInDB) {
         if (mode == 'learn') {
