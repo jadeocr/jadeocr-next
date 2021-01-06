@@ -59,8 +59,8 @@
                 @confirm-delete="handleModalConfirm()"
                 @exit-modal="toggleModalVisibility()"
               >
-                Are you sure you want to permanently
-                {{ $store.state.auth.isTeacher ? 'delete' : 'leave' }} the class
+                Are you sure you want to 
+                {{ $store.state.auth.isTeacher ? 'permanently delete' : 'leave' }} the class
                 {{ currClass.name }}?
               </modal>
             </div>
