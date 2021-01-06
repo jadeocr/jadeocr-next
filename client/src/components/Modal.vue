@@ -70,7 +70,7 @@
                 {{ headline }}
               </h3>
               <div class="mt-2">
-                <slot class="text-nord6"> </slot>
+                <slot class="text-nord6"></slot>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@
             class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord11 sm:ml-3 sm:w-auto sm:text-sm"
             @click="$emit('confirm-delete', $event)"
           >
-            Delete
+            {{ confirmBtnTxt }}
           </button>
           <button
             type="button"
@@ -102,6 +102,7 @@
     name: 'Modal',
     props: {
       headline: String,
+      confirmBtnTxt: String,
     },
     emits: ['confirm-delete', 'exit-modal'],
   })
