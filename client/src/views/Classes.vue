@@ -24,6 +24,13 @@
                 >
                   Join Class
                 </button>
+                <button v-if="$store.state.auth.isTeacher"
+                  @click="callCreateClass()"
+                  class="px-3 py-2 mx-4 my-6 font-light rounded bg-nord2"
+                  type="submit"
+                >
+                  New Class
+                </button>
                 <span class="mx-4 font-normal text-nord11">
                   {{ $store.state.classes.classErrMsg }}
                 </span>
@@ -52,7 +59,7 @@
               </div>
             </div>
             <div
-              v-else-if="$store.state.classes.classesTeaching.length"
+              v-if="$store.state.classes.classesTeaching.length"
               class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
             >
               <div
@@ -80,7 +87,9 @@
                 <div
                   class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                 >
-                  Join a class to see it appear here!
+                  Join 
+                  {{ $store.state.auth.isTeacher ? 'or create' : ''}}
+                  a class to see it appear here!
                 </div>
               </div>
             </div>
@@ -103,12 +112,20 @@
     data() {
       return {
         classCode: '',
+        className: 'Development Class',
+        classDescription: 'A class meant for testing and dev purposes',
       }
     },
     methods: {
       callJoinClass(): void {
         this.$store.dispatch('classes/joinClass', this.classCode)
       },
+      callCreateClass(): void {
+        this.$store.dispatch('classes/createClass', {
+          className: this.className,
+          description: this.classDescription,
+        })
+      }
     },
     mounted() {
       this.$store.commit('classes/setClassErrMsg', '')

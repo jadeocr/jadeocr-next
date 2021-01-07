@@ -69,7 +69,6 @@ export const classes = {
         },
       })
         .then(() => {
-          router.push({ name: 'Classes' })
           commit('setClassErrMsg', '')
         })
         .catch((err) => {
@@ -88,7 +87,27 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          router.push({ name: 'Classes' })
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+          commit('setClassErrMsg', err.response.data)
+        })
+    },
+    createClass({ commit }: { commit: Function }, payload: {
+      className: string,
+      description: string,
+    }): void {
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/create`,
+        data: {
+          className: payload.className,
+          description: payload.description,
+        },
+      })
+        .then(() => {
+          commit('setClassErrMsg', '')
         })
         .catch((err) => {
           console.log(err.response.data)
