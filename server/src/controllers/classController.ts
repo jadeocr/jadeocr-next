@@ -149,14 +149,31 @@ exports.leave = function(req, res, next) {
     let student = String(req.user._id)
     let classCode = req.body.classCode
 
+    let removeClassFromStudent = function() {
+        userDetailedModel.findOne({id: student}, function(err, result) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(result.classes)
+                for (let j in result.classes) {
+                    if (result.classes[j] == classCode) {
+                        result.classes.splice(j, 1)
+                        result.save()
+                    }
+                }
+                console.log(result.classes)
+            }
+        })
+    }
+
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
             console.log(err)
-            res.send("There was an error")
+            res.status(400).send("There was an error")
         } else if (student == Class.teacherId) {
-            res.send('Teacher cannot leave class they teach')
+            res.status(400).send('Teacher cannot leave class they teach')
         } else if (Class.students.length == 0) {
-            res.send('Student not in class')
+            res.status(400).send('Student not in class')
         } else {
             for (let i in Class.students) {
                 if (Class.students[i].id == student) {
@@ -166,26 +183,11 @@ exports.leave = function(req, res, next) {
                     res.sendStatus(200)
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
-                    res.send('Student not in class')
+                    res.status(400).send('Student not in class')
                 }
             }
         }
-    })
-    
-    let removeClassFromStudent = function() {
-        userDetailedModel.findOne({id: student}, function(err, result) {
-            if (err) {
-                console.log(err)
-            } else {
-                for (let j in result.classes) {
-                    if (result.classes[j] == classCode) {
-                        result.classes.splice(j, 1)
-                        result.save()
-                    }
-                }
-            }
-        })
-    }
+    })   
 }
 
 exports.getJoinedClasses = function(req, res, next) {
