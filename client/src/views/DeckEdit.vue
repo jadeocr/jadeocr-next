@@ -151,6 +151,7 @@
                     <modal
                       headline="Confirm deck deletion"
                       v-if="modalIsVisible"
+                      confirmBtnTxt="Delete"
                       @confirm-delete="callDeleteDeck()"
                       @exit-modal="toggleModalVisibility()"
                     >
