@@ -29,13 +29,22 @@
                 {{ currClass.teacherName }}
               </div>
               <div class="mt-8">
-                <button
-                  v-if="$store.state.auth.isTeacher"
-                  @click="toggleModalVisibility()"
-                  class="mb-4 font-normal opacity-75"
-                >
-                  Delete Class
-                </button>
+                <div>
+                  <button
+                    v-if="$store.state.auth.isTeacher"
+                    @click="toggleModalVisibility()"
+                    class="mb-4 font-normal opacity-75"
+                  >
+                    Delete Class
+                  </button>
+                  <button
+                    v-else
+                    @click="toggleModalVisibility()"
+                    class="mb-4 font-normal opacity-75"
+                  >
+                    Leave Class
+                  </button>
+                </div>
                 <button
                   class="px-4 py-2 rounded bg-nord2"
                   @click="$router.go(-1)"
@@ -45,11 +54,13 @@
               </div>
               <modal
                 headline="Confirm class deletion"
+                :confirmBtnTxt="$store.state.auth.isTeacher ? 'Delete' : 'Leave'"
                 v-if="modalIsVisible"
-                @confirm-delete="callDeleteClass()"
+                @confirm-delete="handleModalConfirm()"
                 @exit-modal="toggleModalVisibility()"
               >
-                Are you sure you want to permanently delete the class
+                Are you sure you want to 
+                {{ $store.state.auth.isTeacher ? 'permanently delete' : 'leave' }} the class
                 {{ currClass.name }}?
               </modal>
             </div>
@@ -83,6 +94,17 @@
     methods: {
       toggleModalVisibility(): void {
         this.modalIsVisible = !this.modalIsVisible
+      },
+      handleModalConfirm(): void {
+        if (this.$store.state.auth.isTeacher) {
+          this.callDeleteClass()
+        } else {
+          this.callLeaveClass()
+        }
+      },
+      callLeaveClass(): void {
+        this.$store.dispatch('classes/leaveClass', this.classCode)
+        this.toggleModalVisibility()
       },
       callDeleteClass(): void {
         this.$store.dispatch('classes/deleteClass', this.classCode)
