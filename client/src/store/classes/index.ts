@@ -69,6 +69,7 @@ export const classes = {
         },
       })
         .then(() => {
+          router.push({ name: 'Classes' })
           commit('setClassErrMsg', '')
         })
         .catch((err) => {

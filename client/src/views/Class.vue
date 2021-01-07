@@ -17,7 +17,39 @@
             {{ currClass.description }}
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2">
-            <div class="mt-10 col-span-1"></div>
+            <div class="mt-10 col-span-1">
+                <div
+                  v-if=" !$store.state.decks.decks.length "
+                >
+                  <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                    <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
+                      No decks have been assigned for this class yet! Check back later!
+                    </div>
+                  </div>
+                </div>
+                <div
+                  v-else-if="$store.state.decks.decks.length"
+                  class="grid grid-cols-1 md:grid-cols-2"
+                >
+                  <div
+                    v-for="(n, deck) in $store.state.decks.decks"
+                    :key="deck.key"
+                    class="my-4 mr-4 col-span-1"
+                  >
+                    <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+                      <router-link
+                        class="text-xl font-normal"
+                        :to="{
+                          path: `/deck/${$store.state.decks.decks[deck].deckId}`,
+                        }"
+                      >
+                        {{ $store.state.decks.decks[deck].deckName }}
+                      </router-link>
+                      <div>{{ $store.state.decks.decks[deck].deckDescription }}</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
             <div
               class="mt-10 text-center md:pr-12 md:text-right xl:mx-48 xl:w-1/3 col-span-1"
             >
