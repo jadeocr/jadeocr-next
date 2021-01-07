@@ -88,7 +88,7 @@
                 headline="Confirm class deletion"
                 :confirmBtnTxt="$store.state.auth.isTeacher ? 'Delete' : 'Leave'"
                 v-if="modalIsVisible"
-                @confirm-delete="handleModalConfirm()"
+                @confirm="handleModalConfirm()"
                 @exit-modal="toggleModalVisibility()"
               >
                 Are you sure you want to 

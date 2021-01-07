@@ -152,7 +152,7 @@
                       headline="Confirm deck deletion"
                       v-if="modalIsVisible"
                       confirmBtnTxt="Delete"
-                      @confirm-delete="callDeleteDeck()"
+                      @confirm="callDeleteDeck()"
                       @exit-modal="toggleModalVisibility()"
                     >
                       Are you sure you want to permanently delete the deck
