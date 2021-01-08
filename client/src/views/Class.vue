@@ -79,7 +79,7 @@
                 </div>
                 <button
                   class="px-4 py-2 rounded bg-nord2"
-                  @click="$router.go(-1)"
+                  @click="$router.push({ name: 'Classes' })"
                 >
                   Go Back
                 </button>
