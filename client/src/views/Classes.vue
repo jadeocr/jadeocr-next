@@ -11,30 +11,23 @@
               Classes
             </div>
             <div class="mt-4">
-              <form class="w-3/4 md:w-1/2 lg:w-1/3" @submit.prevent="">
-                <input
-                  v-model="classCode"
-                  class="w-full py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
-                  :placeholder="'Enter your six-digit class code'"
-                />
-                <button
-                  @click="callJoinClass()"
-                  class="px-3 py-2 my-6 font-light rounded bg-nord2"
-                  type="submit"
-                >
-                  Join Class
-                </button>
-                <button v-if="$store.state.auth.isTeacher"
-                  @click="callCreateClass()"
-                  class="px-3 py-2 mx-4 my-6 font-light rounded bg-nord2"
-                  type="submit"
-                >
-                  New Class
-                </button>
-                <span class="mx-4 font-normal text-nord11">
-                  {{ $store.state.classes.classErrMsg }}
-                </span>
-              </form>
+              <button
+                @click="toggleJoinModalVisibility()"
+                class="px-3 py-2 my-6 font-light rounded bg-nord2"
+                type="submit"
+              >
+                Join Class
+              </button>
+              <button v-if="$store.state.auth.isTeacher"
+                @click="toggleCreateModalVisibility()"
+                class="px-3 py-2 mx-4 my-6 font-light rounded bg-nord2"
+                type="submit"
+              >
+                New Class
+              </button>
+              <span class="mx-4 font-normal text-nord11">
+                {{ $store.state.classes.classErrMsg }}
+              </span>
             </div>
             <div
               v-if="$store.state.classes.classes.length"
@@ -94,6 +87,49 @@
               </div>
             </div>
           </div>
+          <modal
+            headline="Join Class"
+            confirmBtnTxt="Join"
+            v-if="joinModalIsVisible"
+            modalType="form"
+            @confirm="handleJoinModalConfirm()"
+            @exit-modal="toggleJoinModalVisibility()"
+          >
+            <form class="pt-2 md:w-11/12" @submit.prevent="">
+              <input
+                v-model="classCode"
+                class="w-full py-2 my-4 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                placeholder="123456"
+              />
+              <span>
+                Enter the 6-digit class code from your teacher
+              </span>
+            </form>
+          </modal>
+          <modal
+            headline="Create Class"
+            confirmBtnTxt="Create"
+            v-if="createModalIsVisible"
+            modalType="form"
+            @confirm="handleCreateModalConfirm()"
+            @exit-modal="toggleCreateModalVisibility()"
+          >
+            <form class="pt-4 md:w-11/12" @submit.prevent="">
+              <input
+                v-model="className"
+                class="w-full py-2 my-4 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                :placeholder="'Class Name'"
+              />
+              <input
+                v-model="classDescription"
+                class="w-full py-2 mb-6 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
+                :placeholder="'Class Description'"
+              />
+              <span>
+                Note: These cannot be changed later.
+              </span>
+            </form>
+          </modal>
         </div>
       </div>
     </div>
@@ -103,29 +139,41 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
+  import Modal from '../components/Modal.vue'
 
   export default defineComponent({
     name: 'Classes',
     components: {
       Sidebar,
+      Modal,
     },
     data() {
       return {
         classCode: '',
-        className: 'Development Class',
-        classDescription: 'A class meant for testing and dev purposes',
+        className: '',
+        classDescription: '',
+        joinModalIsVisible: false,
+        createModalIsVisible: false,
       }
     },
     methods: {
-      callJoinClass(): void {
-        this.$store.dispatch('classes/joinClass', this.classCode)
+      toggleJoinModalVisibility(): void {
+        this.joinModalIsVisible = !this.joinModalIsVisible
       },
-      callCreateClass(): void {
+      toggleCreateModalVisibility(): void {
+        this.createModalIsVisible = !this.createModalIsVisible
+      },
+      handleCreateModalConfirm(): void {
         this.$store.dispatch('classes/createClass', {
           className: this.className,
           description: this.classDescription,
         })
-      }
+        this.toggleCreateModalVisibility()
+      },
+      handleJoinModalConfirm(): void {
+        this.$store.dispatch('classes/joinClass', this.classCode)
+        this.toggleJoinModalVisibility()
+      },
     },
     mounted() {
       this.$store.commit('classes/setClassErrMsg', '')

@@ -88,14 +88,14 @@
         <div class="px-4 sm:px-6 sm:flex sm:flex-row-reverse">
           <button
             type="button"
-            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord11 sm:ml-3 sm:w-auto sm:text-sm"
+            :class="[ 'inline-flex', 'justify-center', 'w-full', 'px-4', 'py-2', 'my-4', 'text-base', 'font-medium', 'text-white', 'rounded', modalType == 'form' ? 'bg-nord10' : 'bg-nord11', 'sm:ml-3', 'sm:w-auto', 'sm:text-sm' ]"
             @click="$emit('confirm', $event)"
           >
             {{ confirmBtnTxt }}
           </button>
           <button
             type="button"
-            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord10 sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord2 sm:ml-3 sm:w-auto sm:text-sm"
             @click="$emit('exit-modal', $event)"
           >
             Cancel

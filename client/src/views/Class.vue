@@ -120,7 +120,7 @@
     data() {
       return {
         currClass: {} as ClassI,
-        modalIsVisible: false
+        modalIsVisible: false,
       }
     },
     methods: {

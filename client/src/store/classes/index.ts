@@ -59,7 +59,7 @@ export const classes = {
           console.log(err.response.data)
         })
     },
-    joinClass({ commit }: { commit: Function }, classCode: string): void {
+    joinClass({ commit, dispatch }: { commit: Function, dispatch: Function }, classCode: string): void {
       axios({
         method: 'post',
         withCredentials: true,
@@ -70,6 +70,8 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
+          dispatch('getClassesJoined')
+          dispatch('getClassesTeaching')
         })
         .catch((err) => {
           commit('setClassErrMsg', err.response.data)
@@ -93,7 +95,7 @@ export const classes = {
           commit('setClassErrMsg', err.response.data)
         })
     },
-    createClass({ commit }: { commit: Function }, payload: {
+    createClass({ commit, dispatch }: { commit: Function, dispatch: Function }, payload: {
       className: string,
       description: string,
     }): void {
@@ -108,6 +110,8 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
+          dispatch('getClassesJoined')
+          dispatch('getClassesTeaching')
         })
         .catch((err) => {
           console.log(err.response.data)
