@@ -49,9 +49,17 @@
               <div v-if="modalType == 'form'">
                 <svg
                   class="w-6 h-6 text-nord9"
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
                 </svg>
               </div>
               <div v-else>
@@ -88,7 +96,22 @@
         <div class="px-4 sm:px-6 sm:flex sm:flex-row-reverse">
           <button
             type="button"
-            :class="[ 'inline-flex', 'justify-center', 'w-full', 'px-4', 'py-2', 'my-4', 'text-base', 'font-medium', 'text-white', 'rounded', modalType == 'form' ? 'bg-nord10' : 'bg-nord11', 'sm:ml-3', 'sm:w-auto', 'sm:text-sm' ]"
+            :class="[
+              'inline-flex',
+              'justify-center',
+              'w-full',
+              'px-4',
+              'py-2',
+              'my-4',
+              'text-base',
+              'font-medium',
+              'text-white',
+              'rounded',
+              modalType == 'form' ? 'bg-nord10' : 'bg-nord11',
+              'sm:ml-3',
+              'sm:w-auto',
+              'sm:text-sm',
+            ]"
             @click="$emit('confirm', $event)"
           >
             {{ confirmBtnTxt }}
@@ -117,7 +140,7 @@
         default: 'warning',
         validator: (value: string): boolean => {
           return ['warning', 'form'].includes(value)
-        }
+        },
       },
       headline: String,
       confirmBtnTxt: String,

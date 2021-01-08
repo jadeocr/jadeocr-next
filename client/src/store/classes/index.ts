@@ -59,7 +59,10 @@ export const classes = {
           console.log(err.response.data)
         })
     },
-    joinClass({ commit, dispatch }: { commit: Function, dispatch: Function }, classCode: string): void {
+    joinClass(
+      { commit, dispatch }: { commit: Function; dispatch: Function },
+      classCode: string
+    ): void {
       axios({
         method: 'post',
         withCredentials: true,
@@ -95,10 +98,13 @@ export const classes = {
           commit('setClassErrMsg', err.response.data)
         })
     },
-    createClass({ commit, dispatch }: { commit: Function, dispatch: Function }, payload: {
-      className: string,
-      description: string,
-    }): void {
+    createClass(
+      { commit, dispatch }: { commit: Function; dispatch: Function },
+      payload: {
+        className: string
+        description: string
+      }
+    ): void {
       axios({
         method: 'post',
         withCredentials: true,
@@ -124,8 +130,8 @@ export const classes = {
         withCredentials: true,
         url: `${apiBaseURL}/class/remove`,
         data: {
-          classCode: classCode
-        }
+          classCode: classCode,
+        },
       })
         .then(() => {
           router.push({ name: 'Classes' })
@@ -133,6 +139,6 @@ export const classes = {
         .catch((err) => {
           console.log(err.response.data)
         })
-    }
+    },
   },
 }
