@@ -76,7 +76,7 @@
                 </div>
               </div>
             </div>
-            <div v-else>
+            <div v-else-if="!$store.state.classes.classes.length">
               <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
                 <div
                   class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
@@ -174,6 +174,7 @@
       handleJoinModalConfirm(): void {
         this.$store.dispatch('classes/joinClass', this.classCode)
         this.toggleJoinModalVisibility()
+        this.$store.dispatch('classes/getClassesJoined')
       },
     },
     mounted() {

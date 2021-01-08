@@ -57,6 +57,9 @@ export const classes = {
         })
         .catch((err) => {
           console.log(err.response.data)
+          if (err.response.data == 'User has not joined any classes') {
+            commit('setClasses', Array<ClassI>())
+          }
         })
     },
     joinClass(
@@ -74,7 +77,6 @@ export const classes = {
         .then(() => {
           commit('setClassErrMsg', '')
           dispatch('getClassesJoined')
-          dispatch('getClassesTeaching')
         })
         .catch((err) => {
           commit('setClassErrMsg', err.response.data)
@@ -92,6 +94,7 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
+          router.push({ 'name': 'Classes' })
         })
         .catch((err) => {
           console.log(err.response.data)

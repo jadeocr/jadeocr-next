@@ -18,6 +18,7 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mt-10 col-span-1">
+            <!-- TODO: Change to assigned decks -->
               <div v-if="!$store.state.decks.decks.length">
                 <div
                   class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
