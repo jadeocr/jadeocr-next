@@ -57,9 +57,15 @@ export const classes = {
         })
         .catch((err) => {
           console.log(err.response.data)
+          if (err.response.data == 'User has not joined any classes') {
+            commit('setClasses', Array<ClassI>())
+          }
         })
     },
-    joinClass({ commit }: { commit: Function }, classCode: string): void {
+    joinClass(
+      { commit, dispatch }: { commit: Function; dispatch: Function },
+      classCode: string
+    ): void {
       axios({
         method: 'post',
         withCredentials: true,
@@ -69,8 +75,8 @@ export const classes = {
         },
       })
         .then(() => {
-          router.push({ name: 'Classes' })
           commit('setClassErrMsg', '')
+          dispatch('getClassesJoined')
         })
         .catch((err) => {
           commit('setClassErrMsg', err.response.data)
@@ -88,7 +94,33 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          router.push({ name: 'Classes' })
+          router.push({ 'name': 'Classes' })
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+          commit('setClassErrMsg', err.response.data)
+        })
+    },
+    createClass(
+      { commit, dispatch }: { commit: Function; dispatch: Function },
+      payload: {
+        className: string
+        description: string
+      }
+    ): void {
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/create`,
+        data: {
+          className: payload.className,
+          description: payload.description,
+        },
+      })
+        .then(() => {
+          commit('setClassErrMsg', '')
+          dispatch('getClassesJoined')
+          dispatch('getClassesTeaching')
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -101,8 +133,8 @@ export const classes = {
         withCredentials: true,
         url: `${apiBaseURL}/class/remove`,
         data: {
-          classCode: classCode
-        }
+          classCode: classCode,
+        },
       })
         .then(() => {
           router.push({ name: 'Classes' })
@@ -110,6 +142,6 @@ export const classes = {
         .catch((err) => {
           console.log(err.response.data)
         })
-    }
+    },
   },
 }

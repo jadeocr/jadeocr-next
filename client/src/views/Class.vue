@@ -18,37 +18,43 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mt-10 col-span-1">
+            <!-- TODO: Change to assigned decks -->
+              <div v-if="!$store.state.decks.decks.length">
                 <div
-                  v-if=" !$store.state.decks.decks.length "
-                >
-                  <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                    <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
-                      No decks have been assigned for this class yet! Check back later!
-                    </div>
-                  </div>
-                </div>
-                <div
-                  v-else-if="$store.state.decks.decks.length"
-                  class="grid grid-cols-1 md:grid-cols-2"
+                  class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
                 >
                   <div
-                    v-for="(n, deck) in $store.state.decks.decks"
-                    :key="deck.key"
-                    class="my-4 mr-4 col-span-1"
+                    class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                   >
-                    <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
-                      <router-link
-                        class="text-xl font-normal"
-                        :to="{
-                          path: `/deck/${$store.state.decks.decks[deck].deckId}`,
-                        }"
-                      >
-                        {{ $store.state.decks.decks[deck].deckName }}
-                      </router-link>
-                      <div>{{ $store.state.decks.decks[deck].deckDescription }}</div>
+                    No decks have been assigned for this class yet! Check back
+                    later!
+                  </div>
+                </div>
+              </div>
+              <div
+                v-else-if="$store.state.decks.decks.length"
+                class="grid grid-cols-1 md:grid-cols-2"
+              >
+                <div
+                  v-for="(n, deck) in $store.state.decks.decks"
+                  :key="deck.key"
+                  class="my-4 mr-4 col-span-1"
+                >
+                  <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+                    <router-link
+                      class="text-xl font-normal"
+                      :to="{
+                        path: `/deck/${$store.state.decks.decks[deck].deckId}`,
+                      }"
+                    >
+                      {{ $store.state.decks.decks[deck].deckName }}
+                    </router-link>
+                    <div>
+                      {{ $store.state.decks.decks[deck].deckDescription }}
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
             <div
               class="mt-10 text-center md:pr-12 md:text-right xl:mx-48 xl:w-1/3 col-span-1"
@@ -57,8 +63,14 @@
                 Class Info
               </div>
               <div class="mt-8">
-                Created by
-                {{ currClass.teacherName }}
+                {{
+                  $store.state.auth.firstName +
+                    ' ' +
+                    $store.state.auth.lastName ==
+                  currClass.teacherName
+                    ? 'You are the teacher of this class'
+                    : currClass.teacherName
+                }}
               </div>
               <div class="mt-8">
                 <div>
@@ -79,21 +91,25 @@
                 </div>
                 <button
                   class="px-4 py-2 rounded bg-nord2"
-                  @click="$router.go(-1)"
+                  @click="$router.push({ name: 'Classes' })"
                 >
                   Go Back
                 </button>
               </div>
               <modal
                 headline="Confirm class deletion"
-                :confirmBtnTxt="$store.state.auth.isTeacher ? 'Delete' : 'Leave'"
+                :confirmBtnTxt="
+                  $store.state.auth.isTeacher ? 'Delete' : 'Leave'
+                "
                 v-if="modalIsVisible"
-                @confirm-delete="handleModalConfirm()"
+                @confirm="handleModalConfirm()"
                 @exit-modal="toggleModalVisibility()"
               >
-                Are you sure you want to 
-                {{ $store.state.auth.isTeacher ? 'permanently delete' : 'leave' }} the class
-                {{ currClass.name }}?
+                Are you sure you want to
+                {{
+                  $store.state.auth.isTeacher ? 'permanently delete' : 'leave'
+                }}
+                the class {{ currClass.name }}?
               </modal>
             </div>
           </div>
@@ -120,7 +136,7 @@
     data() {
       return {
         currClass: {} as ClassI,
-        modalIsVisible: false
+        modalIsVisible: false,
       }
     },
     methods: {
@@ -147,16 +163,19 @@
       Sidebar,
       Modal,
     },
-    mounted() { // find name of class
+    mounted() {
+      // find name of class
       // note: can store in order of class code and do a binary search for
       // O(log n) time instead of O(n)
-      const allClasses = this.$store.state.classes.classes.concat(this.$store.state.classes.classesTeaching)
+      const allClasses = this.$store.state.classes.classes.concat(
+        this.$store.state.classes.classesTeaching
+      )
       for (let i = 0; i < allClasses.length; i++) {
         if (allClasses[i].classCode == this.classCode) {
           this.currClass = allClasses[i]
         }
       }
-    }
+    },
   })
 </script>
 

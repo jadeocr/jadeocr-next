@@ -125,7 +125,7 @@
                 <div class="mt-10">
                   <button
                     class="px-4 py-2 rounded bg-nord2"
-                    @click="$router.go(-1)"
+                    @click="$router.push({ name: 'Dashboard' })"
                   >
                     Go Back
                   </button>
