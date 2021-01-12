@@ -97,7 +97,7 @@
                 </button>
               </div>
               <modal
-                headline="Confirm class deletion"
+                :headline="$store.state.auth.isTeacher ? 'Confirm class deletion':'Confirm leaving class'"
                 :confirmBtnTxt="
                   $store.state.auth.isTeacher ? 'Delete' : 'Leave'
                 "

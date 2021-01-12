@@ -76,7 +76,7 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          dispatch('getClassesJoined')
+          router.push({ 'name': 'Dashboard' })
         })
         .catch((err) => {
           commit('setClassErrMsg', err.response.data)
@@ -94,7 +94,7 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          router.push({ 'name': 'Classes' })
+          router.push({ 'name': 'Dashboard' })
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -119,8 +119,7 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          dispatch('getClassesJoined')
-          dispatch('getClassesTeaching')
+          router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -137,7 +136,7 @@ export const classes = {
         },
       })
         .then(() => {
-          router.push({ name: 'Classes' })
+          router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
           console.log(err.response.data)
