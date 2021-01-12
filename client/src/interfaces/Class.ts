@@ -1,6 +1,10 @@
 export interface ClassI {
-  name: string
-  description: string
-  teacherName: string
   classCode: string
+  description: string
+  name: string
+  readonly _id?: string
+  readonly teacherId?: string
+  teacherName: string
+  students: Array<any>
+  assignedDecks: Array<any>
 }
