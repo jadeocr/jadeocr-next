@@ -42,9 +42,22 @@
               </div>
               <div class="mt-10">
                 <div v-if="menuType == 'decks'">
-                  Decks
+                  <div v-if="!currClass.assignedDecks.length">
+                    <div
+                      class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                    >
+                      Get started by assigning a deck to this class!
+                    </div>
+                  </div>
                 </div>
                 <div v-if="menuType == 'students'">
+                  <div v-if="!currClass.students.length">
+                    <div
+                      class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                    >
+                      Share your class code to your students!
+                    </div>
+                  </div>
                   <div v-for="(n, i) in currClass.students" :key="i.key">
                     {{ i+1 + '. ' + currClass.students[i].firstName + ' ' + currClass.students[i].lastName }}
                   </div>
@@ -60,15 +73,9 @@
               <div class="text-xl font-normal md:text-2xl">
                 Class Info
               </div>
-              <div class="mt-8">
-                {{
-                  $store.state.auth.firstName +
-                    ' ' +
-                    $store.state.auth.lastName ==
-                  currClass.teacherName
-                    ? 'You are the teacher of this class'
-                    : currClass.teacherName
-                }}
+              <div v-if="$store.state.auth.isTeacher" class="mt-4">
+                Join code: 
+                {{ currClass.classCode }}
               </div>
               <div class="mt-8">
                 <div>
@@ -84,7 +91,7 @@
                   class="px-4 py-2 rounded bg-nord2"
                   @click="$router.go(-1)"
                 >
-                  Cancel
+                  Go Back
                 </button>
               </div>
               <modal
