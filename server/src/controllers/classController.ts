@@ -154,14 +154,12 @@ exports.leave = function(req, res, next) {
             if (err) {
                 console.log(err)
             } else {
-                console.log(result.classes)
                 for (let j in result.classes) {
                     if (result.classes[j] == classCode) {
                         result.classes.splice(j, 1)
                         result.save()
                     }
                 }
-                console.log(result.classes)
             }
         })
     }
@@ -383,6 +381,8 @@ exports.assign = function(req, res, next) {
                     if (deckErr) {
                         console.log(deckErr)
                         res.status(400).send('There was an error')
+                    } else if (!returnedDeck) {
+                        res.status(400).send('Deck does not exist')
                     } else if (returnedDeck.access.isPublic == true) {
                         checkIfDeckIsAssigned(Class, deckId, returnedDeck)
                     } else if (returnedDeck.creator == teacher) {
