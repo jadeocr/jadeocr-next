@@ -663,7 +663,7 @@ exports.quizzed = function(req, res, next) {
         let numCorrect = 0
         let overriden = 0
 
-        for (let char of deckInDB) {
+        for (let char of deckInDB.characters) {
             charactersInDeck[char.id] = char.char
         }
         

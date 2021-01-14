@@ -494,13 +494,15 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             res.status(200).send('No decks are assigned')
         } else if (Class.teacherId == user) {
             res.status(400).send('Teachers cannot request decks as a student')
+        } else if (Class.students.length == 0) {
+            res.status(403).send('Only students of the class can access the classes decks')
         } else {
             for (let i in Class.students) {
-                if (user == Class.students[i]) {
+                if (user == Class.students[i].id) {
                     sendDecks(Class.assignedDecks)
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
-                    res.send(403).send('Only students of the class can access the classes decks')
+                    res.status(403).send('Only students of the class can access the classes decks')
                 }
             }
         }
@@ -630,7 +632,7 @@ exports.submitFinishedDeck = function(req, res, next) {
             res.status(400).send('Teachers cannot submit decks')
         } else {
             for (let i in Class.students) {
-                if (user == Class.students[i]) {
+                if (user == Class.students[i].id) {
                     for (let j in Class.assignedDecks) {
                         if (Class.assignedDecks[j].deckId == deckId) {
                             deckModel.findOne({_id: deckId}, function(deck_err, returnedDeck) {
@@ -647,7 +649,7 @@ exports.submitFinishedDeck = function(req, res, next) {
                     }
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
-                    res.send(403).send('Only students of the class can submit to the class')
+                    res.status(403).send('Only students of the class can submit to the class')
                 }
             }
         }
