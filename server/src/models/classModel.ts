@@ -28,8 +28,11 @@ var classSchema = new mongoose.Schema({
         repetitions: Number,
         assignedDate: Number,
         dueDate: Number,
-        results: {type: Object, default: {}},
+        results: {},
     }],
-}, {minimize: false})
+}, {
+    minimize: false,
+    strict: false,
+})
 
 module.exports = new mongoose.model('classes', classSchema)

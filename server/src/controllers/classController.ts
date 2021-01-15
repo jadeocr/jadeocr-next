@@ -227,7 +227,7 @@ exports.getJoinedClasses = function(req, res, next) {
                   }
               })
             } else {
-              res.status(400).send('User has not joined any classes')
+              res.status(200).send([])
             }
         }        
     })
@@ -520,8 +520,8 @@ exports.getAssignedDecksAsTeacher = function(req, res, next) {
             let status
             let numberOfStudentsFinished = 0
 
-            for (let student of deck.results) {
-                if (student.done) {
+            for (let student in deck.results) {
+                if ( deck.results[student].done) {
                     numberOfStudentsFinished++
                 }
             }
@@ -570,11 +570,15 @@ exports.submitFinishedDeck = function(req, res, next) {
     let quizResults = req.body.results //Only needed if mode is quiz
 
     let writeSubmitedDeck = function(deckInClass, deckInDB) {
+        if (!deckInClass.results[user]) {
+            deckInClass.results[user] = {}
+        }
+
         if (mode == 'learn') {
-            deckInClass.result[user].done = true
+            deckInClass.results[user].done = true
         } else if (mode == 'quiz') {
-            deckInClass.result[user].done = true
-            deckInClass.result[user].quizStats = processQuizResults(quizResults, deckInDB)
+            deckInClass.results[user].done = true
+            deckInClass.results[user].quizStats = processQuizResults(quizResults, deckInDB)
         } else if (mode == 'srs') {
             if (!deckInClass.results[user].repetitions) {
                 deckInClass.results[user].repetitions = 1
@@ -583,10 +587,8 @@ exports.submitFinishedDeck = function(req, res, next) {
             }
 
             if (deckInClass.results[user].repetitions == deckInClass.repetitions) {
-                deckInClass.result[user].done = true
+                deckInClass.results[user].done = true
             }
-            
-            return
         }
     }
 
@@ -639,6 +641,7 @@ exports.submitFinishedDeck = function(req, res, next) {
                                 if (deck_err) console.log(deck_err)
 
                                 writeSubmitedDeck(Class.assignedDecks[j], returnedDeck)
+                                Class.markModified('assignedDecks')
                                 Class.save()
                                 res.sendStatus(200)
                             })
