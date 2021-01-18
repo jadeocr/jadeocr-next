@@ -28,7 +28,7 @@ var classSchema = new mongoose.Schema({
         repetitions: Number,
         assignedDate: Number,
         dueDate: Number,
-        results: {},
+        results: {type: Object, default: {}},
     }],
 }, {
     minimize: false,

@@ -16,8 +16,12 @@ let checkAccess = function(user, deck, callback) {
         callback(true, user, deck)
     } else if (deck.access.isPublic == true) {
         callback(true, user, deck)
+    } else if (Object.keys(deck.access.classes).length == 0) {
+        callback(false, user, deck)
+    } else if (Object.keys(user.classes).length == 0) {
+        callback(false, user, deck)
     } else {
-        if (intersect(user.classes, deck.access.classes).length > 0) {
+        if (intersect(user.classes, Object.keys(deck.access.classes)).length > 0) {
             callback(true, user, deck)
         } else {
             callback(false, user, deck)

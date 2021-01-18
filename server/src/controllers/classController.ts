@@ -364,6 +364,7 @@ exports.assign = function(req, res, next) {
                     dueDate: dueDate,
                 })
                 deck.access.classes[Class.classCode] = true
+                deck.markModified('access')
                 saveClassAndDeck(Class, deck, res)
             }
         }
@@ -373,7 +374,7 @@ exports.assign = function(req, res, next) {
                 console.log(classErr)
                 res.status(400).send("There was an error")
             } else if (!Class) {
-                res.status(400).send("The class does not exist")
+                res.status(400).send("No class was found")
             } else if (Class.teacherId != teacher) {
                 res.sendStatus(403)
             } else {
@@ -382,7 +383,7 @@ exports.assign = function(req, res, next) {
                         console.log(deckErr)
                         res.status(400).send('There was an error')
                     } else if (!returnedDeck) {
-                        res.status(400).send('Deck does not exist')
+                        res.status(400).send('No deck was found')
                     } else if (returnedDeck.access.isPublic == true) {
                         checkIfDeckIsAssigned(Class, deckId, returnedDeck)
                     } else if (returnedDeck.creator == teacher) {
@@ -396,7 +397,7 @@ exports.assign = function(req, res, next) {
     }
 }
 
-exports.unassign = function(req, res, next) {
+exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FROM THAT DECKS ACCESS IF NO OTHER ASSIGNMENT ALSO HAS IT
     let teacher = req.user._id
     let classCode = req.body.classCode
     let deckId = req.body.deckId
@@ -447,7 +448,9 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             let status
 
             if (deck.mode == "learn" || deck.mode == "quiz") {
-                if (!deck.results[user]) {
+                if (!deck.results) {
+                    status = "Not started"
+                } else if (!deck.results[user]) {
                     status = "Not started"
                 } else if (deck.results[user].done) {
                     status = "Finished"
@@ -570,7 +573,9 @@ exports.submitFinishedDeck = function(req, res, next) {
     let quizResults = req.body.results //Only needed if mode is quiz
 
     let writeSubmitedDeck = function(deckInClass, deckInDB) {
-        if (!deckInClass.results[user]) {
+        if (!deckInClass.results) {
+            deckInClass.results[user] = {}
+        } else if (!deckInClass.results[user]) {
             deckInClass.results[user] = {}
         }
 
@@ -598,7 +603,7 @@ exports.submitFinishedDeck = function(req, res, next) {
         let numCorrect = 0
         let overriden = 0
 
-        for (let char of deckInDB) {
+        for (let char of deckInDB.characters) {
             charactersInDeck[char.id] = char.char
         }
         
