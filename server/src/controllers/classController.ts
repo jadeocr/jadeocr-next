@@ -757,7 +757,7 @@ exports.getDeckResults = function(req, res, next) {
                 }
             }
         } else {
-            res.sendSatus(403)
+            res.sendStatus(403)
         }
     }) 
 }
