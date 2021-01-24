@@ -753,7 +753,7 @@ exports.getDeckResults = function(req, res, next) {
                     sendDeckResults(Class, Class.assignedDecks[i])
                     break
                 } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                    res.send(400).send('Deck not assigned')
+                    res.status(400).send('Deck not assigned')
                 }
             }
         } else {
