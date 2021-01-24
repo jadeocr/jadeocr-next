@@ -74,6 +74,6 @@ router.post('/api/class/submitFinishedDeck', authMiddleware, classController.sub
 router.post('/api/class/getDeckResults', authMiddleware, [
   body('classCode').trim().escape(),
   body('deckId').trim().escape(),
-], classController.getAssignedDecksAsStudent)
+], classController.getDeckResults)
 
 module.exports = router
