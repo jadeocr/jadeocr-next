@@ -40,13 +40,42 @@
                   Stats
                 </button>
               </div>
-              <div class="mt-10">
+              <div class="mt-8">
                 <div v-if="menuType == 'decks'">
-                  <div v-if="!currClass.assignedDecks.length">
+                  <button class="px-4 py-2 rounded bg-nord9">
+                    Assign Deck
+                  </button>
+                  <div class="mt-8">
+                    <div v-if="!currClass.assignedDecks.length">
+                      <div
+                        class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                      >
+                        Get started by assigning a deck to this class!
+                      </div>
+                    </div>
                     <div
-                      class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                      v-else
+                      class="grid grid-cols-1 md:grid-cols-2"
                     >
-                      Get started by assigning a deck to this class!
+                      <div
+                        v-for="deck in currClass.assignedDecks"
+                        :key="deck.key"
+                        class="my-4 mr-4 col-span-1"
+                      >
+                        <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+                          <router-link
+                            class="text-xl font-normal"
+                            :to="{
+                              path: `/deck/${deck.deckId}`,
+                            }"
+                          >
+                            {{ deck.deckName }}
+                          </router-link>
+                          <div>
+                            {{ deck.deckDescription }}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -133,7 +162,14 @@
     },
     data() {
       return {
-        currClass: {} as ClassI,
+        currClass: {
+          classCode: 'Loading...',
+          description: 'Loading...',
+          name: 'Loading...',
+          teacherName: 'Loading...',
+          students: [],
+          assignedDecks: [],
+        } as ClassI,
         modalIsVisible: false,
         menuType: 'decks',
       }
@@ -167,7 +203,7 @@
         this.menuType = menuType
       },
     },
-    mounted() {
+    created() {
       this.getClassDetails()
     },
   })
