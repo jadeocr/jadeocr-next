@@ -57,7 +57,7 @@
               </div>
             </div>
             <div
-              class="mt-10 text-center md:pr-12 md:text-right xl:mx-48 xl:w-1/3 col-span-1"
+              class="mt-10 text-center md:pr-8 md:text-right xl:mx-48 xl:w-1/3 col-span-1"
             >
               <div class="text-xl font-normal md:text-2xl">
                 Class Info
@@ -72,17 +72,25 @@
                     : currClass.teacherName
                 }}
               </div>
+              <div v-if="$store.state.auth.isTeacher" class="mt-4">
+                Join code: 
+                {{ currClass.classCode }}
+              </div>
+              <div class="mt-8">
+                <router-link
+                  v-if="$store.state.auth.isTeacher"
+                  class="px-4 py-2 rounded bg-nord9"
+                  :to="{
+                    path: `/class/${currClass.classCode}/edit`,
+                  }"
+                >
+                  Manage Class
+                </router-link>
+              </div>
               <div class="mt-8">
                 <div>
                   <button
-                    v-if="$store.state.auth.isTeacher"
-                    @click="toggleModalVisibility()"
-                    class="mb-4 font-normal opacity-75"
-                  >
-                    Delete Class
-                  </button>
-                  <button
-                    v-else
+                    v-if="!$store.state.auth.isTeacher"
                     @click="toggleModalVisibility()"
                     class="mb-4 font-normal opacity-75"
                   >
@@ -97,19 +105,13 @@
                 </button>
               </div>
               <modal
-                headline="Confirm class deletion"
-                :confirmBtnTxt="
-                  $store.state.auth.isTeacher ? 'Delete' : 'Leave'
-                "
+                headline="Confirm leaving class"
+                confirmBtnTxt="Leave"
                 v-if="modalIsVisible"
-                @confirm="handleModalConfirm()"
+                @confirm="callLeaveClass()"
                 @exit-modal="toggleModalVisibility()"
               >
-                Are you sure you want to
-                {{
-                  $store.state.auth.isTeacher ? 'permanently delete' : 'leave'
-                }}
-                the class {{ currClass.name }}?
+                Are you sure you want to leave the class {{ currClass.name }}?
               </modal>
             </div>
           </div>
@@ -143,19 +145,8 @@
       toggleModalVisibility(): void {
         this.modalIsVisible = !this.modalIsVisible
       },
-      handleModalConfirm(): void {
-        if (this.$store.state.auth.isTeacher) {
-          this.callDeleteClass()
-        } else {
-          this.callLeaveClass()
-        }
-      },
       callLeaveClass(): void {
         this.$store.dispatch('classes/leaveClass', this.classCode)
-        this.toggleModalVisibility()
-      },
-      callDeleteClass(): void {
-        this.$store.dispatch('classes/deleteClass', this.classCode)
         this.toggleModalVisibility()
       },
     },

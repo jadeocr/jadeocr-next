@@ -89,6 +89,16 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/class/:classCode/edit',
+    props: true,
+    name: 'ClassEdit',
+    component: () =>
+      import(/* webpackChunkName: 'classedit' */ '../views/ClassEdit.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 const router = createRouter({
