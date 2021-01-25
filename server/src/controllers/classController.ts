@@ -154,14 +154,12 @@ exports.leave = function(req, res, next) {
             if (err) {
                 console.log(err)
             } else {
-                console.log(result.classes)
                 for (let j in result.classes) {
                     if (result.classes[j] == classCode) {
                         result.classes.splice(j, 1)
                         result.save()
                     }
                 }
-                console.log(result.classes)
             }
         })
     }
@@ -229,7 +227,7 @@ exports.getJoinedClasses = function(req, res, next) {
                   }
               })
             } else {
-              res.status(400).send('User has not joined any classes')
+              res.status(200).send([])
             }
         }        
     })
@@ -366,6 +364,7 @@ exports.assign = function(req, res, next) {
                     dueDate: dueDate,
                 })
                 deck.access.classes[Class.classCode] = true
+                deck.markModified('access')
                 saveClassAndDeck(Class, deck, res)
             }
         }
@@ -375,7 +374,7 @@ exports.assign = function(req, res, next) {
                 console.log(classErr)
                 res.status(400).send("There was an error")
             } else if (!Class) {
-                res.status(400).send("The class does not exist")
+                res.status(400).send("No class was found")
             } else if (Class.teacherId != teacher) {
                 res.sendStatus(403)
             } else {
@@ -383,6 +382,8 @@ exports.assign = function(req, res, next) {
                     if (deckErr) {
                         console.log(deckErr)
                         res.status(400).send('There was an error')
+                    } else if (!returnedDeck) {
+                        res.status(400).send('No deck was found')
                     } else if (returnedDeck.access.isPublic == true) {
                         checkIfDeckIsAssigned(Class, deckId, returnedDeck)
                     } else if (returnedDeck.creator == teacher) {
@@ -396,7 +397,7 @@ exports.assign = function(req, res, next) {
     }
 }
 
-exports.unassign = function(req, res, next) {
+exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FROM THAT DECKS ACCESS IF NO OTHER ASSIGNMENT ALSO HAS IT
     let teacher = req.user._id
     let classCode = req.body.classCode
     let deckId = req.body.deckId
@@ -447,7 +448,9 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             let status
 
             if (deck.mode == "learn" || deck.mode == "quiz") {
-                if (!deck.results[user]) {
+                if (!deck.results) {
+                    status = "Not started"
+                } else if (!deck.results[user]) {
                     status = "Not started"
                 } else if (deck.results[user].done) {
                     status = "Finished"
@@ -494,13 +497,15 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             res.status(200).send('No decks are assigned')
         } else if (Class.teacherId == user) {
             res.status(400).send('Teachers cannot request decks as a student')
+        } else if (Class.students.length == 0) {
+            res.status(403).send('Only students of the class can access the classes decks')
         } else {
             for (let i in Class.students) {
-                if (user == Class.students[i]) {
+                if (user == Class.students[i].id) {
                     sendDecks(Class.assignedDecks)
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
-                    res.send(403).send('Only students of the class can access the classes decks')
+                    res.status(403).send('Only students of the class can access the classes decks')
                 }
             }
         }
@@ -518,8 +523,8 @@ exports.getAssignedDecksAsTeacher = function(req, res, next) {
             let status
             let numberOfStudentsFinished = 0
 
-            for (let student of deck.results) {
-                if (student.done) {
+            for (let student in deck.results) {
+                if ( deck.results[student].done) {
                     numberOfStudentsFinished++
                 }
             }
@@ -568,11 +573,17 @@ exports.submitFinishedDeck = function(req, res, next) {
     let quizResults = req.body.results //Only needed if mode is quiz
 
     let writeSubmitedDeck = function(deckInClass, deckInDB) {
+        if (!deckInClass.results) {
+            deckInClass.results[user] = {}
+        } else if (!deckInClass.results[user]) {
+            deckInClass.results[user] = {}
+        }
+
         if (mode == 'learn') {
-            deckInClass.result[user].done = true
+            deckInClass.results[user].done = true
         } else if (mode == 'quiz') {
-            deckInClass.result[user].done = true
-            deckInClass.result[user].quizStats = processQuizResults(quizResults, deckInDB)
+            deckInClass.results[user].done = true
+            deckInClass.results[user].quizStats = processQuizResults(quizResults, deckInDB)
         } else if (mode == 'srs') {
             if (!deckInClass.results[user].repetitions) {
                 deckInClass.results[user].repetitions = 1
@@ -581,10 +592,8 @@ exports.submitFinishedDeck = function(req, res, next) {
             }
 
             if (deckInClass.results[user].repetitions == deckInClass.repetitions) {
-                deckInClass.result[user].done = true
+                deckInClass.results[user].done = true
             }
-            
-            return
         }
     }
 
@@ -594,7 +603,7 @@ exports.submitFinishedDeck = function(req, res, next) {
         let numCorrect = 0
         let overriden = 0
 
-        for (let char of deckInDB) {
+        for (let char of deckInDB.characters) {
             charactersInDeck[char.id] = char.char
         }
         
@@ -630,13 +639,14 @@ exports.submitFinishedDeck = function(req, res, next) {
             res.status(400).send('Teachers cannot submit decks')
         } else {
             for (let i in Class.students) {
-                if (user == Class.students[i]) {
+                if (user == Class.students[i].id) {
                     for (let j in Class.assignedDecks) {
                         if (Class.assignedDecks[j].deckId == deckId) {
                             deckModel.findOne({_id: deckId}, function(deck_err, returnedDeck) {
                                 if (deck_err) console.log(deck_err)
 
                                 writeSubmitedDeck(Class.assignedDecks[j], returnedDeck)
+                                Class.markModified('assignedDecks')
                                 Class.save()
                                 res.sendStatus(200)
                             })
@@ -647,7 +657,7 @@ exports.submitFinishedDeck = function(req, res, next) {
                     }
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
-                    res.send(403).send('Only students of the class can submit to the class')
+                    res.status(403).send('Only students of the class can submit to the class')
                 }
             }
         }
@@ -743,11 +753,11 @@ exports.getDeckResults = function(req, res, next) {
                     sendDeckResults(Class, Class.assignedDecks[i])
                     break
                 } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                    res.send(400).send('Deck not assigned')
+                    res.status(400).send('Deck not assigned')
                 }
             }
         } else {
-            res.sendSatus(403)
+            res.sendStatus(403)
         }
     }) 
 }

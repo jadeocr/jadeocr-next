@@ -40,7 +40,7 @@ passport.use(new LocalStrategy({
           }
         })
       }
-    })  
+    })
   }
 ))
 

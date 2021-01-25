@@ -30,6 +30,9 @@ var classSchema = new mongoose.Schema({
         dueDate: Number,
         results: {type: Object, default: {}},
     }],
-}, {minimize: false})
+}, {
+    minimize: false,
+    strict: false,
+})
 
 module.exports = new mongoose.model('classes', classSchema)

@@ -35,7 +35,7 @@ router.post('/api/class/class', authMiddleware, [
 
 router.post('/api/class/assign', authMiddleware, [
   body('classCode').trim().escape().exists(),
-  body('deck').trim().escape().exists(),
+  body('deckId').trim().escape().exists(),
   body('mode').custom(value => {
     if ((value == "learn") || (value == "quiz") || (value == "srs")) {
       return true
@@ -58,7 +58,7 @@ router.post('/api/class/assign', authMiddleware, [
 
 router.post('/api/class/unassign', authMiddleware, [
   body('classCode').trim().escape(),
-  body('deck').trim().escape(),
+  body('deckId').trim().escape(),
 ], classController.unassign)
 
 router.post('/api/class/getAssignedDecksAsStudent', authMiddleware, [
@@ -74,6 +74,6 @@ router.post('/api/class/submitFinishedDeck', authMiddleware, classController.sub
 router.post('/api/class/getDeckResults', authMiddleware, [
   body('classCode').trim().escape(),
   body('deckId').trim().escape(),
-], classController.getAssignedDecksAsStudent)
+], classController.getDeckResults)
 
 module.exports = router
