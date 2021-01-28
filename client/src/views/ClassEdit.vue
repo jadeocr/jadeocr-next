@@ -42,13 +42,52 @@
               </div>
               <div class="mt-8">
                 <div v-if="menuType == 'decks'">
-                  <button class="px-4 py-2 rounded bg-nord9">
-                    Assign Deck
-                  </button>
+                  <div>
+                    <div class="text-2xl font-normal">
+                      Assign Deck
+                    </div>
+                    <div class="mt-4">
+                      <div>
+                        <select v-model="assignDeckProperties.mode"
+                        class="px-4 py-1 rounded bg-nord7">
+                          <option selected disabled value="">Select a Review Mode</option>
+                          <option value="learn">Learn</option>
+                          <option value="quiz">Quiz</option>
+                          <option value="srs">SRS</option>
+                        </select>
+                        <select v-model="assignDeckProperties.front"
+                        class="px-4 py-1 mx-4 rounded bg-nord7">
+                          <option selected disabled value="">Select Card Front</option>
+                          <option value="pinyin">Pinyin</option>
+                          <option value="character">Character</option>
+                          <option value="definition">Definition</option>
+                          <option v-if="assignDeckProperties.mode != 'quiz'" value="handwriting">Handwriting</option>
+                        </select>
+                      </div>
+                      <div class="my-4">
+                        <span>
+                          <input
+                            v-model="assignDeckProperties.repetitions"
+                            class="w-1/12 py-1 text-center border-underline"
+                            type="number"
+                            min="1"
+                          />
+                          {{ assignDeckProperties.repetitions == 1 ? 'Repetition' : 'Repetitions'}}
+                        </span>
+                        <span v-if="assignDeckProperties.mode == 'learn'">
+                          <input class="ml-4" type="checkbox" id="scramble-checkbox" v-model="assignDeckProperties.scramble">
+                          <label class="mx-2" for="scramble-checkbox">Scramble</label>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                   <div class="mt-8">
+                    <div class="text-2xl font-normal">
+                      Assigned Decks
+                    </div>
                     <div v-if="!currClass.assignedDecks.length">
                       <div
-                        class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                        class="px-12 py-8 my-4 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                       >
                         Get started by assigning a deck to this class!
                       </div>
@@ -58,21 +97,21 @@
                       class="grid grid-cols-1 md:grid-cols-2"
                     >
                       <div
-                        v-for="deck in currClass.assignedDecks"
+                        v-for="(n,deck) in currClass.assignedDecks"
                         :key="deck.key"
-                        class="my-4 mr-4 col-span-1"
+                        class="my-4 mr-4"
                       >
-                        <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+                        <div class="">
                           <router-link
-                            class="text-xl font-normal"
+                            class="text-lg font-normal"
                             :to="{
-                              path: `/deck/${deck.deckId}`,
+                              path: `/deck/${currClass.assignedDecks[deck].deckId}`,
                             }"
                           >
-                            {{ deck.deckName }}
+                            {{ deck+1 + '. ' + currClass.assignedDecks[deck].deckName }}
                           </router-link>
                           <div>
-                            {{ deck.deckDescription }}
+                            {{ currClass.assignedDecks[deck].deckDescription }}
                           </div>
                         </div>
                       </div>
@@ -172,6 +211,12 @@
         } as ClassI,
         modalIsVisible: false,
         menuType: 'decks',
+        assignDeckProperties: {
+          mode: 'learn',
+          front: 'pinyin',
+          scramble: null,
+          repetitions: 1,
+        }
       }
     },
     methods: {
@@ -209,4 +254,16 @@
   })
 </script>
 
-<style scoped></style>
+<style scoped>
+  input {
+  }
+  input.border-underline {
+    background-color: transparent;
+    outline-width: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    transition: border-bottom 0.25s ease-in-out;
+  }
+  input.border-underline:focus {
+    border-bottom: 2px solid rgba(255, 255, 255, 1);
+  }
+</style>
