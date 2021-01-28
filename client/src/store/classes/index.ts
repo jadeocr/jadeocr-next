@@ -163,6 +163,7 @@ export const classes = {
         })
         .catch((err) => {
           console.log(err)
+          commit('setCurrClassAssignedDecks', [])
         })
     },
     getAssignedDecksAsTeacher({ commit }: { commit: Function }, classCode: string): void {
@@ -180,6 +181,7 @@ export const classes = {
         })
         .catch((err) => {
           console.log(err)
+          commit('setCurrClassAssignedDecks', [])
         })
     },
   },
