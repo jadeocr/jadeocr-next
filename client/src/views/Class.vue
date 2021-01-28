@@ -26,8 +26,13 @@
                   <div
                     class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                   >
-                    No decks have been assigned for this class yet! Check back
-                    later!
+                    No decks have been assigned for this class yet!
+                    <span v-if="$store.state.auth.isTeacher">
+                      Go to "Manage Class" to assign one!
+                    </span>
+                    <span v-else>
+                      Check back later!
+                    </span>
                   </div>
                 </div>
               </div>
