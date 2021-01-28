@@ -494,7 +494,7 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
         } else if (!Class) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
-            res.status(200).send('No decks are assigned')
+            res.status(400).send('No decks are assigned')
         } else if (Class.teacherId == user) {
             res.status(400).send('Teachers cannot request decks as a student')
         } else if (Class.students.length == 0) {
@@ -556,7 +556,7 @@ exports.getAssignedDecksAsTeacher = function(req, res, next) {
         } else if (!Class) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
-            res.status(200).send('No decks are assigned')
+            res.status(400).send('No decks are assigned')
         } else if (Class.teacherId == teacher) {
             sendDecks(Class)
         } else {
