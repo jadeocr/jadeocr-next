@@ -32,11 +32,11 @@
                 </div>
               </div>
               <div
-                v-else-if="$store.state.decks.decks.length"
+                v-else-if="$store.state.classes.currClassAssignedDecks.length"
                 class="grid grid-cols-1 md:grid-cols-2"
               >
                 <div
-                  v-for="(n, deck) in $store.state.decks.decks"
+                  v-for="(n, deck) in $store.state.classes.currClassAssignedDecks"
                   :key="deck.key"
                   class="my-4 mr-4 col-span-1"
                 >
@@ -44,13 +44,13 @@
                     <router-link
                       class="text-xl font-normal"
                       :to="{
-                        path: `/deck/${$store.state.decks.decks[deck].deckId}`,
+                        path: `/deck/${$store.state.classes.currClassAssignedDecks[deck].deckId}`,
                       }"
                     >
-                      {{ $store.state.decks.decks[deck].deckName }}
+                      {{ $store.state.classes.currClassAssignedDecks[deck].deckName }}
                     </router-link>
                     <div>
-                      {{ $store.state.decks.decks[deck].deckDescription }}
+                      {{ $store.state.classes.currClassAssignedDecks[deck].deckDescription }}
                     </div>
                   </div>
                 </div>
