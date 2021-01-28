@@ -2,6 +2,7 @@ import router from '../../router/index'
 import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import { ClassI } from '../../interfaces/Class'
+import { Deck } from '../../interfaces/Deck'
 
 export const classes = {
   namespaced: true,
@@ -9,6 +10,7 @@ export const classes = {
     classErrMsg: '',
     classes: Array<ClassI>(),
     classesTeaching: Array<ClassI>(),
+    currClassAssignedDecks: Array<Deck>(),
   },
   mutations: {
     // eslint-disable-next-line
@@ -23,6 +25,10 @@ export const classes = {
     setClassErrMsg(state: any, msg: string) {
       state.classErrMsg = msg
     },
+    // eslint-disable-next-line
+    setCurrClassAssignedDecks(state: any, decks: Array<Deck>) {
+      state.currClassAssignedDecks = decks
+    }
   },
   actions: {
     getClassesTeaching({
@@ -142,5 +148,40 @@ export const classes = {
           console.log(err.response.data)
         })
     },
+    getAssignedDecksAsStudent({ commit }: { commit: Function }, classCode: string): void {
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/getAssignedDecksAsStudent`,
+        data: {
+          classCode: classCode,
+        }
+      })
+        .then((res) => {
+          console.log(res.data)
+          commit('setCurrClassAssignedDecks', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getAssignedDecksAsTeacher({ commit }: { commit: Function }, classCode: string): void {
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/getAssignedDecksAsTeacher`,
+        data: {
+          classCode: classCode,
+        }
+      })
+        .then((res) => {
+          console.log(res.data)
+          commit('setCurrClassAssignedDecks', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
 }
+
