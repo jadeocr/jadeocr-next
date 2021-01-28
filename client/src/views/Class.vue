@@ -166,6 +166,12 @@
           this.currClass = allClasses[i]
         }
       }
+
+      if (this.$store.state.auth.isTeacher) {
+        this.$store.dispatch('classes/getAssignedDecksAsTeacher', this.classCode)
+      } else {
+        this.$store.dispatch('classes/getAssignedDecksAsStudent', this.classCode)
+      }
     },
   })
 </script>
