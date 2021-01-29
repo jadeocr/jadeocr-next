@@ -48,6 +48,12 @@ export const decks = {
     setDeckErrMsg(state: any, msg: string) {
       state.decksErrorMsg = msg
     },
+    // eslint-disable-next-line
+    sortAlphabetically(state: any) {
+      // state.decks.sort((a: Deck, b: Deck) => {
+      //   a.title.localeCompare(b.deckName)
+      // })
+    },
   },
   actions: {
     fetchDecks({ commit }: { commit: Function }): void {
@@ -211,6 +217,9 @@ export const decks = {
             console.log(err.response.data)
           })
       }
+    },
+    sortAlphabetically({ commit }: { commit: Function }): void {
+      commit('sortAlphabetically')
     },
   },
 }

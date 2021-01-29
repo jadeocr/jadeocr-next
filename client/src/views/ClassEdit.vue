@@ -48,6 +48,18 @@
                     </div>
                     <div class="mt-4">
                       <div>
+                        <select v-model="deckToAssign"
+                        class="px-4 py-1 rounded bg-nord7">
+                          <option selected disabled value="">Select a Deck</option>
+                          <option
+                          v-for="deck in $store.state.decks.decks" 
+                          :value="deck.deckId"
+                          :key="deck.key">
+                            {{ deck.deckName }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="my-4">
                         <select v-model="assignDeckProperties.mode"
                         class="px-4 py-1 rounded bg-nord7">
                           <option selected disabled value="">Select a Review Mode</option>
@@ -78,6 +90,10 @@
                           <input class="ml-4" type="checkbox" id="scramble-checkbox" v-model="assignDeckProperties.scramble">
                           <label class="mx-2" for="scramble-checkbox">Scramble</label>
                         </span>
+                      </div>
+                      <div class="my-4">
+                        <label for="duedate">Due Date: </label>
+                        <input v-model="assignDeckProperties.duedate" type="date" id="duedate" name="duedate" min="1970-01-01" class="px-2 py-1 mx-4 rounded bg-nord7">
                       </div>
                     </div>
                   </div>
@@ -211,11 +227,13 @@
         } as ClassI,
         modalIsVisible: false,
         menuType: 'decks',
+        deckToAssign: '',
         assignDeckProperties: {
           mode: 'learn',
           front: 'pinyin',
           scramble: null,
           repetitions: 1,
+          duedate: new Date(),
         }
       }
     },
@@ -247,16 +265,19 @@
       changeMenuType(menuType: string): void {
         this.menuType = menuType
       },
+      callAssignDeck(): void {
+        // epoch time in ms
+        const duedate = this.assignDeckProperties.duedate.getTime()
+      }
     },
     created() {
       this.getClassDetails()
+      this.$store.dispatch('decks/sortAlphabetically')
     },
   })
 </script>
 
 <style scoped>
-  input {
-  }
   input.border-underline {
     background-color: transparent;
     outline-width: 0;
