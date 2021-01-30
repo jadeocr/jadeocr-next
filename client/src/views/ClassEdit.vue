@@ -95,6 +95,11 @@
                         <label for="duedate">Due Date: </label>
                         <input v-model="assignDeckProperties.duedate" type="date" id="duedate" name="duedate" min="1970-01-01" class="px-2 py-1 mx-4 rounded bg-nord7">
                       </div>
+                      <div class="my-6" @click="callAssignDeck">
+                        <button class="px-4 py-2 rounded bg-nord7">
+                          Assign Deck
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div class="mt-8">
@@ -268,11 +273,12 @@
       callAssignDeck(): void {
         // epoch time in ms
         const duedate = this.assignDeckProperties.duedate.getTime()
+        this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
+        /* console.log(this.assignDeckProperties) */
       }
     },
     created() {
       this.getClassDetails()
-      this.$store.dispatch('decks/sortAlphabetically')
     },
   })
 </script>
