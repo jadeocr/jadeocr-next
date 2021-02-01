@@ -182,6 +182,14 @@ export const classes = {
           commit('setCurrClassAssignedDecks', [])
         })
     },
+    assignDeck({ commit }: { commit: Function }, payload: any): void {
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/assign`,
+        data: payload,
+      }) // TODO: Finish
+    },
   },
 }
 
