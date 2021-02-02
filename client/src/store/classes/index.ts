@@ -188,7 +188,15 @@ export const classes = {
         withCredentials: true,
         url: `${apiBaseURL}/class/assign`,
         data: payload,
-      }) // TODO: Finish
+      })
+        .then(() => {
+          commit('setClassErrMsg', '')
+          router.push({ name: 'Classes' })
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+          commit('setClassErrMsg', err.response.data)
+        })
     },
   },
 }
