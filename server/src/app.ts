@@ -17,7 +17,6 @@ mongoose.connect(process.env.MONGOOSEURL, {
   useCreateIndex: true,
 })
 
-
 var app = express()
 
 var passport = require('passport')
@@ -55,12 +54,15 @@ passport.deserializeUser(function(id, done) {
   })
 })
 
-var cookieSession = require('cookie-session')
-app.use(cookieSession({
-  name: 'mysession',
-  keys: ['vueauthrandomkey'],
-  maxAge: 24 * 60 * 60 * 1000
-}))
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+    secret: 'superSecretSecrets!!alsk;dfjiekmcjfueisldkfjur;alskdjfuiroijrgl;kjasdfhuhawiohrfga;sldkjfhwas;leikfjdass;ldkjfa;lskdjf',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+}));
 
 app.use(passport.initialize())
 app.use(passport.session())
