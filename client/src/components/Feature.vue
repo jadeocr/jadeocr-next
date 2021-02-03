@@ -10,7 +10,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import FeatureIcons from '../components/FeatureIcons'
+  import FeatureIcons from './FeatureIcons.vue'
 
   export default defineComponent({
     components: {
