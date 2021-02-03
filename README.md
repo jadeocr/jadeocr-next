@@ -18,6 +18,11 @@ First clone this repo, then set up your environment variables in **client/.env**
 VUE_APP_API_BASEURL="my_server_url/api"
 ```
 Then run the following to quickly spin up a dev instance
+### Super Fast Quickstart (Vim + Tmux)
+```bash
+chmod +x ./tmux-workspace.sh # only needs to be run first time
+./tmux-workspace.sh
+```
 ### Client
 ```bash
 cd client
