@@ -436,9 +436,8 @@ exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FR
     })
 }
 
-
 exports.getAssignedDecksAsStudent = function(req, res, next) {
-    let user = String(req.user._id)
+    let userId = String(req.user._id)
     let classCode = req.body.classCode
 
     let sendDecks = function(assignedDecks) {
@@ -450,22 +449,22 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             if (deck.mode == "learn" || deck.mode == "quiz") {
                 if (!deck.results) {
                     status = "Not started"
-                } else if (!deck.results[user]) {
+                } else if (!deck.results[userId]) {
                     status = "Not started"
-                } else if (deck.results[user].done) {
+                } else if (deck.results[userId].done) {
                     status = "Finished"
                 } else {
                     status = "Not started"
                 }
             } else if (deck.mode == "srs") {
-                if (!deck.results[user]) {
+                if (!deck.results[userId]) {
                     status = `0/${deck.repetitions}. Not started`
-                } else if (!deck.results[user].repetitions) {
+                } else if (!deck.results[userId].repetitions) {
                     status = `0/${deck.repetitions}. Not started`
-                } else if (deck.results[user].repetitions < deck.repetitions) {
-                    status = `${deck.results[user].repetitions}/${deck.repetitions}. Not finished`
+                } else if (deck.results[userId].repetitions < deck.repetitions) {
+                    status = `${deck.results[userId].repetitions}/${deck.repetitions}. Not finished`
                 } else {
-                    status = `${deck.results[user].repetitions}/${deck.repetitions}. Finished`
+                    status = `${deck.results[userId].repetitions}/${deck.repetitions}. Finished`
                 }
             }
 
@@ -495,13 +494,13 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
             res.status(400).send('No decks are assigned')
-        } else if (Class.teacherId == user) {
+        } else if (Class.teacherId == userId) {
             res.status(400).send('Teachers cannot request decks as a student')
         } else if (Class.students.length == 0) {
             res.status(403).send('Only students of the class can access the classes decks')
         } else {
             for (let i in Class.students) {
-                if (user == Class.students[i].id) {
+                if (userId == Class.students[i].id) {
                     sendDecks(Class.assignedDecks)
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {

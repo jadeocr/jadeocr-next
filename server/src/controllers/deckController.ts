@@ -494,8 +494,54 @@ exports.publicDecks = function(req, res, next) {
     })
 }
 
-exports.getAssignedDecks = function(req, res, next) {
+exports.getAllAssignedDecksAsStudent = function(req, res, next) {
     let userId = String(req.user._id)
+
+    let sendDecks = function(assignedDecks) {
+        var deckArray = []
+
+        for (let deck of assignedDecks) {
+            let status
+
+            if (deck.mode == "learn" || deck.mode == "quiz") {
+                if (!deck.results) {
+                    status = "Not started"
+                } else if (!deck.results[userId]) {
+                    status = "Not started"
+                } else if (deck.results[userId].done) {
+                    status = "Finished"
+                } else {
+                    status = "Not started"
+                }
+            } else if (deck.mode == "srs") {
+                if (!deck.results[userId]) {
+                    status = `0/${deck.repetitions}. Not started`
+                } else if (!deck.results[userId].repetitions) {
+                    status = `0/${deck.repetitions}. Not started`
+                } else if (deck.results[userId].repetitions < deck.repetitions) {
+                    status = `${deck.results[userId].repetitions}/${deck.repetitions}. Not finished`
+                } else {
+                    status = `${deck.results[userId].repetitions}/${deck.repetitions}. Finished`
+                }
+            }
+
+            deckArray.push({
+                deckId: deck.deckId,
+                deckName: deck.deckName,
+                deckDescription: deck.deckDescription,
+                mode: deck.mode,
+                handwriting: deck.handwriting,
+                front: deck.front,
+                scramble: deck.scramble,
+                repetitions: deck.repetitions,
+                assignedDate: deck.assignedDate,
+                dueDate: deck.dueDate,
+                status: status
+            })
+        }
+
+        res.send(deckArray)
+    }
 
     userDetailedModel.findOne({id: userId}, function(err, user) {
         if (err) {
@@ -505,37 +551,24 @@ exports.getAssignedDecks = function(req, res, next) {
             res.status(400).send('User is not enrolled in any classes')
         } else {
             var classArray = []
-
             for (let i in user.classes) {
                 classArray.push({classCode: user.classes[i]})
+            }    
 
-                if (parseInt(i) + 1 == user.classes.length) {
+            classModel.find({$or: classArray}, function(err, classResults) {
+                if (err) {
+                    console.log(err)
+                    res.status(400).send('There was an error')
+                } else {
                     var deckArray = []
-
-                    classModel.find({$or: classArray}, function(err, classResults) {
-                        if (err) {
-                            console.log(err)
-                            res.status(400).send('There was an error')
-                        } else {
-                            for (let j in classResults) {
-                                deckArray.push({_id: classResults[j].assignedDecks})
-
-                                if (parseInt(j) + 1 == classResults.length) {
-
-                                    deckModel.find({$or: deckArray}, function(err, deckResults) {
-                                        if (err) {
-                                            console.log(err)
-                                            res.status(400).send('There was an error')
-                                        } else {
-                                            res.status(200).send(deckResults)
-                                        }
-                                    })
-                                }
-                            }
+                    for (let Class of classResults) {
+                        for (let deck of Class.assignedDecks) {
+                            deckArray.push(deck)
                         }
-                    })
+                    }
+                    sendDecks(deckArray)
                 }
-            }
+            })            
         }
     })
 }
