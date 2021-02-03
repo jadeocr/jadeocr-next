@@ -48,32 +48,49 @@
                     </div>
                     <div class="mt-4">
                       <div>
-                        <select v-model="assignDeckProperties.deckId"
-                        class="px-4 py-1 rounded bg-nord7">
-                          <option selected disabled value="">Select a Deck</option>
+                        <select
+                          v-model="assignDeckProperties.deckId"
+                          class="px-4 py-1 rounded bg-nord7"
+                        >
+                          <option selected disabled value=""
+                            >Select a Deck</option
+                          >
                           <option
-                          v-for="deck in $store.state.decks.decks" 
-                          :value="deck.deckId"
-                          :key="deck.key">
+                            v-for="deck in $store.state.decks.decks"
+                            :value="deck.deckId"
+                            :key="deck.key"
+                          >
                             {{ deck.deckName }}
                           </option>
                         </select>
                       </div>
                       <div class="my-4">
-                        <select v-model="assignDeckProperties.mode"
-                        class="px-4 py-1 rounded bg-nord7">
-                          <option selected disabled value="">Select a Review Mode</option>
+                        <select
+                          v-model="assignDeckProperties.mode"
+                          class="px-4 py-1 rounded bg-nord7"
+                        >
+                          <option selected disabled value=""
+                            >Select a Review Mode</option
+                          >
                           <option value="learn">Learn</option>
                           <option value="quiz">Quiz</option>
                           <option value="srs">SRS</option>
                         </select>
-                        <select v-model="assignDeckProperties.front"
-                        class="px-4 py-1 mx-4 rounded bg-nord7">
-                          <option selected disabled value="">Select Card Front</option>
+                        <select
+                          v-model="assignDeckProperties.front"
+                          class="px-4 py-1 mx-4 rounded bg-nord7"
+                        >
+                          <option selected disabled value=""
+                            >Select Card Front</option
+                          >
                           <option value="pinyin">Pinyin</option>
                           <option value="character">Character</option>
                           <option value="definition">Definition</option>
-                          <option v-if="assignDeckProperties.mode != 'quiz'" value="handwriting">Handwriting</option>
+                          <option
+                            v-if="assignDeckProperties.mode != 'quiz'"
+                            value="handwriting"
+                            >Handwriting</option
+                          >
                         </select>
                       </div>
                       <div class="my-4">
@@ -84,16 +101,34 @@
                             type="number"
                             min="1"
                           />
-                          {{ assignDeckProperties.repetitions == 1 ? 'Repetition' : 'Repetitions'}}
+                          {{
+                            assignDeckProperties.repetitions == 1
+                              ? 'Repetition'
+                              : 'Repetitions'
+                          }}
                         </span>
                         <span v-if="assignDeckProperties.mode == 'learn'">
-                          <input class="ml-4" type="checkbox" id="scramble-checkbox" v-model="assignDeckProperties.scramble">
-                          <label class="mx-2" for="scramble-checkbox">Scramble</label>
+                          <input
+                            class="ml-4"
+                            type="checkbox"
+                            id="scramble-checkbox"
+                            v-model="assignDeckProperties.scramble"
+                          />
+                          <label class="mx-2" for="scramble-checkbox"
+                            >Scramble</label
+                          >
                         </span>
                       </div>
                       <div class="my-4">
                         <label for="dueDate">Due Date: </label>
-                        <input v-model="assignDeckProperties.dueDate" type="date" id="dueDate" name="dueDate" min="1970-01-01" class="px-2 py-1 mx-4 rounded bg-nord7">
+                        <input
+                          v-model="assignDeckProperties.dueDate"
+                          type="date"
+                          id="dueDate"
+                          name="dueDate"
+                          min="1970-01-01"
+                          class="px-2 py-1 mx-4 rounded bg-nord7"
+                        />
                       </div>
                       <div class="my-6" @click="callAssignDeck">
                         <button class="px-4 py-2 rounded bg-nord7">
@@ -113,12 +148,9 @@
                         Get started by assigning a deck to this class!
                       </div>
                     </div>
-                    <div
-                      v-else
-                      class="grid grid-cols-1 md:grid-cols-2"
-                    >
+                    <div v-else class="grid grid-cols-1 md:grid-cols-2">
                       <div
-                        v-for="(n,deck) in currClass.assignedDecks"
+                        v-for="(n, deck) in currClass.assignedDecks"
                         :key="deck.key"
                         class="my-4 mr-4"
                       >
@@ -129,7 +161,12 @@
                               path: `/deck/${currClass.assignedDecks[deck].deckId}`,
                             }"
                           >
-                            {{ deck+1 + '. ' + currClass.assignedDecks[deck].deckName }}
+                            {{
+                              deck +
+                                1 +
+                                '. ' +
+                                currClass.assignedDecks[deck].deckName
+                            }}
                           </router-link>
                           <div>
                             {{ currClass.assignedDecks[deck].deckDescription }}
@@ -148,7 +185,14 @@
                     </div>
                   </div>
                   <div v-for="(n, i) in currClass.students" :key="i.key">
-                    {{ i+1 + '. ' + currClass.students[i].firstName + ' ' + currClass.students[i].lastName }}
+                    {{
+                      i +
+                        1 +
+                        '. ' +
+                        currClass.students[i].firstName +
+                        ' ' +
+                        currClass.students[i].lastName
+                    }}
                   </div>
                 </div>
                 <div v-if="menuType == 'stats'">
@@ -163,7 +207,7 @@
                 Class Info
               </div>
               <div v-if="$store.state.auth.isTeacher" class="mt-4">
-                Join code: 
+                Join code:
                 {{ currClass.classCode }}
               </div>
               <div class="mt-8">
@@ -190,14 +234,15 @@
                 @confirm="callDeleteClass()"
                 @exit-modal="toggleModalVisibility()"
               >
-                Are you sure you want to permanently delete the class {{ currClass.name }}?
+                Are you sure you want to permanently delete the class
+                {{ currClass.name }}?
               </modal>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script lang="ts">
@@ -205,7 +250,6 @@
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
   import { ClassI } from '../interfaces/Class'
-  import { Deck } from '../interfaces/Deck'
   import { AssignDeckData } from '../interfaces/AssignDeckData'
   import { defineComponent } from 'vue'
   const apiBaseURL = process.env.VUE_APP_API_BASEURL
@@ -242,7 +286,7 @@
           dueDate: new Date(), // placeholder, UNIX timestamp in ms
           classCode: this.classCode,
           deckId: '',
-        } as AssignDeckData
+        } as AssignDeckData,
       }
     },
     methods: {
@@ -260,24 +304,26 @@
           url: `${apiBaseURL}/class/class`,
           data: {
             classCode: this.classCode,
-          }
-        })  
-        .then((res) => {
-          console.log(res.data)
-          this.currClass = res.data
+          },
         })
-        .catch((err) => {
-          console.log(err)
-        })
+          .then((res) => {
+            console.log(res.data)
+            this.currClass = res.data
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       },
       changeMenuType(menuType: string): void {
         this.menuType = menuType
       },
       callAssignDeck(): void {
         // epoch time in ms
-        this.assignDeckProperties.dueDate = (new Date(this.assignDeckProperties.dueDate)).valueOf()
+        this.assignDeckProperties.dueDate = new Date(
+          this.assignDeckProperties.dueDate
+        ).valueOf()
         this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
-      }
+      },
     },
     created() {
       this.getClassDetails()
