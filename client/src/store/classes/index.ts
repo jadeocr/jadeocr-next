@@ -28,7 +28,7 @@ export const classes = {
     // eslint-disable-next-line
     setCurrClassAssignedDecks(state: any, decks: Array<Deck>) {
       state.currClassAssignedDecks = decks
-    }
+    },
   },
   actions: {
     getClassesTeaching({
@@ -36,6 +36,7 @@ export const classes = {
       rootState,
     }: {
       commit: Function
+      // eslint-disable-next-line
       rootState: any
     }): void {
       if (rootState.auth.isTeacher) {
@@ -68,10 +69,7 @@ export const classes = {
           }
         })
     },
-    joinClass(
-      { commit, dispatch }: { commit: Function; dispatch: Function },
-      classCode: string
-    ): void {
+    joinClass({ commit }: { commit: Function }, classCode: string): void {
       axios({
         method: 'post',
         withCredentials: true,
@@ -82,7 +80,7 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          router.push({ 'name': 'Dashboard' })
+          router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
           commit('setClassErrMsg', err.response.data)
@@ -100,7 +98,7 @@ export const classes = {
       })
         .then(() => {
           commit('setClassErrMsg', '')
-          router.push({ 'name': 'Dashboard' })
+          router.push({ name: 'Dashboard' })
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -108,7 +106,7 @@ export const classes = {
         })
     },
     createClass(
-      { commit, dispatch }: { commit: Function; dispatch: Function },
+      { commit }: { commit: Function },
       payload: {
         className: string
         description: string
@@ -132,6 +130,7 @@ export const classes = {
           commit('setClassErrMsg', err.response.data)
         })
     },
+    // eslint-disable-next-line
     deleteClass({ commit }: { commit: Function }, classCode: string): void {
       axios({
         method: 'post',
@@ -148,14 +147,17 @@ export const classes = {
           console.log(err.response.data)
         })
     },
-    getAssignedDecksAsStudent({ commit }: { commit: Function }, classCode: string): void {
+    getAssignedDecksAsStudent(
+      { commit }: { commit: Function },
+      classCode: string
+    ): void {
       axios({
         method: 'post',
         withCredentials: true,
         url: `${apiBaseURL}/class/getAssignedDecksAsStudent`,
         data: {
           classCode: classCode,
-        }
+        },
       })
         .then((res) => {
           commit('setCurrClassAssignedDecks', res.data)
@@ -165,14 +167,17 @@ export const classes = {
           commit('setCurrClassAssignedDecks', [])
         })
     },
-    getAssignedDecksAsTeacher({ commit }: { commit: Function }, classCode: string): void {
+    getAssignedDecksAsTeacher(
+      { commit }: { commit: Function },
+      classCode: string
+    ): void {
       axios({
         method: 'post',
         withCredentials: true,
         url: `${apiBaseURL}/class/getAssignedDecksAsTeacher`,
         data: {
           classCode: classCode,
-        }
+        },
       })
         .then((res) => {
           commit('setCurrClassAssignedDecks', res.data)
@@ -182,6 +187,7 @@ export const classes = {
           commit('setCurrClassAssignedDecks', [])
         })
     },
+    // eslint-disable-next-line
     assignDeck({ commit }: { commit: Function }, payload: any): void {
       axios({
         method: 'post',
@@ -200,4 +206,3 @@ export const classes = {
     },
   },
 }
-

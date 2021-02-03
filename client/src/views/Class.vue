@@ -18,7 +18,7 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mt-10 col-span-1">
-            <!-- TODO: Change to assigned decks -->
+              <!-- TODO: Change to assigned decks -->
               <div v-if="!$store.state.classes.currClassAssignedDecks.length">
                 <div
                   class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
@@ -41,7 +41,8 @@
                 class="grid grid-cols-1 md:grid-cols-2"
               >
                 <div
-                  v-for="(n, deck) in $store.state.classes.currClassAssignedDecks"
+                  v-for="(n, deck) in $store.state.classes
+                    .currClassAssignedDecks"
                   :key="deck.key"
                   class="my-4 mr-4 col-span-1"
                 >
@@ -52,10 +53,16 @@
                         path: `/deck/${$store.state.classes.currClassAssignedDecks[deck].deckId}`,
                       }"
                     >
-                      {{ $store.state.classes.currClassAssignedDecks[deck].deckName }}
+                      {{
+                        $store.state.classes.currClassAssignedDecks[deck]
+                          .deckName
+                      }}
                     </router-link>
                     <div>
-                      {{ $store.state.classes.currClassAssignedDecks[deck].deckDescription }}
+                      {{
+                        $store.state.classes.currClassAssignedDecks[deck]
+                          .deckDescription
+                      }}
                     </div>
                   </div>
                 </div>
@@ -78,7 +85,7 @@
                 }}
               </div>
               <div v-if="$store.state.auth.isTeacher" class="mt-4">
-                Join code: 
+                Join code:
                 {{ currClass.classCode }}
               </div>
               <div class="mt-8">
@@ -173,9 +180,15 @@
       }
 
       if (this.$store.state.auth.isTeacher) {
-        this.$store.dispatch('classes/getAssignedDecksAsTeacher', this.classCode)
+        this.$store.dispatch(
+          'classes/getAssignedDecksAsTeacher',
+          this.classCode
+        )
       } else {
-        this.$store.dispatch('classes/getAssignedDecksAsStudent', this.classCode)
+        this.$store.dispatch(
+          'classes/getAssignedDecksAsStudent',
+          this.classCode
+        )
       }
     },
   })

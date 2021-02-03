@@ -2,7 +2,10 @@
   <div id="deck-menu">
     <!-- Show personal decks -->
     <div
-      v-if="(!$store.state.decks.decks.length && menuType == 'all') || (!$store.state.decks.decksCreated.length && menuType == 'created')"
+      v-if="
+        (!$store.state.decks.decks.length && menuType == 'all') ||
+          (!$store.state.decks.decksCreated.length && menuType == 'created')
+      "
     >
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
@@ -32,7 +35,12 @@
         </div>
       </div>
     </div>
-    <div v-else-if="$store.state.decks.decksCreated.length && this.menuType == 'created'" class="grid grid-cols0 md:grid-cols-2 xl:grid-cols-3">
+    <div
+      v-else-if="
+        $store.state.decks.decksCreated.length && this.menuType == 'created'
+      "
+      class="grid grid-cols0 md:grid-cols-2 xl:grid-cols-3"
+    >
       <div
         v-for="(n, deck) in $store.state.decks.decksCreated"
         :key="deck.key"
@@ -63,7 +71,9 @@
       </div>
     </div>
     <div
-      v-else-if="$store.state.decks.decksAssigned.length && menuType == 'assigned'"
+      v-else-if="
+        $store.state.decks.decksAssigned.length && menuType == 'assigned'
+      "
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
     >
       <div
@@ -101,7 +111,7 @@
       },
     },
     watch: {
-      menuType(oldMenu, newMenu) {
+      menuType() {
         this.fetchDecks()
       },
     },
@@ -114,7 +124,7 @@
         } else if (this.menuType == 'created') {
           this.$store.dispatch('decks/fetchCreatedDecks')
         }
-      }
+      },
     },
     created() {
       this.fetchDecks()
