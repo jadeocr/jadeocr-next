@@ -161,7 +161,7 @@ export const classes = {
           commit('setCurrClassAssignedDecks', res.data)
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response.data)
           commit('setCurrClassAssignedDecks', [])
         })
     },

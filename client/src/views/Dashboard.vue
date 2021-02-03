@@ -18,8 +18,8 @@
             </button>
             |
             <button
-              @click="changeMenuType('learn')"
-              :class="{ 'opacity-75': menuType != 'learn' }"
+              @click="changeMenuType('created')"
+              :class="{ 'opacity-75': menuType != 'created' }"
             >
               My Decks
             </button>
@@ -33,7 +33,7 @@
           </div>
           <div class="mt-8">
             <router-link
-              v-if="menuType == 'learn'"
+              v-if="menuType == 'created'"
               :to="{ name: 'DeckCreate' }"
               class="px-3 py-2 mt-8 rounded bg-nord2"
             >
@@ -60,7 +60,7 @@
     },
     data() {
       return {
-        menuType: 'learn',
+        menuType: 'created',
       }
     },
     methods: {

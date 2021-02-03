@@ -30,7 +30,7 @@
             class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
             v-model="credentials.email"
             placeholder="ada@example.com"
-            type="text"
+            type="email"
           />
         </div>
         <div class="my-6">

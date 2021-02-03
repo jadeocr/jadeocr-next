@@ -11,6 +11,7 @@ export const decks = {
     decks: Array<Deck>(),
     currDeck: {} as Deck,
     decksAssigned: Array<Deck>(),
+    decksCreated: Array<Deck>(),
     decksErrorMsg: '',
   },
   mutations: {
@@ -45,6 +46,10 @@ export const decks = {
       state.decksAssigned = decksAssigned
     },
     // eslint-disable-next-line
+    setCreatedDecks(state: any, decksCreated: Array<Deck>) {
+      state.decksCreated = decksCreated
+    },
+    // eslint-disable-next-line
     setDeckErrMsg(state: any, msg: string) {
       state.decksErrorMsg = msg
     },
@@ -58,6 +63,32 @@ export const decks = {
       })
         .then((res) => {
           commit('setDecks', res.data)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
+    fetchAssignedDecks({ commit }: { commit: Function }): void {
+      axios({
+        method: 'get',
+        url: `${apiBaseURL}/deck/assigned`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          commit('setAssignedDecks', res.data)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
+    fetchCreatedDecks({ commit }: { commit: Function }): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/createdDecks`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          commit('setCreatedDecks', res.data)
         })
         .catch((err) => {
           console.log(err.response.data)

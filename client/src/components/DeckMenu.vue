@@ -2,10 +2,7 @@
   <div id="deck-menu">
     <!-- Show personal decks -->
     <div
-      v-if="
-        !$store.state.decks.decks.length &&
-          (menuType == 'learn' || menuType == 'all')
-      "
+      v-if="(!$store.state.decks.decks.length && menuType == 'all') || (!$store.state.decks.decksCreated.length && menuType == 'created')"
     >
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
@@ -14,7 +11,7 @@
       </div>
     </div>
     <div
-      v-else-if="$store.state.decks.decks.length && menuType == 'learn'"
+      v-else-if="$store.state.decks.decks.length && menuType == 'all'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
     >
       <div
@@ -35,6 +32,25 @@
         </div>
       </div>
     </div>
+    <div v-else-if="$store.state.decks.decksCreated.length && this.menuType == 'created'" class="grid grid-cols0 md:grid-cols-2 xl:grid-cols-3">
+      <div
+        v-for="(n, deck) in $store.state.decks.decksCreated"
+        :key="deck.key"
+        class="my-4 mr-4 col-span-1"
+      >
+        <div class="p-8 text-center md:p-12 bg-nord10 rounded-md">
+          <router-link
+            class="text-xl font-normal"
+            :to="{
+              path: `/deck/${$store.state.decks.decksCreated[deck].deckId}`,
+            }"
+          >
+            {{ $store.state.decks.decksCreated[deck].deckName }}
+          </router-link>
+          <div>{{ $store.state.decks.decksCreated[deck].deckDescription }}</div>
+        </div>
+      </div>
+    </div>
 
     <!-- Show assigned decks -->
     <div
@@ -47,7 +63,7 @@
       </div>
     </div>
     <div
-      v-if="$store.state.decks.decksAssigned.length && menuType == 'assigned'"
+      v-else-if="$store.state.decks.decksAssigned.length && menuType == 'assigned'"
       class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
     >
       <div
@@ -80,12 +96,28 @@
         type: String,
         required: true,
         validator: (value: string): boolean => {
-          return ['learn', 'assigned', 'all'].includes(value)
+          return ['assigned', 'all', 'created'].includes(value)
         },
       },
     },
-    mounted() {
-      this.$store.dispatch('decks/fetchDecks')
+    watch: {
+      menuType(oldMenu, newMenu) {
+        this.fetchDecks()
+      },
+    },
+    methods: {
+      fetchDecks(): void {
+        if (this.menuType == 'all') {
+          this.$store.dispatch('decks/fetchDecks')
+        } else if (this.menuType == 'assigned') {
+          this.$store.dispatch('decks/fetchAssignedDecks')
+        } else if (this.menuType == 'created') {
+          this.$store.dispatch('decks/fetchCreatedDecks')
+        }
+      }
+    },
+    created() {
+      this.fetchDecks()
     },
   })
 </script>
