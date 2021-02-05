@@ -3,11 +3,12 @@
     "**/*.test.ts",
     "**/*.spec.ts",
     ".git",
-    "node_modules"
+    "node_modules",
+    "venv"
   ],
   "watch": [
     "./"
   ],
-  "exec": "npm start",
+  "exec": "npm run devstart",
   "ext": "ts"
 }
