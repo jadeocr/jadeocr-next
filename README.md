@@ -53,6 +53,15 @@ deactivate # Deactivates virtual environment (run this when you're done)
 ```
 
 
+## Deployment
+NOTE: This section is still a work in progress.
+```
+docker run -e MONGOOSEURL=MYMONGOOSEURL --name server -p 3000:3000 server # make sure to escape the string
+
+printf "%q" "MYMONGOOSEURL" # make sure to escape the exclamation mark
+```
+
+
 ## Contribute
 Thank you for reading this far and considering contributing! Contributions are very much appreciated, and they are what makes this project what it is! We are looking for contributions of features/feature requests, bug fixes, documentation fixes, and anything else you can think of! The best contributions are those that will add value to the user experience. If you need to get in touch, please see the [contact/help](#Contact/Help) section.
 

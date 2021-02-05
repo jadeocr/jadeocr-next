@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  server:
+    image: server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      MONGOOSEURL
+    ports:
+      - 3000:3000
