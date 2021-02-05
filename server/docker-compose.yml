@@ -8,6 +8,6 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
-      MONGOOSEURL
+      MONGOOSEURL: ${MONGOOSEURL}
     ports:
       - 3000:3000
