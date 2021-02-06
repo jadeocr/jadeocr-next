@@ -9,3 +9,5 @@ services:
     extends:
       file: ./client/docker-compose.yml
       service: client
+    environment:
+      VUE_APP_API_BASEURL:

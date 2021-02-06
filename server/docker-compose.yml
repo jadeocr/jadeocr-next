@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   server:
+    container_name: jadeocr_server
     image: server
     build:
       context: .
