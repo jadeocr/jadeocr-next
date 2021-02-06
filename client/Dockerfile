@@ -1,17 +1,20 @@
-FROM node:lts-alpine
+# build stage
+FROM node:lts-alpine as build-stage
 
-RUN npm install -g http-server
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /app
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 
-RUN npm run build && npm run twbuild
-RUN npm run build
+RUN npm run twbuild && npm run build
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+# production stage
+FROM nginx:stable-alpine as production-stage
+
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
