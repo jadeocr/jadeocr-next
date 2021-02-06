@@ -8,7 +8,7 @@
     "start_old": "node --inspect=3000 -r ts-node/register ./bin/www",
     "devstart": "node -r ts-node/register ./bin/www",
     "dev": "nodemon",
-    "build": "tsc"
+    "build": "tsc && cp ./src/controllers/ocr.py ./dist/controllers/ocr.py"
   },
   "dependencies": {
     "@types/body-parser": "^1.19.0",
