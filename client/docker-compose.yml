@@ -7,8 +7,5 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
-      VUE_APP_API_BASEURL: ${VUE_APP_API_BASEURL}
     ports:
       - 8085:80
