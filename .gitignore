@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 */dist
+ci-server.sh
 
 # CSS files
 tailwind.css
