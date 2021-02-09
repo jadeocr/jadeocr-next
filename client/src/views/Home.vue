@@ -159,7 +159,7 @@
               <div class="col-span-1">
                 <div>
                   <a
-                    href="https://github.com/TanayB11/jadeocr"
+                    href="https://github.com/jadeocr/jadeocr-next"
                     target="_blank"
                     class="hoverlink"
                     >GitHub</a
