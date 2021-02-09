@@ -17,6 +17,7 @@ on:
 env:
   CLIENT_IMAGE_NAME: client
   SERVER_IMAGE_NAME: server
+  MONGOOSEURL: ${{ secrets.MONGOOSEURL }}
 
 jobs:
   # Run test build
