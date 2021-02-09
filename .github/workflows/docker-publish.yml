@@ -1,0 +1,80 @@
+name: Docker
+
+on:
+  push:
+    # Publish `master` as Docker `latest` image.
+    branches:
+      - master
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+  # Build images on PRs.
+  pull_request:
+    branches:
+      - master
+
+env:
+  CLIENT_IMAGE_NAME: client
+  SERVER_IMAGE_NAME: server
+
+jobs:
+  # Run test build
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run test build
+        run: |
+          if [ -f docker-compose.test.yml ]; then
+            docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml run sut
+          else
+            docker-compose build
+          fi
+
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+    # Ensure test job passes before pushing image.
+    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker-compose --build
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          CLIENT_IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$CLIENT_IMAGE_NAME
+          SERVER_IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$SERVER_IMAGE_NAME
+
+          # Change all uppercase to lowercase
+          CLIENT_IMAGE_ID=$(echo $CLIENT_IMAGE_ID | tr '[A-Z]' '[a-z]')
+          SERVER_IMAGE_ID=$(echo $SERVER_IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+
+          echo CLIENT_IMAGE_ID=$CLIENT_IMAGE_ID
+          echo SERVER_IMAGE_ID=$SERVER_IMAGE_ID
+          echo VERSION=$VERSION
+
+          docker tag $CLIENT_IMAGE_NAME $CLIENT_IMAGE_ID:$VERSION
+          docker tag $SERVER_IMAGE_NAME $SERVER_IMAGE_ID:$VERSION
+          docker push $CLIENT_IMAGE_ID:$VERSION
+          docker push $SERVER_IMAGE_ID:$VERSION
