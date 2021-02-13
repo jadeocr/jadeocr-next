@@ -401,6 +401,7 @@ exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FR
     let teacher = req.user._id
     let classCode = req.body.classCode
     let deckId = req.body.deckId
+    let assignedDeckId = req.body.assignedDeckId
 
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
@@ -419,15 +420,21 @@ exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FR
                         console.log(deckErr)
                         res.status(400).send('There was an error')
                     } else {
-                        for (let i in Class.assignedDecks) {
-                            if (Class.assignedDecks[i].deckId == deckId) {
+                        var sameDeckNumber = 0
+                        for (let i = Class.assignedDecks.length - 1; i >= 0; i--) {
+                            if (Class.assignedDecks[i]._id == assignedDeckId) {
+                                sameDeckNumber++
                                 Class.assignedDecks.splice(i, 1)
-                                delete returnedDeck.access[classCode]
-                                saveClassAndDeck(Class, returnedDeck, res)
-                                break
-                            } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                                res.status(400).send("Deck not assigned")
                             }
+                        }
+                        
+                        if (sameDeckNumber == 1) {
+                            delete returnedDeck.access.classes[classCode]
+                            saveClassAndDeck(Class, returnedDeck, res)
+                        } else if (sameDeckNumber < 1) {
+                            res.status(400).send("Deck not assigned")
+                        } else {
+                            saveClassAndDeck(Class, returnedDeck, res)
                         }
                     }
                 })
