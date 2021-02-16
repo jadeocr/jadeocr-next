@@ -401,7 +401,7 @@ exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FR
     let teacher = req.user._id
     let classCode = req.body.classCode
     let deckId = req.body.deckId
-    let assignedDeckId = req.body.assignedDeckId
+    let assignmentId = req.body.assignmentId
 
     classModel.findOne({classCode: classCode}, function(err, Class) {
         if (err) {
@@ -422,12 +422,14 @@ exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FR
                     } else {
                         var sameDeckNumber = 0
                         for (let i = Class.assignedDecks.length - 1; i >= 0; i--) {
-                            if (Class.assignedDecks[i]._id == assignedDeckId) {
+                            if (Class.assignedDecks[i].deckId == deckId) {
                                 sameDeckNumber++
+                            }
+                            if (Class.assignedDecks[i]._id == assignmentId) {
                                 Class.assignedDecks.splice(i, 1)
                             }
                         }
-                        
+
                         if (sameDeckNumber == 1) {
                             delete returnedDeck.access.classes[classCode]
                             saveClassAndDeck(Class, returnedDeck, res)
@@ -476,6 +478,7 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
             }
 
             deckArray.push({
+                _id: deck._id,
                 deckId: deck.deckId,
                 deckName: deck.deckName,
                 deckDescription: deck.deckDescription,
@@ -538,6 +541,7 @@ exports.getAssignedDecksAsTeacher = function(req, res, next) {
             status = `${numberOfStudentsFinished}/${Class.students.length}`
 
             deckArray.push({
+                _id: deck._id,
                 deckId: deck.deckId,
                 deckName: deck.deckName,
                 deckDescription: deck.deckDescription,
