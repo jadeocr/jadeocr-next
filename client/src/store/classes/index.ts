@@ -27,7 +27,7 @@ export const classes = {
       state.classErrMsg = msg
     },
     // eslint-disable-next-line
-    setcurrClassAssignments(state: any, decks: Array<AssignedDeck>) {
+    setCurrClassAssignments(state: any, decks: Array<AssignedDeck>) {
       state.currClassAssignments = decks
     },
   },
@@ -161,11 +161,11 @@ export const classes = {
         },
       })
         .then((res) => {
-          commit('setcurrClassAssignments', res.data)
+          commit('setCurrClassAssignments', res.data)
         })
         .catch((err) => {
           console.log(err.response.data)
-          commit('setcurrClassAssignments', [])
+          commit('setCurrClassAssignments', [])
         })
     },
     getAssignedDecksAsTeacher(
@@ -181,12 +181,11 @@ export const classes = {
         },
       })
         .then((res) => {
-          console.log(res.data)
-          commit('setcurrClassAssignments', res.data)
+          commit('setCurrClassAssignments', res.data)
         })
         .catch((err) => {
           console.log(err)
-          commit('setcurrClassAssignments', [])
+          commit('setCurrClassAssignments', [])
         })
     },
     // eslint-disable-next-line
@@ -217,6 +216,13 @@ export const classes = {
         url: `${apiBaseURL}/class/unassign`,
         data: payload,
       })
+        .then(() => {
+          console.log('hi')
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+          commit('setClassErrMsg', err.response.data)
+        })
     },
   },
 }

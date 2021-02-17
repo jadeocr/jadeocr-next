@@ -141,7 +141,7 @@
                     <div class="text-2xl font-normal">
                       Assigned Decks
                     </div>
-                    <div v-if="!currClass.assignedDecks.length">
+                    <div v-if="!$store.state.classes.currClassAssignments">
                       <div
                         class="px-12 py-8 my-4 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                       >
@@ -150,7 +150,7 @@
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2">
                       <div
-                        v-for="(n, deck) in currClass.assignedDecks"
+                        v-for="(n, deck) in $store.state.classes.currClassAssignments"
                         :key="deck.key"
                         class="my-4 mr-4"
                       >
@@ -159,22 +159,22 @@
                             <router-link
                               class="text-lg font-normal"
                               :to="{
-                                path: `/deck/${currClass.assignedDecks[deck].deckId}`,
+                                path: `/deck/${$store.state.classes.currClassAssignments[deck].deckId}`,
                               }"
                             >
                               {{
                                 deck +
                                   1 +
                                   '. ' +
-                                  currClass.assignedDecks[deck].deckName
+                                  $store.state.classes.currClassAssignments[deck].deckName
                               }}
                             </router-link>
                             <div>
-                              {{ currClass.assignedDecks[deck].deckDescription }}
+                              {{ $store.state.classes.currClassAssignments[deck].deckDescription }}
                             </div>
                           </div>
                           <div class="col-span-2">
-                            <button class="px-4 py-2 rounded bg-nord9" @click="callUnassignDeck()">
+                            <button class="px-4 py-2 rounded bg-nord9" @click="callUnassignDeck($store.state.classes.currClassAssignments[deck].deckId)">
                               Unassign
                             </button>
                           </div>
@@ -314,7 +314,6 @@
           },
         })
           .then((res) => {
-            console.log(res.data)
             this.currClass = res.data
           })
           .catch((err) => {
@@ -331,8 +330,12 @@
         ).valueOf()
         this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
       },
-      callUnassignDeck(): void {
-        this.$store.dispatch('classes/unassignDeck') // TODO: Fill params
+      callUnassignDeck(deckId: string, assignmentId: string): void {
+        this.$store.dispatch('classes/unassignDeck', { // TODO: Extract into type and specify in store
+          classCode: this.currClass.classCode,
+          deckId: deckId,
+          assignmentId: assignmentId
+        }) // TODO: Fill params
       },
     },
     created() {
