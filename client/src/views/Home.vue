@@ -45,7 +45,6 @@
         </div>
       </div>
     </div>
-    <!-- TODO: Add about content here -->
     <div id="about" class="py-4">
       <div class="mt-4 md:mt-12">
         <div
