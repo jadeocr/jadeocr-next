@@ -19,6 +19,36 @@ let saveClassAndDeck = function(classToSave, deckToSave, res) {
     })
 }
 
+let updateDecksInClass = function(classToUpdate, callback) {
+    let deckIds = []
+    let assignedDeckIndexes = {}
+
+    for (let i in classToUpdate.assignedDecks) {
+        deckIds.push({
+            _id: classToUpdate.assignedDecks[i].deckId
+        })
+
+        if (!assignedDeckIndexes[classToUpdate.assignedDecks[i].deckId]) {
+            assignedDeckIndexes[classToUpdate.assignedDecks[i].deckId] = [i]
+        } else {
+            assignedDeckIndexes[classToUpdate.assignedDecks[i].deckId].push(i)
+        }
+    }
+
+    deckModel.find({ $or: deckIds}, function(err, decks) {
+        if (decks) {
+            for (let deck of decks) {
+                for (let i of assignedDeckIndexes[deck._id]) {
+                    classToUpdate.assignedDecks[i].deckName = deck.title
+                    classToUpdate.assignedDecks[i].deckDescription = deck.description
+                }
+            }
+        }
+        classToUpdate.save()
+        callback()
+    })
+}
+
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
         res.sendStatus(403)
@@ -297,7 +327,9 @@ exports.Class = function(req, res, next) {
                 } else {
                     for (let i in Class.students) {
                         if (Class.students[i] == userId) {
-                            res.send(Class)
+                            updateDecksInClass(Class, function() {
+                                res.send(Class)
+                            })
                             break
                         } else if (parseInt(i) + 1 == Class.students.length) {
                             res.status(403).send('User does not teach this class or is not in this class')
@@ -503,7 +535,7 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
         } else if (!Class) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
-            res.status(400).send('No decks are assigned')
+            res.status(200).send([])
         } else if (Class.teacherId == userId) {
             res.status(400).send('Teachers cannot request decks as a student')
         } else if (Class.students.length == 0) {
@@ -511,7 +543,9 @@ exports.getAssignedDecksAsStudent = function(req, res, next) {
         } else {
             for (let i in Class.students) {
                 if (userId == Class.students[i].id) {
-                    sendDecks(Class.assignedDecks)
+                    updateDecksInClass(Class, function() {
+                        sendDecks(Class.assignedDecks)
+                    })
                     break
                 } else if (parseInt(i) + 1 == Class.students.length) {
                     res.status(403).send('Only students of the class can access the classes decks')
@@ -566,9 +600,11 @@ exports.getAssignedDecksAsTeacher = function(req, res, next) {
         } else if (!Class) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
-            res.status(400).send('No decks are assigned')
+            res.status(200).send([])
         } else if (Class.teacherId == teacher) {
-            sendDecks(Class)
+            updateDecksInClass(Class, function() {
+                sendDecks(Class)
+            })
         } else {
             res.sendSatus(403)
         }
@@ -644,7 +680,7 @@ exports.submitFinishedDeck = function(req, res, next) {
         } else if (!Class) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
-            res.status(200).send('No decks are assigned')
+            res.status(400).send('No decks are assigned')
         } else if (Class.teacherId == user) {
             res.status(400).send('Teachers cannot submit decks')
         } else {
@@ -756,7 +792,7 @@ exports.getDeckResults = function(req, res, next) {
         } else if (!Class) {
             res.status(400).send('No class was found')            
         } else if (Class.assignedDecks.length == 0) {
-            res.status(200).send('No decks are assigned')
+            res.status(200).send([])
         } else if (Class.teacherId == teacher) {
             for (let i in Class.assignedDecks) {
                 if (deckId == Class.assignedDecks[i].deckId) {
