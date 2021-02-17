@@ -56,7 +56,7 @@
                             >Select a Deck</option
                           >
                           <option
-                            v-for="deck in $store.state.decks.decks"
+                            v-for="deck in $store.state.decks.decksCreated"
                             :value="deck.deckId"
                             :key="deck.key"
                           >
@@ -154,22 +154,29 @@
                         :key="deck.key"
                         class="my-4 mr-4"
                       >
-                        <div class="">
-                          <router-link
-                            class="text-lg font-normal"
-                            :to="{
-                              path: `/deck/${currClass.assignedDecks[deck].deckId}`,
-                            }"
-                          >
-                            {{
-                              deck +
-                                1 +
-                                '. ' +
-                                currClass.assignedDecks[deck].deckName
-                            }}
-                          </router-link>
-                          <div>
-                            {{ currClass.assignedDecks[deck].deckDescription }}
+                        <div class="grid grid-cols-3">
+                          <div class="col-span-1">
+                            <router-link
+                              class="text-lg font-normal"
+                              :to="{
+                                path: `/deck/${currClass.assignedDecks[deck].deckId}`,
+                              }"
+                            >
+                              {{
+                                deck +
+                                  1 +
+                                  '. ' +
+                                  currClass.assignedDecks[deck].deckName
+                              }}
+                            </router-link>
+                            <div>
+                              {{ currClass.assignedDecks[deck].deckDescription }}
+                            </div>
+                          </div>
+                          <div class="col-span-2">
+                            <button class="px-4 py-2 rounded bg-nord9" @click="callUnassignDeck()">
+                              Unassign
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -323,6 +330,9 @@
           this.assignDeckProperties.dueDate
         ).valueOf()
         this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
+      },
+      callUnassignDeck(): void {
+        this.$store.dispatch('classes/unassignDeck') // TODO: Fill params
       },
     },
     created() {

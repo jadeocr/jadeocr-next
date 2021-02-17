@@ -2,7 +2,8 @@ import router from '../../router/index'
 import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import { ClassI } from '../../interfaces/Class'
-import { Deck } from '../../interfaces/Deck'
+// import { Deck } from '../../interfaces/Deck'
+import { AssignedDeck } from '../../interfaces/AssignedDeck'
 
 export const classes = {
   namespaced: true,
@@ -10,7 +11,7 @@ export const classes = {
     classErrMsg: '',
     classes: Array<ClassI>(),
     classesTeaching: Array<ClassI>(),
-    currClassAssignedDecks: Array<Deck>(),
+    currClassAssignments: Array<AssignedDeck>(),
   },
   mutations: {
     // eslint-disable-next-line
@@ -26,8 +27,8 @@ export const classes = {
       state.classErrMsg = msg
     },
     // eslint-disable-next-line
-    setCurrClassAssignedDecks(state: any, decks: Array<Deck>) {
-      state.currClassAssignedDecks = decks
+    setcurrClassAssignments(state: any, decks: Array<AssignedDeck>) {
+      state.currClassAssignments = decks
     },
   },
   actions: {
@@ -160,11 +161,11 @@ export const classes = {
         },
       })
         .then((res) => {
-          commit('setCurrClassAssignedDecks', res.data)
+          commit('setcurrClassAssignments', res.data)
         })
         .catch((err) => {
           console.log(err.response.data)
-          commit('setCurrClassAssignedDecks', [])
+          commit('setcurrClassAssignments', [])
         })
     },
     getAssignedDecksAsTeacher(
@@ -180,15 +181,16 @@ export const classes = {
         },
       })
         .then((res) => {
-          commit('setCurrClassAssignedDecks', res.data)
+          console.log(res.data)
+          commit('setcurrClassAssignments', res.data)
         })
         .catch((err) => {
           console.log(err)
-          commit('setCurrClassAssignedDecks', [])
+          commit('setcurrClassAssignments', [])
         })
     },
     // eslint-disable-next-line
-    assignDeck({ commit }: { commit: Function }, payload: any): void {
+    assignDeck({ commit }: { commit: Function }, payload: any): void { // TODO: Specify payload type
       axios({
         method: 'post',
         withCredentials: true,
@@ -203,6 +205,18 @@ export const classes = {
           console.log(err.response.data)
           commit('setClassErrMsg', err.response.data)
         })
+    },
+    unassignDeck({ commit }: { commit: Function }, payload: any): void { // TODO: Specify payload type
+    // let teacher = req.user._id
+    // let classCode = req.body.classCode
+    // let deckId = req.body.deckId
+    // let assignmentId = req.body.assignmentId
+      axios({
+        method: 'post',
+        withCredentials: true,
+        url: `${apiBaseURL}/class/unassign`,
+        data: payload,
+      })
     },
   },
 }
