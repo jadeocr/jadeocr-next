@@ -141,7 +141,7 @@
                     <div class="text-2xl font-normal">
                       Assigned Decks
                     </div>
-                    <div v-if="!$store.state.classes.currClassAssignments">
+                    <div v-if="!$store.state.classes.currClassAssignments.length">
                       <div
                         class="px-12 py-8 my-4 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                       >
@@ -154,30 +154,26 @@
                         :key="deck.key"
                         class="my-4 mr-4"
                       >
-                        <div class="grid grid-cols-3">
-                          <div class="col-span-1">
-                            <router-link
-                              class="text-lg font-normal"
-                              :to="{
-                                path: `/deck/${$store.state.classes.currClassAssignments[deck].deckId}`,
-                              }"
-                            >
-                              {{
-                                deck +
-                                  1 +
-                                  '. ' +
-                                  $store.state.classes.currClassAssignments[deck].deckName
-                              }}
-                            </router-link>
-                            <div>
-                              {{ $store.state.classes.currClassAssignments[deck].deckDescription }}
-                            </div>
+                        <div>
+                          <router-link
+                            class="text-lg font-normal"
+                            :to="{
+                              path: `/deck/${$store.state.classes.currClassAssignments[deck].deckId}`,
+                            }"
+                          >
+                            {{
+                              deck +
+                                1 +
+                                '. ' +
+                                $store.state.classes.currClassAssignments[deck].deckName
+                            }}
+                          </router-link>
+                          <div>
+                            {{ $store.state.classes.currClassAssignments[deck].deckDescription }}
                           </div>
-                          <div class="col-span-2">
-                            <button class="px-4 py-2 rounded bg-nord9" @click="callUnassignDeck($store.state.classes.currClassAssignments[deck].deckId)">
-                              Unassign
-                            </button>
-                          </div>
+                          <button class="my-2 font-semibold" @click="callUnassignDeck($store.state.classes.currClassAssignments[deck].deckId, $store.state.classes.currClassAssignments[deck]._id)">
+                            Unassign
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -258,6 +254,7 @@
   import Modal from '../components/Modal.vue'
   import { ClassI } from '../interfaces/Class'
   import { AssignDeckData } from '../interfaces/AssignDeckData'
+  import { Deck } from '../interfaces/Deck'
   import { defineComponent } from 'vue'
   const apiBaseURL = process.env.VUE_APP_API_BASEURL
 

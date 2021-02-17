@@ -206,10 +206,6 @@ export const classes = {
         })
     },
     unassignDeck({ commit }: { commit: Function }, payload: any): void { // TODO: Specify payload type
-    // let teacher = req.user._id
-    // let classCode = req.body.classCode
-    // let deckId = req.body.deckId
-    // let assignmentId = req.body.assignmentId
       axios({
         method: 'post',
         withCredentials: true,
@@ -217,7 +213,8 @@ export const classes = {
         data: payload,
       })
         .then(() => {
-          console.log('hi')
+          commit('setClassErrMsg', '')
+          router.push({ name: 'Classes' })
         })
         .catch((err) => {
           console.log(err.response.data)
