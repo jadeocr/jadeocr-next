@@ -56,7 +56,7 @@
                             >Select a Deck</option
                           >
                           <option
-                            v-for="deck in $store.state.decks.decks"
+                            v-for="deck in $store.state.decks.decksCreated"
                             :value="deck.deckId"
                             :key="deck.key"
                           >
@@ -141,7 +141,7 @@
                     <div class="text-2xl font-normal">
                       Assigned Decks
                     </div>
-                    <div v-if="!currClass.assignedDecks.length">
+                    <div v-if="!$store.state.classes.currClassAssignments.length">
                       <div
                         class="px-12 py-8 my-4 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                       >
@@ -150,27 +150,30 @@
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2">
                       <div
-                        v-for="(n, deck) in currClass.assignedDecks"
+                        v-for="(n, deck) in $store.state.classes.currClassAssignments"
                         :key="deck.key"
                         class="my-4 mr-4"
                       >
-                        <div class="">
+                        <div>
                           <router-link
                             class="text-lg font-normal"
                             :to="{
-                              path: `/deck/${currClass.assignedDecks[deck].deckId}`,
+                              path: `/deck/${$store.state.classes.currClassAssignments[deck].deckId}`,
                             }"
                           >
                             {{
                               deck +
                                 1 +
                                 '. ' +
-                                currClass.assignedDecks[deck].deckName
+                                $store.state.classes.currClassAssignments[deck].deckName
                             }}
                           </router-link>
                           <div>
-                            {{ currClass.assignedDecks[deck].deckDescription }}
+                            {{ $store.state.classes.currClassAssignments[deck].deckDescription }}
                           </div>
+                          <button class="my-2 font-semibold" @click="callUnassignDeck($store.state.classes.currClassAssignments[deck].deckId, $store.state.classes.currClassAssignments[deck]._id)">
+                            Unassign
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -251,6 +254,7 @@
   import Modal from '../components/Modal.vue'
   import { ClassI } from '../interfaces/Class'
   import { AssignDeckData } from '../interfaces/AssignDeckData'
+  import { Deck } from '../interfaces/Deck'
   import { defineComponent } from 'vue'
   const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
@@ -307,7 +311,6 @@
           },
         })
           .then((res) => {
-            console.log(res.data)
             this.currClass = res.data
           })
           .catch((err) => {
@@ -323,6 +326,13 @@
           this.assignDeckProperties.dueDate
         ).valueOf()
         this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
+      },
+      callUnassignDeck(deckId: string, assignmentId: string): void {
+        this.$store.dispatch('classes/unassignDeck', { // TODO: Extract into type and specify in store
+          classCode: this.currClass.classCode,
+          deckId: deckId,
+          assignmentId: assignmentId
+        }) // TODO: Fill params
       },
     },
     created() {

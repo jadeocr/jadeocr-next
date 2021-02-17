@@ -19,7 +19,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mt-10 col-span-1">
               <!-- TODO: Change to assigned decks -->
-              <div v-if="!$store.state.classes.currClassAssignedDecks.length">
+              <div v-if="!$store.state.classes.currClassAssignments.length">
                 <div
                   class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
                 >
@@ -37,12 +37,12 @@
                 </div>
               </div>
               <div
-                v-else-if="$store.state.classes.currClassAssignedDecks.length"
+                v-else-if="$store.state.classes.currClassAssignments.length"
                 class="grid grid-cols-1 md:grid-cols-2"
               >
                 <div
                   v-for="(n, deck) in $store.state.classes
-                    .currClassAssignedDecks"
+                    .currClassAssignments"
                   :key="deck.key"
                   class="my-4 mr-4 col-span-1"
                 >
@@ -50,17 +50,17 @@
                     <router-link
                       class="text-xl font-normal"
                       :to="{
-                        path: `/deck/${$store.state.classes.currClassAssignedDecks[deck].deckId}`,
+                        path: `/deck/${$store.state.classes.currClassAssignments[deck].deckId}`,
                       }"
                     >
                       {{
-                        $store.state.classes.currClassAssignedDecks[deck]
+                        $store.state.classes.currClassAssignments[deck]
                           .deckName
                       }}
                     </router-link>
                     <div>
                       {{
-                        $store.state.classes.currClassAssignedDecks[deck]
+                        $store.state.classes.currClassAssignments[deck]
                           .deckDescription
                       }}
                     </div>
