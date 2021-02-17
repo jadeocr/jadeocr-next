@@ -271,7 +271,7 @@
   import Modal from '../components/Modal.vue'
   import { ClassI } from '../interfaces/Class'
   import { AssignDeckData } from '../interfaces/AssignDeckData'
-  import { Deck } from '../interfaces/Deck'
+  import { UnassignDeckPayload } from '../interfaces/UnassignDeckPayload'
   import { defineComponent } from 'vue'
   const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
@@ -346,11 +346,10 @@
       },
       callUnassignDeck(deckId: string, assignmentId: string): void {
         this.$store.dispatch('classes/unassignDeck', {
-          // TODO: Extract into type and specify in store
           classCode: this.currClass.classCode,
           deckId: deckId,
           assignmentId: assignmentId,
-        }) // TODO: Fill params
+        } as UnassignDeckPayload)
       },
     },
     created() {

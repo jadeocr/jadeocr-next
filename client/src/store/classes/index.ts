@@ -3,6 +3,7 @@ import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import { ClassI } from '../../interfaces/Class'
 import { AssignedDeck } from '../../interfaces/AssignedDeck'
+import { UnassignDeckPayload } from '../../interfaces/UnassignDeckPayload'
 
 export const classes = {
   namespaced: true,
@@ -204,8 +205,10 @@ export const classes = {
           commit('setClassErrMsg', err.response.data)
         })
     },
-    unassignDeck({ commit }: { commit: Function }, payload: any): void {
-      // TODO: Specify payload type
+    unassignDeck(
+      { commit }: { commit: Function },
+      payload: UnassignDeckPayload
+    ): void {
       axios({
         method: 'post',
         withCredentials: true,

@@ -1,9 +1,11 @@
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import axios from 'axios'
+import { AxiosResponse } from 'axios'
 import router from '../../router/index'
 import { Deck } from '../../interfaces/Deck'
 import { Character } from '../../interfaces/Character'
 import { ReviewResult } from '../../interfaces/ReviewResult'
+import { PinyinDefinition } from '../../interfaces/PinyinDefinition'
 
 export const decks = {
   namespaced: true,
@@ -110,7 +112,6 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    // TODO: Error handling
     createDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
         method: 'post',
@@ -161,6 +162,7 @@ export const decks = {
           }
         })
     },
+    // eslint-disable-next-line
     deleteDeck({ commit }: { commit: Function }, deck: Deck): void {
       axios({
         method: 'post',
@@ -178,6 +180,7 @@ export const decks = {
         })
     },
     getPinyinDefinition(
+      // eslint-disable-next-line
       { commit }: { commit: Function },
       payload: {
         deck: Deck
@@ -191,7 +194,7 @@ export const decks = {
           character: payload.deck.characters[payload.charIndex].char,
         },
       })
-        .then((res: any) => {
+        .then((res: AxiosResponse<PinyinDefinition>) => {
           const currChar = payload.deck.characters[payload.charIndex]
           currChar.pinyin = res.data.pinyin.join(', ')
           currChar.definition = res.data.definition
@@ -201,6 +204,7 @@ export const decks = {
         })
     },
     sendReviewResults(
+      // eslint-disable-next-line
       { commit }: { commit: Function },
       payload: {
         deckId: string
