@@ -1,4 +1,5 @@
 export interface AssignedDeck {
+  // Data from getAssignedDecks API
   assignedDate: string
   deckDescription: string
   deckId: string

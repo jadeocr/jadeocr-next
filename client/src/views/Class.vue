@@ -41,8 +41,7 @@
                 class="grid grid-cols-1 md:grid-cols-2"
               >
                 <div
-                  v-for="(n, deck) in $store.state.classes
-                    .currClassAssignments"
+                  v-for="(n, deck) in $store.state.classes.currClassAssignments"
                   :key="deck.key"
                   class="my-4 mr-4 col-span-1"
                 >
@@ -54,8 +53,7 @@
                       }"
                     >
                       {{
-                        $store.state.classes.currClassAssignments[deck]
-                          .deckName
+                        $store.state.classes.currClassAssignments[deck].deckName
                       }}
                     </router-link>
                     <div>

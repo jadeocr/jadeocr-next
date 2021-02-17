@@ -141,7 +141,9 @@
                     <div class="text-2xl font-normal">
                       Assigned Decks
                     </div>
-                    <div v-if="!$store.state.classes.currClassAssignments.length">
+                    <div
+                      v-if="!$store.state.classes.currClassAssignments.length"
+                    >
                       <div
                         class="px-12 py-8 my-4 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                       >
@@ -150,7 +152,8 @@
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2">
                       <div
-                        v-for="(n, deck) in $store.state.classes.currClassAssignments"
+                        v-for="(n, deck) in $store.state.classes
+                          .currClassAssignments"
                         :key="deck.key"
                         class="my-4 mr-4"
                       >
@@ -165,13 +168,27 @@
                               deck +
                                 1 +
                                 '. ' +
-                                $store.state.classes.currClassAssignments[deck].deckName
+                                $store.state.classes.currClassAssignments[deck]
+                                  .deckName
                             }}
                           </router-link>
                           <div>
-                            {{ $store.state.classes.currClassAssignments[deck].deckDescription }}
+                            {{
+                              $store.state.classes.currClassAssignments[deck]
+                                .deckDescription
+                            }}
                           </div>
-                          <button class="my-2 font-semibold" @click="callUnassignDeck($store.state.classes.currClassAssignments[deck].deckId, $store.state.classes.currClassAssignments[deck]._id)">
+                          <button
+                            class="my-2 font-semibold"
+                            @click="
+                              callUnassignDeck(
+                                $store.state.classes.currClassAssignments[deck]
+                                  .deckId,
+                                $store.state.classes.currClassAssignments[deck]
+                                  ._id
+                              )
+                            "
+                          >
                             Unassign
                           </button>
                         </div>
@@ -328,10 +345,11 @@
         this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
       },
       callUnassignDeck(deckId: string, assignmentId: string): void {
-        this.$store.dispatch('classes/unassignDeck', { // TODO: Extract into type and specify in store
+        this.$store.dispatch('classes/unassignDeck', {
+          // TODO: Extract into type and specify in store
           classCode: this.currClass.classCode,
           deckId: deckId,
-          assignmentId: assignmentId
+          assignmentId: assignmentId,
         }) // TODO: Fill params
       },
     },

@@ -1,4 +1,5 @@
 export interface AssignDeckData {
+  // Used when calling the assignment API
   mode: string
   front: string
   scramble: null | boolean

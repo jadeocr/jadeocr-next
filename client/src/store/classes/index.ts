@@ -2,7 +2,6 @@ import router from '../../router/index'
 import axios from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import { ClassI } from '../../interfaces/Class'
-// import { Deck } from '../../interfaces/Deck'
 import { AssignedDeck } from '../../interfaces/AssignedDeck'
 
 export const classes = {
@@ -205,7 +204,8 @@ export const classes = {
           commit('setClassErrMsg', err.response.data)
         })
     },
-    unassignDeck({ commit }: { commit: Function }, payload: any): void { // TODO: Specify payload type
+    unassignDeck({ commit }: { commit: Function }, payload: any): void {
+      // TODO: Specify payload type
       axios({
         method: 'post',
         withCredentials: true,
