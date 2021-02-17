@@ -59,6 +59,7 @@ router.post('/api/class/assign', authMiddleware, [
 router.post('/api/class/unassign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deckId').trim().escape(),
+  body('assignmentId').trim().escape(),
 ], classController.unassign)
 
 router.post('/api/class/getAssignedDecksAsStudent', authMiddleware, [
