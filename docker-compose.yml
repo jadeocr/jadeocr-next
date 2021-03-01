@@ -5,6 +5,7 @@ services:
     extends:
       file: ./server/docker-compose.yml
       service: server
+    runtime: nvidia
   client:
     extends:
       file: ./client/docker-compose.yml
