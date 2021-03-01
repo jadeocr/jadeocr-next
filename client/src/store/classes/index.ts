@@ -4,6 +4,7 @@ const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import { ClassI } from '../../interfaces/Class'
 import { AssignedDeck } from '../../interfaces/AssignedDeck'
 import { UnassignDeckPayload } from '../../interfaces/UnassignDeckPayload'
+import { AssignDeckData } from '../../interfaces/AssignDeckData'
 
 export const classes = {
   namespaced: true,
@@ -189,7 +190,7 @@ export const classes = {
         })
     },
     // eslint-disable-next-line
-    assignDeck({ commit }: { commit: Function }, payload: any): void { // TODO: Specify payload type
+    assignDeck({ commit }: { commit: Function }, payload: AssignDeckData): void {
       axios({
         method: 'post',
         withCredentials: true,
