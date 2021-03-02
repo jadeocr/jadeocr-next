@@ -2,6 +2,7 @@ import router from '../../router/index'
 import axios from 'axios'
 import { AxiosResponse } from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
+import { User } from '../../interfaces/User'
 
 export const auth = {
   namespaced: true,
@@ -68,7 +69,7 @@ export const auth = {
             url: `${apiBaseURL}/user`,
             withCredentials: true,
           })
-            .then((res: AxiosResponse) => {
+            .then((res: AxiosResponse<User>) => {
               commit('setSignedIn', true)
               commit('setUID', res.data._id)
               commit('setEmail', res.data.email)
@@ -93,7 +94,7 @@ export const auth = {
         url: `${apiBaseURL}/user`,
         withCredentials: true,
       })
-        .then((res: AxiosResponse) => {
+        .then((res: AxiosResponse<User>) => {
           commit('setSignedIn', true)
           commit('setUID', res.data._id)
           commit('setEmail', res.data.email)

@@ -152,11 +152,14 @@
         // eslint-disable-next-line
         visibleCardData: [] as any,
         currReviewIndex: 0,
+        // eslint-disable-next-line
         results: Array<ReviewResult | any>(),
         // Mouse movement tracker
         xPos: 0,
         yPos: 0,
+        // eslint-disable-next-line
         subStrokeArray: [] as any,
+        // eslint-disable-next-line
         strokeArray: [] as any,
         mouseState: 'up',
         pred: '',
@@ -296,6 +299,7 @@
         this.xPos = ((e.clientX - domRect.left) / domRect.width) * canvas.width
         this.yPos = ((e.clientY - domRect.top) / domRect.height) * canvas.height
       },
+      // eslint-disable-next-line
       drawLine(e: MouseEvent, ctx: any) {
         if (!window.matchMedia('(pointer: coarse)').matches) {
           if (e.buttons !== 1) return // is not touchscreen
