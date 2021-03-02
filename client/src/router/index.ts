@@ -99,6 +99,15 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/stats',
+    name: 'Stats',
+    component: () =>
+      import(/* webpackChunkName: 'stats' */ '../views/Stats.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 const router = createRouter({
