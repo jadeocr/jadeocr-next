@@ -267,6 +267,7 @@
 
 <script lang="ts">
   import axios from 'axios'
+  import { AxiosResponse } from 'axios'
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
   import { ClassI } from '../interfaces/Class'
@@ -327,7 +328,7 @@
             classCode: this.classCode,
           },
         })
-          .then((res) => {
+          .then((res: AxiosResponse) => {
             this.currClass = res.data
           })
           .catch((err) => {

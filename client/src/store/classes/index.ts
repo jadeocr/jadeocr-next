@@ -1,5 +1,6 @@
 import router from '../../router/index'
 import axios from 'axios'
+import { AxiosResponse } from 'axios'
 const apiBaseURL = process.env.VUE_APP_API_BASEURL
 import { ClassI } from '../../interfaces/Class'
 import { AssignedDeck } from '../../interfaces/AssignedDeck'
@@ -47,7 +48,7 @@ export const classes = {
           withCredentials: true,
           url: `${apiBaseURL}/class/getTeachingClasses`,
         })
-          .then((res) => {
+          .then((res: AxiosResponse) => {
             commit('setClassesTeaching', res.data)
           })
           .catch((err) => {
@@ -61,7 +62,7 @@ export const classes = {
         withCredentials: true,
         url: `${apiBaseURL}/class/getJoinedClasses`,
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setClasses', res.data)
         })
         .catch((err) => {
@@ -161,7 +162,7 @@ export const classes = {
           classCode: classCode,
         },
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setCurrClassAssignments', res.data)
         })
         .catch((err) => {
@@ -181,7 +182,7 @@ export const classes = {
           classCode: classCode,
         },
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setCurrClassAssignments', res.data)
         })
         .catch((err) => {

@@ -124,6 +124,7 @@
   import { ReviewResult } from '../interfaces/ReviewResult'
   import { Character } from '../interfaces/Character'
   import axios from 'axios'
+  import { AxiosResponse } from 'axios'
   const apiBaseURL = process.env.VUE_APP_API_BASEURL
 
   export default defineComponent({
@@ -213,7 +214,7 @@
             strokes: JSON.stringify(this.strokeArray),
           },
         })
-          .then((res) => {
+          .then((res: AxiosResponse) => {
             const currCard = this.cards[this.currReviewIndex].char
             if (this.type == 'quiz') {
               const correctness =
@@ -279,7 +280,7 @@
               deckId: this.id,
             },
           })
-            .then((res) => {
+            .then((res: AxiosResponse) => {
               this.cards = res.data
               this.resetVisibleCard()
             })

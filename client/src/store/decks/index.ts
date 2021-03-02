@@ -63,7 +63,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/allDecks`,
         withCredentials: true,
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setDecks', res.data)
         })
         .catch((err) => {
@@ -76,7 +76,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/assigned`,
         withCredentials: true,
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setAssignedDecks', res.data)
         })
         .catch((err) => {
@@ -89,7 +89,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/createdDecks`,
         withCredentials: true,
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setCreatedDecks', res.data)
         })
         .catch((err) => {
@@ -105,7 +105,7 @@ export const decks = {
           deckId: deckId,
         },
       })
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           commit('setCurrDeck', res.data)
         })
         .catch((err) => {
