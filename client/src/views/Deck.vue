@@ -79,13 +79,13 @@
                 </div>
               </div>
               <div
-                class="mt-10 text-center md:pr-12 md:text-right xl:mx-48 xl:w-1/3 col-span-1"
+                class="mt-10 text-center md:pr-8 md:text-right xl:mx-32 col-span-1"
               >
                 <div class="text-xl font-normal md:text-2xl">
                   Deck Info
                 </div>
                 <div class="mt-8">
-                  Created by
+                  <div>Created by</div>
                   {{
                     $store.state.decks.currDeck.creatorFirst +
                       ' ' +
