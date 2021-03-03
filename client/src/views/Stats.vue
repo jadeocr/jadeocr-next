@@ -24,5 +24,8 @@
     components: {
       Sidebar
     },
+    mounted() {
+      this.$store.dispatch('auth/getDetails')
+    },
   })
 </script>

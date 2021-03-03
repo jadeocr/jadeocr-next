@@ -163,7 +163,6 @@
         strokeArray: [] as any,
         mouseState: 'up',
         pred: '',
-        currTime: Date.now(),
         checkButtonMsg: 'Check Writing', // Used on quiz route to move on
       }
     },
@@ -335,11 +334,7 @@
         if (this.mouseState == 'down') {
           this.drawLine(e, ctx)
           this.setPos(e)
-
-          if (Date.now() - this.currTime > 20) {
-            this.currTime = Date.now()
-            this.subStrokeArray.push([this.xPos, this.yPos])
-          }
+          this.subStrokeArray.push([this.xPos, this.yPos])
         }
       },
       clearCanvas() {

@@ -121,5 +121,15 @@ export const auth = {
           console.log(err)
         })
     },
+    getDetails({ commit }: { commit: Function }): void {
+      axios({
+        method: 'get',
+        url: `${apiBaseURL}/user/details`,
+        withCredentials: true,
+      })
+        .then((res: AxiosResponse) => {
+          console.log(res)
+        })
+    }
   },
 }
