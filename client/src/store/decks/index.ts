@@ -257,7 +257,7 @@ export const decks = {
     ): void {
       axios({
         method: 'post',
-        url: `${apiBaseURL}/deck/publicFromQuery`,
+        url: `${apiBaseURL}/deck/public`,
         withCredentials: true,
         data: {
           query: query,
