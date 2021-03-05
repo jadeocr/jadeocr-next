@@ -488,7 +488,21 @@ exports.getDecksWithDueDates = function(req, res, next) {
 }
 
 exports.publicDecks = function(req, res, next) {
-    deckModel.find({isPublic: true}, function(err, decks) {
+    deckModel.find({"access.isPublic": true}, function(err, decks) {
+        if (err) console.log(err) 
+        res.send(decks)
+    })
+}
+
+exports.publicDecksFromQuery = function(req, res, next) {
+    deckModel.find({ // where isPublic && title || description matches query
+      "access.isPublic": true,
+      $or: [
+        // match case insensitive
+        { title: { $regex: req.body.query.toLowerCase(), $options: 'i' }},
+        { description: { $regex: req.body.query.toLowerCase(), $options: 'i' }},
+      ]
+    }, function(err, decks) {
         if (err) console.log(err) 
         res.send(decks)
     })

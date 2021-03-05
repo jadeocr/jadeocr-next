@@ -108,6 +108,16 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/public',
+    props: true,
+    name: 'Public',
+    component: () =>
+      import(/* webpackChunkName: 'public' */ '../views/Public.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 const router = createRouter({

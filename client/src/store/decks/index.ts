@@ -15,6 +15,7 @@ export const decks = {
     decksAssigned: Array<Deck>(),
     decksCreated: Array<Deck>(),
     decksErrorMsg: '',
+    publicDecks: Array<Deck>(),
   },
   mutations: {
     // eslint-disable-next-line
@@ -55,6 +56,10 @@ export const decks = {
     setDeckErrMsg(state: any, msg: string) {
       state.decksErrorMsg = msg
     },
+    // eslint-disable-next-line
+    setPublicDecks(state: any, publicDecks: Array<Deck>) {
+      state.publicDecks = publicDecks
+    }
   },
   actions: {
     fetchDecks({ commit }: { commit: Function }): void {
@@ -63,7 +68,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/allDecks`,
         withCredentials: true,
       })
-        .then((res: AxiosResponse) => {
+        .then((res: AxiosResponse<Array<Deck>>) => {
           commit('setDecks', res.data)
         })
         .catch((err) => {
@@ -76,7 +81,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/assigned`,
         withCredentials: true,
       })
-        .then((res: AxiosResponse) => {
+        .then((res: AxiosResponse<Array<Deck>>) => {
           commit('setAssignedDecks', res.data)
         })
         .catch((err) => {
@@ -89,7 +94,7 @@ export const decks = {
         url: `${apiBaseURL}/deck/createdDecks`,
         withCredentials: true,
       })
-        .then((res: AxiosResponse) => {
+        .then((res: AxiosResponse<Array<Deck>>) => {
           commit('setCreatedDecks', res.data)
         })
         .catch((err) => {
@@ -246,6 +251,24 @@ export const decks = {
             console.log(err.response.data)
           })
       }
+    },
+    publicFromQuery(
+      { commit }: { commit: Function }, query: string,
+    ): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/deck/publicFromQuery`,
+        withCredentials: true,
+        data: {
+          query: query,
+        },
+      })
+        .then((res: AxiosResponse<Array<Deck>>) => {
+          commit('setPublicDecks', res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
   },
 }
