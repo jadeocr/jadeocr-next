@@ -100,20 +100,38 @@ exports.createClass = function(req, res, next) {
 }
 
 exports.removeClass = function(req, res, next) {
-    let teacher = String(req.user._id)
+    let teacherId = String(req.user._id)
     let classCode = req.body.classCode
 
-    classModel.findOne({classCode: classCode}, function(err, Class) {
-        if (err) {
-            console.log(err)
+    // userDetailedModel.findOne({id: teacherId}, function(teacherErr, teacher) {
+    //     if (teacherErr) console.log(teacherErr)
+
+    //     console.log(teacher)
+    // })
+
+    classModel.findOne({classCode: classCode}, function(classErr, Class) {
+        if (classErr) {
+            console.log(classErr)
             res.status(400).send('There was an error')
         } else if (!Class) {
             res.status(400).send('No class found')
-        } else if (Class.teacherId != teacher) {
+        } else if (Class.teacherId != teacherId) {
             res.sendStatus(401)
-        } else if (Class.teacherId == teacher) {
+        } else if (Class.teacherId == teacherId) {
             classModel.deleteOne({_id: Class._id}, function(err) {
                 if (err) console.log(err)
+
+                userDetailedModel.findOne({id: teacherId}, function(teacherErr, teacher) {
+                    if (teacherErr) console.log(teacherErr)
+
+                    for (let i in teacher.classesTeaching) {
+                        if (teacher.classesTeaching[i] == classCode) {
+                            teacher.classesTeaching.splice(i, 1)
+                            teacher.save()
+                            break
+                        }
+                    }
+                })
                 res.sendStatus(200)
             })
         } else {

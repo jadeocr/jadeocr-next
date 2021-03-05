@@ -67,3 +67,14 @@ exports.details = function(req, res, next) {
     }
   })
 }
+
+exports.status = function(req, res, next) {
+  userDetailedModel.findOne({id: req.user._id}, function(err, user) {
+    if (err) {
+      console.log(err)
+      res.send('There was an error')
+    } else {
+      res.send(user)
+    }
+  })
+}
