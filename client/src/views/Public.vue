@@ -7,9 +7,10 @@
       <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
         <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
           <div class="text-2xl font-normal md:text-3xl">
-            Stats
+            Public
           </div>
           <div class="mt-4 text-lg">
+            {{ $store.state.decks.publicDecks }}
           </div>
         </div>
       </div>
@@ -22,12 +23,12 @@
   import Sidebar from '../components/Sidebar.vue'
 
   export default defineComponent({
-    name: 'Stats',
+    name: 'Public',
     components: {
       Sidebar
     },
     mounted() {
-      this.$store.dispatch('auth/getDetails')
+      this.$store.dispatch('decks/publicFromQuery', "more")
     },
   })
 </script>
