@@ -27,4 +27,6 @@ router.post('/api/signout', authMiddleware, function(req, res, next) {
 router.get('/api/user', authMiddleware, userController.user)
 router.get('/api/user/details', authMiddleware, userController.details)
 
+router.get('/api/user/stats', authMiddleware, userController.stats)
+
 module.exports = router

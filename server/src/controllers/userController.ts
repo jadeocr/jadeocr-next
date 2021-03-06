@@ -68,13 +68,28 @@ exports.details = function(req, res, next) {
   })
 }
 
-exports.status = function(req, res, next) {
+exports.stats = function(req, res, next) {
   userDetailedModel.findOne({id: req.user._id}, function(err, user) {
     if (err) {
       console.log(err)
       res.send('There was an error')
     } else {
-      res.send(user)
+      var decksOwned = 0
+      var totalQuizAttempts = 0
+      for (let deck of user.decks) {
+        if (deck.isOwner) {
+          decksOwned++
+        }
+        totalQuizAttempts += deck.quizAttempts.length
+        
+      }
+
+      res.send({
+        classesTeaching: user.classesTeaching.length,
+        classesJoined: user.classes.length,
+        decksTotal: user.decks.length,
+        decksOwned: decksOwned
+      })
     }
   })
 }
