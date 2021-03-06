@@ -103,12 +103,6 @@ exports.removeClass = function(req, res, next) {
     let teacherId = String(req.user._id)
     let classCode = req.body.classCode
 
-    // userDetailedModel.findOne({id: teacherId}, function(teacherErr, teacher) {
-    //     if (teacherErr) console.log(teacherErr)
-
-    //     console.log(teacher)
-    // })
-
     classModel.findOne({classCode: classCode}, function(classErr, Class) {
         if (classErr) {
             console.log(classErr)
@@ -118,21 +112,42 @@ exports.removeClass = function(req, res, next) {
         } else if (Class.teacherId != teacherId) {
             res.sendStatus(401)
         } else if (Class.teacherId == teacherId) {
-            classModel.deleteOne({_id: Class._id}, function(err) {
-                if (err) console.log(err)
+            var userArray = []
+            userArray.push({id: teacherId})
+            for (let i in Class.students) {
+                userArray.push({id: Class.students[i].id})
+            }
 
-                userDetailedModel.findOne({id: teacherId}, function(teacherErr, teacher) {
-                    if (teacherErr) console.log(teacherErr)
+            userDetailedModel.find({$or: userArray}, function(userErr, users) {
+                if (userErr) console.log(userErr)
 
-                    for (let i in teacher.classesTeaching) {
-                        if (teacher.classesTeaching[i] == classCode) {
-                            teacher.classesTeaching.splice(i, 1)
-                            teacher.save()
-                            break
+                if (users) {
+                    for (let user of users) {
+                        if (user.id == teacherId) {
+                            for (let i in user.classesTeaching) {
+                                if (user.classesTeaching[i] == classCode) {
+                                    user.classesTeaching.splice(i, 1)
+                                    user.save()
+                                    break
+                                }
+                            }
+                        } else {
+                            for (let i in user.classes) {
+                                if (user.classes[i] == classCode) {
+                                    user.classes.splice(i, 1)
+                                    user.save()
+                                    break
+                                }
+                            }
                         }
                     }
+                }
+
+                classModel.deleteOne({_id: Class._id}, function(err) {
+                    if (err) console.log(err)
+                    
+                    res.sendStatus(200)
                 })
-                res.sendStatus(200)
             })
         } else {
             res.sendStatus(400)
