@@ -26,9 +26,22 @@
                 </span>
               </form>
             </div>
-            <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key">
-              {{ deck.title }}
-              {{ deck.description }}
+            <div v-if="!$store.state.decks.publicDecks.length" class="mt-12">
+              <!-- TODO: Extract into component -->
+              <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
+                Search for public decks!
+              </div>
+            </div>
+            <div v-else class="mt-12 lg:grid lg:grid-cols-2">
+              <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key" class="px-4 py-2 my-2 mr-4 rounded lg:col-span-1 bg-nord1">
+                <router-link
+                  :to="{
+                    path: `/deck/${deck._id}`,
+                  }"
+                  class="font-normal"
+                > {{ deck.title }} </router-link>
+                <div> {{ deck.description }} </div>
+              </div>
             </div>
           </div>
         </div>
