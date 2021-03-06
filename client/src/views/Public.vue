@@ -30,6 +30,9 @@
               <!-- TODO: Extract into component -->
               <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
                 No decks found. Try a search!
+                <div class="text-xs">
+                  psst...we support regular expressions!
+                </div>
               </div>
             </div>
             <div v-else class="mt-12 lg:grid lg:grid-cols-2">
