@@ -29,7 +29,7 @@
             <div v-if="!$store.state.decks.publicDecks.length" class="mt-12">
               <!-- TODO: Extract into component -->
               <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
-                Search for public decks!
+                No decks found. Try a search!
               </div>
             </div>
             <div v-else class="mt-12 lg:grid lg:grid-cols-2">
