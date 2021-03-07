@@ -10,14 +10,14 @@
             Public
           </div>
           <div class="mt-4 text-lg">
-            <div class="w-1/3">
+            <div class="md:w-1/2 xl:w-1/4">
               <form @submit.prevent="">
                 <input
                   v-model="query"
                   class="w-4/5 py-2 leading-tight text-gray-200 shadow appearance-none border-underline focus:outline-none focus:shadow-outline-none"
                   placeholder="Search"
                 />
-                <span class="float-right p-3 font-bold">
+                <span class="float-right p-4 font-bold">
                   <button @click="callPublicFromQuery()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.125em" fill="currentColor" viewBox="0 0 16 16">
                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -36,7 +36,7 @@
               </div>
             </div>
             <div v-else class="mt-12 lg:grid lg:grid-cols-2">
-              <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key" class="px-4 py-2 my-2 mr-4 rounded lg:col-span-1 bg-nord1">
+              <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key" class="p-4 my-2 mr-4 rounded lg:col-span-1 bg-nord1">
                 <router-link
                   :to="{
                     path: `/deck/${deck._id}`,
