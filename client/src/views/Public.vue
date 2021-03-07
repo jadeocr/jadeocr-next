@@ -36,7 +36,7 @@
               </div>
             </div>
             <div v-else class="mt-12 lg:grid lg:grid-cols-2">
-              <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key" class="px-4 py-2 my-2 mr-4 rounded lg:col-span-1 bg-nord1">
+              <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key" class="p-4 my-2 mr-4 rounded lg:col-span-1 bg-nord1">
                 <router-link
                   :to="{
                     path: `/deck/${deck._id}`,
