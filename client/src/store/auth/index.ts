@@ -130,6 +130,22 @@ export const auth = {
         .then((res: AxiosResponse) => {
           console.log(res)
         })
-    }
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getStats({ commit }: { commit: Function}): void {
+      axios({
+        method: 'get',
+        url: `${apiBaseURL}/user/stats`,
+        withCredentials: true,
+      })
+        .then((res: AxiosResponse) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
 }

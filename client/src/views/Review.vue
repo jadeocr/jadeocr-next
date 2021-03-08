@@ -21,7 +21,7 @@
           </div>
         </div>
         <div
-          v-if="type == 'ocr' || type == 'quiz'"
+          v-if="type == 'ocr' || type == 'quiz' || type == 'learn'"
           id="draw-wrapper"
           ref="draw-wrapper"
           class="mt-8 lg:ml-10 lg:mt-0"
@@ -134,7 +134,7 @@
         type: String,
         required: true,
         validator: (value: string): boolean => {
-          return ['flashcards', 'ocr', 'quiz'].includes(value)
+          return ['flashcards', 'ocr', 'quiz', 'learn'].includes(value)
         },
       },
       id: {
@@ -233,7 +233,7 @@
           })
       },
       flipCard(): void {
-        if (this.type == 'ocr' || this.type == 'quiz') {
+        if (this.type == 'ocr' || this.type == 'quiz' || this.type == 'learn') {
           this.callOcr()
         }
         if (this.visibleCardData.length == 3) {
@@ -270,7 +270,7 @@
         })
       },
       getCardsToReview(): void {
-        if (this.type == 'quiz') {
+        if (this.type == 'quiz' || this.type == 'learn') {
           this.cards = this.$store.state.decks.currDeck.characters
           this.resetVisibleCard()
         } else {
