@@ -59,7 +59,9 @@ router.post('/api/deck/learned', authMiddleware, deckController.learned)
 router.post('/api/deck/createdDecks', authMiddleware, deckController.findCreatedDecks)
 router.post('/api/deck/getDecksWithDueDates', authMiddleware, deckController.getDecksWithDueDates)
 router.post('/api/deck/deck', authMiddleware, deckController.deck)
-router.post('/api/deck/public', authMiddleware, deckController.publicDecks)
+router.post('/api/deck/public', authMiddleware, [
+  body('query').trim().escape().notEmpty()
+], deckController.publicDecks)
 router.get('/api/deck/assigned', authMiddleware, deckController.getAllAssignedDecksAsStudent)
 router.post('/api/deck/allDecks', authMiddleware, deckController.allDecks)
 
