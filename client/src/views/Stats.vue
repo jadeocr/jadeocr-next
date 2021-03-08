@@ -27,7 +27,7 @@
       Sidebar
     },
     mounted() {
-      this.$store.dispatch('auth/getDetails')
+      this.$store.dispatch('auth/getStats')
     },
   })
 </script>
