@@ -351,7 +351,7 @@
       this.getCardsToReview()
     },
     updated() {
-      if (this.type == 'ocr' || this.type == 'quiz') {
+      if (this.type == 'ocr' || this.type == 'quiz' || this.type == 'learn') {
         const canvas = document.getElementById('draw') as HTMLCanvasElement
         canvas?.addEventListener('pointermove', this.move, false)
         canvas?.addEventListener('pointerdown', this.mouseDown, false)
