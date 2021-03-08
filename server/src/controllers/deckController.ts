@@ -487,8 +487,9 @@ exports.getDecksWithDueDates = function(req, res, next) {
     })
 }
 
+// TODO: Add route to send all public decks
 exports.publicDecks = function(req, res, next) {
-    if (req.query) {
+    if (req.body.query) {
       deckModel.find({
         "access.isPublic": true,
         $or: [
@@ -497,14 +498,16 @@ exports.publicDecks = function(req, res, next) {
           { description: { $regex: req.body.query.toLowerCase(), $options: 'i' }},
         ]
       }, function(err, decks) {
-          if (err) console.log(err)
-          res.send(decks)
+          if (err) {
+            console.log(err)
+          } else if (!decks.length)  {
+            res.status(400).send('No decks found')
+          } else {
+            res.send(decks)
+          }
       })
     } else {
-      deckModel.find({"access.isPublic": true}, function(err, decks) {
-          if (err) console.log(err)
-          res.send(decks)
-      })
+      res.status(400).send('No query was specified')
     }
 }
 
