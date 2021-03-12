@@ -27,6 +27,13 @@
                 </button>
                 |
                 <button
+                  @click="changeMenuType('assignments')"
+                  :class="{ 'opacity-75': menuType != 'assignments' }"
+                >
+                  Assignments
+                </button>
+                |
+                <button
                   @click="changeMenuType('students')"
                   :class="{ 'opacity-75': menuType != 'students' }"
                 >
@@ -42,101 +49,6 @@
               </div>
               <div class="mt-8">
                 <div v-if="menuType == 'decks'">
-                  <div>
-                    <div class="text-2xl font-normal">
-                      Assign Deck
-                    </div>
-                    <div class="mt-4">
-                      <div>
-                        <select
-                          v-model="assignDeckProperties.deckId"
-                          class="px-4 py-1 rounded bg-nord7"
-                        >
-                          <option selected disabled value=""
-                            >Select a Deck</option
-                          >
-                          <option
-                            v-for="deck in $store.state.decks.decksCreated"
-                            :value="deck.deckId"
-                            :key="deck.key"
-                          >
-                            {{ deck.deckName }}
-                          </option>
-                        </select>
-                      </div>
-                      <div class="my-4">
-                        <select
-                          v-model="assignDeckProperties.mode"
-                          class="px-4 py-1 rounded bg-nord7"
-                        >
-                          <option selected disabled value=""
-                            >Select a Review Mode</option
-                          >
-                          <option value="learn">Learn</option>
-                          <option value="quiz">Quiz</option>
-                          <option value="srs">SRS</option>
-                        </select>
-                        <select
-                          v-model="assignDeckProperties.front"
-                          class="px-4 py-1 mx-4 rounded bg-nord7"
-                        >
-                          <option selected disabled value=""
-                            >Select Card Front</option
-                          >
-                          <option value="pinyin">Pinyin</option>
-                          <option value="character">Character</option>
-                          <option value="definition">Definition</option>
-                          <option
-                            v-if="assignDeckProperties.mode != 'quiz'"
-                            value="handwriting"
-                            >Handwriting</option
-                          >
-                        </select>
-                      </div>
-                      <div class="my-4">
-                        <span>
-                          <input
-                            v-model="assignDeckProperties.repetitions"
-                            class="w-1/12 py-1 text-center border-underline"
-                            type="number"
-                            min="1"
-                          />
-                          {{
-                            assignDeckProperties.repetitions == 1
-                              ? 'Repetition'
-                              : 'Repetitions'
-                          }}
-                        </span>
-                        <span v-if="assignDeckProperties.mode == 'learn'">
-                          <input
-                            class="ml-4"
-                            type="checkbox"
-                            id="scramble-checkbox"
-                            v-model="assignDeckProperties.scramble"
-                          />
-                          <label class="mx-2" for="scramble-checkbox"
-                            >Scramble</label
-                          >
-                        </span>
-                      </div>
-                      <div class="my-4">
-                        <label for="dueDate">Due Date: </label>
-                        <input
-                          v-model="assignDeckProperties.dueDate"
-                          type="date"
-                          id="dueDate"
-                          name="dueDate"
-                          min="1970-01-01"
-                          class="px-2 py-1 mx-4 rounded bg-nord7"
-                        />
-                      </div>
-                      <div class="my-6" @click="callAssignDeck">
-                        <button class="px-4 py-2 rounded bg-nord7">
-                          Assign Deck
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                   <div class="mt-8">
                     <div class="text-2xl font-normal">
                       Assigned Decks
@@ -196,12 +108,113 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="menuType == 'assignments'">
+                  <div>
+                    <div class="text-2xl font-normal">
+                      Assign Deck
+                    </div>
+                    <div class="mt-4">
+                      <div>
+                        <select
+                          v-model="assignDeckProperties.deckId"
+                          class="px-4 py-1 rounded bg-nord7"
+                        >
+                          <option selected disabled value=""
+                            >Select a Deck</option
+                          >
+                          <option
+                            v-for="deck in $store.state.decks.decksCreated"
+                            :value="deck.deckId"
+                            :key="deck.key"
+                          >
+                            {{ deck.deckName }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="my-4">
+                        <div>
+                          <select
+                            v-model="assignDeckProperties.mode"
+                            class="px-4 py-1 rounded bg-nord7"
+                          >
+                            <option selected disabled value=""
+                              >Select a Review Mode</option
+                            >
+                            <option value="learn">Learn</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="srs">SRS</option>
+                          </select>
+                        </div>
+                        <div class="my-4">
+                          <select
+                            v-model="assignDeckProperties.front"
+                            class="px-4 py-1 rounded bg-nord7"
+                          >
+                            <option selected disabled value=""
+                              >Select Card Front</option
+                            >
+                            <option value="pinyin">Pinyin</option>
+                            <option value="character">Character</option>
+                            <option value="definition">Definition</option>
+                            <option
+                              v-if="assignDeckProperties.mode != 'quiz'"
+                              value="handwriting"
+                              >Handwriting</option
+                            >
+                          </select>
+                        </div>
+                      </div>
+                      <div class="my-4">
+                        <span>
+                          <input
+                            v-model="assignDeckProperties.repetitions"
+                            class="w-1/12 py-1 text-center border-underline"
+                            type="number"
+                            min="1"
+                          />
+                          {{
+                            assignDeckProperties.repetitions == 1
+                              ? 'Repetition'
+                              : 'Repetitions'
+                          }}
+                        </span>
+                        <span v-if="assignDeckProperties.mode == 'learn'">
+                          <input
+                            class="ml-4"
+                            type="checkbox"
+                            id="scramble-checkbox"
+                            v-model="assignDeckProperties.scramble"
+                          />
+                          <label class="mx-2" for="scramble-checkbox"
+                            >Scramble</label
+                          >
+                        </span>
+                      </div>
+                      <div class="my-4">
+                        <label for="dueDate">Due Date: </label>
+                        <input
+                          v-model="assignDeckProperties.dueDate"
+                          type="date"
+                          id="dueDate"
+                          name="dueDate"
+                          min="1970-01-01"
+                          class="px-2 py-1 rounded bg-nord7"
+                        />
+                      </div>
+                      <div class="my-6" @click="callAssignDeck()">
+                        <button class="px-4 py-2 rounded bg-nord7">
+                          Assign Deck
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div v-if="menuType == 'students'">
                   <div v-if="!currClass.students.length">
                     <div
                       class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
                     >
-                      Share your class code to your students!
+                      No students yet. Share your class code with your students!
                     </div>
                   </div>
                   <div v-for="(n, i) in currClass.students" :key="i.key">
@@ -215,8 +228,8 @@
                     }}
                   </div>
                 </div>
+                <!-- TODO: Add stats -->
                 <div v-if="menuType == 'stats'">
-                  Stats
                 </div>
               </div>
             </div>
@@ -344,6 +357,7 @@
           this.assignDeckProperties.dueDate
         ).valueOf()
         this.$store.dispatch('classes/assignDeck', this.assignDeckProperties)
+        this.menuType = 'decks'
       },
       callUnassignDeck(deckId: string, assignmentId: string): void {
         this.$store.dispatch('classes/unassignDeck', {
