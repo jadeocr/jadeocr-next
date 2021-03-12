@@ -1,8 +1,6 @@
 <template>
   <div id="deck-menu">
-    <div class="flex flex-col justify-center w-1/2 mx-auto -mt-40 text-2xl text-center md:text-3xl col-span-1 page-content" v-if="isLoading">
-      Loading...
-    </div>
+    <LoadingIcon v-if="isLoading" class="-mt-40 lg:-mt-56" />
     <!-- Show personal decks -->
     <div
       v-else-if="
@@ -101,9 +99,13 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import LoadingIcon from '../components/LoadingIcon.vue'
 
   export default defineComponent({
     name: 'DeckMenu',
+    components: {
+      LoadingIcon,
+    },
     props: {
       menuType: {
         type: String,
