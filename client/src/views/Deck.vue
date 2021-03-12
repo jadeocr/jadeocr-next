@@ -111,7 +111,7 @@
                   <router-link
                     class="font-normal opacity-75"
                     :to="{
-                      path: `/deckedit/edit/${$store.state.decks.currDeck.deckId}`,
+                      path: `/deckedit/edit/${$store.state.decks.currDeck._id}`,
                     }"
                   >
                     Edit Deck
