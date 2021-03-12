@@ -114,7 +114,7 @@
                     <div class="text-2xl font-normal text-center md:text-left">
                       Assign Deck
                     </div>
-                    <div class="w-1/2 mx-auto mt-4">
+                    <div class="mt-4">
                       <div>
                         <select
                           v-model="assignDeckProperties.deckId"
