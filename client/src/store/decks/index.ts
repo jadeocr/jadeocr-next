@@ -62,8 +62,8 @@ export const decks = {
     }
   },
   actions: {
-    fetchDecks({ commit }: { commit: Function }): void {
-      axios({
+    async fetchDecks({ commit }: { commit: Function }): Promise<any> {
+      return axios({
         method: 'post',
         url: `${apiBaseURL}/deck/allDecks`,
         withCredentials: true,
@@ -75,8 +75,8 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    fetchAssignedDecks({ commit }: { commit: Function }): void {
-      axios({
+    async fetchAssignedDecks({ commit }: { commit: Function }): Promise<any> {
+      return axios({
         method: 'get',
         url: `${apiBaseURL}/deck/assigned`,
         withCredentials: true,
@@ -88,8 +88,8 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    fetchCreatedDecks({ commit }: { commit: Function }): void {
-      axios({
+    async fetchCreatedDecks({ commit }: { commit: Function }): Promise<any> {
+      return axios({
         method: 'post',
         url: `${apiBaseURL}/deck/createdDecks`,
         withCredentials: true,
@@ -101,8 +101,8 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    fetchCards({ commit }: { commit: Function }, deckId: string): void {
-      axios({
+    async fetchCards({ commit }: { commit: Function }, deckId: string): Promise<any> {
+      return axios({
         method: 'post',
         url: `${apiBaseURL}/deck/deck`,
         withCredentials: true,

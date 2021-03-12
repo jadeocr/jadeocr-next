@@ -34,16 +34,16 @@ export const classes = {
     },
   },
   actions: {
-    getClassesTeaching({
+    async getClassesTeaching({
       commit,
       rootState,
     }: {
       commit: Function
       // eslint-disable-next-line
       rootState: any
-    }): void {
+    }): Promise<any> {
       if (rootState.auth.isTeacher) {
-        axios({
+        return axios({
           method: 'post',
           withCredentials: true,
           url: `${apiBaseURL}/class/getTeachingClasses`,
@@ -54,10 +54,12 @@ export const classes = {
           .catch((err) => {
             console.log(err.response.data)
           })
+      } else {
+        return -1
       }
     },
-    getClassesJoined({ commit }: { commit: Function }): void {
-      axios({
+    async getClassesJoined({ commit }: { commit: Function }): Promise<any> {
+      return axios({
         method: 'post',
         withCredentials: true,
         url: `${apiBaseURL}/class/getJoinedClasses`,
@@ -150,11 +152,11 @@ export const classes = {
           console.log(err.response.data)
         })
     },
-    getAssignedDecksAsStudent(
+    async getAssignedDecksAsStudent(
       { commit }: { commit: Function },
       classCode: string
-    ): void {
-      axios({
+    ): Promise<any> {
+      return axios({
         method: 'post',
         withCredentials: true,
         url: `${apiBaseURL}/class/getAssignedDecksAsStudent`,
@@ -170,11 +172,11 @@ export const classes = {
           commit('setCurrClassAssignments', [])
         })
     },
-    getAssignedDecksAsTeacher(
+    async getAssignedDecksAsTeacher(
       { commit }: { commit: Function },
       classCode: string
-    ): void {
-      axios({
+    ): Promise<any> {
+      return axios({
         method: 'post',
         withCredentials: true,
         url: `${apiBaseURL}/class/getAssignedDecksAsTeacher`,

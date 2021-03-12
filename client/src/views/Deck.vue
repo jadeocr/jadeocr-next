@@ -5,7 +5,8 @@
         <div class="col-span-1">
           <sidebar />
         </div>
-        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
+        <LoadingIcon v-if="isLoading" />
+        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
           <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
             <div
               class="text-2xl font-normal text-center md:text-3xl md:text-left"
@@ -119,7 +120,7 @@
                 <div class="mt-10">
                   <button
                     class="px-4 py-2 rounded bg-nord2"
-                    @click="$router.push({ name: 'Dashboard' })"
+                    @click="goBack()"
                   >
                     Go Back
                   </button>
@@ -135,14 +136,16 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { RouteLocationNormalized } from 'vue-router'
   import Sidebar from '../components/Sidebar.vue'
-
+  import LoadingIcon from '../components/LoadingIcon.vue'
   import { Deck } from '../interfaces/Deck'
 
   export default defineComponent({
     name: 'Deck',
     components: {
       Sidebar,
+      LoadingIcon,
     },
     props: {
       id: {
@@ -153,6 +156,8 @@
     data() {
       return {
         learnMode: '',
+        prevRoute: '',
+        isLoading: false,
       }
     },
     methods: {
@@ -160,11 +165,26 @@
         this.$router.push({
           path: `/review/${type}/${this.id}/${this.$store.state.decks.currDeck.title}`
         })
-      }
+      },
+      goBack() {
+        if (this.prevRoute == 'DeckEdit') {
+          this.$router.push({ name: 'Dashboard' })
+        } else {
+          this.$router.go(-1)
+        }
+      },
     },
-    mounted() {
-      this.$store.dispatch('decks/fetchCards', this.id)
+    async mounted() {
+      this.isLoading = true
+      await this.$store.dispatch('decks/fetchCards', this.id)
+      this.isLoading = false
     },
+    beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: Function) {
+      // eslint-disable-next-line
+      next((vm: any) => {
+        vm.prevRoute = from.name
+      })
+    }
   })
 </script>
 

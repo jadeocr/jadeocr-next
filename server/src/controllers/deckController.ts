@@ -120,6 +120,30 @@ let updateUserWithDeck = function(user, callback) {
     })
 }
 
+let getPublicDecks = function(query: string, callback: Function) {
+  let mongoQuery = query // perform regex match if query
+    ? {
+        "access.isPublic": true,
+        $or: [
+          // match case insensitive
+          { title: { $regex: query.toLowerCase(), $options: 'i' }},
+          { description: { $regex: query.toLowerCase(), $options: 'i' }},
+        ]
+      }
+    : { "access.isPublic": true, }
+
+    deckModel.find(mongoQuery, function(err, decks) {
+      if (err) {
+        console.log(err)
+        callback(false)
+      } else if (!decks) {
+        callback(false)
+      } else {
+        callback(decks)
+      }
+    })
+}
+
 exports.createDeck = function(req, res, next) {
     let errors = validationResult(req)
     let userId = String(req.user._id)
@@ -487,28 +511,28 @@ exports.getDecksWithDueDates = function(req, res, next) {
     })
 }
 
-// TODO: Add route to send all public decks
 exports.publicDecks = function(req, res, next) {
-    if (req.body.query) {
-      deckModel.find({
-        "access.isPublic": true,
-        $or: [
-          // match case insensitive
-          { title: { $regex: req.body.query.toLowerCase(), $options: 'i' }},
-          { description: { $regex: req.body.query.toLowerCase(), $options: 'i' }},
-        ]
-      }, function(err, decks) {
-          if (err) {
-            console.log(err)
-          } else if (!decks.length)  {
-            res.status(400).send('No decks found')
-          } else {
-            res.send(decks)
-          }
-      })
+  if (req.body.query) {
+    getPublicDecks(req.body.query, function(decks) {
+      if (!decks) {
+        res.status(400).send('There was an error')
+      } else {
+        res.send(decks)
+      }
+    })
+  } else {
+    res.status(400).send('No query specified')
+  }
+}
+
+exports.allPublicDecks = function(req, res, next) {
+  getPublicDecks('', function(decks) { // empty string means query == false
+    if (!decks) {
+      res.status(400).send('There was an error')
     } else {
-      res.status(400).send('No query was specified')
+      res.send(decks)
     }
+  })
 }
 
 exports.getAllAssignedDecksAsStudent = function(req, res, next) {

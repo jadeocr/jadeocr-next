@@ -4,7 +4,8 @@
       <div class="col-span-1">
         <sidebar />
       </div>
-      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
+      <LoadingIcon v-if="isLoading" />
+      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
         <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
           <div
             class="text-2xl font-normal text-center md:text-3xl md:text-left"
@@ -131,13 +132,19 @@
 </template>
 
 <script lang="ts">
-  import Modal from '../components/Modal.vue'
-  import Sidebar from '../components/Sidebar.vue'
   import { ClassI } from '../interfaces/Class'
   import { defineComponent } from 'vue'
+  import Modal from '../components/Modal.vue'
+  import Sidebar from '../components/Sidebar.vue'
+  import LoadingIcon from '../components/LoadingIcon.vue'
 
   export default defineComponent({
     name: 'Class',
+    components: {
+      Sidebar,
+      Modal,
+      LoadingIcon,
+    },
     props: {
       classCode: {
         type: String,
@@ -148,6 +155,7 @@
       return {
         currClass: {} as ClassI,
         modalIsVisible: false,
+        isLoading: false,
       }
     },
     methods: {
@@ -159,11 +167,8 @@
         this.toggleModalVisibility()
       },
     },
-    components: {
-      Sidebar,
-      Modal,
-    },
-    mounted() {
+    async mounted() {
+      this.isLoading = true
       // find name of class
       // note: can store in order of class code and do a binary search for
       // O(log n) time instead of O(n)
@@ -177,16 +182,17 @@
       }
 
       if (this.$store.state.auth.isTeacher) {
-        this.$store.dispatch(
+        await this.$store.dispatch(
           'classes/getAssignedDecksAsTeacher',
           this.classCode
         )
       } else {
-        this.$store.dispatch(
+        await this.$store.dispatch(
           'classes/getAssignedDecksAsStudent',
           this.classCode
         )
       }
+      this.isLoading = false
     },
   })
 </script>

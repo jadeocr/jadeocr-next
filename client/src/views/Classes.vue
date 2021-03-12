@@ -5,7 +5,8 @@
         <div class="col-span-1">
           <sidebar />
         </div>
-        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
+        <LoadingIcon v-if="isLoading" />
+        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
           <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
             <div class="text-2xl font-normal md:text-3xl">
               Classes
@@ -141,12 +142,14 @@
   import { defineComponent } from 'vue'
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
+  import LoadingIcon from '../components/LoadingIcon.vue'
 
   export default defineComponent({
     name: 'Classes',
     components: {
       Sidebar,
       Modal,
+      LoadingIcon,
     },
     data() {
       return {
@@ -155,6 +158,7 @@
         classDescription: '',
         joinModalIsVisible: false,
         createModalIsVisible: false,
+        isLoading: false,
       }
     },
     methods: {
@@ -177,10 +181,12 @@
         this.$store.dispatch('classes/getClassesJoined')
       },
     },
-    mounted() {
+    async mounted() {
+      this.isLoading = true
       this.$store.commit('classes/setClassErrMsg', '')
-      this.$store.dispatch('classes/getClassesJoined')
-      this.$store.dispatch('classes/getClassesTeaching')
+      await this.$store.dispatch('classes/getClassesJoined')
+      await this.$store.dispatch('classes/getClassesTeaching')
+      this.isLoading = false
     },
   })
 </script>
