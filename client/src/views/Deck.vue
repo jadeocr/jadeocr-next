@@ -119,7 +119,7 @@
                 <div class="mt-10">
                   <button
                     class="px-4 py-2 rounded bg-nord2"
-                    @click="$router.push({ name: 'Dashboard' })"
+                    @click="goBack()"
                   >
                     Go Back
                   </button>
@@ -135,8 +135,8 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { RouteLocationNormalized } from 'vue-router'
   import Sidebar from '../components/Sidebar.vue'
-
   import { Deck } from '../interfaces/Deck'
 
   export default defineComponent({
@@ -153,6 +153,7 @@
     data() {
       return {
         learnMode: '',
+        prevRoute: '',
       }
     },
     methods: {
@@ -160,11 +161,24 @@
         this.$router.push({
           path: `/review/${type}/${this.id}/${this.$store.state.decks.currDeck.title}`
         })
-      }
+      },
+      goBack() {
+        if (this.prevRoute == 'DeckEdit') {
+          this.$router.push({ name: 'Dashboard' })
+        } else {
+          this.$router.go(-1)
+        }
+      },
     },
     mounted() {
       this.$store.dispatch('decks/fetchCards', this.id)
     },
+    beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: Function) {
+      // eslint-disable-next-line
+      next((vm: any) => {
+        vm.prevRoute = from.name
+      })
+    }
   })
 </script>
 
