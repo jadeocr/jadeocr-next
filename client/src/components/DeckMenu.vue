@@ -1,8 +1,11 @@
 <template>
   <div id="deck-menu">
+    <div class="flex flex-col justify-center w-1/2 mx-auto -mt-40 text-2xl text-center md:text-3xl col-span-1 page-content" v-if="isLoading">
+      Loading...
+    </div>
     <!-- Show personal decks -->
     <div
-      v-if="
+      v-else-if="
         (!$store.state.decks.decks.length && menuType == 'all') ||
           (!$store.state.decks.decksCreated.length && menuType == 'created')
       "
@@ -62,7 +65,7 @@
 
     <!-- Show assigned decks -->
     <div
-      v-if="!$store.state.decks.decksAssigned.length && menuType == 'assigned'"
+      v-else-if="!$store.state.decks.decksAssigned.length && menuType == 'assigned'"
     >
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
@@ -110,23 +113,30 @@
         },
       },
     },
+    data() {
+      return {
+        isLoading: false,
+      }
+    },
     watch: {
       menuType() {
         this.fetchDecks()
       },
     },
     methods: {
-      fetchDecks(): void {
+      async fetchDecks(): Promise<any> {
+        this.isLoading = true
         if (this.menuType == 'all') {
-          this.$store.dispatch('decks/fetchDecks')
+          await this.$store.dispatch('decks/fetchDecks')
         } else if (this.menuType == 'assigned') {
-          this.$store.dispatch('decks/fetchAssignedDecks')
+          await this.$store.dispatch('decks/fetchAssignedDecks')
         } else if (this.menuType == 'created') {
-          this.$store.dispatch('decks/fetchCreatedDecks')
+          await this.$store.dispatch('decks/fetchCreatedDecks')
         }
+        this.isLoading = false
       },
     },
-    created() {
+    async created() {
       this.fetchDecks()
     },
   })

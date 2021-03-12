@@ -4,7 +4,8 @@
       <div class="col-span-1">
         <sidebar />
       </div>
-      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
+      <LoadingIcon v-if="isLoading" />
+      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
         <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
           <div
             class="text-2xl font-normal text-center md:text-3xl md:text-left"
@@ -110,10 +111,10 @@
                 </div>
                 <div v-if="menuType == 'assignments'">
                   <div>
-                    <div class="text-2xl font-normal">
+                    <div class="text-2xl font-normal text-center md:text-left">
                       Assign Deck
                     </div>
-                    <div class="mt-4">
+                    <div class="w-1/2 mx-auto mt-4">
                       <div>
                         <select
                           v-model="assignDeckProperties.deckId"
@@ -283,6 +284,7 @@
   import { AxiosResponse } from 'axios'
   import Sidebar from '../components/Sidebar.vue'
   import Modal from '../components/Modal.vue'
+  import LoadingIcon from '../components/LoadingIcon.vue'
   import { ClassI } from '../interfaces/Class'
   import { AssignDeckData } from '../interfaces/AssignDeckData'
   import { UnassignDeckPayload } from '../interfaces/UnassignDeckPayload'
@@ -300,16 +302,17 @@
     components: {
       Sidebar,
       Modal,
+      LoadingIcon,
     },
     data() {
       return {
         currClass: {
-          classCode: 'Loading...',
-          description: 'Loading...',
-          name: 'Loading...',
-          teacherName: 'Loading...',
-          students: [],
-          assignedDecks: [],
+          /* classCode: 'Loading...', */
+          /* description: 'Loading...', */
+          /* name: 'Loading...', */
+          /* teacherName: 'Loading...', */
+          /* students: [], */
+          /* assignedDecks: [], */
         } as ClassI,
         modalIsVisible: false,
         menuType: 'decks',
@@ -322,6 +325,7 @@
           classCode: this.classCode,
           deckId: '',
         } as AssignDeckData,
+        isLoading: false,
       }
     },
     methods: {
@@ -332,8 +336,8 @@
         this.$store.dispatch('classes/deleteClass', this.classCode)
         this.toggleModalVisibility()
       },
-      getClassDetails(): void {
-        axios({
+      async getClassDetails(): Promise<any> {
+        return axios({
           method: 'post',
           withCredentials: true,
           url: `${apiBaseURL}/class/class`,
@@ -367,8 +371,10 @@
         } as UnassignDeckPayload)
       },
     },
-    created() {
-      this.getClassDetails()
+    async created() {
+      this.isLoading = true
+      await this.getClassDetails()
+      this.isLoading = false
     },
   })
 </script>

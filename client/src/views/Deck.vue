@@ -5,7 +5,8 @@
         <div class="col-span-1">
           <sidebar />
         </div>
-        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
+        <LoadingIcon v-if="isLoading" />
+        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
           <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
             <div
               class="text-2xl font-normal text-center md:text-3xl md:text-left"
@@ -137,12 +138,14 @@
   import { defineComponent } from 'vue'
   import { RouteLocationNormalized } from 'vue-router'
   import Sidebar from '../components/Sidebar.vue'
+  import LoadingIcon from '../components/LoadingIcon.vue'
   import { Deck } from '../interfaces/Deck'
 
   export default defineComponent({
     name: 'Deck',
     components: {
       Sidebar,
+      LoadingIcon,
     },
     props: {
       id: {
@@ -154,6 +157,7 @@
       return {
         learnMode: '',
         prevRoute: '',
+        isLoading: false,
       }
     },
     methods: {
@@ -170,8 +174,10 @@
         }
       },
     },
-    mounted() {
-      this.$store.dispatch('decks/fetchCards', this.id)
+    async mounted() {
+      this.isLoading = true
+      await this.$store.dispatch('decks/fetchCards', this.id)
+      this.isLoading = false
     },
     beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: Function) {
       // eslint-disable-next-line
