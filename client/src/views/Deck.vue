@@ -25,38 +25,24 @@
                   Learn
                 </div>
                 <div class="mt-6 text-center md:mt-8 md:text-left">
-                  <router-link
-                    class="px-3 py-2 mr-2 rounded bg-nord10"
-                    :to="{
-                      path: `/review/learn/${id}/${$store.state.decks.currDeck.title}`,
-                    }"
-                  >
-                    Learn
-                  </router-link>
-                  <router-link
-                    class="px-3 py-2 rounded lg:mx-4 bg-nord10"
-                    :to="{
-                      path: `/review/flashcards/${id}/${$store.state.decks.currDeck.title}`,
-                    }"
-                  >
-                    Flashcards
-                  </router-link>
-                  <router-link
-                    class="px-3 py-2 rounded lg:mx-4 bg-nord10"
-                    :to="{
-                      path: `/review/ocr/${id}/${$store.state.decks.currDeck.title}`,
-                    }"
-                  >
-                    Handwriting
-                  </router-link>
-                  <router-link
-                    class="px-3 py-2 rounded lg:mx-4 bg-nord10"
-                    :to="{
-                      path: `/review/quiz/${id}/${$store.state.decks.currDeck.title}`,
-                    }"
-                  >
-                    Quiz
-                  </router-link>
+                  <div>
+                    <select
+                      class="px-4 py-2 rounded bg-nord10"
+                      v-model="learnMode"
+                    >
+                      <option selected disabled value="">Select a Learn Mode</option>
+                      <option value="learn"> Learn </option>
+                      <option value="flashcards"> Flashcards </option>
+                      <option value="ocr"> Handwriting </option>
+                      <option value="quiz"> Quiz </option>
+                    </select>
+                    <button
+                      @click="launchLearn(learnMode)"
+                      class="px-4 py-2 mx-4 font-normal rounded bg-nord10"
+                    >
+                      Go!
+                    </button>
+                  </div>
                   <div class="mt-12 text-center lg:mt-12 md:text-left">
                     <p class="mb-6 text-xl font-normal">Vocabulary</p>
                     <table class="xl:mb-12 lg:w-3/4">
@@ -163,6 +149,18 @@
         type: String,
         required: true,
       },
+    },
+    data() {
+      return {
+        learnMode: '',
+      }
+    },
+    methods: {
+      launchLearn(type: string): void {
+        this.$router.push({
+          path: `/review/${type}/${this.id}/${this.$store.state.decks.currDeck.title}`
+        })
+      }
     },
     mounted() {
       this.$store.dispatch('decks/fetchCards', this.id)
