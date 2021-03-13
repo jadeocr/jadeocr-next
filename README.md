@@ -2,7 +2,7 @@
 
 > Elegant spaced-repetition flashcards with handwriting for learning languages
 
-An improved version of [jadeocr](https://jadeocr.com), built with Vue3 and TypeScript
+An improved version of [jadeocr](https://next.jadeocr.com), built with Vue3 and TypeScript
 
 
 ## Stack
