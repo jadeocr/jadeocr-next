@@ -9,8 +9,7 @@
           <div class="text-2xl font-normal md:text-3xl">
             Stats
           </div>
-          <div class="mt-4 text-lg">
-          </div>
+          <div class="mt-4 text-lg"></div>
         </div>
       </div>
     </div>
@@ -24,7 +23,7 @@
   export default defineComponent({
     name: 'Stats',
     components: {
-      Sidebar
+      Sidebar,
     },
     mounted() {
       this.$store.dispatch('auth/getStats')

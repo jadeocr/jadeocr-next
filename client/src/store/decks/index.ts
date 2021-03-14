@@ -59,7 +59,7 @@ export const decks = {
     // eslint-disable-next-line
     setPublicDecks(state: any, publicDecks: Array<Deck>) {
       state.publicDecks = publicDecks
-    }
+    },
   },
   actions: {
     async fetchDecks({ commit }: { commit: Function }): Promise<any> {
@@ -101,7 +101,10 @@ export const decks = {
           console.log(err.response.data)
         })
     },
-    async fetchCards({ commit }: { commit: Function }, deckId: string): Promise<any> {
+    async fetchCards(
+      { commit }: { commit: Function },
+      deckId: string
+    ): Promise<any> {
       return axios({
         method: 'post',
         url: `${apiBaseURL}/deck/deck`,
@@ -252,9 +255,7 @@ export const decks = {
           })
       }
     },
-    publicFromQuery(
-      { commit }: { commit: Function }, query: string,
-    ): void {
+    publicFromQuery({ commit }: { commit: Function }, query: string): void {
       axios({
         method: 'post',
         url: `${apiBaseURL}/deck/public`,

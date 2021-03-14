@@ -63,7 +63,9 @@
 
     <!-- Show assigned decks -->
     <div
-      v-else-if="!$store.state.decks.decksAssigned.length && menuType == 'assigned'"
+      v-else-if="
+        !$store.state.decks.decksAssigned.length && menuType == 'assigned'
+      "
     >
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
         <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">

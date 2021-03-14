@@ -134,7 +134,7 @@ export const auth = {
           console.log(err)
         })
     },
-    getStats({ commit }: { commit: Function}): void {
+    getStats({ commit }: { commit: Function }): void {
       axios({
         method: 'get',
         url: `${apiBaseURL}/user/stats`,

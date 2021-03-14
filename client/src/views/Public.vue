@@ -19,8 +19,15 @@
                 />
                 <span class="float-right p-4 font-bold">
                   <button @click="callPublicFromQuery()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.125em" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1.125em"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                      />
                     </svg>
                   </button>
                 </span>
@@ -28,7 +35,9 @@
             </div>
             <div v-if="!$store.state.decks.publicDecks.length" class="mt-12">
               <!-- TODO: Extract into component -->
-              <div class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2">
+              <div
+                class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+              >
                 No decks found. Try a search!
                 <div class="text-xs">
                   psst...we support regular expressions!
@@ -36,14 +45,20 @@
               </div>
             </div>
             <div v-else class="mt-12 lg:grid lg:grid-cols-2">
-              <div v-for="deck in $store.state.decks.publicDecks" :key="deck.key" class="p-4 my-2 mr-4 rounded lg:col-span-1 bg-nord1">
+              <div
+                v-for="deck in $store.state.decks.publicDecks"
+                :key="deck.key"
+                class="p-4 my-2 mr-4 rounded lg:col-span-1 bg-nord1"
+              >
                 <router-link
                   :to="{
                     path: `/deck/${deck._id}`,
                   }"
                   class="font-normal"
-                > {{ deck.title }} </router-link>
-                <div> {{ deck.description }} </div>
+                >
+                  {{ deck.title }}
+                </router-link>
+                <div>{{ deck.description }}</div>
               </div>
             </div>
           </div>
@@ -60,7 +75,7 @@
   export default defineComponent({
     name: 'Public',
     components: {
-      Sidebar
+      Sidebar,
     },
     data() {
       return {
@@ -70,8 +85,8 @@
     methods: {
       callPublicFromQuery(query: string): void {
         this.$store.dispatch('decks/publicFromQuery', this.query)
-      }
-    }
+      },
+    },
   })
 </script>
 

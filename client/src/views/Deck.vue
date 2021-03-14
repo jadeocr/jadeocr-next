@@ -6,7 +6,10 @@
           <sidebar />
         </div>
         <LoadingIcon v-if="isLoading" />
-        <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
+        <div
+          class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content"
+          v-else
+        >
           <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
             <div
               class="text-2xl font-normal text-center md:text-3xl md:text-left"
@@ -31,7 +34,9 @@
                       class="px-4 py-2 rounded bg-nord10"
                       v-model="learnMode"
                     >
-                      <option selected disabled value="">Select a Learn Mode</option>
+                      <option selected disabled value=""
+                        >Select a Learn Mode</option
+                      >
                       <option value="learn"> Learn </option>
                       <option value="flashcards"> Flashcards </option>
                       <option value="ocr"> Handwriting </option>
@@ -118,10 +123,7 @@
                   </router-link>
                 </div>
                 <div class="mt-10">
-                  <button
-                    class="px-4 py-2 rounded bg-nord2"
-                    @click="goBack()"
-                  >
+                  <button class="px-4 py-2 rounded bg-nord2" @click="goBack()">
                     Go Back
                   </button>
                 </div>
@@ -163,7 +165,7 @@
     methods: {
       launchLearn(type: string): void {
         this.$router.push({
-          path: `/review/${type}/${this.id}/${this.$store.state.decks.currDeck.title}`
+          path: `/review/${type}/${this.id}/${this.$store.state.decks.currDeck.title}`,
         })
       },
       goBack() {
@@ -179,12 +181,16 @@
       await this.$store.dispatch('decks/fetchCards', this.id)
       this.isLoading = false
     },
-    beforeRouteEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: Function) {
+    beforeRouteEnter(
+      to: RouteLocationNormalized,
+      from: RouteLocationNormalized,
+      next: Function
+    ) {
       // eslint-disable-next-line
       next((vm: any) => {
         vm.prevRoute = from.name
       })
-    }
+    },
   })
 </script>
 

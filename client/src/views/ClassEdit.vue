@@ -5,7 +5,10 @@
         <sidebar />
       </div>
       <LoadingIcon v-if="isLoading" />
-      <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content" v-else>
+      <div
+        class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content"
+        v-else
+      >
         <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
           <div
             class="text-2xl font-normal text-center md:text-3xl md:text-left"
@@ -230,8 +233,7 @@
                   </div>
                 </div>
                 <!-- TODO: Add stats -->
-                <div v-if="menuType == 'stats'">
-                </div>
+                <div v-if="menuType == 'stats'"></div>
               </div>
             </div>
             <div
