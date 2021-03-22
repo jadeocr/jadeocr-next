@@ -114,7 +114,7 @@
                 </div>
                 <div class="mt-8 text-lg">
                   <router-link
-                    class="font-normal opacity-75"
+                    class="px-4 py-2 font-normal rounded opacity-75 bg-nord9"
                     :to="{
                       path: `/deckedit/edit/${$store.state.decks.currDeck._id}`,
                     }"

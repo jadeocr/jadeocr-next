@@ -3,7 +3,8 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: { // enabled with NODE_ENV=production
+  purge: {
+    // enabled with NODE_ENV=production
     content: ['./src/**/*.html', './src/**/*.vue'],
   },
   theme: {
