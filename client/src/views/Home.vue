@@ -29,7 +29,7 @@
         <div class="m-auto row-span-1">
           <svg
             id="scroll-cue"
-            class="bi bi-chevron-down"
+            class="bi bi-chevron-down animate-bounce"
             width="3em"
             height="3em"
             viewBox="0 0 16 16"
@@ -214,19 +214,6 @@
     animation: 0.75s slidedown;
   }
 
-  #scroll-cue {
-    animation: pulse 3s 5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    50% {
-      transform: scale(0.8);
-    }
-
-    100% {
-      transform: none;
-    }
-  }
 
   @keyframes slidedown {
     from {
