@@ -63,10 +63,10 @@
         <!-- Login page buttons -->
         <div v-if="formType == 'login'">
           <div class="flex items-center justify-between mt-8">
-            <button class="px-4 py-2 rounded bg-nord3" @click="callSignIn()">
+            <button class="px-4 py-2 rounded bg-nord3 hoverlink" @click="callSignIn()">
               Log In
             </button>
-            <router-link :to="{ name: 'Signup' }" class="px-4 py-2 font-normal">
+            <router-link :to="{ name: 'Signup' }" class="px-4 py-2 font-normal hoverlink">
               Sign Up
             </router-link>
           </div>
@@ -74,10 +74,10 @@
         <!-- Signup page buttons -->
         <div v-else>
           <div class="flex items-center justify-between mt-8">
-            <button class="px-4 py-2 rounded bg-nord3" @click="callSignUp()">
+            <button class="px-4 py-2 rounded bg-nord3 hoverlink" @click="callSignUp()">
               Sign Up
             </button>
-            <router-link :to="{ name: 'Login' }" class="px-4 py-2 font-normal">
+            <router-link :to="{ name: 'Login' }" class="px-4 py-2 font-normal hoverlink">
               Login
             </router-link>
           </div>

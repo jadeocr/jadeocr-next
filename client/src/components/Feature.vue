@@ -1,10 +1,10 @@
 <template>
   <div class="row-span-1" :class="{ 'mt-12 md:mt-16': '!isFirstElement' }">
-    <div class="flex items-center justify-center font-normal">
+    <div class="flex items-center justify-center font-semibold">
       <FeatureIcons :name="name" />
       <p class="ml-5">{{ title }}</p>
     </div>
-    <p class="mt-2 text-left text-center text-md">{{ body }}</p>
+    <p class="mt-2 font-normal text-left text-center text-md">{{ body }}</p>
   </div>
 </template>
 
