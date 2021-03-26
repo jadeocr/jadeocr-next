@@ -1,14 +1,14 @@
 <template>
   <div id="auth-form">
     <div
-      class="w-4/5 px-8 py-8 mx-auto mt-10 rounded bg-nord0 md:w-1/2 xl:w-1/5 lg:w-1/3"
+      class="max-w-xs p-12 mx-auto mt-10 md:max-w-xl md:p-20 rounded-md bg-nord0"
     >
       <form @submit.prevent="">
         <div class="my-4 grid grid-cols-2" v-if="formType == 'signup'">
           <div class="mr-2 col-span-1">
             <label for="firstName" class="block mb-1">First Name</label>
             <input
-              class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
+              class="w-full px-4 py-2 rounded text-nord0 bg-nord4"
               v-model="credentials.firstName"
               placeholder="Ada"
               type="text"
@@ -17,17 +17,18 @@
           <div class="ml-2 col-span-1">
             <label for="lastName" class="block mb-1">Last Name</label>
             <input
-              class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
+              class="w-full px-4 py-2 rounded text-nord0 bg-nord4"
               v-model="credentials.lastName"
               placeholder="Lovelace"
               type="text"
             />
           </div>
         </div>
+        <!-- Login page only -->
         <div class="my-6">
           <label for="email" class="block mb-1">Email</label>
           <input
-            class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
+            class="w-full px-4 py-2 rounded text-nord0 bg-nord4"
             v-model="credentials.email"
             placeholder="ada@example.com"
             type="email"
@@ -36,7 +37,7 @@
         <div class="my-6">
           <label for="password" class="block mb-1">Password</label>
           <input
-            class="w-full px-3 py-1 rounded text-nord0 bg-nord4"
+            class="w-full px-4 py-2 rounded text-nord0 bg-nord4"
             v-model="credentials.password"
             placeholder="••••••••••••••••"
             type="password"
@@ -46,7 +47,7 @@
         <div v-if="formType == 'signup'" class="my-6">
           <label for="password" class="block mb-1">Confirm Password</label>
           <input
-            class="w-full px-3 py-1 text-gray-800 rounded bg-nord4"
+            class="w-full px-4 py-2 text-gray-800 rounded bg-nord4"
             v-model="credentials.confirmPassword"
             placeholder="••••••••••••••••"
             type="password"
@@ -65,7 +66,7 @@
             <button class="px-4 py-2 rounded bg-nord3" @click="callSignIn()">
               Log In
             </button>
-            <router-link :to="{ name: 'Signup' }" class="px-4 py-2">
+            <router-link :to="{ name: 'Signup' }" class="px-4 py-2 font-normal">
               Sign Up
             </router-link>
           </div>
@@ -76,7 +77,7 @@
             <button class="px-4 py-2 rounded bg-nord3" @click="callSignUp()">
               Sign Up
             </button>
-            <router-link :to="{ name: 'Login' }" class="px-4 py-2">
+            <router-link :to="{ name: 'Login' }" class="px-4 py-2 font-normal">
               Login
             </router-link>
           </div>

@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "jadeocr",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,12 @@
     "twbuild": "tailwindcss build src/assets/css/base.css -o src/assets/css/tailwind.css"
   },
   "dependencies": {
+    "autoprefixer": "^10.2.5",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
-    "tailwindcss": "^1.8.13",
+    "postcss": "^8.2.8",
+    "tailwindcss": "^2.0.4",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
