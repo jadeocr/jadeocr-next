@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <div class="absolute w-full">
+    <div class="w-full h-auto">
       <div class="lg:grid lg:grid-cols-2 lg:mt-16 xl:-mt-12 md:-mt-12">
         <img :src="require('@/assets/title-image.png')" alt="An image of the Chinese character 玉" class="lg:col-span-1">
         <div class="flex flex-col justify-center -mt-8 text-3xl text-center md:text-5xl lg:col-span-1 lg:text-left md:-mt-32 lg:-mt-8">
@@ -32,8 +32,7 @@
           <div
             class="px-8 text-lg text-center md:text-2xl lg:text-3xl opacity-87"
           >
-            <p>The perfect language learning system didn't exist...</p>
-            <p>until now.</p>
+            <p>Welcome to a better way to learn languages.</p>
           </div>
           <div
             class="px-3 mt-6 text-sm text-center md:text-lg lg:text-xl opacity-87"
