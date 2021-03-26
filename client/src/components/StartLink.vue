@@ -13,7 +13,7 @@
       <!-- TODO: Change button color back to green after designing page -->
       <router-link
         :to="{ name: navRoute }"
-        class="px-4 py-2 text-2xl bg-nord1 rounded-md md:text-3xl xl:text-4xl chinese"
+        class="px-4 py-2 text-2xl bg-nord1 rounded-md md:text-3xl xl:text-4xl chinese hoverlink"
       >
         Get Started 登录
       </router-link>

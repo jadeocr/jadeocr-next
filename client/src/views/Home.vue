@@ -3,10 +3,10 @@
     <div class="w-full h-auto">
       <div class="lg:grid lg:grid-cols-2 lg:mt-16 xl:-mt-12 md:-mt-12">
         <img :src="require('@/assets/title-image.png')" alt="An image of the Chinese character 玉" class="lg:col-span-1">
-        <div class="flex flex-col justify-center -mt-8 text-3xl text-center md:text-5xl lg:col-span-1 lg:text-left md:-mt-32 lg:-mt-8">
+        <div class="flex flex-col justify-center -mt-8 text-3xl font-normal text-center md:text-5xl lg:col-span-1 lg:text-left md:-mt-32 lg:-mt-8">
           <p class="leading-normal">Learn languages</p>
           <p class="leading-normal">without distractions.</p>
-          <start-link linkType="getStartedButton" class="mt-6 md:mt-8" />
+          <start-link linkType="getStartedButton" class="mt-6 font-light md:mt-8" />
         </div>
       </div>
       <div class="mt-10 md:mt-16 xl:-mt-12">
@@ -30,19 +30,19 @@
       <div id="about" class="py-4">
         <div class="mt-4 md:mt-12">
           <div
-            class="px-8 text-lg text-center md:text-2xl lg:text-3xl opacity-87"
+            class="px-8 text-lg font-normal text-center md:text-2xl lg:text-3xl opacity-87"
           >
             <p>Welcome to a better way to learn languages.</p>
           </div>
           <div
-            class="px-3 mt-6 text-sm text-center md:text-lg lg:text-xl opacity-87"
+            class="px-3 mt-6 text-sm font-normal text-center md:text-lg lg:text-xl opacity-87"
           >
             <div>
               Learn languages with
               <a
                 href="https://en.wikipedia.org/wiki/Spaced_repetition"
                 target="_blank"
-                class="font-normal hoverlink"
+                class="font-semibold hoverlink"
                 >spaced repetition</a
               >
               flashcards
@@ -116,7 +116,7 @@
       </div>
       <div class="mt-24 footer">
         <hr class="opacity-25" />
-        <div id="footer-content" class="py-8 text-xs lg:text-sm">
+        <div id="footer-content" class="py-8 text-xs font-normal lg:text-sm">
           <div class="text-center grid grid-cols-1 lg:grid-cols-2 opacity-87">
             <div class="w-1/2 m-auto text-center col-span-1">
               <p>Tanay Biradar, Jeremy Tow, Riley Kong</p>
@@ -125,7 +125,7 @@
                 <a
                   href="https://github.com/TanayB11/jadeocr/blob/master/LICENSE"
                   target="_blank"
-                  class="font-normal hoverlink"
+                  class="font-semibold hoverlink"
                 >
                   MIT License.
                 </a>
@@ -133,7 +133,7 @@
             </div>
             <!-- Make 2 more cols on small displays -->
             <div
-              class="w-1/2 m-auto mt-4 font-normal text-center col-span-1 lg:mt-0"
+              class="w-1/2 m-auto mt-4 font-semibold text-center col-span-1 lg:mt-0"
             >
               <div class="grid grid-cols-2 lg:grid-cols-1">
                 <div class="col-span-1">
@@ -188,10 +188,6 @@ import { defineComponent } from 'vue'
 </script>
 
 <style scoped>
-  .hoverlink:hover {
-    opacity: 0.6;
-  }
-
   .slide {
     animation: 0.75s slidedown;
   }
