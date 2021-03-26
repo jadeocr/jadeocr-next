@@ -1,7 +1,7 @@
 <template>
   <div id="auth-form">
     <div
-      class="max-w-lg p-12 mx-auto mt-10 rounded-md bg-nord0"
+      class="max-w-xs p-12 mx-auto mt-10 md:max-w-xl md:p-20 rounded-md bg-nord0"
     >
       <form @submit.prevent="">
         <div class="my-4 grid grid-cols-2" v-if="formType == 'signup'">
@@ -24,6 +24,7 @@
             />
           </div>
         </div>
+        <!-- Login page only -->
         <div class="my-6">
           <label for="email" class="block mb-1">Email</label>
           <input
@@ -65,7 +66,7 @@
             <button class="px-4 py-2 rounded bg-nord3" @click="callSignIn()">
               Log In
             </button>
-            <router-link :to="{ name: 'Signup' }" class="px-4 py-2">
+            <router-link :to="{ name: 'Signup' }" class="px-4 py-2 font-normal">
               Sign Up
             </router-link>
           </div>
@@ -76,7 +77,7 @@
             <button class="px-4 py-2 rounded bg-nord3" @click="callSignUp()">
               Sign Up
             </button>
-            <router-link :to="{ name: 'Login' }" class="px-4 py-2">
+            <router-link :to="{ name: 'Login' }" class="px-4 py-2 font-normal">
               Login
             </router-link>
           </div>

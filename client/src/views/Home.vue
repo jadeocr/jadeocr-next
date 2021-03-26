@@ -6,7 +6,7 @@
       >
         <div class="col-span-1">
           <img
-            src="../assets/title-image.png"
+            :src="require('@/assets/title-image.png')"
             alt="An image of the Chinese character 玉"
           />
         </div>
@@ -28,7 +28,6 @@
       <div class="mt-8 md:mt-16 grid grid-rows-1 lg:-mt-10 xl:-mt-20">
         <div class="m-auto row-span-1">
           <svg
-            id="scroll-cue"
             class="bi bi-chevron-down animate-bounce"
             width="3em"
             height="3em"
