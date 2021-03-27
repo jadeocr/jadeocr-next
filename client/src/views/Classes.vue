@@ -17,7 +17,7 @@
             <div class="mt-2">
               <button
                 @click="toggleJoinModalVisibility()"
-                class="px-3 py-2 my-6 font-light rounded bg-nord2"
+                class="px-3 py-2 my-6 font-normal rounded bg-nord2 hoverlink"
                 type="submit"
               >
                 Join Class
@@ -25,7 +25,7 @@
               <button
                 v-if="$store.state.auth.isTeacher"
                 @click="toggleCreateModalVisibility()"
-                class="px-3 py-2 mx-4 my-6 font-light rounded bg-nord2"
+                class="px-3 py-2 mx-4 my-6 font-normal rounded bg-nord2 hoverlink"
                 type="submit"
               >
                 New Class
