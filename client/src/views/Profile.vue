@@ -7,9 +7,39 @@
       <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
         <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
           <div class="text-2xl font-normal md:text-3xl">
-            Profile
+            Public
           </div>
-          <div class="mt-4 text-lg"></div>
+          <div class="mt-4 text-lg">
+            <button
+              @click="changeMenuType('stats')"
+              :class="{ 'opacity-75': menuType != 'stats' }"
+            >
+              Stats
+            </button>
+            |
+            <button
+              @click="changeMenuType('settings')"
+              :class="{ 'opacity-75': menuType != 'settings' }"
+            >
+              Settings
+            </button>
+          </div>
+          <div class="mt-12">
+            <div
+              v-if="menuType == 'stats'"
+              class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+            >
+              Stats coming soon!
+            </div>
+            <div
+              v-else-if="menuType == 'settings'"
+              class="lg:col-span-2 xl:col-span-2"
+            >
+              <button :class="['w-64', 'px-4', 'py-2', 'font-normal', 'text-center', 'rounded', $store.state.auth.isTeacher ? 'bg-nord11' : 'bg-nord15']" @click="callToggleTeacher()">
+                {{ $store.state.auth.isTeacher ? 'Deactivate Teacher Features' : 'Activate Teacher Features'}} 
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -24,6 +54,19 @@
     name: 'Profile',
     components: {
       Sidebar,
+    },
+    data() {
+      return {
+        menuType: 'stats',
+      }
+    },
+    methods: {
+      changeMenuType(menuType: string): void {
+        this.menuType = menuType
+      },
+      callToggleTeacher() {
+        this.$store.dispatch('auth/toggleTeacher', !this.$store.state.auth.isTeacher)
+      },
     },
     mounted() {
       this.$store.dispatch('auth/getStats')
