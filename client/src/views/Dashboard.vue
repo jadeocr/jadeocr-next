@@ -35,7 +35,7 @@
             <router-link
               v-if="menuType == 'created'"
               :to="{ name: 'DeckCreate' }"
-              class="px-3 py-2 mt-8 rounded bg-nord2 font-normal hoverlink"
+              class="px-3 py-2 mt-8 font-normal rounded bg-nord2 hoverlink"
             >
               Create Deck
             </router-link>

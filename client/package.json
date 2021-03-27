@@ -14,6 +14,7 @@
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "postcss": "^8.2.8",
+    "prerender-spa-plugin": "^3.4.0",
     "tailwindcss": "^2.0.4",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
