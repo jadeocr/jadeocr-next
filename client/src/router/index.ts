@@ -100,10 +100,10 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/stats',
-    name: 'Stats',
+    path: '/profile',
+    name: 'Profile',
     component: () =>
-      import(/* webpackChunkName: 'stats' */ '../views/Stats.vue'),
+      import(/* webpackChunkName: 'profile' */ '../views/Profile.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -117,6 +117,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: () =>
+      import(/* webpackChunkName: 'notfound' */ '../views/NotFound.vue'),
   },
 ]
 
