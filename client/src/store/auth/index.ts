@@ -147,5 +147,21 @@ export const auth = {
           console.log(err)
         })
     },
+    toggleTeacher({ dispatch }:  { dispatch: Function }, isTeacher: boolean): void {
+      axios({
+        method: 'post',
+        url: `${apiBaseURL}/setTeacher`,
+        withCredentials: true,
+        data: {
+          isTeacher: isTeacher
+        },
+      })
+        .then((res: AxiosResponse) => {
+          dispatch('autoSignIn')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
 }

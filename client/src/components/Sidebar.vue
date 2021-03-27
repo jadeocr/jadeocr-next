@@ -108,7 +108,7 @@
           </div>
         </router-link>
       </div>
-      <button @click="callSignOut" class="px-3 py-2 rounded bg-nord9">
+      <button @click="callSignOut" class="px-3 py-2 rounded bg-nord9 hoverlink">
         Sign Out
       </button>
     </div>

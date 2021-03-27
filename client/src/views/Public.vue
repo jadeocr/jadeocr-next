@@ -18,7 +18,7 @@
                   placeholder="Search"
                 />
                 <span class="float-right p-4 font-bold">
-                  <button @click="callPublicFromQuery()">
+                  <button @click="callPublicFromQuery()" class="hoverlink">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="1.125em"
