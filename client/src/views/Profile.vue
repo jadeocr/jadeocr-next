@@ -35,7 +35,7 @@
               v-else-if="menuType == 'settings'"
               class="lg:col-span-2 xl:col-span-2"
             >
-              <button :class="['w-64', 'px-4', 'py-2', 'font-normal', 'text-center', 'rounded', $store.state.auth.isTeacher ? 'bg-nord11' : 'bg-nord15']" @click="callToggleTeacher()">
+              <button :class="['w-64', 'px-4', 'py-2', 'font-normal', 'text-center', 'rounded', 'hoverlink', $store.state.auth.isTeacher ? 'bg-nord11' : 'bg-nord15']" @click="callToggleTeacher()">
                 {{ $store.state.auth.isTeacher ? 'Deactivate Teacher Features' : 'Activate Teacher Features'}} 
               </button>
             </div>
