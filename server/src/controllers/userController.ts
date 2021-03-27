@@ -53,6 +53,23 @@ exports.signup = function(req, res, next) {
   }
 }
 
+exports.setTeacher = function(req, res, next) {
+  userModel.findOne({ _id: req.user._id }, function(err, user) {
+    if (err) {
+      console.log(err)
+    } else {
+      user.isTeacher = req.body.isTeacher
+      user.save(function(err) {
+        if (err) {
+          res.status(400).send('An error occurred')
+        } else {
+          res.sendStatus(200)
+        }
+      })
+    }
+  })
+}
+
 exports.user = function(req, res, next) {
   res.send(req.user)
 }

@@ -14,7 +14,7 @@
             <div class="text-2xl font-normal md:text-3xl">
               Classes
             </div>
-            <div class="mt-4">
+            <div class="mt-2">
               <button
                 @click="toggleJoinModalVisibility()"
                 class="px-3 py-2 my-6 font-light rounded bg-nord2"

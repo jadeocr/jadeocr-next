@@ -7,7 +7,7 @@
       <div class="mt-12 overflow-y-auto md:mt-16 col-span-1 page-content">
         <div class="mx-6 md:mx-4 lg:mx-10 xl:mx-20">
           <div class="text-2xl font-normal md:text-3xl">
-            Stats
+            Profile
           </div>
           <div class="mt-4 text-lg"></div>
         </div>
@@ -21,7 +21,7 @@
   import Sidebar from '../components/Sidebar.vue'
 
   export default defineComponent({
-    name: 'Stats',
+    name: 'Profile',
     components: {
       Sidebar,
     },

@@ -24,6 +24,8 @@ router.post('/api/signout', authMiddleware, function(req, res, next) {
   res.sendStatus(200)
 })
 
+router.post('/api/setTeacher', authMiddleware, userController.setTeacher)
+
 router.get('/api/user', authMiddleware, userController.user)
 router.get('/api/user/details', authMiddleware, userController.details)
 
