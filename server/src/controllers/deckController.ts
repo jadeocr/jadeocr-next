@@ -1,3 +1,6 @@
+import { send } from "process"
+import { start } from "repl"
+
 var deckModel = require('../models/deckModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var classModel = require('../models/classModel')
@@ -120,27 +123,38 @@ let updateUserWithDeck = function(user, callback) {
     })
 }
 
-let getPublicDecks = function(query: string, callback: Function) {
-  let mongoQuery = query // perform regex match if query
-    ? {
-        "access.isPublic": true,
-        $or: [
-          // match case insensitive
-          { title: { $regex: query.toLowerCase(), $options: 'i' }},
-          { description: { $regex: query.toLowerCase(), $options: 'i' }},
-        ]
-      }
-    : { "access.isPublic": true, }
+let getPublicDecks = function(query: string, startIndex: number, callback: Function) { //function only returns up to 50 results
+    let mongoQuery = query // perform regex match if query
+        ? {
+            "access.isPublic": true,
+            $or: [
+                // match case insensitive
+                { title: { $regex: query.toLowerCase(), $options: 'i' }},
+                { description: { $regex: query.toLowerCase(), $options: 'i' }},
+            ]
+        }
+        : { "access.isPublic": true, }
 
     deckModel.find(mongoQuery, function(err, decks) {
-      if (err) {
-        console.log(err)
-        callback(false)
-      } else if (!decks) {
-        callback(false)
-      } else {
-        callback(decks)
-      }
+        if (err) {
+            console.log(err)
+            callback(false)
+        } else if (!decks) {
+            callback(false)
+        } else {
+            var sendArray = []
+            let endIndex = (startIndex + 49 < decks.length) ? startIndex + 49 : decks.length - 1
+
+            for (let i = startIndex; i <= endIndex; i++) {
+                sendArray.push({
+                    deckId: decks[i]._id,
+                    deckName: decks[i].title,
+                    deckDescription: decks[i].description,
+                })
+            }
+            
+            callback(sendArray)
+        }
     })
 }
 
@@ -513,7 +527,7 @@ exports.getDecksWithDueDates = function(req, res, next) {
 
 exports.publicDecks = function(req, res, next) {
   if (req.body.query) {
-    getPublicDecks(req.body.query, function(decks) {
+    getPublicDecks(req.body.query, 0, function(decks) {
       if (!decks) {
         res.status(400).send('There was an error')
       } else {
@@ -526,7 +540,7 @@ exports.publicDecks = function(req, res, next) {
 }
 
 exports.allPublicDecks = function(req, res, next) {
-  getPublicDecks('', function(decks) { // empty string means query == false
+  getPublicDecks('', 0, function(decks) { // empty string means query == false
     if (!decks) {
       res.status(400).send('There was an error')
     } else {
