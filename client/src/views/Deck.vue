@@ -44,7 +44,7 @@
                     </select>
                     <button
                       @click="launchLearn(learnMode)"
-                      class="px-4 py-2 mx-4 font-normal rounded bg-nord10"
+                      class="px-4 py-2 mx-4 font-normal rounded md:mx-0 lg:mx-4 bg-nord10"
                     >
                       Go!
                     </button>
