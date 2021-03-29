@@ -14,6 +14,7 @@ export const auth = {
     email: '',
     uid: '',
     isTeacher: false,
+    stats: {},
   },
   mutations: {
     // eslint-disable-next-line
@@ -43,6 +44,10 @@ export const auth = {
     // eslint-disable-next-line
     setTeacher(state: any, isTeacher: boolean) {
       state.isTeacher = isTeacher
+    },
+    // eslint-disable-next-line
+    setStats(state: any, stats: string) {
+      state.stats = stats
     },
   },
   actions: {
@@ -141,7 +146,7 @@ export const auth = {
         withCredentials: true,
       })
         .then((res: AxiosResponse) => {
-          console.log(res.data)
+          commit('setStats', res.data)
         })
         .catch((err) => {
           console.log(err)
