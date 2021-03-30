@@ -52,13 +52,13 @@
               >
                 <router-link
                   :to="{
-                    path: `/deck/${deck._id}`,
+                    path: `/deck/${deck.deckId}`,
                   }"
                   class="font-normal"
                 >
-                  {{ deck.title }}
+                  {{ deck.deckName }}
                 </router-link>
-                <div>{{ deck.description }}</div>
+                <div>{{ deck.deckDescription }}</div>
               </div>
             </div>
           </div>
