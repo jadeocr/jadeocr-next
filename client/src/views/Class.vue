@@ -92,7 +92,7 @@
               <div class="mt-8">
                 <router-link
                   v-if="$store.state.auth.isTeacher"
-                  class="px-4 py-2 rounded bg-nord9"
+                  class="px-4 py-2 rounded bg-nord9 hoverlink"
                   :to="{
                     path: `/class/${currClass.classCode}/edit`,
                   }"
@@ -111,7 +111,7 @@
                   </button>
                 </div>
                 <button
-                  class="px-4 py-2 rounded bg-nord2"
+                  class="px-4 py-2 rounded bg-nord2 hoverlink"
                   @click="$router.push({ name: 'Classes' })"
                 >
                   Go Back

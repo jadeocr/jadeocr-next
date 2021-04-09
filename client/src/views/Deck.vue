@@ -100,7 +100,7 @@
                 </div>
                 <div class="mt-8 text-lg">
                   <router-link
-                    class="px-4 py-2 font-normal rounded opacity-75 bg-nord9"
+                    class="px-4 py-2 font-normal rounded hoverlink bg-nord9"
                     :to="{
                       path: `/deckedit/edit/${$store.state.decks.currDeck._id}`,
                     }"
@@ -109,7 +109,7 @@
                   </router-link>
                 </div>
                 <div class="mt-10">
-                  <button class="px-4 py-2 rounded bg-nord2" @click="goBack()">
+                  <button class="px-4 py-2 rounded hoverlink bg-nord2" @click="goBack()">
                     Go Back
                   </button>
                 </div>
