@@ -95,7 +95,7 @@
                             }}
                           </div>
                           <button
-                            class="my-2 font-semibold"
+                            class="my-2 font-semibold hoverlink"
                             @click="
                               callUnassignDeck(
                                 $store.state.classes.currClassAssignments[deck]
@@ -206,7 +206,7 @@
                         />
                       </div>
                       <div class="my-6" @click="callAssignDeck()">
-                        <button class="px-4 py-2 rounded bg-nord7">
+                        <button class="px-4 py-2 rounded bg-nord7 hoverlink">
                           Assign Deck
                         </button>
                       </div>
@@ -233,7 +233,13 @@
                   </div>
                 </div>
                 <!-- TODO: Add stats -->
-                <div v-if="menuType == 'stats'"></div>
+                <div v-if="menuType == 'stats'">
+                  <div
+                    class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
+                  >
+                    Stats coming soon!
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -251,13 +257,13 @@
                   <button
                     v-if="$store.state.auth.isTeacher"
                     @click="toggleModalVisibility()"
-                    class="mb-4 font-normal opacity-75"
+                    class="mb-4 font-normal opacity-75 hover:opacity-50"
                   >
                     Delete Class
                   </button>
                 </div>
                 <button
-                  class="px-4 py-2 rounded bg-nord2"
+                  class="px-4 py-2 rounded bg-nord2 hoverlink"
                   @click="$router.go(-1)"
                 >
                   Go Back

@@ -26,7 +26,7 @@
               <div>
                 <div class="mt-8">
                   <button
-                    class="px-4 py-2 mr-4 rounded bg-nord2"
+                    class="px-4 py-2 mr-4 rounded bg-nord2 hoverlink"
                     @click="addCard(1)"
                   >
                     <svg
@@ -50,7 +50,7 @@
                     </svg>
                   </button>
                   <button
-                    class="px-4 py-2 mr-4 rounded bg-nord2"
+                    class="px-4 py-2 mr-4 rounded bg-nord2 hoverlink"
                     @click="addCard(-1)"
                   >
                     <svg
@@ -112,28 +112,28 @@
                 </div>
                 <div class="mt-20">
                   <button
-                    class="px-4 py-2 mr-4 rounded bg-nord2"
+                    class="px-4 py-2 mr-4 rounded bg-nord2 hoverlink"
                     @click="$router.go(-1)"
                   >
                     Cancel
                   </button>
                   <button
                     v-if="id"
-                    class="px-3 py-2 mr-4 rounded bg-nord10"
+                    class="px-3 py-2 mr-4 rounded bg-nord10 hoverlink"
                     @click="callUpdateDeck()"
                   >
                     Save Changes
                   </button>
                   <button
                     v-else
-                    class="px-3 py-2 mr-4 rounded bg-nord10"
+                    class="px-3 py-2 mr-4 rounded bg-nord10 hoverlink"
                     @click="callCreateDeck()"
                   >
                     Create Deck
                   </button>
                   <div class="mt-8 mb-16">
                     <button
-                      class="px-4 py-2 mr-4 rounded bg-nord2"
+                      class="px-4 py-2 mr-4 rounded bg-nord2 hoverlink"
                       @click="togglePublic()"
                     >
                       <div v-if="$store.state.decks.currDeck.access.isPublic">
@@ -143,7 +143,7 @@
                     </button>
                     <button
                       v-if="id"
-                      class="px-4 py-2 mr-4 rounded bg-nord11"
+                      class="px-4 py-2 mr-4 rounded bg-nord11 hoverlink"
                       @click="toggleModalVisibility()"
                     >
                       Delete Deck

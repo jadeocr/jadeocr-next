@@ -111,6 +111,7 @@
               'sm:ml-3',
               'sm:w-auto',
               'sm:text-sm',
+              'hoverlink',
             ]"
             @click="$emit('confirm', $event)"
           >
@@ -118,7 +119,7 @@
           </button>
           <button
             type="button"
-            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord2 sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex justify-center w-full px-4 py-2 my-4 text-base font-medium text-white rounded bg-nord2 sm:ml-3 sm:w-auto sm:text-sm hoverlink"
             @click="$emit('exit-modal', $event)"
           >
             Cancel
