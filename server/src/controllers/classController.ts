@@ -3,6 +3,12 @@ var userDetailedModel = require('../models/userDetailedModel')
 var deckModel = require('../models/deckModel')
 var { validationResult } = require('express-validator')
 
+interface mongoReturnInterface {
+    error: object,
+    status: number,
+    data: object,
+}
+
 let saveClassAndDeck = function(classToSave, deckToSave, res) {
     classToSave.save(function(classErr) {
         if (classErr) {
@@ -46,6 +52,60 @@ let updateDecksInClass = function(classToUpdate, callback) {
         }
         classToUpdate.save()
         callback()
+    })
+}
+
+let findClass = function(classCode: string, callback: (returnedClass: mongoReturnInterface) => void, needsTeacher: boolean = false, teacherId: string = "") {
+    let out: mongoReturnInterface = {
+        error: null,
+        status: null,
+        data: null,
+    }
+
+    classModel.findOne({classCode: classCode}, function(err, Class) {
+        if (err) {
+            out.status = 400
+            out.error = err
+        } else if (!Class) {
+            out.status = 404
+            out.error = new Error('No class found')
+        } else if (needsTeacher && Class.teacherId != teacherId) {
+            out.status = 403
+            out.error = new Error('Not authorized')
+        } else {
+            out.status = 200
+            out.data = Class
+        }
+        callback(out)
+    })
+}
+
+let findDeck = function(deckId: string, callback: (returnedDeck: mongoReturnInterface) => void, needsEdit: boolean = false, userId: string = "") {
+    let out: mongoReturnInterface = {
+        error: null,
+        status: null,
+        data: null,
+    }
+
+    console.log(deckId)
+    deckModel.findOne({_id: deckId}, function(err, deck) {
+        if (err) {
+            out.status = 400
+            out.error = err
+        } else if (!deck) {
+            out.status = 404
+            out.error = new Error('No deck found')
+        } else if (needsEdit && deck.creator != userId) {
+            out.status = 403
+            out.error = new Error('Not authorized')
+        } else if (!deck.access.isPublic && deck.creator != userId) {
+            out.status = 403
+            out.error = new Error('Not authorized')
+        } else {
+            out.status = 200
+            out.data = deck
+        }
+        callback(out)
     })
 }
 
@@ -390,32 +450,37 @@ exports.assign = function(req, res, next) {
         let repetitions = req.body.repetitions //Defaults to 1
         let dueDate = req.body.dueDate //Required. epoch time in milliseconds
 
-        let checkIfDeckIsAssigned = function(Class, deckId, deck) {
-            if (!Class.assignedDecks.length) {
-                assignDeck(Class, deckId, deck)
-            } else {
-                for (let i in Class.assignedDecks) {
-                    if (Class.assignedDecks[i] == deckId) {
-                        res.status(400).send("Deck already assigned")
-                        break
-                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                        assignDeck(Class, deckId, deck)
-                    }
-                }
-            }
-        }
+        //Not needed, to be removed
+        
+        // let checkIfDeckIsAssigned = function(Class, deckId, deck) {
+        //     if (!Class.assignedDecks.length) {
+        //         assignDeck(Class, deckId, deck)
+        //     } else {
+        //         for (let i in Class.assignedDecks) {
+        //             if (Class.assignedDecks[i].deckId == deckId) {
+        //                 res.status(400).send("Deck already assigned")
+        //                 break
+        //             } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
+        //                 assignDeck(Class, deckId, deck)
+        //             }
+        //         }
+        //     }
+        // }
 
         let assignDeck = function (Class, deckId, deck) {
             if (mode != "quiz" && front == "handwriting") {
                 res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
-            } else if (isNaN(parseInt(repetitions))) {
+            } else if (repetitions != "" && isNaN(parseInt(repetitions))) {
                 res.status(400).send('If a repetitions value is sent, it must be an integer')
             } else if (mode != "learn" && scramble) {
                 res.status(400).send('Only learn mode supports scramble')
             } else {
-                if (!repetitions) {
+                if (repetitions == "") {
                     repetitions = 1
+                } else {
+                    repetitions = parseInt(repetitions)
                 }
+
                 Class.assignedDecks.push({
                     deckId: deckId,
                     deckName: deck.title,
@@ -429,40 +494,54 @@ exports.assign = function(req, res, next) {
                     dueDate: dueDate,
                 })
                 deck.access.classes[Class.classCode] = true
-                deck.markModified('access')
+                deck.markModified('access') //Otherwise mongo won't save nested stuffs
                 saveClassAndDeck(Class, deck, res)
             }
         }
         
-        classModel.findOne({classCode: classCode}, function(classErr, Class) {
-            if (classErr) {
-                console.log(classErr)
-                res.status(400).send("There was an error")
-            } else if (!Class) {
-                res.status(400).send("No class was found")
-            } else if (Class.teacherId != teacher) {
-                res.sendStatus(403)
+        findClass(classCode, (returnedClass: mongoReturnInterface) => {
+            if (returnedClass.error) {
+                res.status(returnedClass.status).send(returnedClass.error.toString())
             } else {
-                deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
-                    if (deckErr) {
-                        console.log(deckErr)
-                        res.status(400).send('There was an error')
-                    } else if (!returnedDeck) {
-                        res.status(400).send('No deck was found')
-                    } else if (returnedDeck.access.isPublic == true) {
-                        checkIfDeckIsAssigned(Class, deckId, returnedDeck)
-                    } else if (returnedDeck.creator == teacher) {
-                        checkIfDeckIsAssigned(Class, deckId, returnedDeck)
+                findDeck(deckId, (returnedDeck: mongoReturnInterface) => {
+                    if (returnedDeck.error) {
+                        res.status(returnedDeck.status).send(returnedDeck.error.toString())
                     } else {
-                        res.status(403).send('User does not have permission to access deck')
+                        assignDeck(returnedClass.data, deckId, returnedDeck.data)
                     }
                 })
             }
-        })
+        }, true, teacher)
+
+        // classModel.findOne({classCode: classCode}, function(classErr, Class) {
+        //     if (classErr) {
+        //         console.log(classErr)
+        //         res.status(400).send("There was an error")
+        //     } else if (!Class) {
+        //         res.status(400).send("No class was found")
+        //     } else if (Class.teacherId != teacher) {
+        //         res.sendStatus(403)
+        //     } else {
+        //         deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
+        //             if (deckErr) {
+        //                 console.log(deckErr)
+        //                 res.status(400).send('There was an error')
+        //             } else if (!returnedDeck) {
+        //                 res.status(400).send('No deck was found')
+        //             } else if (returnedDeck.access.isPublic == true) {
+        //                 assignDeck(Class, deckId, returnedDeck)
+        //             } else if (returnedDeck.creator == teacher) {
+        //                 assignDeck(Class, deckId, returnedDeck)
+        //             } else {
+        //                 res.status(403).send('User does not have permission to access deck')
+        //             }
+        //         })
+        //     }
+        // })
     }
 }
 
-exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FROM THAT DECKS ACCESS IF NO OTHER ASSIGNMENT ALSO HAS IT
+exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FROM THAT DECKS ACCESS IF NO OTHER ASSIGNMENT ALSO HAS IT ::: DONE
     let teacher = req.user._id
     let classCode = req.body.classCode
     let deckId = req.body.deckId
