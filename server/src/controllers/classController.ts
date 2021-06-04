@@ -450,23 +450,6 @@ exports.assign = function(req, res, next) {
         let repetitions = req.body.repetitions //Defaults to 1
         let dueDate = req.body.dueDate //Required. epoch time in milliseconds
 
-        //Not needed, to be removed
-        
-        // let checkIfDeckIsAssigned = function(Class, deckId, deck) {
-        //     if (!Class.assignedDecks.length) {
-        //         assignDeck(Class, deckId, deck)
-        //     } else {
-        //         for (let i in Class.assignedDecks) {
-        //             if (Class.assignedDecks[i].deckId == deckId) {
-        //                 res.status(400).send("Deck already assigned")
-        //                 break
-        //             } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-        //                 assignDeck(Class, deckId, deck)
-        //             }
-        //         }
-        //     }
-        // }
-
         let assignDeck = function (Class, deckId, deck) {
             if (mode != "quiz" && front == "handwriting") {
                 res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
@@ -512,32 +495,6 @@ exports.assign = function(req, res, next) {
                 })
             }
         }, true, teacher)
-
-        // classModel.findOne({classCode: classCode}, function(classErr, Class) {
-        //     if (classErr) {
-        //         console.log(classErr)
-        //         res.status(400).send("There was an error")
-        //     } else if (!Class) {
-        //         res.status(400).send("No class was found")
-        //     } else if (Class.teacherId != teacher) {
-        //         res.sendStatus(403)
-        //     } else {
-        //         deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
-        //             if (deckErr) {
-        //                 console.log(deckErr)
-        //                 res.status(400).send('There was an error')
-        //             } else if (!returnedDeck) {
-        //                 res.status(400).send('No deck was found')
-        //             } else if (returnedDeck.access.isPublic == true) {
-        //                 assignDeck(Class, deckId, returnedDeck)
-        //             } else if (returnedDeck.creator == teacher) {
-        //                 assignDeck(Class, deckId, returnedDeck)
-        //             } else {
-        //                 res.status(403).send('User does not have permission to access deck')
-        //             }
-        //         })
-        //     }
-        // })
     }
 }
 
