@@ -109,6 +109,54 @@ let findDeck = function(deckId: string, callback: (returnedDeck: mongoReturnInte
     })
 }
 
+let updateDeck = function(Class: any, deck: any, assignmentIndex: string, deckId: string, mode: string, 
+    handwriting: string, front: string, scramble: string, repetitions: any, dueDate: string, 
+    callback: (output: mongoReturnInterface) => void) {
+    
+    let out: mongoReturnInterface = {
+        error: null,
+        status: null,
+        data: null,
+    }
+    
+    if (mode != "quiz" && front == "handwriting") {
+        // res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
+        out.error = new Error('The front card being set to handwriting is only compatible with quiz mode')
+        out.status = 400
+    } else if (repetitions != "" && isNaN(parseInt(repetitions))) {
+        // res.status(400).send('If a repetitions value is sent, it must be an integer')
+        out.error = new Error('If a repetitions value is sent, it must be an integer')
+        out.status = 400
+    } else if (mode != "learn" && scramble) {
+        // res.status(400).send('Only learn mode supports scramble')
+        out.error = new Error('Only learn mode supports scramble')
+        out.status = 400
+    } else {
+        if (repetitions == "") {
+            repetitions = 1
+        } else {
+            repetitions = parseInt(repetitions)
+        }
+
+
+        Class.assignedDecks[assignmentIndex].deckId = deckId
+        Class.assignedDecks[assignmentIndex].deckName = deck.title
+        Class.assignedDecks[assignmentIndex].deckDescription = deck.description
+        Class.assignedDecks[assignmentIndex].mode = mode
+        Class.assignedDecks[assignmentIndex].handwriting = handwriting
+        Class.assignedDecks[assignmentIndex].front = front
+        Class.assignedDecks[assignmentIndex].scramble = scramble
+        Class.assignedDecks[assignmentIndex].repetitions = repetitions
+        Class.assignedDecks[assignmentIndex].assignedDate = Date.now()
+        Class.assignedDecks[assignmentIndex].dueDate = dueDate
+
+        deck.access.classes[Class.classCode] = true
+        deck.markModified('access') //Otherwise mongo won't save nested stuffs
+        
+        callback(out)
+    }
+}
+
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
         res.sendStatus(403)
