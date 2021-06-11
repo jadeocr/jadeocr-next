@@ -56,6 +56,20 @@ router.post('/api/class/assign', authMiddleware, [
   body("dueDate").trim().exists().isNumeric(),
 ], classController.assign)
 
+router.post('/api/class/updateAssignment', authMiddleware, [
+  body('classCode').trim().escape().exists(),
+  body("handwriting").trim().toBoolean(),
+  body("front").custom(value => {
+    if ((value == "character") || (value == "pinyin") || (value == "definition") || (value == "handwriting")) {
+      return true
+    } else {
+      throw new Error('front must be: "character", "pinyin", "definition", "handwriting"')
+    }
+  }),
+  body("scramble").trim().toBoolean(),
+  body("dueDate").trim().exists().isNumeric(),
+], classController.updateAssignment)
+
 router.post('/api/class/unassign', authMiddleware, [
   body('classCode').trim().escape(),
   body('deckId').trim().escape(),

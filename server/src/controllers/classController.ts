@@ -581,7 +581,7 @@ exports.updateAssignment = function(req, res, next) {
                 if (err) {
                     res.status(400).send(err)
                 } else {
-                    res.sendSatus(200)
+                    res.sendStatus(200)
                 }
             })
             
