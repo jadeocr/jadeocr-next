@@ -63,7 +63,22 @@ exports.setTeacher = function(req, res, next) {
         if (err) {
           res.status(400).send('An error occurred')
         } else {
-          res.sendStatus(200)
+
+          userDetailedModel.findOne({ id: req.user._id}, function(detailedErr, detailedUser) {
+            if (detailedErr) {
+              console.log(detailedErr)
+            } else {
+              detailedUser.isTeacher = req.body.isTeacher
+
+              detailedUser.save(function(err) {
+                if (err) {
+                  res.status(400).send('An error occurred')
+                } else {
+                  res.sendStatus(200)
+                }
+              })
+            }
+          })
         }
       })
     }
