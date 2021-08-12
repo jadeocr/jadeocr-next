@@ -1,7 +1,15 @@
+import { addSyntheticLeadingComment, ClassificationType } from "typescript"
+
 var classModel = require('../models/classModel')
 var userDetailedModel = require('../models/userDetailedModel')
 var deckModel = require('../models/deckModel')
 var { validationResult } = require('express-validator')
+
+interface mongoReturnInterface {
+    error: object,
+    status: number,
+    data: any,
+}
 
 let saveClassAndDeck = function(classToSave, deckToSave, res) {
     classToSave.save(function(classErr) {
@@ -49,6 +57,109 @@ let updateDecksInClass = function(classToUpdate, callback) {
     })
 }
 
+let findClass = function(classCode: string, callback: (returnedClass: mongoReturnInterface) => void, needsTeacher: boolean = false, teacherId: string = "") {
+    let out: mongoReturnInterface = {
+        error: null,
+        status: null,
+        data: null,
+    }
+
+    classModel.findOne({classCode: classCode}, function(err, Class) {
+        if (err) {
+            out.status = 400
+            out.error = err
+        } else if (!Class) {
+            out.status = 404
+            out.error = new Error('No class found')
+        } else if (needsTeacher && Class.teacherId != teacherId) {
+            out.status = 403
+            out.error = new Error('Not authorized')
+        } else {
+            out.status = 200
+            out.data = Class
+        }
+        callback(out)
+    })
+}
+
+let findDeck = function(deckId: string, callback: (returnedDeck: mongoReturnInterface) => void, needsEdit: boolean, userId: string) {
+    let out: mongoReturnInterface = {
+        error: null,
+        status: null,
+        data: null,
+    }
+
+    deckModel.findOne({_id: deckId}, function(err, deck) {
+        if (err) {
+            out.status = 400
+            out.error = err
+        } else if (!deck) {
+            out.status = 404
+            out.error = new Error('No deck found')
+        } else if (needsEdit && deck.creator != userId) {
+            out.status = 403
+            out.error = new Error('Not authorized')
+        } else if (!deck.access.isPublic && deck.creator != userId) {
+            out.status = 403
+            out.error = new Error('Not authorized')
+            console.log(deck.creator)
+            console.log(userId)
+        } else {
+            out.status = 200
+            out.data = deck
+        }
+        callback(out)
+    })
+}
+
+// let updateDeck = function(Class: any, deck: any, assignmentIndex: string, deckId: string, mode: string, 
+//     handwriting: string, front: string, scramble: string, repetitions: any, dueDate: string, 
+//     callback: (output: mongoReturnInterface) => void) {
+    
+//     let out: mongoReturnInterface = {
+//         error: null,
+//         status: null,
+//         data: null,
+//     }
+    
+//     if (mode != "quiz" && front == "handwriting") {
+//         // res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
+//         out.error = new Error('The front card being set to handwriting is only compatible with quiz mode')
+//         out.status = 400
+//     } else if (repetitions != "" && isNaN(parseInt(repetitions))) {
+//         // res.status(400).send('If a repetitions value is sent, it must be an integer')
+//         out.error = new Error('If a repetitions value is sent, it must be an integer')
+//         out.status = 400
+//     } else if (mode != "learn" && scramble) {
+//         // res.status(400).send('Only learn mode supports scramble')
+//         out.error = new Error('Only learn mode supports scramble')
+//         out.status = 400
+//     } else {
+//         if (repetitions == "") {
+//             repetitions = 1
+//         } else {
+//             repetitions = parseInt(repetitions)
+//         }
+
+
+//         Class.assignedDecks[assignmentIndex].deckId = deckId
+//         Class.assignedDecks[assignmentIndex].deckName = deck.title
+//         Class.assignedDecks[assignmentIndex].deckDescription = deck.description
+//         Class.assignedDecks[assignmentIndex].mode = mode
+//         Class.assignedDecks[assignmentIndex].handwriting = handwriting
+//         Class.assignedDecks[assignmentIndex].front = front
+//         Class.assignedDecks[assignmentIndex].scramble = scramble
+//         Class.assignedDecks[assignmentIndex].repetitions = repetitions
+//         Class.assignedDecks[assignmentIndex].assignedDate = Date.now()
+//         Class.assignedDecks[assignmentIndex].dueDate = dueDate
+
+//         deck.access.classes[Class.classCode] = true
+//         deck.markModified('access') //Otherwise mongo won't save nested stuffs
+        
+//         callback(out)
+//     }
+// }
+
 exports.createClass = function(req, res, next) {
     if (req.user.isTeacher == false) {
         res.sendStatus(403)
@@ -57,7 +168,7 @@ exports.createClass = function(req, res, next) {
         let teacherName = req.user.firstName + " " + req.user.lastName
         let className = req.body.className || "No name provided"
         let description = req.body.description || "No description provided"
-        let private = req.body.private || true
+        let isPrivate = req.body.private || true
 
         let createClass = function() {
             let classCode = Math.floor(100000 + Math.random() * 900000)
@@ -71,7 +182,7 @@ exports.createClass = function(req, res, next) {
                         teacherName: teacherName,
                         name: className,
                         description: description,
-                        private: private,
+                        private: isPrivate,
                         classCode: classCode,
                     })
                     Class.save(function(err) {
@@ -390,32 +501,20 @@ exports.assign = function(req, res, next) {
         let repetitions = req.body.repetitions //Defaults to 1
         let dueDate = req.body.dueDate //Required. epoch time in milliseconds
 
-        let checkIfDeckIsAssigned = function(Class, deckId, deck) {
-            if (!Class.assignedDecks.length) {
-                assignDeck(Class, deckId, deck)
-            } else {
-                for (let i in Class.assignedDecks) {
-                    if (Class.assignedDecks[i] == deckId) {
-                        res.status(400).send("Deck already assigned")
-                        break
-                    } else if (parseInt(i) + 1 == Class.assignedDecks.length) {
-                        assignDeck(Class, deckId, deck)
-                    }
-                }
-            }
-        }
-
         let assignDeck = function (Class, deckId, deck) {
             if (mode != "quiz" && front == "handwriting") {
                 res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
-            } else if (isNaN(parseInt(repetitions))) {
+            } else if (repetitions != "" && isNaN(parseInt(repetitions))) {
                 res.status(400).send('If a repetitions value is sent, it must be an integer')
             } else if (mode != "learn" && scramble) {
                 res.status(400).send('Only learn mode supports scramble')
             } else {
-                if (!repetitions) {
+                if (repetitions == "") {
                     repetitions = 1
+                } else {
+                    repetitions = parseInt(repetitions)
                 }
+
                 Class.assignedDecks.push({
                     deckId: deckId,
                     deckName: deck.title,
@@ -429,40 +528,87 @@ exports.assign = function(req, res, next) {
                     dueDate: dueDate,
                 })
                 deck.access.classes[Class.classCode] = true
-                deck.markModified('access')
+                deck.markModified('access') //Otherwise mongo won't save nested stuffs
                 saveClassAndDeck(Class, deck, res)
             }
         }
         
-        classModel.findOne({classCode: classCode}, function(classErr, Class) {
-            if (classErr) {
-                console.log(classErr)
-                res.status(400).send("There was an error")
-            } else if (!Class) {
-                res.status(400).send("No class was found")
-            } else if (Class.teacherId != teacher) {
-                res.sendStatus(403)
+        findClass(classCode, (returnedClass: mongoReturnInterface) => {
+            if (returnedClass.error) {
+                res.status(returnedClass.status).send(returnedClass.error.toString())
             } else {
-                deckModel.findOne({_id: deckId}, function(deckErr, returnedDeck) {
-                    if (deckErr) {
-                        console.log(deckErr)
-                        res.status(400).send('There was an error')
-                    } else if (!returnedDeck) {
-                        res.status(400).send('No deck was found')
-                    } else if (returnedDeck.access.isPublic == true) {
-                        checkIfDeckIsAssigned(Class, deckId, returnedDeck)
-                    } else if (returnedDeck.creator == teacher) {
-                        checkIfDeckIsAssigned(Class, deckId, returnedDeck)
+                findDeck(deckId, (returnedDeck: mongoReturnInterface) => {
+                    if (returnedDeck.error) {
+                        res.status(returnedDeck.status).send(returnedDeck.error.toString())
                     } else {
-                        res.status(403).send('User does not have permission to access deck')
+                        assignDeck(returnedClass.data, deckId, returnedDeck.data)
                     }
-                })
+                }, false, teacher)
             }
-        })
+        }, true, teacher)
     }
 }
 
-exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FROM THAT DECKS ACCESS IF NO OTHER ASSIGNMENT ALSO HAS IT
+exports.updateAssignment = function(req, res, next) {
+    let errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    } else {
+        let teacher = String(req.user._id)
+        let classCode = req.body.classCode //Required
+        let assignmentId = req.body.assignmentId // Required
+        let handwriting = req.body.handwriting //Defaults to false
+        let front = req.body.front //Required. Allowed: ("character", "pinyin", "definition", "handwriting")
+        let scramble = req.body.scramble //Defaults to false
+        let dueDate = req.body.dueDate //Required. epoch time in milliseconds
+
+        let updateDeck = function (Class, assignmentIndex) {
+            if (Class.assignedDecks[assignmentIndex].mode != "quiz" && front == "handwriting") {
+                res.status(400).send('The front card being set to handwriting is only compatible with quiz mode')
+                return
+            } else if (Class.assignedDecks[assignmentIndex].mode != "learn" && scramble) {
+                res.status(400).send('Only learn mode supports scramble')
+                return
+            }
+           
+            Class.assignedDecks[assignmentIndex].handwriting = handwriting
+            Class.assignedDecks[assignmentIndex].front = front
+            Class.assignedDecks[assignmentIndex].scramble = scramble
+            Class.assignedDecks[assignmentIndex].dueDate = dueDate
+
+            Class.save(function(err) {
+                if (err) {
+                    res.status(400).send(err)
+                } else {
+                    res.sendStatus(200)
+                }
+            })
+            
+        }
+        
+        findClass(classCode, (returnedClass: mongoReturnInterface) => {
+            if (returnedClass.error) {
+                res.status(returnedClass.status).send(returnedClass.error.toString())
+            } else {
+                var index = -1
+                for (let i = 0; i < returnedClass.data.assignedDecks.length; i++) {
+                    if (returnedClass.data.assignedDecks[i]._id == assignmentId) {
+                        index = i
+                    }
+                }
+
+                if (index == -1) {
+                    res.status(404).send('Assignment does not exist')
+                } else {
+                    updateDeck(returnedClass.data, index)
+                }
+            }
+        }, true, teacher)
+    }
+}
+
+exports.unassign = function(req, res, next) { //NEED TO REMOVE THE CLASS CODE FROM THAT DECKS ACCESS IF NO OTHER ASSIGNMENT ALSO HAS IT ::: DONE
     let teacher = req.user._id
     let classCode = req.body.classCode
     let deckId = req.body.deckId

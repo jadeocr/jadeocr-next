@@ -10,6 +10,10 @@ var logger = require('morgan')
 var mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 
+const spawn = require('child_process').spawn
+let python = (process.platform == "win32") ? "python" : "python3" //Change to suit needs
+var ocrProcess = spawn(python, [__dirname + '/controllers/ocr.py'])
+
 mongoose.connect(process.env.MONGOOSEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
