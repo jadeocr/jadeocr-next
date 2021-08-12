@@ -119,6 +119,12 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/terms',
+    name: 'Terms',
+    component: () =>
+      import(/* webpackChunkName: 'terms' */ '../views/Terms.vue'),
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: () =>
