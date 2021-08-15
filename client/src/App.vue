@@ -1,4 +1,7 @@
 <template>
+    <div class="p-4 text-center text-gray-200 bg-gray-800">
+      This website is still in beta, but we're working hard to improve the experience
+    </div>
   <start-link linkType="navigation" class="mt-6" />
   <router-view />
 </template>
