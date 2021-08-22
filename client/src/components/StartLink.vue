@@ -6,7 +6,7 @@
       class="w-1/2 m-auto text-center mt-7"
     >
       <nav class="text-2xl md:text-3xl xl:text-4xl">
-        <router-link :to="{ name: navRoute }">jadeocr</router-link>
+        <router-link :to="{ name: navRoute }">jade-ocr (β)</router-link>
       </nav>
     </div>
     <div v-if="linkType == 'getStartedButton'" id="getStartedButton">
