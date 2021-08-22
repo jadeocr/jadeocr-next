@@ -2,11 +2,20 @@
   <div id="home">
     <div class="w-full h-auto">
       <div class="lg:grid lg:grid-cols-2 lg:mt-16 xl:-mt-12 md:-mt-12">
-        <img :src="require('@/assets/title-image.png')" alt="An image of the Chinese character 玉" class="lg:col-span-1">
-        <div class="flex flex-col justify-center -mt-8 text-3xl font-normal text-center md:text-5xl lg:col-span-1 lg:text-left md:-mt-32 lg:-mt-8">
+        <img
+          :src="require('@/assets/title-image.png')"
+          alt="An image of the Chinese character 玉"
+          class="lg:col-span-1"
+        />
+        <div
+          class="flex flex-col justify-center -mt-8 text-3xl font-normal text-center md:text-5xl lg:col-span-1 lg:text-left md:-mt-32 lg:-mt-8"
+        >
           <p class="leading-normal">Learn languages</p>
           <p class="leading-normal">without distractions.</p>
-          <start-link linkType="getStartedButton" class="mt-6 font-light md:mt-8" />
+          <start-link
+            linkType="getStartedButton"
+            class="mt-6 font-light md:mt-8"
+          />
         </div>
       </div>
       <div class="mt-10 md:mt-16 xl:-mt-12">
@@ -174,9 +183,9 @@
 </template>
 
 <script lang="ts">
-import StartLink from '@/components/StartLink.vue'
-import Feature from '@/components/Feature.vue'
-import { defineComponent } from 'vue'
+  import StartLink from '@/components/StartLink.vue'
+  import Feature from '@/components/Feature.vue'
+  import { defineComponent } from 'vue'
 
   export default defineComponent({
     name: 'Home',

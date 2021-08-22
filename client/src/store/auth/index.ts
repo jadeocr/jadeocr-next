@@ -152,13 +152,16 @@ export const auth = {
           console.log(err)
         })
     },
-    toggleTeacher({ dispatch }:  { dispatch: Function }, isTeacher: boolean): void {
+    toggleTeacher(
+      { dispatch }: { dispatch: Function },
+      isTeacher: boolean
+    ): void {
       axios({
         method: 'post',
         url: `${apiBaseURL}/setTeacher`,
         withCredentials: true,
         data: {
-          isTeacher: isTeacher
+          isTeacher: isTeacher,
         },
       })
         .then((res: AxiosResponse) => {

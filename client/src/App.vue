@@ -41,7 +41,6 @@
     opacity: 0.8;
   }
 
-
   /* Slidable content for dashboard pages */
   .page-content {
     position: fixed;

@@ -30,10 +30,30 @@
                 </div>
                 <div class="mt-6 text-center md:mt-8 md:text-left">
                   <div>
-                    <button class="px-4 py-2 mr-1 rounded bg-nord10 hoverlink" @click="launchLearn('learn')">Learn</button>
-                    <button class="px-4 py-2 mx-1 rounded bg-nord10 hoverlink" @click="launchLearn('flashcards')">Flashcards</button>
-                    <button class="px-4 py-2 mx-1 rounded bg-nord10 hoverlink" @click="launchLearn('ocr')">Handwriting</button>
-                    <button class="px-4 py-2 ml-1 rounded bg-nord10 hoverlink" @click="launchLearn('quiz')">Quiz</button>
+                    <button
+                      class="px-4 py-2 mr-1 rounded bg-nord10 hoverlink"
+                      @click="launchLearn('learn')"
+                    >
+                      Learn
+                    </button>
+                    <button
+                      class="px-4 py-2 mx-1 rounded bg-nord10 hoverlink"
+                      @click="launchLearn('flashcards')"
+                    >
+                      Flashcards
+                    </button>
+                    <button
+                      class="px-4 py-2 mx-1 rounded bg-nord10 hoverlink"
+                      @click="launchLearn('ocr')"
+                    >
+                      Handwriting
+                    </button>
+                    <button
+                      class="px-4 py-2 ml-1 rounded bg-nord10 hoverlink"
+                      @click="launchLearn('quiz')"
+                    >
+                      Quiz
+                    </button>
                   </div>
                   <div class="mt-12 text-center lg:mt-12 md:text-left">
                     <p class="mb-6 text-xl font-normal">Vocabulary</p>
@@ -109,7 +129,10 @@
                   </router-link>
                 </div>
                 <div class="mt-10">
-                  <button class="px-4 py-2 rounded hoverlink bg-nord2" @click="goBack()">
+                  <button
+                    class="px-4 py-2 rounded hoverlink bg-nord2"
+                    @click="goBack()"
+                  >
                     Go Back
                   </button>
                 </div>

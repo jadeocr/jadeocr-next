@@ -30,24 +30,52 @@
               class="px-12 py-8 rounded bg-nord1 lg:col-span-2 xl:col-span-2"
             >
               <div class="font-bold">
-                {{ $store.state.auth.firstName + ' ' + $store.state.auth.lastName}}
+                {{
+                  $store.state.auth.firstName + ' ' + $store.state.auth.lastName
+                }}
               </div>
               <div>
-                {{ $store.state.auth.isTeacher ? 'Teacher Account' : 'Student Account' }}
+                {{
+                  $store.state.auth.isTeacher
+                    ? 'Teacher Account'
+                    : 'Student Account'
+                }}
               </div>
               <div class="mt-2 leading-relaxed">
                 <div>{{ $store.state.auth.stats.decksTotal }} decks total</div>
                 <div>{{ $store.state.auth.stats.decksOwned }} decks owned</div>
-                <div>Currently teaching {{ $store.state.auth.stats.classesTeaching }} classes</div>
-                <div>Currently in {{ $store.state.auth.stats.classesJoined }} classes</div>
+                <div>
+                  Currently teaching
+                  {{ $store.state.auth.stats.classesTeaching }} classes
+                </div>
+                <div>
+                  Currently in
+                  {{ $store.state.auth.stats.classesJoined }} classes
+                </div>
               </div>
             </div>
             <div
               v-else-if="menuType == 'settings'"
               class="lg:col-span-2 xl:col-span-2"
             >
-              <button :class="['w-64', 'px-4', 'py-2', 'font-normal', 'text-center', 'rounded', 'hoverlink', $store.state.auth.isTeacher ? 'bg-nord11' : 'bg-nord15']" @click="callToggleTeacher()">
-                {{ $store.state.auth.isTeacher ? 'Deactivate Teacher Features' : 'Activate Teacher Features'}} 
+              <button
+                :class="[
+                  'w-64',
+                  'px-4',
+                  'py-2',
+                  'font-normal',
+                  'text-center',
+                  'rounded',
+                  'hoverlink',
+                  $store.state.auth.isTeacher ? 'bg-nord11' : 'bg-nord15',
+                ]"
+                @click="callToggleTeacher()"
+              >
+                {{
+                  $store.state.auth.isTeacher
+                    ? 'Deactivate Teacher Features'
+                    : 'Activate Teacher Features'
+                }}
               </button>
             </div>
           </div>
@@ -76,7 +104,10 @@
         this.menuType = menuType
       },
       callToggleTeacher() {
-        this.$store.dispatch('auth/toggleTeacher', !this.$store.state.auth.isTeacher)
+        this.$store.dispatch(
+          'auth/toggleTeacher',
+          !this.$store.state.auth.isTeacher
+        )
       },
     },
     mounted() {
