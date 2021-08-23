@@ -54,12 +54,10 @@ deactivate # Deactivates virtual environment (run this when you're done)
 
 If there are problems with ocr change the name of the python command in `server/src/app.ts:14`
 
-## Default ports
-frontend on port 8080
-
-backend on port 3000
-
-ocr webserver on port 5000
+## Default ports (for deployment)
+- Client on port 8080
+- Server on port 3000
+- OCR web server on port 5000
 
 ## Contribute
 Thank you for reading this far and considering contributing! Contributions are very much appreciated, and they are what makes this project what it is! We are looking for contributions of features/feature requests, bug fixes, documentation fixes, and anything else you can think of! The best contributions are those that will add value to the user experience. If you need to get in touch, please see the [contact/help](#Contact/Help) section.
