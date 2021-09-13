@@ -15,8 +15,7 @@ router.post('/api/deck/create', authMiddleware, [
       return true
     } else if (value.match(/[\u3400-\u9FBF]/)) {
       if (value.length > 1) {
-        // throw new Error('Only 1 character allowed per card')
-        return true
+        throw new Error('Only 1 character allowed per card')
       } else {
         return true
       }
@@ -37,8 +36,7 @@ router.post('/api/deck/update', authMiddleware, [
       return true
     } else if (value.match(/[\u3400-\u9FBF]/)) {
       if (value.length > 1) {
-        // throw new Error('Only 1 character allowed per card')
-        return true
+        throw new Error('Only 1 character allowed per card')
       } else {
         return true
       }
