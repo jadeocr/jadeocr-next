@@ -1,7 +1,7 @@
 <template>
   <div id="auth-form">
     <div
-      class="max-w-xs p-12 mx-auto mt-10 md:max-w-xl md:p-20 rounded-md bg-nord0"
+      class="max-w-xs p-12 mx-auto mt-10 font-normal md:max-w-xl md:p-20 rounded-md bg-nord0"
     >
       <form @submit.prevent="">
         <div class="my-4 grid grid-cols-2" v-if="formType == 'signup'">

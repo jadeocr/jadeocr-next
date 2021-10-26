@@ -153,6 +153,13 @@
                       class="hoverlink"
                       >GitHub</a
                     >
+                    |
+                    <a
+                      href="https://docs.jadeocr.com/"
+                      target="_blank"
+                      class="hoverlink"
+                      >API</a
+                    >
                   </div>
                   <div>
                     <a
