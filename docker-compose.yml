@@ -1,12 +1,22 @@
 version: '3.4'
 
 services:
-  server:
-    extends:
-      file: ./server/docker-compose.yml
-      service: server
-    runtime: nvidia
   client:
-    extends:
-      file: ./client/docker-compose.yml
-      service: client
+    container_name: jadeocr_client
+    image: client
+    build:
+      context: ./client
+      args:
+        API_BASEURL: ${VUE_APP_API_BASEURL}
+    ports:
+      - 8085:80
+  server:
+    container_name: jadeocr_server
+    image: server
+    build:
+      context: ./server
+    environment:
+      NODE_ENV: production
+      MONGOOSEURL: ${MONGOOSEURL}
+    ports:
+      - 3000:3000
