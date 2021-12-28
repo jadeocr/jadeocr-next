@@ -1,18 +1,24 @@
 # build stage
-FROM node:lts-alpine as build-stage
+FROM node:lts-alpine3.12 as build-stage
+
+ARG API_BASEURL
+RUN echo ${API_BASEURL}
 
 RUN mkdir -p /app
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+COPY yarn.lock ./
+RUN npm install yarn
+RUN yarn
 
 COPY . .
 
 ENV NODE_ENV="production"
-ENV VUE_APP_API_BASEURL="https://next.jadeocr.com/api"
+# ENV NODE_OPTIONS=--openssl-legacy-provider
+ENV VUE_APP_API_BASEURL=${API_BASEURL}
 
-RUN npm run twbuild && npm run build
+RUN yarn twbuild && yarn build
 
 # production stage
 FROM nginx:stable-alpine as production-stage
